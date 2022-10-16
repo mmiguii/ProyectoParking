@@ -6,6 +6,7 @@ public class Main {
 
 		System.out.println("Hi world, this is our first commit.");
 		System.out.println("Hello Guys");
+		System.out.println("We are gonna try to get the highest mark");
 	}
 
 }
