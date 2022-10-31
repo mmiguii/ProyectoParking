@@ -41,7 +41,9 @@ public class ReaderWriter {
 	private static void writeFile(File path, String content) {
 		// Dejando el true damos opcion a appendear
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
+			writer.newLine();
 			writer.write(content);
+			
 
 		} catch (IOException e) {
 			System.out.format("No se ha podido escribir en la ruta indicada: %s", path.toString());
@@ -143,16 +145,20 @@ public class ReaderWriter {
 	}
 
 	public void ordinaryCustomerWriter(ArrayList<OrdinaryCustomer> ordinaryCustomers) {
+		Path rutacsv = Paths.get("./src/files/clientesOrdinarios.txt");
 		String content = "";
+		
 		int index = 0;
 		for (OrdinaryCustomer ordinaryCustomer : ordinaryCustomers) {
 			OrdinaryCustomer nOC = ordinaryCustomers.get(index);
 			if (index == ordinaryCustomers.size() - 1) {
 				content = String.format("%s;%d;%.2f", ordinaryCustomer.getLicensePlate(),
 						ordinaryCustomer.getVehicleType(), ordinaryCustomer.getFare());
+				writeFile(rutacsv.toFile(), content);
 			} else {
 				content = String.format("%s;%d;%.2f%n", ordinaryCustomer.getLicensePlate(),
 						ordinaryCustomer.getVehicleType(), ordinaryCustomer.getFare());
+				writeFile(rutacsv.toFile(), content);
 				index++;
 			}
 		}
@@ -168,7 +174,7 @@ public class ReaderWriter {
 						subscriberCustomer.getVehicleType(), subscriberCustomer.getFeeType(),
 						subscriberCustomer.getFee());
 			} else {
-				content = String.format("%s;%d;%d;%d;%d%n", subscriberCustomer.getLicensePlate(),
+				content = String.format("%s;%d;%d;%d;%d", subscriberCustomer.getLicensePlate(),
 						subscriberCustomer.getVehicleType(), subscriberCustomer.getFeeType(),
 						subscriberCustomer.getFee());
 				index++;

@@ -1,8 +1,12 @@
 package backend;
 
+import java.awt.EventQueue;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 import backend.customer.OrdinaryCustomer;
+import frontend.OrdinaryCustomerWindow;
 
 public class Main {
 
@@ -21,6 +25,26 @@ public class Main {
 		for(OrdinaryCustomer oc : prueba) {
 			System.out.println(oc);
 		}
+		
+//		SwingUtilities.invokeLater(new Runnable() {
+//			public void run() {
+//			new OrdinaryCustomerWindow();
+//			}
+//		});
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					OrdinaryCustomerWindow frame = new OrdinaryCustomerWindow();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		
+		
 		
 	}
 
