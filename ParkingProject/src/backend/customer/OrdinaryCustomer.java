@@ -1,8 +1,12 @@
 package backend.customer;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class OrdinaryCustomer extends User {
 
 	private double fare;
+	private ZonedDateTime horaDeEntrada;
 
 	public OrdinaryCustomer() {
 		super();
@@ -14,6 +18,14 @@ public class OrdinaryCustomer extends User {
 
 	public void setFare(double fare) {
 		this.fare = fare;
+	}
+
+	public ZonedDateTime getHoraDeEntrada() {
+		return horaDeEntrada;
+	}
+
+	public void setHoraDeEntrada(ZonedDateTime horaDeEntrada) {
+		this.horaDeEntrada = horaDeEntrada;
 	}
 
 	@Override

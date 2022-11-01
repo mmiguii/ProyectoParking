@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class OrdinaryCustomerPanel extends JPanel{
 
@@ -25,15 +27,31 @@ public class OrdinaryCustomerPanel extends JPanel{
 		JLabel incomingLabel = new JLabel("Bienvenido al Parking usuario: ");
 		incomingLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JLabel plateLabel = new JLabel(license);
+		
+		GridBagConstraints gbc_incomingLabel = new GridBagConstraints();
+		gbc_incomingLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_incomingLabel.gridx = 0;
+		gbc_incomingLabel.gridy = 0;
+		topPanel.add(incomingLabel, gbc_incomingLabel);
+		GridBagConstraints gbc_plateLabel = new GridBagConstraints();
+		gbc_plateLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_plateLabel.gridx = 1;
+		gbc_plateLabel.gridy = 0;
+		topPanel.add(plateLabel, gbc_plateLabel);
+		add(topPanel);
 		JLabel actualTime = new JLabel("Hora de ingreso en el Parking ");
 		actualTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_actualTime = new GridBagConstraints();
+		gbc_actualTime.insets = new Insets(0, 0, 0, 5);
+		gbc_actualTime.gridx = 0;
+		gbc_actualTime.gridy = 1;
+		topPanel.add(actualTime, gbc_actualTime);
 		JLabel hora = new JLabel(time);
-		
-		topPanel.add(incomingLabel);
-		topPanel.add(plateLabel);
-		topPanel.add(actualTime);
-		topPanel.add(hora);
-		add(topPanel);
+		GridBagConstraints gbc_hora = new GridBagConstraints();
+		gbc_hora.insets = new Insets(0, 0, 0, 5);
+		gbc_hora.gridx = 1;
+		gbc_hora.gridy = 1;
+		topPanel.add(hora, gbc_hora);
 		
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new GridBagLayout());

@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -66,6 +68,8 @@ public class ReaderWriter {
 				nOC.setLicensePlate(tokenizer.nextToken());
 				nOC.setVehicleType(Integer.parseInt(tokenizer.nextToken()));
 				nOC.setFare(Double.parseDouble(tokenizer.nextToken()));
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
+				nOC.setHoraDeEntrada(ZonedDateTime.parse(tokenizer.nextToken(), formatter));
 				// Lo añadimos a la lista de usuarios con los datos introducidos
 				ret.add(nOC);
 			}
@@ -152,12 +156,12 @@ public class ReaderWriter {
 		for (OrdinaryCustomer ordinaryCustomer : ordinaryCustomers) {
 			OrdinaryCustomer nOC = ordinaryCustomers.get(index);
 			if (index == ordinaryCustomers.size() - 1) {
-				content = String.format("%s;%d;%.2f", ordinaryCustomer.getLicensePlate(),
-						ordinaryCustomer.getVehicleType(), ordinaryCustomer.getFare());
+				content = String.format("%s;%d;%.2f;%s", ordinaryCustomer.getLicensePlate(),
+						ordinaryCustomer.getVehicleType(), ordinaryCustomer.getFare(), ordinaryCustomer.getHoraDeEntrada());
 				writeFile(rutacsv.toFile(), content);
 			} else {
-				content = String.format("%s;%d;%.2f%n", ordinaryCustomer.getLicensePlate(),
-						ordinaryCustomer.getVehicleType(), ordinaryCustomer.getFare());
+				content = String.format("%s;%d;%.2f;%s%n", ordinaryCustomer.getLicensePlate(),
+						ordinaryCustomer.getVehicleType(), ordinaryCustomer.getFare(), ordinaryCustomer.getHoraDeEntrada());
 				writeFile(rutacsv.toFile(), content);
 				index++;
 			}
