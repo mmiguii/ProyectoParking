@@ -1,2 +1,2 @@
-Matricula;TipoVehiculo;Tasa
-4390MBE;1;6.38
+matrícula;id.tipoClte.;nºentradas-salidas;tmp.TotalUsoParking;ingresosTot.
+9999ZZZ;1;3;70;3,5
