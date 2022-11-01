@@ -1,3 +1,4 @@
 Matricula;TipoVehiculo;Tasa
 4390MBE;1;6.38
-1234AAA;1;19,00
+1234AAA;3;19,00
+;3;19,00

@@ -19,6 +19,8 @@ import backend.ReaderWriter;
 import backend.customer.OrdinaryCustomer;
 
 import java.awt.event.ActionListener;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
@@ -80,13 +82,23 @@ public class OrdinaryCustomerWindow extends JFrame {
 				ReaderWriter rw = new ReaderWriter();
 				ArrayList<OrdinaryCustomer> listaOrdinaria = rw.ordinaryCustomerReader();
 				OrdinaryCustomer customer1 = new OrdinaryCustomer();
-				customer1.setLicensePlate(plateTextField.getText());
-				customer1.setVehicleType(1); // hacer que lea lo seleccionado.
+				String licensePlate = plateTextField.getText();
+				customer1.setLicensePlate(licensePlate);
+				customer1.setVehicleType(radioButtonGroup.getButtonCount()); // hacer que lea lo seleccionado.
 				customer1.setFare(19);
 				listaOrdinaria.add(customer1);
-				
 				rw.ordinaryCustomerWriter(listaOrdinaria);
-				System.out.println("matricula insertada");
+				
+				ZonedDateTime now = ZonedDateTime.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
+				String initialTime = formatter.format(now);
+				System.out.println("Hora de inicio de la estancia: "+initialTime);
+				OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(licensePlate, initialTime);
+				add(ordinaryPanel);
+				topPanel.setVisible(false);
+				middlePanel.setVisible(false);
+				bottomPanel.setVisible(false);
+				ordinaryPanel.setVisible(true);
 				
 //				String horaEntrada = metodo de conseguir la hora local
 			}
