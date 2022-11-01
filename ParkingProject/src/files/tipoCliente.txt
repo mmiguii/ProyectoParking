@@ -1,0 +1,4 @@
+id.tipoClte;tipoClte
+1;Ordinario
+2;Hibrido/electrico
+3;Movilidad Reducida

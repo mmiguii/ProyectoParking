@@ -1,2 +1,2 @@
-Matricula;TipoVehiculo;TipoTarifa;Tarifa
-1111AAA;1;1;50.0
+nºplaza;matricula;id.tipoClte;id.tipoTarifa;nºentradasParking;tiempo ult.vez;tiempo acum.parking
+201;1111AAA;1;2;4;240;3600
