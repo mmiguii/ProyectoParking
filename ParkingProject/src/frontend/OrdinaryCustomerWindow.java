@@ -120,6 +120,7 @@ public class OrdinaryCustomerWindow extends JFrame {
 				topPanel.setVisible(false);
 				middlePanel.setVisible(false);
 				bottomPanel.setVisible(false);
+				
 				ordinaryPanel.setVisible(true);
 
 
