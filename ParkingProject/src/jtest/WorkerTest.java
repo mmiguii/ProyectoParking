@@ -1,8 +1,9 @@
-package jTest;
+package jtest;
 
 import static org.junit.Assert.assertEquals;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -55,8 +56,8 @@ public class WorkerTest {
 
 	@Test
 	public void testGetStartDate() {
-		ZonedDateTime time = ZonedDateTime.now();
-		assertEquals(time, w.getStartDate());
+		ZonedDateTime t = ZonedDateTime.now();
+		assertEquals(t, w.getStartDate());
 	}
 
 	@Test
@@ -87,5 +88,13 @@ public class WorkerTest {
 		w.setSalary(1000.0);
 		assertEquals(1000, w.getSalary(), 0.01);
 	}
+	
+	@Test
+	public void testToString() {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+		ZonedDateTime t = ZonedDateTime.now();
+		assertEquals("Pedro, Sanchez, 999, "+ dateFormatter.format(t)+", 2, 1500,00", w.toString());
+	}
+	
 
 }
