@@ -12,6 +12,16 @@ public class OrdinaryCustomer extends User {
 		super();
 	}
 
+	
+	
+	public OrdinaryCustomer(double fare, ZonedDateTime horaDeEntrada) {
+		super();
+		this.fare = fare;
+		this.horaDeEntrada = horaDeEntrada;
+	}
+
+
+
 	public double getFare() {
 		return fare;
 	}
