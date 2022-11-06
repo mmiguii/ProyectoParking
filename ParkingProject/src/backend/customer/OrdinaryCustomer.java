@@ -21,7 +21,6 @@ public class OrdinaryCustomer extends User {
 	}
 
 
-
 	public double getFare() {
 		return fare;
 	}
@@ -40,7 +39,7 @@ public class OrdinaryCustomer extends User {
 
 	@Override
 	public String toString() {
-		return String.format("%s -> %.2f€", super.toString(), fare);
+		return String.format("%s, %.2f€", super.toString(), fare);
 	}
 
 }

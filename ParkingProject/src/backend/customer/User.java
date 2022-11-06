@@ -15,7 +15,6 @@ public abstract class User {
 		this.vehicleType = vehicleType;
 	}
 
-
 	public String getLicensePlate() {
 		return licensePlate;
 	}

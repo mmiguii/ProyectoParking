@@ -40,7 +40,9 @@ public class SubscriberCustomerTest {
 	
 	@Test
 	public void testToString() {
-		assertEquals("1, 1234AAA -> Type: 2, 1€", sC.toString());
+		sC.setLicensePlate("1234AAA");
+		sC.setVehicleType(1);
+		assertEquals("1, 1234AAA, Type: 1, 2€", sC.toString());
 	}
 	
 	

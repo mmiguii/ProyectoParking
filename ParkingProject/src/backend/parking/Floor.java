@@ -10,6 +10,14 @@ public class Floor {
 	public Floor() {
 		super();
 	}
+	
+	public Floor(int floorNumber,int ordinaryParkingSpace,int electricParkingSpace,int disablesParkingSpace) {
+		super();
+		this.floorNumber = floorNumber;
+		this.ordinaryParkingSpace = ordinaryParkingSpace;
+		this.electricParkingSpace = electricParkingSpace;
+		this.disabledParkingSpace = disablesParkingSpace;
+	}
 
 	public int getFloorNumber() {
 		return floorNumber;

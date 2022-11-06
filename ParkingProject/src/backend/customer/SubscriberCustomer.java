@@ -33,7 +33,7 @@ public class SubscriberCustomer extends User {
 
 	@Override
 	public String toString() {
-		return String.format("%s -> Type: %d, %d€", super.toString(), feeType, fee);
+		return String.format("%s, Type: %d, %d€", super.toString(), feeType, fee);
 	}
 
 }

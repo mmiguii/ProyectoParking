@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import backend.customer.OrdinaryCustomer;
+import backend.customer.User;
 
 public class OrdinaryCustomerTest {
 
@@ -57,7 +58,9 @@ public class OrdinaryCustomerTest {
 		
 	@Test 
 	public void testToString() {
-		assertEquals("1, 1234AAA, 2.3", ordinaryCustomer.toString());
+		ordinaryCustomer.setLicensePlate("1234AAA");
+		ordinaryCustomer.setVehicleType(1);
+		assertEquals("1, 1234AAA, 2,30€", ordinaryCustomer.toString());
 	}
 	
 }

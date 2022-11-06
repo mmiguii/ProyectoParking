@@ -9,6 +9,13 @@ public class ParkingSpace {
 	public ParkingSpace() {
 		super();
 	}
+	
+	public ParkingSpace(int spaceNumber, boolean spaceFull, int vehicleType) {
+		super();
+		this.spaceNumber = spaceNumber;
+		this.spaceFull = spaceFull;
+		this.vehicleType = vehicleType;
+	}
 
 	public int getSpaceNumber() {
 		return spaceNumber;
