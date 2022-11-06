@@ -9,6 +9,12 @@ public class SubscriberCustomer extends User {
 		super();
 	}
 
+	public SubscriberCustomer(int fee, int feeType) {
+		super();
+		this.fee = fee;
+		this.feeType = feeType;
+	}
+
 	public int getFee() {
 		return fee;
 	}

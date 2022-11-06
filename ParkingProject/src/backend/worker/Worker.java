@@ -16,6 +16,16 @@ public abstract class Worker {
 		super();
 	}
 
+	public Worker(String name, String surname, int id, ZonedDateTime startDate, int seniority, double salary) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.id = id;
+		this.startDate = startDate;
+		this.seniority = seniority;
+		this.salary = salary;
+	}
+
 	public String getName() {
 		return name;
 	}
