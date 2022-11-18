@@ -88,13 +88,12 @@ public class WorkerTest {
 		w.setSalary(1000.0);
 		assertEquals(1000, w.getSalary(), 0.01);
 	}
-	
+
 	@Test
 	public void testToString() {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
 		ZonedDateTime t = ZonedDateTime.now();
-		assertEquals("Pedro, Sanchez, 999, "+ dateFormatter.format(t)+", 2, 1500,00", w.toString());
+		assertEquals("Pedro, Sanchez, 999, " + dateFormatter.format(t) + ", 2, 1500,00", w.toString());
 	}
-	
 
 }

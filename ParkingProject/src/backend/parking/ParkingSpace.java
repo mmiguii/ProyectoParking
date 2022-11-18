@@ -9,7 +9,7 @@ public class ParkingSpace {
 	public ParkingSpace() {
 		super();
 	}
-	
+
 	public ParkingSpace(int spaceNumber, boolean spaceFull, int vehicleType) {
 		super();
 		this.spaceNumber = spaceNumber;

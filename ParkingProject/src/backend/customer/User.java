@@ -8,7 +8,7 @@ public abstract class User {
 	public User() {
 		super();
 	}
-	
+
 	public User(String licensePlate, int vehicleType) {
 		super();
 		this.licensePlate = licensePlate;

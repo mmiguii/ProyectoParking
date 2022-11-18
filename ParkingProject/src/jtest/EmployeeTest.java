@@ -9,23 +9,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import backend.worker.Employee;
-import backend.worker.Worker;
 
 public class EmployeeTest {
 
 	private Employee employee;
-	
+
 	@Before
 	public void setUp() {
 		employee = new Employee() {
 		};
 	}
-	
+
 	@Test
 	public void Employee() {
-		
+
 	}
-	
+
 	@Test
 	public void testToString() {
 		ZonedDateTime t = ZonedDateTime.now();
@@ -36,6 +35,6 @@ public class EmployeeTest {
 		employee.setSeniority(2);
 		employee.setStartDate(t);
 		employee.setSurname("Sanchez");
-		assertEquals("Pedro, Sanchez, 999, "+ dateFormatter.format(t)+", 2, 1500,00", employee.toString());
+		assertEquals("Pedro, Sanchez, 999, " + dateFormatter.format(t) + ", 2, 1500,00", employee.toString());
 	}
 }

@@ -19,7 +19,7 @@ import backend.customer.SubscriberCustomer;
 import backend.parking.Floor;
 import backend.parking.ParkingSpace;
 
-public class ReaderWriter {
+public class ServicioPersistenciaFicheros {
 
 	private static ArrayList<String> readFile(File path) {
 		ArrayList<String> fileContent = new ArrayList<String>();

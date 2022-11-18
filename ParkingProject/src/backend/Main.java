@@ -20,7 +20,7 @@ public class Main {
 		System.out.println(o);
 		
 		
-		ReaderWriter rw = new ReaderWriter();
+		ServicioPersistenciaFicheros rw = new ServicioPersistenciaFicheros();
 		ArrayList<OrdinaryCustomer> prueba =  rw.ordinaryCustomerReader();
 		for(OrdinaryCustomer oc : prueba) {
 			System.out.println(oc);

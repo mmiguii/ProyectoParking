@@ -13,17 +13,17 @@ import backend.worker.Manager;
 public class ManagerTest {
 
 	private Manager manager;
-	
+
 	@Before
 	public void setUp() {
 		manager = new Manager();
 	}
-	
+
 	@Test
 	public void testManager() {
-		
+
 	}
-	
+
 	@Test
 	public void testToString() {
 		ZonedDateTime t = ZonedDateTime.now();
@@ -34,6 +34,6 @@ public class ManagerTest {
 		manager.setSeniority(2);
 		manager.setStartDate(t);
 		manager.setSurname("Sanchez");
-		assertEquals("Pedro, Sanchez, 999, "+ dateFormatter.format(t)+", 2, 1500,00", manager.toString());
+		assertEquals("Pedro, Sanchez, 999, " + dateFormatter.format(t) + ", 2, 1500,00", manager.toString());
 	}
 }

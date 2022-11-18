@@ -10,8 +10,8 @@ public class Floor {
 	public Floor() {
 		super();
 	}
-	
-	public Floor(int floorNumber,int ordinaryParkingSpace,int electricParkingSpace,int disablesParkingSpace) {
+
+	public Floor(int floorNumber, int ordinaryParkingSpace, int electricParkingSpace, int disablesParkingSpace) {
 		super();
 		this.floorNumber = floorNumber;
 		this.ordinaryParkingSpace = ordinaryParkingSpace;
@@ -53,7 +53,8 @@ public class Floor {
 
 	@Override
 	public String toString() {
-		return String.format("%d, %d, %d, %d", floorNumber, ordinaryParkingSpace, electricParkingSpace, disabledParkingSpace);
+		return String.format("%d, %d, %d, %d", floorNumber, ordinaryParkingSpace, electricParkingSpace,
+				disabledParkingSpace);
 	}
 
 }

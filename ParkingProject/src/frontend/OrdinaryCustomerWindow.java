@@ -21,16 +21,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import backend.ReaderWriter;
+import backend.ServicioPersistenciaFicheros;
 import backend.customer.OrdinaryCustomer;
 
 public class OrdinaryCustomerWindow extends JFrame {
 
-	private ReaderWriter rw;
+	private ServicioPersistenciaFicheros rw;
 
 	public OrdinaryCustomerWindow() {
 
-		rw = new ReaderWriter();
+		rw = new ServicioPersistenciaFicheros();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(640, 480);
