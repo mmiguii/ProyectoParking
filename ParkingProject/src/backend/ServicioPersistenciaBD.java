@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import backend.customer.OrdinaryCustomer;
+import backend.customer.SubscriberCustomer;
 
 // Clase de gestion de la BD del sistema
 public class ServicioPersistenciaBD {
@@ -280,7 +281,7 @@ public class ServicioPersistenciaBD {
 	 * @param licensePlate	Matricula del cliente ordinario a buscar
 	 * @return	Cliente ordinario con esa matricula (exacta), null si no se encuentra
 	 */
-	public static OrdinaryCustomer ordinaryCustomerSelect(Statement stmt,String licensePlateValor) {
+	public static OrdinaryCustomer ordinaryCustomerSelect(Statement stmt, String licensePlateValor) {
 		String sentSQL = "";
 		try {
 			sentSQL = "SELECT matricula, id_tipo_cliente, id_tipo_tarifa FROM clientes_ordinarios WHERE matricula = '" + securizer(licensePlateValor) + "'";
@@ -337,7 +338,7 @@ public class ServicioPersistenciaBD {
 	 * @param oC	Cliente ordinario a borrar de la base de datos  (se toma su matricula para el borrado)
 	 * @return	true si el borrado es correcto, false en caso contrario
 	 */
-	public boolean ordinaryCustomerDelete(Statement stmt ,OrdinaryCustomer oC) {
+	public boolean ordinaryCustomerDelete(Statement stmt, OrdinaryCustomer oC) {
 		String sentSQL = "";
 		try {
 			sentSQL = "DELETE FROM clientes_ordinarios WHERE matricula = '" + securizer(oC.getLicensePlate()) + "'";
@@ -360,6 +361,111 @@ public class ServicioPersistenciaBD {
 			/////////////////////////////////////////////////////////////////////
 			///              Operaciones de clientes suscritos                ///
 			/////////////////////////////////////////////////////////////////////
+	
+	public List<SubscriberCustomer> subscriberCustomersSelect(Statement stmt) {
+		String sentSQL = "";
+		List<SubscriberCustomer> ret = new ArrayList<>();
+		try {
+			sentSQL = "SELECT matricula, id_tipo_cliente, id_tipo_tarifa FROM clientes_suscritos";
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			ResultSet rs = stmt.executeQuery(sentSQL);
+			while (rs.next()) {
+				SubscriberCustomer nSC = new SubscriberCustomer();
+				nSC.setLicensePlate(rs.getString("matricula"));
+				nSC.setVehicleType(rs.getInt("id_tipo_cliente"));
+				nSC.setFeeType(rs.getInt("id_tipo_tarifa"));
+				ret.add(nSC);
+			}
+			rs.close();
+			return ret;
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			lastError = e;
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/** Realiza una consulta a la tabla abierta de centros de la BD, usando la sentencia SELECT de SQL
+	 * @param stmt	Sentencia ya abierta de Base de Datos (con la estructura de tabla correspondiente al cliente ordinario)
+	 * @param licensePlate	Matricula del cliente ordinario a buscar
+	 * @return	Cliente ordinario con esa matricula (exacta), null si no se encuentra
+	 */
+	public static SubscriberCustomer subscriberCustomerCustomerSelect(Statement stmt, String licensePlateValor) {
+		String sentSQL = "";
+		try {
+			sentSQL = "SELECT matricula, id_tipo_cliente, id_tipo_tarifa FROM clientes_ordinarios WHERE matricula = '" + securizer(licensePlateValor) + "'";
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			ResultSet rs = stmt.executeQuery(sentSQL);
+			if (rs.next()) {
+				SubscriberCustomer ret = new SubscriberCustomer();
+				ret.setLicensePlate(rs.getString("matricula"));
+				ret.setVehicleType(rs.getInt("id_tipo_cliente"));
+				ret.setFeeType(rs.getInt("id_tipo_tarifa"));
+				rs.close();
+				return ret;
+			} else {
+				rs.close();
+				return null;
+			}
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return null;
+		}
+	}
+
+	/** Añade un cliente ordinario a la tabla abierta de BD, usando la sentencia INSERT de SQL
+	 * @param stmt	Sentencia ya abierta de Base de Datos (con la estructura de tabla correspondiente al cliente ordinario)
+	 * @param oC	Cliente ordinario a añadir en la base de datos
+	 * @return	true si la insercion es correcta, false en caso contrario
+	 */
+	public static boolean subscriberCustomerInsert(Statement stmt, SubscriberCustomer sC) {
+		String sentSQL = "";
+		try {
+			sentSQL = "INSERT INTO clientes_suscritos (matricula, id_tipo_cliente, id_tipo_tarifa) VALUES ("
+					+ "'" + securizer(sC.getLicensePlate()) + "', "
+					+ "'" + securizer(String.valueOf(sC.getVehicleType())) + "', "
+					+ "'" + securizer(String.valueOf(sC.getFeeType())) + "')";
+			log(Level.INFO, "Lanzada actualización a base de datos: " + sentSQL, null);
+			int val = stmt.executeUpdate(sentSQL);
+			log(Level.INFO, "Añadida " + val + " fila a base de datos\t" + sentSQL, null);
+			if (val != 1) {  // Se tiene que añadir 1 - error si no
+				log(Level.WARNING, "Error en insert de base de datos\t" + sentSQL, null);
+				return false;  
+			}
+			return true;
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en inserción de base de datos\t" + sentSQL, e);
+			lastError = e;
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/** Borrar un cliente ordinario de la tabla abierta de BD, usando la sentencia DELETE de SQL
+	 * @param stmt	Sentencia ya abierta de Base de Datos (con la estructura de tabla correspondiente al cliente ordinario)
+	 * @param oC	Cliente ordinario a borrar de la base de datos  (se toma su matricula para el borrado)
+	 * @return	true si el borrado es correcto, false en caso contrario
+	 */
+	public boolean subscriberCustomerDelete(Statement stmt, SubscriberCustomer sC) {
+		String sentSQL = "";
+		try {
+			sentSQL = "DELETE FROM clientes_suscritos WHERE matricula = '" + securizer(sC.getLicensePlate()) + "'";
+			int val = stmt.executeUpdate(sentSQL);
+			log(Level.INFO, "BD tabla clientes ordinarios eliminada " + val + " fila\t" + sentSQL, null);
+			if (val != 1) {  // Se tiene que eliminar 1 - error si no
+				log(Level.SEVERE, "Error en delete de BD\t" + sentSQL, null);
+				return false;  
+			}
+			return true;
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en BD\t" + sentSQL, e);
+			lastError = e;
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	
 			/////////////////////////////////////////////////////////////////////
