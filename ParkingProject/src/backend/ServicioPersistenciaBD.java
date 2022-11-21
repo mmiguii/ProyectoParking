@@ -2,7 +2,6 @@ package backend;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -448,7 +447,7 @@ public class ServicioPersistenciaBD {
 	 * @param oC	Cliente ordinario a borrar de la base de datos  (se toma su matricula para el borrado)
 	 * @return	true si el borrado es correcto, false en caso contrario
 	 */
-	public boolean subscriberCustomerDelete(Statement stmt, SubscriberCustomer sC) {
+	public static boolean subscriberCustomerDelete(Statement stmt, SubscriberCustomer sC) {
 		String sentSQL = "";
 		try {
 			sentSQL = "DELETE FROM clientes_suscritos WHERE matricula = '" + securizer(sC.getLicensePlate()) + "'";
@@ -472,10 +471,44 @@ public class ServicioPersistenciaBD {
 			///              Operaciones con estado de plazas                 ///
 			/////////////////////////////////////////////////////////////////////
 	
+	public static int getNumeroPlazasLibres(Statement stmt) {
+		String sentSQL = "";
+		try {
+			sentSQL = "SELECT (*) FROM estado_plazas WHERE estado_plaza = 0"; // 0 indica que las plazas se encuentran libres
+			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null); 
+			ResultSet rs = stmt.executeQuery(sentSQL);
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return 0;
+		}
+	}
+	
+		
 	
 			/////////////////////////////////////////////////////////////////////
 			///              		Operaciones con plantas      	          ///
 			/////////////////////////////////////////////////////////////////////
+	
+	
+	public static double getIngresosPlanta(Statement stmt) {
+		String sentSQL = "";
+		try {
+			sentSQL = "SELECT SUM(ingresos_planta) FROM planta GROUP BY nombre_planta";
+			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null); 
+			ResultSet rs = stmt.executeQuery(sentSQL);
+			rs.next();
+			return rs.getDouble(1);
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return 0;
+		}
+	}
+	
+
 	
 	
 			/////////////////////////////////////////////////////////////////////
@@ -486,6 +519,21 @@ public class ServicioPersistenciaBD {
 			/////////////////////////////////////////////////////////////////////
 			///             	 Operaciones por tipo de cliente              ///
 			/////////////////////////////////////////////////////////////////////
+	
+	public static int getClientesPorTipo(Statement stmt) {
+		String sentSQL = "";
+		try {
+			sentSQL = "SELECT COUNT(*) FROM tipo_cliente GROUP BY id_tipo_cliente";
+			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null); 
+			ResultSet rs = stmt.executeQuery(sentSQL);
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return 0;
+		}
+	}
 	
 	
 			/////////////////////////////////////////////////////////////////////
