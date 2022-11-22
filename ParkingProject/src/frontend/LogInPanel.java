@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -21,22 +20,20 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import backend.ServicioPersistenciaFicheros;
+import backend.ServicioPersistenciaBD;
 import backend.customer.OrdinaryCustomer;
 
-public class OrdinaryCustomerWindow extends JFrame {
+public class LogInPanel extends JPanel {
 
-	private ServicioPersistenciaFicheros rw;
+	private static final long serialVersionUID = 1L;
+	private ServicioPersistenciaBD BD;
 
-	public OrdinaryCustomerWindow() {
+	public LogInPanel(final JFrame frame) {
 
-		rw = new ServicioPersistenciaFicheros();
+//		BD = new ServicioPersistenciaBD(); 
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(640, 480);
-		setTitle("Login Ordinary Customer");
-		setVisible(true);
-		getContentPane().setLayout(new GridLayout(3, 1)); // Dividimos el panel en 3 filas x 1 columna
+		setBounds(10, 10, 567, 448);
+		this.setLayout(new GridLayout(3, 1));
 
 		// Panel superior
 		JPanel topPanel = new JPanel();
@@ -79,8 +76,8 @@ public class OrdinaryCustomerWindow extends JFrame {
 		JButton enterButton = new JButton("ACCEDER");
 		enterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				ReaderWriter rw = new ReaderWriter();
-				ArrayList<OrdinaryCustomer> ordinaryCustomers = rw.ordinaryCustomerReader();
+//		ReaderWriter rw = new ReaderWriter();
+//		ArrayList<OrdinaryCustomer> ordinaryCustomers = rw.ordinaryCustomerReader();
 
 				OrdinaryCustomer nOrdinaryCustomer = new OrdinaryCustomer();
 
@@ -100,9 +97,9 @@ public class OrdinaryCustomerWindow extends JFrame {
 					tipoVehiculo = "3";
 					tarifa = 3.00;
 				}
-//				System.out.println(tipoVehiculo);
+//		System.out.println(tipoVehiculo);
 				nOrdinaryCustomer.setVehicleType(Integer.parseInt(tipoVehiculo)); // Lee la opcion seleccionada
-//				System.out.println(tarifa);
+//		System.out.println(tarifa);
 				nOrdinaryCustomer.setFare(tarifa); // Aqui debemos establecer la tarifa en cuestion
 
 				ZonedDateTime now = ZonedDateTime.now();
@@ -110,19 +107,18 @@ public class OrdinaryCustomerWindow extends JFrame {
 				String initialTime = formatter.format(now);
 				ZonedDateTime zdtWithZoneOffset = ZonedDateTime.parse(initialTime, formatter);
 				nOrdinaryCustomer.setHoraDeEntrada(zdtWithZoneOffset);
-//				System.out.println("Hora de inicio de la estancia: " + initialTime);
+//		System.out.println("Hora de inicio de la estancia: " + initialTime);
 
-				ordinaryCustomers.add(nOrdinaryCustomer); // Anado el nuevo cliente
-				rw.ordinaryCustomerWriter(ordinaryCustomers); // Escribimos el cliente BD
+//		ordinaryCustomers.add(nOrdinaryCustomer); // Anado el nuevo cliente
+//		rw.ordinaryCustomerWriter(ordinaryCustomers); // Escribimos el cliente BD
 
-//				OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(plateTextField.getText(), initialTime);
-//				add(ordinaryPanel);
-//				topPanel.setVisible(false);
-//				middlePanel.setVisible(false);
-//				bottomPanel.setVisible(false);
-//				
-//				ordinaryPanel.setVisible(true);
+				OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(frame, plateTextField.getText(), initialTime);
+				frame.add(ordinaryPanel);
+				topPanel.setVisible(false);
+				middlePanel.setVisible(false);
+				bottomPanel.setVisible(false);
 
+				ordinaryPanel.setVisible(true);
 
 			}
 		});
@@ -132,21 +128,45 @@ public class OrdinaryCustomerWindow extends JFrame {
 		JPanel middleBottomPanel = new JPanel();
 		middleBottomPanel.setLayout(new GridBagLayout());
 		JButton button2 = new JButton("ADQUIRIR ABONO");
+		button2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SubscriberPanel panel = new SubscriberPanel(frame);
+				frame.add(panel);
+				setVisible(false);
+				panel.setVisible(true);
+			}
+		});
+		
+		
+		
+		
+		
 		middleBottomPanel.add(button2, new GridBagConstraints());
 
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
 		JButton button3 = new JButton("PAGAR");
+		button3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ZonedDateTime now = ZonedDateTime.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
+				String initialTime = formatter.format(now);
+				PaymentPanel panel = new PaymentPanel(frame, "ordinary" ,initialTime,plateTextField.getText());
+				frame.add(panel);
+				setVisible(false);
+				panel.setVisible(true);
+			}
+		});
 		rightBottomPanel.add(button3, new GridBagConstraints());
 
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(middleBottomPanel);
 		bottomPanel.add(rightBottomPanel);
 
-		getContentPane().add(topPanel);
-		getContentPane().add(middlePanel);
-		getContentPane().add(bottomPanel);
+		add(topPanel);
+		add(middlePanel);
+		add(bottomPanel);
 
 	}
-
 }
