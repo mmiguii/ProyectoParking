@@ -110,3 +110,67 @@
   <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
 </record>
 </log>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-22T22:40:28.574952900Z</date>
+  <millis>1669156828574</millis>
+  <nanos>952900</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>18</thread>
+  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
+</record>
+</log>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-23T09:11:21.473946800Z</date>
+  <millis>1669194681473</millis>
+  <nanos>946800</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>18</thread>
+  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
+</record>
+</log>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-23T09:12:24.625887100Z</date>
+  <millis>1669194744625</millis>
+  <nanos>887100</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>18</thread>
+  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
+</record>
+</log>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-23T16:14:31.785560700Z</date>
+  <millis>1669220071785</millis>
+  <nanos>560700</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>18</thread>
+  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
+</record>
+</log>

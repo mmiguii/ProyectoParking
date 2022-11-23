@@ -112,13 +112,27 @@ public class LogInPanel extends JPanel {
 //		ordinaryCustomers.add(nOrdinaryCustomer); // Anado el nuevo cliente
 //		rw.ordinaryCustomerWriter(ordinaryCustomers); // Escribimos el cliente BD
 
-				OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(frame, plateTextField.getText(), initialTime);
-				frame.add(ordinaryPanel);
-				topPanel.setVisible(false);
-				middlePanel.setVisible(false);
-				bottomPanel.setVisible(false);
+				int a = 3;
+				
+//				mirar fichero o tabla de plazas, si estan llenas en las 2 plantas todo al else
+				if (a==5) {
+					OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(frame, plateTextField.getText(), initialTime);
+					frame.add(ordinaryPanel);
+					topPanel.setVisible(false);
+					middlePanel.setVisible(false);
+					bottomPanel.setVisible(false);
 
-				ordinaryPanel.setVisible(true);
+					ordinaryPanel.setVisible(true);
+				}else {
+					FullPanel fullPanel = new FullPanel(frame, plateTextField.getText());
+					frame.add(fullPanel);
+					topPanel.setVisible(false);
+					middlePanel.setVisible(false);
+					bottomPanel.setVisible(false);
+					fullPanel.setVisible(true);
+					
+				}
+				
 
 			}
 		});
