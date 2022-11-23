@@ -47,6 +47,17 @@ public class OrdinaryCustomerWindow extends JFrame {
 		topPanel.add(plateLabel);
 
 		JTextField plateTextField = new JTextField(20);
+		plateTextField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (plateTextField.getText().equals("")) {
+					
+				}
+				
+				
+				
+			}
+		});
 		topPanel.add(plateTextField);
 
 		// Panel central

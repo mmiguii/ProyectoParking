@@ -3,17 +3,18 @@ package frontend;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class WellcomingPanel extends JPanel {
 
 
 	private static final long serialVersionUID = 1L;
+	
 
 	public WellcomingPanel(final JFrame frame) {
 		
@@ -23,7 +24,7 @@ public class WellcomingPanel extends JPanel {
 		
 		JPanel topPanel = new JPanel();
 		JLabel incomingLabel = new JLabel("Bienvenido al Parking");
-		JLabel incomingLabel2 = new JLabel("¿Es usted un trabajador o un usuario?");
+		JLabel incomingLabel2 = new JLabel("ï¿½Es usted un trabajador o un usuario?");
 		topPanel.add(incomingLabel);
 		topPanel.add(incomingLabel2);
 		
@@ -31,12 +32,18 @@ public class WellcomingPanel extends JPanel {
 		
 		JPanel midPanel = new JPanel();
 		JButton btnWorker = new JButton("TRABAJADOR");
+		btnWorker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		JButton btnUser = new JButton("USUARIO");
 		
 		btnUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LogInPanel panel = new LogInPanel(frame);
-				frame.add(panel);
+				frame.getContentPane().add(panel);
 				setVisible(false);
 				panel.setVisible(true);
 			}

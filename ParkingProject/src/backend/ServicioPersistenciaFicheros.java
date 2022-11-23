@@ -55,7 +55,7 @@ public class ServicioPersistenciaFicheros {
 
 	public ArrayList<OrdinaryCustomer> ordinaryCustomerReader() {
 
-		Path CSVPath = Paths.get("./clientesOrdinarios.txt");
+		Path CSVPath = Paths.get("clientesOrdinarios.txt");
 		ArrayList<String> load = readFile(CSVPath.toFile());
 		ArrayList<OrdinaryCustomer> ret = new ArrayList<OrdinaryCustomer>();
 		for (int i = 0; i < load.size(); i++) {

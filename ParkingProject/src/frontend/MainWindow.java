@@ -38,10 +38,10 @@ public class MainWindow extends JFrame {
 		setBounds(100, 100, 591, 495);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 		
-		//creamos el panel y lo añadimos al frame
+		//Creamos el panel y lo aÃ±adimos al frame
 		WellcomingPanel panel = new WellcomingPanel(this);
 		add(panel);
 	}

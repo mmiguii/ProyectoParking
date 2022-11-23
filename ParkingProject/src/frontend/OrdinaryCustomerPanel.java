@@ -98,7 +98,7 @@ public class OrdinaryCustomerPanel extends JPanel{
 		table1 = new JTable();
 		DefaultTableModel modelo = new DefaultTableModel();
 		ServicioPersistenciaBD BD = new ServicioPersistenciaBD();
-		BD.connect("C:\\Users\\Alumno\\git\\ProyectoParking\\ParkingProject\\src\\Parking.db");
+		// BD.connect("C:\\Users\\Alumno\\git\\ProyectoParking\\ParkingProject\\src\\Parking.db");
 		
 		table1.setModel(modelo);
 		middlePanel.add(table1);
@@ -120,7 +120,7 @@ public class OrdinaryCustomerPanel extends JPanel{
 		bottomPanel.setBackground(Color.GREEN);
 		
 		
-		JButton btnPlanta2 = new JButton("2ª PLANTA");
+		JButton btnPlanta2 = new JButton("2ï¿½ PLANTA");
 		
 		JButton btnBack = new JButton("VOLVER");
 		btnBack.addActionListener(new ActionListener() {

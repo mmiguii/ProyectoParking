@@ -174,3 +174,19 @@
   <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
 </record>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-23T18:08:59.043290Z</date>
+  <millis>1669226939043</millis>
+  <nanos>290000</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Creada la base de datos</message>
+</record>
+</log>
