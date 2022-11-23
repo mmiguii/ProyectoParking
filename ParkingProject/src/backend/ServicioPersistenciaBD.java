@@ -66,112 +66,86 @@ public class ServicioPersistenciaBD {
 			stmt.setQueryTimeout(30);  // poner timeout 30 msg
 			try {
 				stmt.executeUpdate("CREATE TABLE CLIENTES_ORDINARIOS " +
-					"(id_clientes_ordinario integer, "
-					+ "matricula string, "
-					+ "id_tipo_cliente integer, "
-					+ "id_tipo_tarifa integer, "
+					"(id_clientes_ordinario integer primary key autoincrement not null, "
+					+ "matricula text, "
+					+ "id_tipo_cliente integer NOT NULL REFERENCES TIPOCLIENTE(IDTIPOCLIENTE) ON DELETE CASCADE, "
+					+ "id_tipo_tarifa integer NOT NULL REFERENCES TIPOTARIFA(IDTIPOTARIFA) ON DELETE CASCADE, "
 					+ "numero_entradas_y_salidas integer, "
-					+ "tiempo_total_uso_parking double, "
-					+ "ingresos_totales double)");
+					+ "tiempo_total_uso_parking real, "
+					+ "ingresos_totales real default 0.0)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
 			try {
 				stmt.executeUpdate("CREATE TABLE CLIENTES_SUSCRITOS " +
-					"(numero_plaza integer, "
-					+ "id_cliente_suscrito integer, "
-					+ "matricula string, "
-					+ "id_tipo_cliente integer, "
-					+ "id_tipo_tarifa integer, "
+					"(numero_plaza integer NOT NULL REFERENCES ESTADO(PLAZAS) ON DELETE CASCADE, "
+					+ "id_cliente_suscrito integer INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+					+ "matricula TEXT NOT NULL, "
+					+ "id_tipo_cliente integer NOT NULL REFERENCES TIPOCLIENTE(IDTIPOCLIENTE) ON DELETE CASCADE, "
+					+ "id_tipo_tarifa integer NOT NULL REFERENCES TIPOTARIFA(IDTIPOTARIFA) ON DELETE CASCADE, "
 					+ "numero_entradas_y_salidas integer, "
-					+ "tiempo_uso_parking_ultima_estancia double, "
-					+ "tiempo_total_uso_parking double, "
+					+ "tiempo_uso_parking_ultima_estancia real, "
+					+ "tiempo_total_uso_parking real, "
 					+ "cuota integer)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
 			try {
 				stmt.executeUpdate("CREATE TABLE ESTADO_PLAZAS " +
-					"(numero_planta integer, "
-					+ "numero_plaza integer, "
-					+ "estado_plaza integer, "
-					+ "id_tipo_cliente integer, "
-					+ "id_tipo_tarifa integer, "
-					+ "tiempo_uso_parking_ultima_estancia double,"
-					+ "importe integer)");
+					"(numero_planta integer NOT NULL REFERENCES PLANTA(NUMPLANTA) ON DELETE CASCADE, "
+					+ "numero_plaza integer PRIMARY KEY NOT NULL, "
+					+ "estado_plaza integer NOT NULL DEFAULT 0, "
+					+ "id_tipo_cliente integer NOT NULL REFERENCES TIPOCLIENTE(IDTIPOCLIENTE) ON DELETE CASCADE, "
+					+ "id_tipo_tarifa integer NOT NULL REFERENCES TIPOTARIFA(IDTIPOTARIFA) ON DELETE CASCADE, "
+					+ "tiempo_uso_parking_ultima_estancia real,"
+					+ "importe real)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
 			try {
 				stmt.executeUpdate("CREATE TABLE PLANTA " +
-					"(numero_planta integer, "
-					+ "nombre_planta string, "
-					+ "ingresos_planta double, "
+					"(numero_planta integer primary key NOT NULL, "
+					+ "nombre_planta text not null, "
+					+ "ingresos_planta real, "
 					+ "cantidad_plazas_ordinarias integer, "
 					+ "cantidad_plazas_hibridos_o_electricos integer, "
 					+ "cantidad_plazas_movilidad_reducida integer, "
 					+ "cantidad_plazas_libres integer, "
-					+ "cantidad_plazas_ocupadas");
-			} catch (SQLException e) {
-				// Tabla ya existe. Nada que hacer
-			} 
-			try {
-				stmt.executeUpdate("CREATE TABLE INGRESOS_PLAZA_EN_PLANTA " + 
-					"(numero_planta integer, "
-					+ "numero_plaza integer, "
-					+ "ingresos_plaza double, "
-					+ "estado_plaza integer)");
+					+ "cantidad_plazas_ocupadas real");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
 			try {
 				stmt.executeUpdate("CREATE TABLE TIPO_CLIENTE " +
-					"(id_tipo_cliente integer, "
-					+ "cliente string)");
+					"(id_tipo_cliente integer PRIMARY KEY NOT NULL, "
+					+ "cliente text not null)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
 			try {
 				stmt.executeUpdate("CREATE TABLE TIPO_TARIFA " +
-					"(id_tipo_tarifa integer, "
-					+ "tarifa string)");
+					"(id_tipo_tarifa integer PRIMARY KEY NOT NULL, "
+					+ "tarifa text not null)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
 			try {
 				stmt.executeUpdate("CREATE TABLE TRABAJADORES " +
-					"(id_trabajador integer, "
-					+ "dni string, "
-					+ "nombre string, "
-					+ "apellido string, "
-					+ "fecha_inicio integer, " // es un long
-					+ "antiguedad integer, " // es un long
-					+ "salario_mes double)"); 
+					"(id_trabajador integer PRIMARY KEY AUTOINCREMENT NOT NULL, "
+					+ "dni text not null, "
+					+ "nombre text, "
+					+ "apellido text , "
+					+ "fecha_inicio integer, " 
+					+ "antiguedad real , " // es un long
+					+ "salario_mes real)"); // es un long
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
-			try {
-				stmt.executeUpdate("CREATE TABLE INGRESOS_PLAZA_CLIENTE_ORDINARIO" + 
-					"(numero_plaza integer, "
-					+ "id_cliente_ordinario integer, "
-					+ "ingresos_clientes_ordinarios double, "
-					+ "tiempo_uso_parking_ultima_estancia double)");
-			} catch (SQLException e) {
-				// Tabla ya existe. Nada que hacer
-			} 
-			try {
-				stmt.executeUpdate("CREATE TABLE INGRESOS_PLAZA_CLIENTE_SUSCRITO" + 
-					"(numero_plaza integer, "
-					+ "id_cliente_suscrito integer, "
-					+ "ingresos_clientes_suscritos double, "
-					+ "tiempo_uso_parking_ultima_estancia double)");
-			} catch (SQLException e) {
-				// Tabla ya existe. Nada que hacer
-			} 
+			
 			try {
 				stmt.executeUpdate("CREATE TABLE TIPO_TRABAJADOR " +
-					"(id_tipo_trabajador integer, "
-					+ "trabajador string)");
+					"(id_tipo_trabajador integer primary key not null, "
+					+ "trabajador text not null)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			} 
@@ -198,12 +172,9 @@ public class ServicioPersistenciaBD {
 			stmt.executeUpdate("DROP TABLE IF EXIST TABLE CLIENTES_SUSCRITOS");
 			stmt.executeUpdate("DROP TABLE IF EXIST ESTADO_PLAZAS");
 			stmt.executeUpdate("DROP TABLE IF EXIST PLANTA");
-			stmt.executeUpdate("DROP TABLE IF EXIST INGRESOS_PLAZA_EN_PLANTA");
 			stmt.executeUpdate("DROP TABLE IF EXIST TIPO_CLIENTE");
 			stmt.executeUpdate("DROP TABLE IF EXIST TIPO_TARIFA");
 			stmt.executeUpdate("DROP TABLE IF EXIST TRABAJADORES");
-			stmt.executeUpdate("DROP TABLE IF EXIST INGRESOS_PLAZA_CLIENTE_ORDINARIO");
-			stmt.executeUpdate("DROP TABLE IF EXIST INGRESOS_PLAZA_CLIENTE_SUSCRITO");
 			stmt.executeUpdate("DROP TABLE IF EXIST TIPO_TRABAJADOR");
 			log(Level.INFO, "Reiniciada la base de datos", null);
 			return usarCrearTablasBD(conn);
