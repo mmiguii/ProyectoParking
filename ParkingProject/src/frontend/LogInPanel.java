@@ -32,6 +32,7 @@ public class LogInPanel extends JPanel {
 
 //		BD = new ServicioPersistenciaBD(); 
 
+		setBorder(javax.swing.BorderFactory.createTitledBorder("User Wellcoming Panel"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
@@ -68,7 +69,7 @@ public class LogInPanel extends JPanel {
 		middlePanel.add(radioButton3);
 
 		// Panel inferior
-		JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+		JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
 
 		JPanel leftBottomPanel = new JPanel();
 		leftBottomPanel.setLayout(new GridBagLayout());
@@ -144,7 +145,7 @@ public class LogInPanel extends JPanel {
 		JButton button2 = new JButton("ADQUIRIR ABONO");
 		button2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SubscriberPanel panel = new SubscriberPanel(frame);
+				SubscriberPanel panel = new SubscriberPanel(frame, plateTextField.getText());
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
@@ -174,9 +175,23 @@ public class LogInPanel extends JPanel {
 		});
 		rightBottomPanel.add(button3, new GridBagConstraints());
 
+		JPanel lastBottomPanel = new JPanel();
+		lastBottomPanel.setLayout(new GridBagLayout());
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WellcomingPanel panel = new WellcomingPanel(frame);
+				frame.add(panel);
+				setVisible(false);
+				panel.setVisible(true);
+			}
+		});
+		lastBottomPanel.add(btnVolver);
+		
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(middleBottomPanel);
 		bottomPanel.add(rightBottomPanel);
+		bottomPanel.add(lastBottomPanel);
 
 		add(topPanel);
 		add(middlePanel);
