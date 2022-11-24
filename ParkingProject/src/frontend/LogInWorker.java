@@ -35,7 +35,7 @@ public class LogInWorker extends JPanel {
 		topPanel.setLayout(new GridBagLayout());
 		JLabel labelLogIn = new JLabel("LOG-IN PARKING");
 //		labelLogIn.setBounds(209, 51, 153, 25);
-		labelLogIn.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
 		topPanel.add(labelLogIn);
 		add(topPanel);
 		
