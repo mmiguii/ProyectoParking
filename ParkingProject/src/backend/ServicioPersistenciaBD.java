@@ -67,7 +67,7 @@ public class ServicioPersistenciaBD {
 			try {
 				stmt.executeUpdate("CREATE TABLE CLIENTES_ORDINARIOS " +
 					"(id_clientes_ordinario integer primary key autoincrement not null, "
-					+ "matricula text, "
+					+ "matricula text not null, "
 					+ "id_tipo_cliente integer NOT NULL REFERENCES TIPOCLIENTE(IDTIPOCLIENTE) ON DELETE CASCADE, "
 					+ "id_tipo_tarifa integer NOT NULL REFERENCES TIPOTARIFA(IDTIPOTARIFA) ON DELETE CASCADE, "
 					+ "numero_entradas_y_salidas integer, "
