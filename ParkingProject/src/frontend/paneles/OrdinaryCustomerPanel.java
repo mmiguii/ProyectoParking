@@ -2,8 +2,11 @@ package frontend.paneles;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,11 +16,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import backend.servicios.ServicioPersistenciaBD;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class OrdinaryCustomerPanel extends JPanel{
 
@@ -98,7 +96,7 @@ public class OrdinaryCustomerPanel extends JPanel{
 		table1 = new JTable();
 		DefaultTableModel modelo = new DefaultTableModel();
 		ServicioPersistenciaBD BD = new ServicioPersistenciaBD();
-		// BD.connect("C:\\Users\\Alumno\\git\\ProyectoParking\\ParkingProject\\src\\Parking.db");
+		//BD.connect("C:\\Users\\Alumno\\git\\ProyectoParking\\ParkingProject\\src\\Parking.db");
 		
 		table1.setModel(modelo);
 		middlePanel.add(table1);

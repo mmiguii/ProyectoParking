@@ -14,8 +14,6 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	
-	
 	/**
 	 * Launch the application.
 	 */
@@ -42,15 +40,12 @@ public class MainWindow extends JFrame {
 		setBounds(100, 100, 591, 495);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		//Creamos el panel y lo añadimos al frame
+		//creamos el panel y lo a�adimos al frame
 		WellcomingPanel panel = new WellcomingPanel(this);
 		add(panel);
-		
-		
-		
 	}
 	
 }

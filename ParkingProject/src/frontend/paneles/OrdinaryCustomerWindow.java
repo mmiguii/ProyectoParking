@@ -6,8 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -20,20 +19,21 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import backend.clases.clientes.ClienteOrdinario;
-import backend.servicios.ServicioPersistenciaBD;
+import backend.servicios.ServicioPersistenciaFicheros;
 
-public class LogInPanel extends JPanel {
+public class OrdinaryCustomerWindow extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private ServicioPersistenciaBD BD;
+	private ServicioPersistenciaFicheros rw;
 
-	public LogInPanel(final JFrame frame) {
+	public OrdinaryCustomerWindow() {
 
-//		BD = new ServicioPersistenciaBD(); 
+		rw = new ServicioPersistenciaFicheros();
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("User Wellcoming Panel"));
-		setBounds(10, 10, 567, 448);
-		this.setLayout(new GridLayout(3, 1));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(640, 480);
+		setTitle("Login Ordinary Customer");
+		setVisible(true);
+		getContentPane().setLayout(new GridLayout(3, 1)); // Dividimos el panel en 3 filas x 1 columna
 
 		// Panel superior
 		JPanel topPanel = new JPanel();
@@ -68,7 +68,7 @@ public class LogInPanel extends JPanel {
 		middlePanel.add(radioButton3);
 
 		// Panel inferior
-		JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
+		JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
 
 		JPanel leftBottomPanel = new JPanel();
 		leftBottomPanel.setLayout(new GridBagLayout());
@@ -76,8 +76,8 @@ public class LogInPanel extends JPanel {
 		JButton enterButton = new JButton("ACCEDER");
 		enterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//		ReaderWriter rw = new ReaderWriter();
-//		ArrayList<OrdinaryCustomer> ordinaryCustomers = rw.ordinaryCustomerReader();
+//				ReaderWriter rw = new ReaderWriter();
+				ArrayList<ClienteOrdinario> ordinaryCustomers = rw.ordinarioReader();
 
 				ClienteOrdinario nOrdinaryCustomer = new ClienteOrdinario();
 
@@ -97,9 +97,9 @@ public class LogInPanel extends JPanel {
 					tipoVehiculo = "3";
 					tarifa = 3.00;
 				}
-//		System.out.println(tipoVehiculo);
+//				System.out.println(tipoVehiculo);
 				nOrdinaryCustomer.setTipoVehiculo(tipoVehiculo); // Lee la opcion seleccionada
-//		System.out.println(tarifa);
+//				System.out.println(tarifa);
 				nOrdinaryCustomer.setTarifa(tarifa); // Aqui debemos establecer la tarifa en cuestion
 
 //				ZonedDateTime now = ZonedDateTime.now();
@@ -107,32 +107,19 @@ public class LogInPanel extends JPanel {
 //				String initialTime = formatter.format(now);
 //				ZonedDateTime zdtWithZoneOffset = ZonedDateTime.parse(initialTime, formatter);
 //				nOrdinaryCustomer.setHoraDeEntrada(zdtWithZoneOffset);
-////		System.out.println("Hora de inicio de la estancia: " + initialTime);
+////				System.out.println("Hora de inicio de la estancia: " + initialTime);
 //
-////		ordinaryCustomers.add(nOrdinaryCustomer); // Anado el nuevo cliente
-////		rw.ordinaryCustomerWriter(ordinaryCustomers); // Escribimos el cliente BD
-//
-//				int a = 3;
+//				ordinaryCustomers.add(nOrdinaryCustomer); // Anado el nuevo cliente
+//				rw.ordinaryCustomerWriter(ordinaryCustomers); // Escribimos el cliente BD
+
+//				OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(plateTextField.getText(), initialTime);
+//				add(ordinaryPanel);
+//				topPanel.setVisible(false);
+//				middlePanel.setVisible(false);
+//				bottomPanel.setVisible(false);
 //				
-////				mirar fichero o tabla de plazas, si estan llenas en las 2 plantas todo al else
-//				if (a==5) {
-//					OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(frame, plateTextField.getText(), initialTime);
-//					frame.add(ordinaryPanel);
-//					topPanel.setVisible(false);
-//					middlePanel.setVisible(false);
-//					bottomPanel.setVisible(false);
-//
-//					ordinaryPanel.setVisible(true);
-//				}else {
-//					FullPanel fullPanel = new FullPanel(frame, plateTextField.getText());
-//					frame.add(fullPanel);
-//					topPanel.setVisible(false);
-//					middlePanel.setVisible(false);
-//					bottomPanel.setVisible(false);
-//					fullPanel.setVisible(true);
-//					
-//				}
-//				
+//				ordinaryPanel.setVisible(true);
+
 
 			}
 		});
@@ -142,59 +129,21 @@ public class LogInPanel extends JPanel {
 		JPanel middleBottomPanel = new JPanel();
 		middleBottomPanel.setLayout(new GridBagLayout());
 		JButton button2 = new JButton("ADQUIRIR ABONO");
-		button2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SubscriberPanel panel = new SubscriberPanel(frame, plateTextField.getText());
-				frame.add(panel);
-				setVisible(false);
-				panel.setVisible(true);
-			}
-		});
-		
-		
-		
-		
-		
 		middleBottomPanel.add(button2, new GridBagConstraints());
 
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
 		JButton button3 = new JButton("PAGAR");
-		button3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				ZonedDateTime now = ZonedDateTime.now();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
-				String initialTime = formatter.format(now);
-				PaymentPanel panel = new PaymentPanel(frame, "ordinary" ,initialTime,plateTextField.getText());
-				frame.add(panel);
-				setVisible(false);
-				panel.setVisible(true);
-			}
-		});
 		rightBottomPanel.add(button3, new GridBagConstraints());
 
-		JPanel lastBottomPanel = new JPanel();
-		lastBottomPanel.setLayout(new GridBagLayout());
-		JButton btnVolver = new JButton("VOLVER");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				WellcomingPanel panel = new WellcomingPanel(frame);
-				frame.add(panel);
-				setVisible(false);
-				panel.setVisible(true);
-			}
-		});
-		lastBottomPanel.add(btnVolver);
-		
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(middleBottomPanel);
 		bottomPanel.add(rightBottomPanel);
-		bottomPanel.add(lastBottomPanel);
 
-		add(topPanel);
-		add(middlePanel);
-		add(bottomPanel);
+		getContentPane().add(topPanel);
+		getContentPane().add(middlePanel);
+		getContentPane().add(bottomPanel);
 
 	}
+
 }

@@ -1,7 +1,7 @@
 package frontend.paneles;
 
 import java.awt.Font;
-import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,30 +15,68 @@ public class SubscriberPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 
-	public SubscriberPanel (final JFrame frame) {
+	public SubscriberPanel (final JFrame frame, String matricula) {
 		
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Subscriber Panel"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 		
 		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new GridBagLayout());
 		JLabel label = new JLabel("�SELECCIONE EL TIPO DE ABONO QUE DESEE?");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		topPanel.add(label);
 		add(topPanel);
 		
-		JPanel middlePanel = new JPanel();
-		JButton btnSemanal = new JButton("SEMANAL");
-		JButton btnMensual = new JButton("MENSUAL");
-		JButton btnAnual = new JButton("ANUAL");
+		JPanel middlePanel = new JPanel(new GridLayout(1,3));
 		
-		middlePanel.add(btnSemanal, new GridBagConstraints());
-		middlePanel.add(btnMensual, new GridBagConstraints());
-		middlePanel.add(btnAnual, new GridBagConstraints());
+		JPanel leftMiddlePanel = new JPanel();
+		leftMiddlePanel.setLayout(new GridBagLayout());
+		JButton btnSemanal = new JButton("SEMANAL");
+		btnSemanal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SubscriberPaymentPanel panel = new SubscriberPaymentPanel(frame, matricula, btnSemanal.getText());
+				frame.add(panel);
+				setVisible(false);
+				panel.setVisible(true);
+			}
+		});
+		leftMiddlePanel.add(btnSemanal);
+		
+		JPanel middleMiddlePanel = new JPanel();
+		middleMiddlePanel.setLayout(new GridBagLayout());
+		JButton btnMensual = new JButton("MENSUAL");
+		btnMensual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SubscriberPaymentPanel panel = new SubscriberPaymentPanel(frame, matricula, btnMensual.getText());
+				frame.add(panel);
+				setVisible(false);
+				panel.setVisible(true);
+			}
+		});
+		middleMiddlePanel.add(btnMensual);
+		
+		JPanel rightMiddlePanel = new JPanel();
+		rightMiddlePanel.setLayout(new GridBagLayout());
+		JButton btnAnual = new JButton("ANUAL");
+		btnAnual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SubscriberPaymentPanel panel = new SubscriberPaymentPanel(frame, matricula, btnAnual.getText());
+				frame.add(panel);
+				setVisible(false);
+				panel.setVisible(true);
+			}
+		});
+		rightMiddlePanel.add(btnAnual);
+
+		middlePanel.add(leftMiddlePanel);
+		middlePanel.add(middleMiddlePanel);
+		middlePanel.add(rightMiddlePanel);
 		add(middlePanel);
 		
 		
 		JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new GridBagLayout());
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -53,4 +91,5 @@ public class SubscriberPanel extends JPanel{
 		bottomPanel.add(btnVolver);
 		add(bottomPanel);
 	}
+	
 }
