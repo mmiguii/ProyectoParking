@@ -1,4 +1,4 @@
-package frontend;
+package frontend.paneles;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

@@ -7,11 +7,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import frontend.paneles.WellcomingPanel;
+
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -44,6 +48,9 @@ public class MainWindow extends JFrame {
 		//Creamos el panel y lo añadimos al frame
 		WellcomingPanel panel = new WellcomingPanel(this);
 		add(panel);
+		
+		
+		
 	}
 	
 }

@@ -1,6 +1,6 @@
-package backend.worker;
+package backend.clases.personal;
 
-public class Manager extends Worker {
+public class Manager extends Trabajador {
 
 	public Manager() {
 		super();

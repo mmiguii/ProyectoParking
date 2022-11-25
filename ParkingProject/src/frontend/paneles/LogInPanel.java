@@ -1,4 +1,4 @@
-package frontend;
+package frontend.paneles;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -6,9 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -20,8 +22,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import backend.ServicioPersistenciaBD;
-import backend.customer.OrdinaryCustomer;
+import backend.clases.clientes.ClienteOrdinario;
+import backend.servicios.ServicioPersistenciaBD;
+import frontend.FullPanel;
 
 public class LogInPanel extends JPanel {
 
@@ -39,12 +42,12 @@ public class LogInPanel extends JPanel {
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridBagLayout());
 
-		JLabel plateLabel = new JLabel("Ingrese numero de matricula ");
-		plateLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		topPanel.add(plateLabel);
+		JLabel labelMatricula = new JLabel("Ingrese numero de matricula ");
+		labelMatricula.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		topPanel.add(labelMatricula);
 
-		JTextField plateTextField = new JTextField(20);
-		topPanel.add(plateTextField);
+		JTextField textFieldMatricula = new JTextField(20);
+		topPanel.add(textFieldMatricula);
 
 		// Panel central
 		JPanel middlePanel = new JPanel();
@@ -55,17 +58,17 @@ public class LogInPanel extends JPanel {
 
 		// Para que las opciones sean excluyentes, creamos un grupo
 		ButtonGroup radioButtonGroup = new ButtonGroup();
-		JRadioButton radioButton1 = new JRadioButton("Ordinario");
-		radioButtonGroup.add(radioButton1);
-		JRadioButton radioButton2 = new JRadioButton("Minusvalido");
-		radioButtonGroup.add(radioButton2);
-		JRadioButton radioButton3 = new JRadioButton("Electrico/hibrido");
-		radioButtonGroup.add(radioButton3);
+		JRadioButton radioButtonNormal = new JRadioButton("Normal");
+		radioButtonGroup.add(radioButtonNormal);
+		JRadioButton radioButtonMinusvalido = new JRadioButton("Minusvalido");
+		radioButtonGroup.add(radioButtonMinusvalido);
+		JRadioButton radioButtonElectrico = new JRadioButton("Electrico/hibrido");
+		radioButtonGroup.add(radioButtonElectrico);
 
 		// Anadimos los botones al panel central
-		middlePanel.add(radioButton1);
-		middlePanel.add(radioButton2);
-		middlePanel.add(radioButton3);
+		middlePanel.add(radioButtonNormal);
+		middlePanel.add(radioButtonMinusvalido);
+		middlePanel.add(radioButtonElectrico);
 
 		// Panel inferior
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
@@ -73,79 +76,79 @@ public class LogInPanel extends JPanel {
 		JPanel leftBottomPanel = new JPanel();
 		leftBottomPanel.setLayout(new GridBagLayout());
 
-		JButton enterButton = new JButton("ACCEDER");
-		enterButton.addActionListener(new ActionListener() {
+		JButton btnAcceder = new JButton("ACCEDER");
+		btnAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //		ReaderWriter rw = new ReaderWriter();
 //		ArrayList<OrdinaryCustomer> ordinaryCustomers = rw.ordinaryCustomerReader();
 
-				OrdinaryCustomer nOrdinaryCustomer = new OrdinaryCustomer();
+				ClienteOrdinario nOrdinaryCustomer = new ClienteOrdinario();
 
-				nOrdinaryCustomer.setLicensePlate(plateTextField.getText());
+				nOrdinaryCustomer.setMatricula(textFieldMatricula.getText());
 
 				// Asignamos el valor del tipo de vehiculo en funcion de lo que el usuario
 				// introduzca y le anadimos la tarifa
 				String tipoVehiculo = radioButtonGroup.getSelection().getActionCommand();
 				double tarifa = 0.00;
-				if (radioButton1.isSelected()) {
+				if (radioButtonNormal.isSelected()) {
 					tipoVehiculo = "1";
 					tarifa = 1.00;
-				} else if (radioButton2.isSelected()) {
+				} else if (radioButtonMinusvalido.isSelected()) {
 					tipoVehiculo = "2";
 					tarifa = 2.00;
-				} else if (radioButton3.isSelected()) {
+				} else if (radioButtonElectrico.isSelected()) {
 					tipoVehiculo = "3";
 					tarifa = 3.00;
 				}
 //		System.out.println(tipoVehiculo);
-				nOrdinaryCustomer.setVehicleType(Integer.parseInt(tipoVehiculo)); // Lee la opcion seleccionada
+				nOrdinaryCustomer.setTipoVehiculo(tipoVehiculo); // Lee la opcion seleccionada
 //		System.out.println(tarifa);
-				nOrdinaryCustomer.setFare(tarifa); // Aqui debemos establecer la tarifa en cuestion
+				nOrdinaryCustomer.setTarifa(tarifa); // Aqui debemos establecer la tarifa en cuestion
 
-				ZonedDateTime now = ZonedDateTime.now();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
-				String initialTime = formatter.format(now);
-				ZonedDateTime zdtWithZoneOffset = ZonedDateTime.parse(initialTime, formatter);
-				nOrdinaryCustomer.setHoraDeEntrada(zdtWithZoneOffset);
+				
+//				DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+//				Date date = formatter.parse();
+//				long dateInLong = date.getTime();
+//				nOrdinaryCustomer.setFechaEntrada(dateInLong);
 //		System.out.println("Hora de inicio de la estancia: " + initialTime);
 
 //		ordinaryCustomers.add(nOrdinaryCustomer); // Anado el nuevo cliente
 //		rw.ordinaryCustomerWriter(ordinaryCustomers); // Escribimos el cliente BD
 
-				int a = 3;
-				
-//				mirar fichero o tabla de plazas, si estan llenas en las 2 plantas todo al else
-				if (a==5) {
-					OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(frame, plateTextField.getText(), initialTime);
-					frame.add(ordinaryPanel);
-					topPanel.setVisible(false);
-					middlePanel.setVisible(false);
-					bottomPanel.setVisible(false);
-
-					ordinaryPanel.setVisible(true);
-				}else {
-					FullPanel fullPanel = new FullPanel(frame, plateTextField.getText());
-					frame.add(fullPanel);
-					topPanel.setVisible(false);
-					middlePanel.setVisible(false);
-					bottomPanel.setVisible(false);
-					fullPanel.setVisible(true);
-					
-				}
+//				int a = 3;
+//				
+////				mirar fichero o tabla de plazas, si estan llenas en las 2 plantas todo al else
+//				if (a==5) {
+//					OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(frame, textFieldMatricula.getText(), initialTime);
+//					frame.getContentPane().add(ordinaryPanel);
+//					topPanel.setVisible(false);
+//					middlePanel.setVisible(false);
+//					bottomPanel.setVisible(false);
+//
+//					ordinaryPanel.setVisible(true);
+//				}else {
+//					FullPanel fullPanel = new FullPanel(frame, textFieldMatricula.getText());
+//					frame.getContentPane().add(fullPanel);
+//					topPanel.setVisible(false);
+//					middlePanel.setVisible(false);
+//					bottomPanel.setVisible(false);
+//					fullPanel.setVisible(true);
+//					
+//				}
 				
 
 			}
 		});
 
-		leftBottomPanel.add(enterButton, new GridBagConstraints());
+		leftBottomPanel.add(btnAcceder, new GridBagConstraints());
 
 		JPanel middleBottomPanel = new JPanel();
 		middleBottomPanel.setLayout(new GridBagLayout());
-		JButton button2 = new JButton("ADQUIRIR ABONO");
-		button2.addActionListener(new ActionListener() {
+		JButton btnAdquirir = new JButton("ADQUIRIR ABONO");
+		btnAdquirir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SubscriberPanel panel = new SubscriberPanel(frame);
-				frame.add(panel);
+				frame.getContentPane().add(panel);
 				setVisible(false);
 				panel.setVisible(true);
 			}
@@ -155,24 +158,26 @@ public class LogInPanel extends JPanel {
 		
 		
 		
-		middleBottomPanel.add(button2, new GridBagConstraints());
+		middleBottomPanel.add(btnAdquirir, new GridBagConstraints());
 
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
-		JButton button3 = new JButton("PAGAR");
-		button3.addActionListener(new ActionListener() {
+		JButton btnPagar = new JButton("PAGAR");
+		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+			  	
 				ZonedDateTime now = ZonedDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
 				String initialTime = formatter.format(now);
-				PaymentPanel panel = new PaymentPanel(frame, "ordinary" ,initialTime,plateTextField.getText());
-				frame.add(panel);
+				
+				
+				PaymentPanel panel = new PaymentPanel(frame, "normal" ,initialTime,textFieldMatricula.getText());
+				frame.getContentPane().add(panel);
 				setVisible(false);
 				panel.setVisible(true);
 			}
 		});
-		rightBottomPanel.add(button3, new GridBagConstraints());
+		rightBottomPanel.add(btnPagar, new GridBagConstraints());
 
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(middleBottomPanel);

@@ -1,4 +1,4 @@
-package frontend;
+package frontend.paneles;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -22,7 +22,7 @@ public class SubscriberPanel extends JPanel{
 		this.setLayout(new GridLayout(3, 1));
 		
 		JPanel topPanel = new JPanel();
-		JLabel label = new JLabel("¿SELECCIONE EL TIPO DE ABONO QUE DESEE?");
+		JLabel label = new JLabel("ï¿½SELECCIONE EL TIPO DE ABONO QUE DESEE?");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		topPanel.add(label);
 		add(topPanel);

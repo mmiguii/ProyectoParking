@@ -1,4 +1,4 @@
-package frontend;
+package frontend.paneles;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import backend.ServicioPersistenciaBD;
+import backend.servicios.ServicioPersistenciaBD;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

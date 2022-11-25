@@ -1,4 +1,4 @@
-package frontend;
+package frontend.paneles;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

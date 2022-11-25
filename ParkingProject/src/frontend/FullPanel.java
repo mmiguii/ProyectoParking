@@ -12,6 +12,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import frontend.paneles.LogInPanel;
+
 public class FullPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;

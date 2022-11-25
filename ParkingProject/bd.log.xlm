@@ -1,190 +1,26 @@
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T19:17:21.056218Z</date>
-  <millis>1669144641056</millis>
-  <nanos>218000</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T19:17:49.618311200Z</date>
-  <millis>1669144669618</millis>
-  <nanos>311200</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T19:46:25.979443500Z</date>
-  <millis>1669146385979</millis>
-  <nanos>443500</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T21:41:22.566883700Z</date>
-  <millis>1669153282566</millis>
-  <nanos>883700</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T21:59:12.174203500Z</date>
-  <millis>1669154352174</millis>
-  <nanos>203500</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T22:11:22.652462600Z</date>
-  <millis>1669155082652</millis>
-  <nanos>462600</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T22:35:03.257572800Z</date>
-  <millis>1669156503257</millis>
-  <nanos>572800</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-22T22:40:28.574952900Z</date>
-  <millis>1669156828574</millis>
-  <nanos>952900</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-23T09:11:21.473946800Z</date>
-  <millis>1669194681473</millis>
-  <nanos>946800</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-23T09:12:24.625887100Z</date>
-  <millis>1669194744625</millis>
-  <nanos>887100</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2022-11-23T16:14:31.785560700Z</date>
-  <millis>1669220071785</millis>
-  <nanos>560700</nanos>
-  <sequence>0</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>18</thread>
-  <message>Conectada la base de datos C:\Users\Alumno\git\ProyectoParking\ParkingProject\src\Parking.db</message>
-</record>
-</log>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2022-11-23T18:08:59.043290Z</date>
-  <millis>1669226939043</millis>
-  <nanos>290000</nanos>
+  <date>2022-11-25T16:14:42.366989Z</date>
+  <millis>1669392882366</millis>
+  <nanos>989000</nanos>
   <sequence>0</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
-  <class>backend.ServicioPersistenciaBD</class>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-25T16:14:42.408737Z</date>
+  <millis>1669392882408</millis>
+  <nanos>737000</nanos>
+  <sequence>1</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>15</thread>
   <message>Creada la base de datos</message>
