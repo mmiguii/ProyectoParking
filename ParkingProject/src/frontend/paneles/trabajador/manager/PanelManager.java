@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import backend.clases.personal.Trabajador;
+import backend.clases.personas.personal.Trabajador;
 import frontend.paneles.clientes.acciones.BajaSubscribersPanel;
 import frontend.paneles.trabajador.StateParkingPanel;
 import frontend.paneles.trabajador.empleado.PersonalDataWorkerPanel;

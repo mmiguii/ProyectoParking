@@ -3,8 +3,12 @@ package frontend.paneles.acceso;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -15,8 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import backend.clases.personal.Manager;
-import backend.clases.personal.Trabajador;
+import backend.clases.personas.personal.Empleado;
+import backend.clases.personas.personal.Manager;
+import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.trabajador.empleado.PanelEmpleado;
 import frontend.paneles.trabajador.manager.PanelManager;
@@ -32,12 +37,15 @@ public class PanelAccesoTrabajador extends JPanel {
 	private JPanel instance;
 
 	private ServicioPersistenciaBD servicio;
+	private ArrayList<Trabajador> trabajadores;
 
 	public PanelAccesoTrabajador(JFrame frame, JPanel panel) {
 
 		instance = this;
 
 		servicio = new ServicioPersistenciaBD();
+
+		trabajadores = servicio.trabajadoresSelect();
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("General Worker Panel"));
 		setBounds(10, 10, 567, 448);
@@ -163,6 +171,7 @@ public class PanelAccesoTrabajador extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				List<Trabajador> trabajadores = servicio.trabajadoresSelect();
+				System.out.println(trabajadores.get(0));
 				for (Trabajador t : trabajadores) {
 					System.out.println(t.getDni());
 					if (t.getDni().equals(textFieldDNI.getText())) {
@@ -185,7 +194,11 @@ public class PanelAccesoTrabajador extends JPanel {
 			}
 
 		});
-		leftBottomPanel.add(btnIniciarSesion);
+		GridBagConstraints gbc_btnIniciarSesion = new GridBagConstraints();
+		gbc_btnIniciarSesion.insets = new Insets(0, 0, 5, 0);
+		gbc_btnIniciarSesion.gridx = 0;
+		gbc_btnIniciarSesion.gridy = 0;
+		leftBottomPanel.add(btnIniciarSesion, gbc_btnIniciarSesion);
 
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
@@ -193,8 +206,9 @@ public class PanelAccesoTrabajador extends JPanel {
 //		btnVolver.setBounds(119, 67, 101, 23);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
+				frame.getContentPane().add(panel); 
+				panel.setVisible(true); 
+				setVisible(false);
 			}
 		});
 		rightBottomPanel.add(btnVolver);
@@ -205,6 +219,21 @@ public class PanelAccesoTrabajador extends JPanel {
 //		btnLogIn.doLayout(new FlowLayout(FlowLayout.LEFT));		
 //		btnLogIn.setBounds(329, 67, 149, 23);
 		btnIniciarSesion.setEnabled(false);
+		
+		JLabel lblRecuerdoDNI = new JLabel("* Recordar DNI");
+		lblRecuerdoDNI.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PanelRecordarDNI panel = new PanelRecordarDNI(frame, instance, trabajadores);
+				frame.getContentPane().add(panel);
+				setVisible(false);
+				panel.setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_lblRecuerdoDNI = new GridBagConstraints();
+		gbc_lblRecuerdoDNI.gridx = 0;
+		gbc_lblRecuerdoDNI.gridy = 2;
+		leftBottomPanel.add(lblRecuerdoDNI, gbc_lblRecuerdoDNI);
 //		bottomPanel.setLayout(new GridBagLayout());
 //		bottomPanel.add(btnVolver, new GridBagConstraints());
 //		bottomPanel.add(btnLogIn, new GridBagConstraints());

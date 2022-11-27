@@ -26,9 +26,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import backend.clases.clientes.ClienteOrdinario;
-import backend.clases.clientes.ClienteSubscrito;
-import backend.clases.clientes.Usuario;
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.ClienteSubscrito;
+import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.clientes.acciones.PanelPago;
 import frontend.paneles.clientes.ordinarios.PanelClienteOrdinario;
@@ -194,7 +194,7 @@ public class PanelAccesoCliente extends JPanel {
 					ordinario.setFechaEntrada(dateInLong);
 					servicio.ordinarioInsert(ordinario);
 
-					PanelClienteOrdinario panel = new PanelClienteOrdinario(frame, instance, ordinario);
+					PanelClienteOrdinario panel = new PanelClienteOrdinario(frame, instance, topPanel, middlePanel, bottomPanel, ordinario);
 					frame.getContentPane().add(panel);
 					panel.setVisible(true);
 					topPanel.setVisible(false);
@@ -284,22 +284,22 @@ public class PanelAccesoCliente extends JPanel {
 		});
 		middleRightBottomPanel.add(btnPagar, new GridBagConstraints());
 
-		JPanel rightBottomPanel = new JPanel();
-		rightBottomPanel.setLayout(new GridBagLayout());
-		btnVolver = new JButton("VOLVER");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
-		rightBottomPanel.add(btnVolver);
+//		JPanel rightBottomPanel = new JPanel();
+//		rightBottomPanel.setLayout(new GridBagLayout());
+//		btnVolver = new JButton("VOLVER");
+//		btnVolver.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				frame.getContentPane().add(panel);
+//				panel.setVisible(true);
+//				setVisible(false);
+//			}
+//		});
+//		rightBottomPanel.add(btnVolver);
 
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(middleLeftBottomPanel);
 		bottomPanel.add(middleRightBottomPanel);
-		bottomPanel.add(rightBottomPanel);
+//		bottomPanel.add(rightBottomPanel);
 
 		btnAcceder.setEnabled(false);
 		btnAdquirir.setEnabled(false);

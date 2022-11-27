@@ -2,48 +2,54 @@ package jtest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import backend.clases.clientes.ClienteOrdinario;
+import backend.clases.clientes.Usuario;
 
 public class ClienteOrdinarioTest {
 
-	private ClienteOrdinario clienteOrdinario;
+	private ClienteOrdinario ordinaryCustomer;
+
 
 	@Before // ese metodo se inicializa antes de cada test creando un nuevo ordinaryCustomer
 			// para ser utilizado en los distintos test
 	public void setUp() {
-		clienteOrdinario = new ClienteOrdinario(2.3);
-
+		ordinaryCustomer = new ClienteOrdinario(2.3);
 	}
 
 	@Test
-	public void testClienteOrdinario() {
+	public void testOrdinaryCustomer() {
 
 	}
 
 	@Test
 	public void testGetTarifa() {
-		assertEquals(2.3, clienteOrdinario.getTarifa(), 0.01);
+		assertEquals(2.3, ordinaryCustomer.getTarifa(), 0.01);
 
 	}
 
 	@Test
-	public void testSetFare() {
-		clienteOrdinario.setTarifa(2.3);
-		assertEquals(2.3, clienteOrdinario.getTarifa(), 0.01);
+	public void testSetTarifa() {
+		ordinaryCustomer.setTarifa(2.3);
+		assertEquals(2.3, ordinaryCustomer.getTarifa(), 0.01);
 
 	}
 
 	@Test
 	public void testToString() {
-		clienteOrdinario.setMatricula("1234AAA");
-		clienteOrdinario.setTipoVehiculo("Normal");
-		assertEquals("1234AAA, Normal, 01/01/70 01:00:00, 01/01/70 01:00:00, 0,00, 2,30", clienteOrdinario.toString());
-//		assertEquals("Normal, 1234AAA, 2,30€", clienteOrdinario.toString());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		ordinaryCustomer.setMatricula("1234AAA");
+		ordinaryCustomer.setTipoVehiculo("Normal");
+		ordinaryCustomer.setFechaEntrada(1184104800000L);
+		ordinaryCustomer.setFechaSalida(1184104800000L);
+		ordinaryCustomer.setImporte(2.30);
+		assertEquals("1234AAA, Normal, "+sdf.format(new Date(ordinaryCustomer.getFechaEntrada()))+", "+sdf.format(new Date(ordinaryCustomer.getFechaSalida()))+", 2,30, 2,30", ordinaryCustomer.toString());
 	}
 
 }
