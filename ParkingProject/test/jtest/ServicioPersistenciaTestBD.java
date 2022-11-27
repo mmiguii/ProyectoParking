@@ -160,7 +160,7 @@ public class ServicioPersistenciaTestBD {
 	@Test 
 	public void testEmpleadoSelect() {
 		Empleado e = ServicioPersistenciaBD.empleadoSelect("5432");
-		assertEquals(e , ServicioPersistenciaBD.empleadoSelect("9876"));
+		assertEquals(e , ServicioPersistenciaBD.empleadoSelect("5432"));
 	}
 	
 	@Test
