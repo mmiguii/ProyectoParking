@@ -15,6 +15,9 @@ import backend.clases.clientes.ClienteOrdinario;
 import backend.clases.clientes.ClienteSubscrito;
 import backend.clases.clientes.Usuario;
 import backend.clases.infraestructura.Plaza;
+import backend.clases.personal.Empleado;
+import backend.clases.personal.Manager;
+import backend.clases.personal.Trabajador;
 
 // Clase de gestion de la BD del sistema
 public class ServicioPersistenciaBD {
@@ -47,8 +50,8 @@ public class ServicioPersistenciaBD {
 	 * Devuelve statement para usar la base de datos
 	 * 
 	 * @param conn Conexion ya creada y abierta a la base de datos
-	 * @return Sentencia de trabajo si se crea correctamente, 
-	 * 		   null si hay cualquier error
+	 * @return Sentencia de trabajo si se crea correctamente, null si hay cualquier
+	 *         error
 	 */
 	public static Statement usarBD(Connection conn) {
 		try {
@@ -67,72 +70,51 @@ public class ServicioPersistenciaBD {
 	 * Crea las tablas de la base de datos. Si ya existen, las deja tal cual
 	 *
 	 * @param conn Conexion ya creada y abierta a la base de datos
-	 * @return Sentencia de trabajo si se crea correctamente, 
-	 * 		   null si hay cualquier error
+	 * @return Sentencia de trabajo si se crea correctamente, null si hay cualquier
+	 *         error
 	 */
 	public static Statement usarCrearTablasBD(Connection conn) {
 		try {
 			Statement stmt = conn.createStatement();
 			stmt.setQueryTimeout(30); // poner timeout 30 msg
 			try {
-				stmt.executeUpdate("CREATE TABLE CLIENTES_ORDINARIOS " 
-						+ "(id_cliente_ordinario integer, " 
-						+ "matricula string, " 
-						+ "tipo_vehiculo string, " 
-						+ "fecha_entrada long, " 
-						+ "fecha_salida long, "
-						+ "tarifa double, "
-						+ "importe)");
+				stmt.executeUpdate("CREATE TABLE CLIENTES_ORDINARIOS " + "(id_cliente_ordinario integer, "
+						+ "matricula string, " + "tipo_vehiculo string, " + "fecha_entrada long, "
+						+ "fecha_salida long, " + "tarifa double, " + "importe)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			}
 			try {
-				stmt.executeUpdate("CREATE TABLE CLIENTES_SUBSCRITOS " 
-						+ "(id_cliente_subscrito integer, "
-						+ "matricula string, "
-						+ "tipo_vehiculo string, "
-						+ "tipo_cuota string, " // Semanal, Mensual, Anual
-						+ "precio_cuota double, " // Cuota fija correspondiente al tiempo que se reserva (semana, mes, año)
-						+ "numero_plaza_ocupada integer, "
-						+ "fecha_comienzo long, " 
-						+ "fecha_final long, " 
-						+ "numero_entradas_y_salidas integer, "
-						+ "tiempo_total_uso_parking double)");
+				stmt.executeUpdate("CREATE TABLE CLIENTES_SUBSCRITOS " + "(id_cliente_subscrito integer, "
+						+ "matricula string, " + "tipo_vehiculo string, " + "tipo_cuota string, " // Semanal, Mensual,
+																									// Anual
+						+ "precio_cuota double, " // Cuota fija correspondiente al tiempo que se reserva (semana, mes,
+													// año)
+						+ "numero_plaza_ocupada integer, " + "fecha_comienzo long, " + "fecha_final long, "
+						+ "numero_entradas_y_salidas integer, " + "tiempo_total_uso_parking double)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			}
 			try {
-				stmt.executeUpdate("CREATE TABLE TRABAJADORES "
-						+ "(id_trabajador integer, " 
-						+ "dni string, " 
-						+ "nombre string, " 
-						+ "apellido string, " 
-						+ "puesto string, " 
-						+ "fecha_comienzo long, "
-						+ "antiguedad integer, " 
-						+ "salario_mes double)");
+				stmt.executeUpdate("CREATE TABLE TRABAJADORES " + "(id_trabajador integer, " + "dni string, "
+						+ "nombre string, " + "apellido string, " + "puesto string, " + "fecha_comienzo long, "
+						+ "antiguedad integer, " + "salario_mes double)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			}
 			try {
-				stmt.executeUpdate("CREATE TABLE PLANTAS " 
-						+ "(numero_planta integer, " 
-						+ "ingresos_planta double, " 
-						+ "cantidad_plazas_normales integer, "
-						+ "cantidad_plazas_hibridos_o_electricos integer, "
-						+ "cantidad_plazas_movilidad_reducida integer, " 
-						+ "cantidad_plazas_libres integer, "
+				stmt.executeUpdate("CREATE TABLE PLANTAS " + "(numero_planta integer, " + "ingresos_planta double, "
+						+ "cantidad_plazas_normales integer, " + "cantidad_plazas_hibridos_o_electricos integer, "
+						+ "cantidad_plazas_movilidad_reducida integer, " + "cantidad_plazas_libres integer, "
 						+ "cantidad_plazas_ocupadas integer)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			}
 			try {
-				stmt.executeUpdate("CREATE TABLE PLAZAS " 
-						+ "(numero_plaza integer, " 
-						+ "numero_planta integer, "
+				stmt.executeUpdate("CREATE TABLE PLAZAS " + "(numero_plaza integer, " + "numero_planta integer, "
 						+ "estado_plaza string, " // Ocupado, libre
-						+ "tipo_plaza string, " 
-						+ "tiempo_uso_parking_ultima_estancia double," // Tiempo que ha estado ocupado la ultima vez
+						+ "tipo_plaza string, " + "tiempo_uso_parking_ultima_estancia double," // Tiempo que ha estado
+																								// ocupado la ultima vez
 						+ "importe integer)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
@@ -148,12 +130,12 @@ public class ServicioPersistenciaBD {
 	}
 
 	/**
-	 * Reinicia en blanco las tablas de la base de datos. 
-	 * Borra todos los datos que hubiera ya en las tablas
+	 * Reinicia en blanco las tablas de la base de datos. Borra todos los datos que
+	 * hubiera ya en las tablas
 	 * 
 	 * @param conn Conexion ya creada y abierta a la base de datos
-	 * @return sentencia de trabajo si se borra correctamente, 
-	 * 		   null si hay cualquier  error       
+	 * @return sentencia de trabajo si se borra correctamente, null si hay cualquier
+	 *         error
 	 */
 	public static Statement reiniciarBD(Connection conn) {
 		try {
@@ -196,19 +178,17 @@ public class ServicioPersistenciaBD {
 	/**
 	 * Informacion del ultimo error SQL ocurrido
 	 * 
-	 * @return Devuelve la informacion de excepcion del ultimo 
-	 * 		   error producido por cualquiera de los metodos 
-	 * 		   de gestion de la base de datos
+	 * @return Devuelve la informacion de excepcion del ultimo error producido por
+	 *         cualquiera de los metodos de gestion de la base de datos
 	 */
 	public static Exception getLastError() {
 		return lastError;
 	}
 
-	
 	/////////////////////////////////////////////////////////////////////
-	/// Operaciones de clientes ordinarios 
+	/// Operaciones de clientes ordinarios
 	/////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * Realiza una consulta a la tabla abierta de clientes ordinarios de la BD,
 	 * usando la sentencia SELECT de SQL
@@ -285,11 +265,10 @@ public class ServicioPersistenciaBD {
 	public static boolean ordinarioInsert(ClienteOrdinario ordinario) {
 		String sentSQL = "";
 		try {
-			sentSQL = "INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, hora_entrada) VALUES (" + "'"
-					+ securizer(ordinario.getMatricula()) + "', " + "'"
-					+ securizer(ordinario.getTipoVehiculo()) + "', " + "'"
-					+ securizer(String.valueOf(ordinario.getTarifa())) + "', " + "'" 
-					+ ordinario.getFechaEntrada() + "');";
+			sentSQL = "INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES (" + "'"
+					+ securizer(ordinario.getMatricula()) + "', " + "'" + securizer(ordinario.getTipoVehiculo()) + "', "
+					+ "'" + securizer(String.valueOf(ordinario.getTarifa())) + "', " + "'" + ordinario.getFechaEntrada()
+					+ "');";
 			log(Level.INFO, "Lanzada actualización a base de datos: " + sentSQL, null);
 			int val = usarBD(connect()).executeUpdate(sentSQL);
 			log(Level.INFO, "Añadida " + val + " fila a base de datos\t" + sentSQL, null);
@@ -317,8 +296,7 @@ public class ServicioPersistenciaBD {
 	public static boolean ordinarioDelete(String matricula) {
 		String sentSQL = "";
 		try {
-			sentSQL = "DELETE FROM clientes_ordinarios WHERE matricula = '" 
-					+ securizer(matricula) + "'";
+			sentSQL = "DELETE FROM clientes_ordinarios WHERE matricula = '" + securizer(matricula) + "'";
 			int val = usarBD(connect()).executeUpdate(sentSQL);
 			log(Level.INFO, "BD tabla clientes ordinarios eliminada " + val + " fila\t" + sentSQL, null);
 			if (val != 1) { // Se tiene que eliminar 1 - error si no
@@ -333,13 +311,11 @@ public class ServicioPersistenciaBD {
 			return false;
 		}
 	}
-	
-	
 
 	/////////////////////////////////////////////////////////////////////
-	/// Operaciones de clientes suscritos 
+	/// Operaciones de clientes suscritos
 	/////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * Realiza una consulta a la tabla abierta de clientes subscritos de la BD,
 	 * usando la sentencia SELECT de SQL
@@ -377,13 +353,14 @@ public class ServicioPersistenciaBD {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Realiza una consulta a la tabla abierta de centros de la BD, usando la
 	 * sentencia SELECT de SQL
 	 * 
 	 * @param matricula Matricula del cliente subscrito a buscar
-	 * @return Devuelve cliente subscrito con esa matricula (exacta), null si no se encuentra
+	 * @return Devuelve cliente subscrito con esa matricula (exacta), null si no se
+	 *         encuentra
 	 */
 	public static ClienteSubscrito subscritoSelect(String matricula) {
 		String sentSQL = "";
@@ -421,21 +398,20 @@ public class ServicioPersistenciaBD {
 	 * Añade un cliente subscrito a la tabla abierta de BD, usando la sentencia
 	 * INSERT de SQL
 	 * 
-	 * @param subscrito   Cliente subscrito a añadir en la base de datos
+	 * @param subscrito Cliente subscrito a añadir en la base de datos
 	 * @return Devuelve true si la insercion es correcta, false en caso contrario
 	 */
-	public static boolean subscriberCustomerInsert(ClienteSubscrito subscrito) {
+	public static boolean subscritoInsert(ClienteSubscrito subscrito) {
 		String sentSQL = "";
 		try {
-			sentSQL = "INSERT INTO clientes_suscritos (matricula, tipo_vehiculo, tipo_cuota, precio_cuota, numero_plaza_ocupada, fecha_comienzo, fecha_final) VALUES (" 
-					+ "'" + securizer(subscrito.getMatricula()) + "', " + "'" 
-					+ securizer(String.valueOf(subscrito.getTipoVehiculo())) + "', " + "'" 
-					+ securizer(String.valueOf(subscrito.getTipoCuota())) + "', " + "'" 
-					+ securizer(String.valueOf(subscrito.getPrecioCuota())) + "', " + "'" 
-					+ securizer(String.valueOf(subscrito.getPlazaOcupada().getNumeroPlaza())) + "', " + "'" 
-					+ securizer(String.valueOf(subscrito.getTipoVehiculo())) + "', " + "'" 
-					+ subscrito.getFechaEntrada() + "', " + "'"  
-					+ subscrito.getFechaSalida() + "')";
+			sentSQL = "INSERT INTO clientes_subscritos (matricula, tipo_vehiculo, tipo_cuota, precio_cuota, numero_plaza_ocupada, fecha_comienzo, fecha_final) VALUES ("
+					+ "'" + securizer(subscrito.getMatricula()) + "', " + "'"
+					+ securizer(String.valueOf(subscrito.getTipoVehiculo())) + "', " + "'"
+					+ securizer(String.valueOf(subscrito.getTipoCuota())) + "', " + "'"
+					+ securizer(String.valueOf(subscrito.getPrecioCuota())) + "', " + "'"
+					+ securizer(String.valueOf(subscrito.getPlazaOcupada().getNumeroPlaza())) + "', " + "'"
+//					+ securizer(String.valueOf(subscrito.getTipoVehiculo())) + "', " + "'" 
+					+ subscrito.getFechaEntrada() + "', " + "'" + subscrito.getFechaSalida() + "')";
 			log(Level.INFO, "Lanzada actualización a base de datos: " + sentSQL, null);
 			int val = usarBD(connect()).executeUpdate(sentSQL);
 			log(Level.INFO, "Añadida " + val + " fila a base de datos\t" + sentSQL, null);
@@ -457,13 +433,13 @@ public class ServicioPersistenciaBD {
 	 * DELETE de SQL
 	 * 
 	 * @param subscrito Cliente subscrito a borrar de la base de datos (se toma su
-	 *           matricula para el borrado como referencia)
+	 *                  matricula para el borrado como referencia)
 	 * @return Devuelve true si el borrado es correcto, false en caso contrario
 	 */
-	public static boolean subscritoDelete(ClienteSubscrito subscrito) {
+	public static boolean subscritoDelete(String matricula) {
 		String sentSQL = "";
 		try {
-			sentSQL = "DELETE FROM clientes_suscritos WHERE matricula = '" + securizer(subscrito.getMatricula()) + "'";
+			sentSQL = "DELETE FROM clientes_subscritos WHERE matricula = '" + securizer(matricula) + "'";
 			int val = usarBD(connect()).executeUpdate(sentSQL);
 			log(Level.INFO, "BD tabla clientes subscritos eliminada " + val + " fila\t" + sentSQL, null);
 			if (val != 1) { // Se tiene que eliminar 1 - error si no
@@ -479,12 +455,11 @@ public class ServicioPersistenciaBD {
 		}
 	}
 
-	
 	/////////////////////////////////////////////////////////////////////
-	/// Operaciones con plazas 
+	/// Operaciones con plazas
 	/////////////////////////////////////////////////////////////////////
-	
-	/** 
+
+	/**
 	 * Realiza una consulta a la tabla abierta de centros de la BD, usando la
 	 * sentencia SELECT de SQL
 	 * 
@@ -528,7 +503,7 @@ public class ServicioPersistenciaBD {
 	public static int getPlazasDisponibles() {
 		String sentSQL = "";
 		try {
-			sentSQL = "SELECT COUNT(*) FROM plazas WHERE estado_plaza = 'Disponible' "; 																	
+			sentSQL = "SELECT COUNT(*) FROM plazas WHERE estado_plaza = 'Disponible' ";
 			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			rs.next();
@@ -592,15 +567,13 @@ public class ServicioPersistenciaBD {
 	/// Operaciones por tipo de tarifa ///
 	/////////////////////////////////////////////////////////////////////
 
-	
-	
 	/////////////////////////////////////////////////////////////////////
 	/// Operaciones con trabajadores ///
 	/////////////////////////////////////////////////////////////////////
 	public static ArrayList<ClienteOrdinario> usuariosOrds() {
 		String sentSQL = "";
 		try {
-			
+
 			List<ClienteOrdinario> ret = new ArrayList<>();
 			sentSQL = "SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_ordinarios;";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
@@ -627,15 +600,15 @@ public class ServicioPersistenciaBD {
 		String sentSQL = "";
 		try {
 			List<ClienteSubscrito> ret = new ArrayList<>();
-			sentSQL = "SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_subscritos";
+			sentSQL = "SELECT matricula, tipo_vehiculo, fecha_comienzo, fecha_final FROM clientes_subscritos";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			while (rs.next()) {
 				ClienteSubscrito subscrito = new ClienteSubscrito();
 				subscrito.setMatricula(rs.getString("matricula"));
 				subscrito.setTipoVehiculo(rs.getString("tipo_vehiculo"));
-				subscrito.setFechaEntrada(rs.getLong("fecha_entrada"));
-				subscrito.setFechaSalida(rs.getLong("fecha_salida"));
+				subscrito.setFechaEntrada(rs.getLong("fecha_comienzo"));
+				subscrito.setFechaSalida(rs.getLong("fecha_final"));
 				ret.add(subscrito);
 			}
 			rs.close();
@@ -647,7 +620,7 @@ public class ServicioPersistenciaBD {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Carga todos los clientes del parking en una lista
 	 * 
@@ -659,8 +632,143 @@ public class ServicioPersistenciaBD {
 		ArrayList<ClienteSubscrito> s = usuariosSubs();
 		ret.addAll(o);
 		ret.addAll(s);
-		log(Level.INFO, "Carga de todos los usuarios de la base de datos realizada" , null);
+		log(Level.INFO, "Carga de todos los usuarios de la base de datos realizada", null);
 		return (ArrayList<Usuario>) ret;
+
+	}
+
+	/**
+	 * 
+	 * @param matricula
+	 * @return
+	 */
+	public static Usuario usuario(String matricula) {
+
+		List<Usuario> ret = new ArrayList<>();
+		ArrayList<ClienteOrdinario> o = usuariosOrds();
+		ArrayList<ClienteSubscrito> s = usuariosSubs();
+		log(Level.INFO, "Carga de todos los usuarios de la base de datos realizada", null);
+		ret.addAll(o);
+		ret.addAll(s);
+		for (Usuario u : ret) {
+			if (u.getMatricula().equals(matricula)) {
+				if (u instanceof ClienteOrdinario) {
+					ClienteOrdinario co = (ClienteOrdinario) u;
+					return co;
+				} else {
+					ClienteSubscrito cs = (ClienteSubscrito) u;
+					return cs;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static Manager managerSelect(String dni) {
+		String sentSQL = "";
+		try {
+			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '" + securizer(dni) + "';";
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+			if (rs.next()) {
+				Manager ret = new Manager();
+				ret.setDni(rs.getString("dni"));
+				ret.setNombre(rs.getString("nombre"));
+				ret.setApellido(rs.getString("apellido"));
+				ret.setPuesto(rs.getString("puesto"));
+				rs.close();
+				return ret;
+			} else {
+				rs.close();
+				return null;
+			}
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return null;
+		}
+	}
+
+	public static Empleado empleadoSelect(String dni) {
+		String sentSQL = "";
+		try {
+			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '" + securizer(dni) + "';";
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+			if (rs.next()) {
+				Empleado ret = new Empleado();
+				ret.setDni(rs.getString("dni"));
+				ret.setNombre(rs.getString("nombre"));
+				ret.setApellido(rs.getString("apellido"));
+				ret.setPuesto(rs.getString("puesto"));
+				rs.close();
+				return ret;
+			} else {
+				rs.close();
+				return null;
+			}
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return null;
+		}
+	}
+
+	public static ArrayList<Empleado> empleadosSelect() {
+		String sentSQL = "";
+		List<Empleado> ret = new ArrayList<>();
+		try {
+			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores;";
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+			while (rs.next()) {
+				Empleado empleado = new Empleado();
+				empleado.setDni(rs.getString("dni"));
+				empleado.setNombre(rs.getString("nombre"));
+				empleado.setApellido(rs.getString("apellido"));
+				empleado.setPuesto(rs.getString("puesto"));
+			}
+			rs.close();
+			return (ArrayList<Empleado>) ret;
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return null;
+		}
+	}
+
+	public static ArrayList<Manager> managersSelect() {
+		String sentSQL = "";
+		List<Manager> ret = new ArrayList<>();
+		try {
+			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores;";
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+			while (rs.next()) {
+				Manager manager = new Manager();
+				manager.setDni(rs.getString("dni"));
+				manager.setNombre(rs.getString("nombre"));
+				manager.setApellido(rs.getString("apellido"));
+				manager.setPuesto(rs.getString("puesto"));
+			}
+			rs.close();
+			return (ArrayList<Manager>) ret;
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return null;
+		}
+	}
+
+	public static ArrayList<Trabajador> trabajadoresSelect() {
+		List<Trabajador> ret = new ArrayList<>();
+		ArrayList<Manager> m = managersSelect();
+		ArrayList<Empleado> e = empleadosSelect();
+		ret.addAll(m);
+		ret.addAll(e);
+		log(Level.INFO, "Carga de todos los usuarios de la base de datos realizada", null);
+		return (ArrayList<Trabajador>) ret;
 
 	}
 
@@ -676,10 +784,8 @@ public class ServicioPersistenciaBD {
 	/// Operaciones por tipo de trabajador ///
 	/////////////////////////////////////////////////////////////////////
 
-	
-
 	/////////////////////////////////////////////////////////////////////
-	/// Metodos privados 
+	/// Metodos privados
 	/////////////////////////////////////////////////////////////////////
 
 	/**
