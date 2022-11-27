@@ -1,4 +1,4 @@
-package frontend.paneles;
+package frontend.paneles.trabajador;
 
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -10,36 +10,46 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-public class PersonalDataWorkerPanel extends JPanel {
+import frontend.paneles.trabajador.empleado.PanelEmpleado;
+
+public class StateParkingPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	public PersonalDataWorkerPanel(final JFrame frame, String nombre, String apellido) {
-		
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Personal Data Panel"));
+
+	public StateParkingPanel(final JFrame frame) {
+
+		setBorder(javax.swing.BorderFactory.createTitledBorder("Parking State Panel"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
-		
+
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridBagLayout());
-		
+
 		JLabel labelWellcoming = new JLabel("DATOS PERSONALES: ");
 		labelWellcoming.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		topPanel.add(labelWellcoming);
 		add(topPanel);
-		
+
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new GridBagLayout());
+
+		DefaultTableModel modelo = new DefaultTableModel();
+		modelo.addColumn("Prueba");
+		JTable table = new JTable();
+		table.setModel(modelo);
+		middlePanel.add(table);
+
 		add(middlePanel);
-		
+
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridBagLayout());
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WellComingWorkerPanel panel = new WellComingWorkerPanel(frame, nombre, apellido);
+				PanelEmpleado panel = new PanelEmpleado(frame, null, null);
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
@@ -48,5 +58,4 @@ public class PersonalDataWorkerPanel extends JPanel {
 		bottomPanel.add(btnVolver);
 		add(bottomPanel);
 	}
-
 }
