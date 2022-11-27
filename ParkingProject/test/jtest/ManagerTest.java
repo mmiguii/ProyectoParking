@@ -2,8 +2,10 @@ package jtest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,7 @@ import backend.clases.personal.Manager;
 public class ManagerTest {
 
 	private Manager manager;
+	private long fechaComienzo;
 
 	@Before
 	public void setUp() {
@@ -24,16 +27,18 @@ public class ManagerTest {
 
 	}
 
-//	@Test
-//	public void testToString() {
-//		ZonedDateTime t = ZonedDateTime.now();
-//		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
-//		manager.setId(999);
-//		manager.setName("Pedro");
-//		manager.setSalary(1500.00);
-//		manager.setSeniority(2);
-//		manager.setStartDate(t);
-//		manager.setSurname("Sanchez");
-//		assertEquals("Pedro, Sanchez, 999, " + dateFormatter.format(t) + ", 2, 1500,00", manager.toString());
-//	}
+	@Test
+	public void testToString() {
+		ZonedDateTime t = ZonedDateTime.now();
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+		manager.setNombre("Pedro");
+		manager.setApellido("Sanchez");
+		manager.setDni("999");
+		manager.setPuesto("manager");
+		manager.setSalario(1500.00);
+		manager.setAntiguedad(2);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+
+		assertEquals("Pedro, Sanchez, 999, manager, " + sdf.format(new Date(fechaComienzo)) + ", 2, 1500,00", manager.toString());
+	}
 }

@@ -2,6 +2,7 @@ package jtest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -43,14 +44,25 @@ public class TrabajadorTest {
 	}
 
 	@Test
-	public void testGetId() {
+	public void testGetDni() {
 		assertEquals("999", w.getDni());
 	}
 
 	@Test
-	public void testSetId() {
+	public void testSetDni() {
 		w.setDni("1000");
-		assertEquals(1000, w.getDni());
+		assertEquals("1000", w.getDni());
+	}
+	
+	@Test
+	public void testGetPuesto() {
+		assertEquals("empleado", w.getPuesto());
+	}
+	
+	@Test
+	public void testSetPuesto() {
+		w.setPuesto("manager");
+		assertEquals("manager", w.getPuesto());
 	}
 
 	@Test
@@ -62,7 +74,7 @@ public class TrabajadorTest {
 	public void testSetStartDate() {
 		ZonedDateTime time = ZonedDateTime.now();
 		w.setFechaComienzo(System.currentTimeMillis());
-		assertEquals(null, w.getFechaComienzo());
+		assertEquals(System.currentTimeMillis(), w.getFechaComienzo());
 	}
 
 	@Test
@@ -87,11 +99,11 @@ public class TrabajadorTest {
 		assertEquals(1000, w.getSalario(), 0.01);
 	}
 
-//	@Test
-//	public void testToString() {
-//		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
-//		ZonedDateTime t = ZonedDateTime.now();
-//		assertEquals("Pedro, Sanchez, 999, " + dateFormatter.format(t) + ", 2, 1500,00", w.toString());
-//	}
+	@Test
+	public void testToString() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
+        dtf.format(LocalDateTime.now());
+		assertEquals("Pedro, Sanchez, 999, empleado, " + dtf.format(LocalDateTime.now()) + ", 2, 1500,00", w.toString());
+	}
 
 }

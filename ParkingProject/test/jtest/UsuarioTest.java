@@ -3,6 +3,9 @@ package jtest;
 import static org.junit.Assert.assertEquals;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.junit.Before;
@@ -53,8 +56,8 @@ public class UsuarioTest {
 
 	@Test
 	public void testSetFechaEntrada() {
-		user.setTipoVehiculo(null);
-		assertEquals(null, user.getFechaEntrada());
+		user.setFechaEntrada(1234567);
+		assertEquals(1234567, user.getFechaEntrada());
 	}
 
 	@Test
@@ -64,8 +67,8 @@ public class UsuarioTest {
 
 	@Test
 	public void testSetFechaSalida() {
-		user.setTipoVehiculo(null);
-		assertEquals(null, user.getFechaSalida());
+		user.setFechaSalida(1234567);
+		assertEquals(1234567, user.getFechaSalida());
 	}
 
 	@Test
@@ -81,7 +84,13 @@ public class UsuarioTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("1, 1234AAA, 25/11/22 15:24:46, 25/11/22 15:24:46, 2.00", user.toString());
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
+        dtf.format(LocalDateTime.now());
+
+		assertEquals("1234AAA, Normal, "+ dtf.format(LocalDateTime.now())+ ", " +dtf.format(LocalDateTime.now())+ ", 2,00", user.toString());
+		
+//		assertEquals("1234AAA, Normal, 26/11/22 15:24:46, 25/11/22 15:24:46, 2,00", user.toString());
 	}
 
 }
