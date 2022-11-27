@@ -417,7 +417,7 @@ public class ServicioPersistenciaBD {
 //					+ securizer(String.valueOf(subscrito.getTipoVehiculo())) + "', " + "'" 
 					+ subscrito.getFechaEntrada() + "', " + "'" + subscrito.getFechaSalida() + "')";
 			if (subscrito.getPrecioCuota() < 0) {
-				
+
 			}
 			log(Level.INFO, "Lanzada actualización a base de datos: " + sentSQL, null);
 			int val = usarBD(connect()).executeUpdate(sentSQL);
@@ -848,6 +848,6 @@ public class ServicioPersistenciaBD {
 		}
 
 	}
-	
+
 //
 }
