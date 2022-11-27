@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.PanelPrincipal;
 
 public class VentanaPrincipal extends JFrame {
@@ -24,7 +25,7 @@ public class VentanaPrincipal extends JFrame {
 				new VentanaPrincipal();
 			}
 		});
-	} 
+	}
 
 	/**
 	 * Create the frame.
@@ -42,6 +43,10 @@ public class VentanaPrincipal extends JFrame {
 		PanelPrincipal panel = new PanelPrincipal(this);
 		getContentPane().add(panel);
 		setVisible(true);
+		
+		ServicioPersistenciaBD s = new ServicioPersistenciaBD();
+		s.usarCrearTablasBD(s.connect());
+		
 	}
 
 }
