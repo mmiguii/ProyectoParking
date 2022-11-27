@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2022-11-27T20:50:46.077555300Z</date>
-  <millis>1669582246077</millis>
-  <nanos>555300</nanos>
+  <date>2022-11-27T20:52:23.238805400Z</date>
+  <millis>1669582343238</millis>
+  <nanos>805400</nanos>
   <sequence>0</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.140458700Z</date>
-  <millis>1669582246140</millis>
-  <nanos>458700</nanos>
+  <date>2022-11-27T20:52:23.299870600Z</date>
+  <millis>1669582343299</millis>
+  <nanos>870600</nanos>
   <sequence>1</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -26,9 +26,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, tarifa, fecha_entrada FROM clientes_ordinarios WHERE matricula = '1111AAAA'</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.143461300Z</date>
-  <millis>1669582246143</millis>
-  <nanos>461300</nanos>
+  <date>2022-11-27T20:52:23.303806300Z</date>
+  <millis>1669582343303</millis>
+  <nanos>806300</nanos>
   <sequence>2</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -38,9 +38,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.186108900Z</date>
-  <millis>1669582246186</millis>
-  <nanos>108900</nanos>
+  <date>2022-11-27T20:53:09.814820Z</date>
+  <millis>1669582389814</millis>
+  <nanos>820000</nanos>
   <sequence>3</sequence>
   <logger>Base de Datos: Local</logger>
   <level>SEVERE</level>
@@ -49,21 +49,46 @@
   <thread>1</thread>
   <message>Error en la busqueda de base de datos: SELECT matricula, tipo_vehiculo, tarifa, fecha_entrada FROM clientes_ordinarios WHERE matricula = '1111AAAA'</message>
   <exception>
-    <message>java.sql.SQLException: no such column: 'hora_entrada'</message>
+    <message>org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)</message>
     <frame>
-      <class>org.sqlite.jdbc3.JDBC3ResultSet</class>
-      <method>findColumn</method>
-      <line>50</line>
+      <class>org.sqlite.core.DB</class>
+      <method>newSQLException</method>
+      <line>1135</line>
     </frame>
     <frame>
-      <class>org.sqlite.jdbc3.JDBC3ResultSet</class>
-      <method>getLong</method>
-      <line>354</line>
+      <class>org.sqlite.core.DB</class>
+      <method>newSQLException</method>
+      <line>1146</line>
+    </frame>
+    <frame>
+      <class>org.sqlite.core.DB</class>
+      <method>execute</method>
+      <line>941</line>
+    </frame>
+    <frame>
+      <class>org.sqlite.core.CoreStatement</class>
+      <method>exec</method>
+      <line>79</line>
+    </frame>
+    <frame>
+      <class>org.sqlite.jdbc3.JDBC3Statement</class>
+      <method>lambda$executeQuery$1</method>
+      <line>77</line>
+    </frame>
+    <frame>
+      <class>org.sqlite.jdbc3.JDBC3Statement</class>
+      <method>withConnectionTimeout</method>
+      <line>429</line>
+    </frame>
+    <frame>
+      <class>org.sqlite.jdbc3.JDBC3Statement</class>
+      <method>executeQuery</method>
+      <line>73</line>
     </frame>
     <frame>
       <class>backend.servicios.ServicioPersistenciaBD</class>
       <method>ordinarioSelect</method>
-      <line>244</line>
+      <line>238</line>
     </frame>
     <frame>
       <class>jtest.ServicioPersistenciaTestBD</class>
@@ -212,9 +237,9 @@
   </exception>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.190107100Z</date>
-  <millis>1669582246190</millis>
-  <nanos>107100</nanos>
+  <date>2022-11-27T20:53:09.819791900Z</date>
+  <millis>1669582389819</millis>
+  <nanos>791900</nanos>
   <sequence>4</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -224,9 +249,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.204108100Z</date>
-  <millis>1669582246204</millis>
-  <nanos>108100</nanos>
+  <date>2022-11-27T20:53:09.833792700Z</date>
+  <millis>1669582389833</millis>
+  <nanos>792700</nanos>
   <sequence>5</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -236,9 +261,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.206109100Z</date>
-  <millis>1669582246206</millis>
-  <nanos>109100</nanos>
+  <date>2022-11-27T20:53:09.836794100Z</date>
+  <millis>1669582389836</millis>
+  <nanos>794100</nanos>
   <sequence>6</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -248,9 +273,9 @@
   <message>Lanzada consulta a base de datos: SELECT COUNT(*) FROM tipo_cliente GROUP BY id_tipo_cliente</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.209108600Z</date>
-  <millis>1669582246209</millis>
-  <nanos>108600</nanos>
+  <date>2022-11-27T20:53:09.839816500Z</date>
+  <millis>1669582389839</millis>
+  <nanos>816500</nanos>
   <sequence>7</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -260,9 +285,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.215107700Z</date>
-  <millis>1669582246215</millis>
-  <nanos>107700</nanos>
+  <date>2022-11-27T20:53:33.147802800Z</date>
+  <millis>1669582413147</millis>
+  <nanos>802800</nanos>
   <sequence>8</sequence>
   <logger>Base de Datos: Local</logger>
   <level>SEVERE</level>
@@ -319,7 +344,7 @@
     <frame>
       <class>backend.servicios.ServicioPersistenciaBD</class>
       <method>getClientesPorTipo</method>
-      <line>564</line>
+      <line>562</line>
     </frame>
     <frame>
       <class>jtest.ServicioPersistenciaTestBD</class>
@@ -468,9 +493,9 @@
   </exception>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.235631600Z</date>
-  <millis>1669582246235</millis>
-  <nanos>631600</nanos>
+  <date>2022-11-27T20:53:33.162780800Z</date>
+  <millis>1669582413162</millis>
+  <nanos>780800</nanos>
   <sequence>9</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -480,9 +505,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.240631500Z</date>
-  <millis>1669582246240</millis>
-  <nanos>631500</nanos>
+  <date>2022-11-27T20:53:33.167781400Z</date>
+  <millis>1669582413167</millis>
+  <nanos>781400</nanos>
   <sequence>10</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -492,9 +517,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.242629600Z</date>
-  <millis>1669582246242</millis>
-  <nanos>629600</nanos>
+  <date>2022-11-27T20:53:33.171782800Z</date>
+  <millis>1669582413171</millis>
+  <nanos>782800</nanos>
   <sequence>11</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -504,9 +529,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.254631500Z</date>
-  <millis>1669582246254</millis>
-  <nanos>631500</nanos>
+  <date>2022-11-27T20:53:33.178780900Z</date>
+  <millis>1669582413178</millis>
+  <nanos>780900</nanos>
   <sequence>12</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -516,9 +541,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.257632400Z</date>
-  <millis>1669582246257</millis>
-  <nanos>632400</nanos>
+  <date>2022-11-27T20:53:33.180781900Z</date>
+  <millis>1669582413180</millis>
+  <nanos>781900</nanos>
   <sequence>13</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -528,9 +553,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.260630900Z</date>
-  <millis>1669582246260</millis>
-  <nanos>630900</nanos>
+  <date>2022-11-27T20:53:33.184780200Z</date>
+  <millis>1669582413184</millis>
+  <nanos>780200</nanos>
   <sequence>14</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -540,9 +565,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.273632200Z</date>
-  <millis>1669582246273</millis>
-  <nanos>632200</nanos>
+  <date>2022-11-27T20:53:33.205779500Z</date>
+  <millis>1669582413205</millis>
+  <nanos>779500</nanos>
   <sequence>15</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -552,9 +577,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.277632100Z</date>
-  <millis>1669582246277</millis>
-  <nanos>632100</nanos>
+  <date>2022-11-27T20:53:33.209780500Z</date>
+  <millis>1669582413209</millis>
+  <nanos>780500</nanos>
   <sequence>16</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -564,9 +589,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.280630600Z</date>
-  <millis>1669582246280</millis>
-  <nanos>630600</nanos>
+  <date>2022-11-27T20:53:33.216780200Z</date>
+  <millis>1669582413216</millis>
+  <nanos>780200</nanos>
   <sequence>17</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -576,9 +601,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.287633Z</date>
-  <millis>1669582246287</millis>
-  <nanos>633000</nanos>
+  <date>2022-11-27T20:53:33.221780100Z</date>
+  <millis>1669582413221</millis>
+  <nanos>780100</nanos>
   <sequence>18</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -588,9 +613,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.290630300Z</date>
-  <millis>1669582246290</millis>
-  <nanos>630300</nanos>
+  <date>2022-11-27T20:53:33.223781600Z</date>
+  <millis>1669582413223</millis>
+  <nanos>781600</nanos>
   <sequence>19</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -600,9 +625,9 @@
   <message>Lanzada consulta a la base de datos: SELECT * FROM plazas</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.295631700Z</date>
-  <millis>1669582246295</millis>
-  <nanos>631700</nanos>
+  <date>2022-11-27T20:53:33.231781600Z</date>
+  <millis>1669582413231</millis>
+  <nanos>781600</nanos>
   <sequence>20</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -612,9 +637,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.298631400Z</date>
-  <millis>1669582246298</millis>
-  <nanos>631400</nanos>
+  <date>2022-11-27T20:53:33.236782Z</date>
+  <millis>1669582413236</millis>
+  <nanos>782000</nanos>
   <sequence>21</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -624,9 +649,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, tipo_cuota, precio_cuota, numero_plaza_ocupada, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.303629100Z</date>
-  <millis>1669582246303</millis>
-  <nanos>629100</nanos>
+  <date>2022-11-27T20:53:33.240779200Z</date>
+  <millis>1669582413240</millis>
+  <nanos>779200</nanos>
   <sequence>22</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -636,9 +661,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.307630900Z</date>
-  <millis>1669582246307</millis>
-  <nanos>630900</nanos>
+  <date>2022-11-27T20:53:33.247779500Z</date>
+  <millis>1669582413247</millis>
+  <nanos>779500</nanos>
   <sequence>23</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -648,9 +673,9 @@
   <message>Lanzada consulta a la base de datos: SELECT * FROM plazas</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.312631100Z</date>
-  <millis>1669582246312</millis>
-  <nanos>631100</nanos>
+  <date>2022-11-27T20:53:33.256780900Z</date>
+  <millis>1669582413256</millis>
+  <nanos>780900</nanos>
   <sequence>24</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -660,9 +685,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.319630900Z</date>
-  <millis>1669582246319</millis>
-  <nanos>630900</nanos>
+  <date>2022-11-27T20:53:33.263781600Z</date>
+  <millis>1669582413263</millis>
+  <nanos>781600</nanos>
   <sequence>25</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -672,9 +697,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, tipo_cuota, precio_cuota, numero_plaza_ocupada, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.325632400Z</date>
-  <millis>1669582246325</millis>
-  <nanos>632400</nanos>
+  <date>2022-11-27T20:53:33.271779600Z</date>
+  <millis>1669582413271</millis>
+  <nanos>779600</nanos>
   <sequence>26</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -684,9 +709,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.329629600Z</date>
-  <millis>1669582246329</millis>
-  <nanos>629600</nanos>
+  <date>2022-11-27T20:53:33.275778800Z</date>
+  <millis>1669582413275</millis>
+  <nanos>778800</nanos>
   <sequence>27</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -696,9 +721,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.337632900Z</date>
-  <millis>1669582246337</millis>
-  <nanos>632900</nanos>
+  <date>2022-11-27T20:53:33.282778700Z</date>
+  <millis>1669582413282</millis>
+  <nanos>778700</nanos>
   <sequence>28</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -708,9 +733,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.341632500Z</date>
-  <millis>1669582246341</millis>
-  <nanos>632500</nanos>
+  <date>2022-11-27T20:53:33.283780200Z</date>
+  <millis>1669582413283</millis>
+  <nanos>780200</nanos>
   <sequence>29</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -720,9 +745,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.347631500Z</date>
-  <millis>1669582246347</millis>
-  <nanos>631500</nanos>
+  <date>2022-11-27T20:53:33.287778700Z</date>
+  <millis>1669582413287</millis>
+  <nanos>778700</nanos>
   <sequence>30</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -732,21 +757,21 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.352634500Z</date>
-  <millis>1669582246352</millis>
-  <nanos>634500</nanos>
+  <date>2022-11-27T20:53:33.289779400Z</date>
+  <millis>1669582413289</millis>
+  <nanos>779400</nanos>
   <sequence>31</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Lanzada actualización a base de datos: INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234AAA', 'Normal', '0.0', '1669582246351');</message>
+  <message>Lanzada actualización a base de datos: INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234AAA', 'Normal', '0.0', '1669582413288');</message>
 </record>
 <record>
-  <date>2022-11-27T20:50:46.357632100Z</date>
-  <millis>1669582246357</millis>
-  <nanos>632100</nanos>
+  <date>2022-11-27T20:53:33.291779500Z</date>
+  <millis>1669582413291</millis>
+  <nanos>779500</nanos>
   <sequence>32</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -756,217 +781,21 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.270536Z</date>
-  <millis>1669582279270</millis>
-  <nanos>536000</nanos>
+  <date>2022-11-27T20:53:33.312782300Z</date>
+  <millis>1669582413312</millis>
+  <nanos>782300</nanos>
   <sequence>33</sequence>
   <logger>Base de Datos: Local</logger>
-  <level>SEVERE</level>
+  <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Error en inserción de base de datos	INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234AAA', 'Normal', '0.0', '1669582246351');</message>
-  <exception>
-    <message>org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)</message>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1135</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1146</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>throwex</method>
-      <line>1106</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec_utf8</method>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec</method>
-      <line>89</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>lambda$executeLargeUpdate$2</method>
-      <line>121</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>withConnectionTimeout</method>
-      <line>429</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeLargeUpdate</method>
-      <line>108</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeUpdate</method>
-      <line>95</line>
-    </frame>
-    <frame>
-      <class>backend.servicios.ServicioPersistenciaBD</class>
-      <method>ordinarioInsert</method>
-      <line>277</line>
-    </frame>
-    <frame>
-      <class>jtest.ServicioPersistenciaTestBD</class>
-      <method>testUsuario</method>
-      <line>149</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke0</method>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>77</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.DelegatingMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>43</line>
-    </frame>
-    <frame>
-      <class>java.lang.reflect.Method</class>
-      <method>invoke</method>
-      <line>568</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod$1</class>
-      <method>runReflectiveCall</method>
-      <line>59</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.model.ReflectiveCallable</class>
-      <method>run</method>
-      <line>12</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod</class>
-      <method>invokeExplosively</method>
-      <line>56</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.InvokeMethod</class>
-      <method>evaluate</method>
-      <line>17</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunBefores</class>
-      <method>evaluate</method>
-      <line>26</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunAfters</class>
-      <method>evaluate</method>
-      <line>27</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner$1</class>
-      <method>evaluate</method>
-      <line>100</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runLeaf</method>
-      <line>366</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>103</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>63</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$4</class>
-      <method>run</method>
-      <line>331</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$1</class>
-      <method>schedule</method>
-      <line>79</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runChildren</method>
-      <line>329</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>access$100</method>
-      <line>66</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$2</class>
-      <method>evaluate</method>
-      <line>293</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>run</method>
-      <line>413</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference</class>
-      <method>run</method>
-      <line>93</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.TestExecution</class>
-      <method>run</method>
-      <line>40</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>529</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>756</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>run</method>
-      <line>452</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>main</method>
-      <line>210</line>
-    </frame>
-  </exception>
+  <message>Añadida 1 fila a base de datos	INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234AAA', 'Normal', '0.0', '1669582413288');</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.275538500Z</date>
-  <millis>1669582279275</millis>
-  <nanos>538500</nanos>
+  <date>2022-11-27T20:53:33.313780100Z</date>
+  <millis>1669582413313</millis>
+  <nanos>780100</nanos>
   <sequence>34</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -976,9 +805,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_ordinarios;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.280537500Z</date>
-  <millis>1669582279280</millis>
-  <nanos>537500</nanos>
+  <date>2022-11-27T20:53:33.336780800Z</date>
+  <millis>1669582413336</millis>
+  <nanos>780800</nanos>
   <sequence>35</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -988,9 +817,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.288555Z</date>
-  <millis>1669582279288</millis>
-  <nanos>555000</nanos>
+  <date>2022-11-27T20:53:33.347783600Z</date>
+  <millis>1669582413347</millis>
+  <nanos>783600</nanos>
   <sequence>36</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1000,9 +829,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.291555900Z</date>
-  <millis>1669582279291</millis>
-  <nanos>555900</nanos>
+  <date>2022-11-27T20:53:33.350778200Z</date>
+  <millis>1669582413350</millis>
+  <nanos>778200</nanos>
   <sequence>37</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1012,9 +841,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.293536300Z</date>
-  <millis>1669582279293</millis>
-  <nanos>536300</nanos>
+  <date>2022-11-27T20:53:33.353779800Z</date>
+  <millis>1669582413353</millis>
+  <nanos>779800</nanos>
   <sequence>38</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1024,9 +853,9 @@
   <message>Carga de todos los usuarios de la base de datos realizada</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.295538900Z</date>
-  <millis>1669582279295</millis>
-  <nanos>538900</nanos>
+  <date>2022-11-27T20:53:33.354779400Z</date>
+  <millis>1669582413354</millis>
+  <nanos>779400</nanos>
   <sequence>39</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1036,9 +865,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_ordinarios;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.297537700Z</date>
-  <millis>1669582279297</millis>
-  <nanos>537700</nanos>
+  <date>2022-11-27T20:53:33.357780Z</date>
+  <millis>1669582413357</millis>
+  <nanos>780000</nanos>
   <sequence>40</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1048,9 +877,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.303555900Z</date>
-  <millis>1669582279303</millis>
-  <nanos>555900</nanos>
+  <date>2022-11-27T20:53:33.361779500Z</date>
+  <millis>1669582413361</millis>
+  <nanos>779500</nanos>
   <sequence>41</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1060,9 +889,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.305535700Z</date>
-  <millis>1669582279305</millis>
-  <nanos>535700</nanos>
+  <date>2022-11-27T20:53:33.365779700Z</date>
+  <millis>1669582413365</millis>
+  <nanos>779700</nanos>
   <sequence>42</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1072,9 +901,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.308539900Z</date>
-  <millis>1669582279308</millis>
-  <nanos>539900</nanos>
+  <date>2022-11-27T20:53:33.367779Z</date>
+  <millis>1669582413367</millis>
+  <nanos>779000</nanos>
   <sequence>43</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1084,9 +913,9 @@
   <message>Carga de todos los usuarios de la base de datos realizada</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.308539900Z</date>
-  <millis>1669582279308</millis>
-  <nanos>539900</nanos>
+  <date>2022-11-27T20:53:33.370778400Z</date>
+  <millis>1669582413370</millis>
+  <nanos>778400</nanos>
   <sequence>44</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1096,9 +925,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.311556100Z</date>
-  <millis>1669582279311</millis>
-  <nanos>556100</nanos>
+  <date>2022-11-27T20:53:33.375780800Z</date>
+  <millis>1669582413375</millis>
+  <nanos>780800</nanos>
   <sequence>45</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1108,9 +937,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.312554700Z</date>
-  <millis>1669582279312</millis>
-  <nanos>554700</nanos>
+  <date>2022-11-27T20:53:33.377778700Z</date>
+  <millis>1669582413377</millis>
+  <nanos>778700</nanos>
   <sequence>46</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1120,9 +949,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.318536200Z</date>
-  <millis>1669582279318</millis>
-  <nanos>536200</nanos>
+  <date>2022-11-27T20:53:33.384779100Z</date>
+  <millis>1669582413384</millis>
+  <nanos>779100</nanos>
   <sequence>47</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1132,9 +961,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.320537200Z</date>
-  <millis>1669582279320</millis>
-  <nanos>537200</nanos>
+  <date>2022-11-27T20:53:33.385781200Z</date>
+  <millis>1669582413385</millis>
+  <nanos>781200</nanos>
   <sequence>48</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1144,9 +973,9 @@
   <message>Lanzada consulta a la base de datos: SELECT * FROM plazas</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.322535800Z</date>
-  <millis>1669582279322</millis>
-  <nanos>535800</nanos>
+  <date>2022-11-27T20:53:33.387778900Z</date>
+  <millis>1669582413387</millis>
+  <nanos>778900</nanos>
   <sequence>49</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1156,9 +985,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.324536200Z</date>
-  <millis>1669582279324</millis>
-  <nanos>536200</nanos>
+  <date>2022-11-27T20:53:33.390782100Z</date>
+  <millis>1669582413390</millis>
+  <nanos>782100</nanos>
   <sequence>50</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1168,9 +997,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, tipo_cuota, precio_cuota, numero_plaza_ocupada, hora_entrada, hora_salida FROM clientes_subscritos WHERE matricula = '1111AAAA'</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.326556600Z</date>
-  <millis>1669582279326</millis>
-  <nanos>556600</nanos>
+  <date>2022-11-27T20:53:33.392779800Z</date>
+  <millis>1669582413392</millis>
+  <nanos>779800</nanos>
   <sequence>51</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1180,9 +1009,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.329561300Z</date>
-  <millis>1669582279329</millis>
-  <nanos>561300</nanos>
+  <date>2022-11-27T20:53:33.398778100Z</date>
+  <millis>1669582413398</millis>
+  <nanos>778100</nanos>
   <sequence>52</sequence>
   <logger>Base de Datos: Local</logger>
   <level>SEVERE</level>
@@ -1388,9 +1217,9 @@
   </exception>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.331536400Z</date>
-  <millis>1669582279331</millis>
-  <nanos>536400</nanos>
+  <date>2022-11-27T20:53:33.401780600Z</date>
+  <millis>1669582413401</millis>
+  <nanos>780600</nanos>
   <sequence>53</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1400,9 +1229,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.341537600Z</date>
-  <millis>1669582279341</millis>
-  <nanos>537600</nanos>
+  <date>2022-11-27T20:53:33.407778700Z</date>
+  <millis>1669582413407</millis>
+  <nanos>778700</nanos>
   <sequence>54</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1412,9 +1241,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.343535200Z</date>
-  <millis>1669582279343</millis>
-  <nanos>535200</nanos>
+  <date>2022-11-27T20:53:33.408780100Z</date>
+  <millis>1669582413408</millis>
+  <nanos>780100</nanos>
   <sequence>55</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1424,9 +1253,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.346537200Z</date>
-  <millis>1669582279346</millis>
-  <nanos>537200</nanos>
+  <date>2022-11-27T20:53:33.413780400Z</date>
+  <millis>1669582413413</millis>
+  <nanos>780400</nanos>
   <sequence>56</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1436,9 +1265,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.350538500Z</date>
-  <millis>1669582279350</millis>
-  <nanos>538500</nanos>
+  <date>2022-11-27T20:53:33.419780900Z</date>
+  <millis>1669582413419</millis>
+  <nanos>780900</nanos>
   <sequence>57</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1448,9 +1277,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.354537200Z</date>
-  <millis>1669582279354</millis>
-  <nanos>537200</nanos>
+  <date>2022-11-27T20:53:33.422779600Z</date>
+  <millis>1669582413422</millis>
+  <nanos>779600</nanos>
   <sequence>58</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1460,9 +1289,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.356537500Z</date>
-  <millis>1669582279356</millis>
-  <nanos>537500</nanos>
+  <date>2022-11-27T20:53:33.424780300Z</date>
+  <millis>1669582413424</millis>
+  <nanos>780300</nanos>
   <sequence>59</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1472,9 +1301,9 @@
   <message>Carga de todos los trabajadores de la base de datos realizada</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.357537Z</date>
-  <millis>1669582279357</millis>
-  <nanos>537000</nanos>
+  <date>2022-11-27T20:53:33.429782200Z</date>
+  <millis>1669582413429</millis>
+  <nanos>782200</nanos>
   <sequence>60</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1484,9 +1313,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.359538Z</date>
-  <millis>1669582279359</millis>
-  <nanos>538000</nanos>
+  <date>2022-11-27T20:53:33.433779300Z</date>
+  <millis>1669582413433</millis>
+  <nanos>779300</nanos>
   <sequence>61</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1496,9 +1325,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.362536500Z</date>
-  <millis>1669582279362</millis>
-  <nanos>536500</nanos>
+  <date>2022-11-27T20:53:33.437780900Z</date>
+  <millis>1669582413437</millis>
+  <nanos>780900</nanos>
   <sequence>62</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1508,9 +1337,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.368536500Z</date>
-  <millis>1669582279368</millis>
-  <nanos>536500</nanos>
+  <date>2022-11-27T20:53:33.439780300Z</date>
+  <millis>1669582413439</millis>
+  <nanos>780300</nanos>
   <sequence>63</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1520,9 +1349,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.374536200Z</date>
-  <millis>1669582279374</millis>
-  <nanos>536200</nanos>
+  <date>2022-11-27T20:53:33.444779900Z</date>
+  <millis>1669582413444</millis>
+  <nanos>779900</nanos>
   <sequence>64</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1532,9 +1361,9 @@
   <message>Carga de todos los trabajadores de la base de datos realizada</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.376536900Z</date>
-  <millis>1669582279376</millis>
-  <nanos>536900</nanos>
+  <date>2022-11-27T20:53:33.449781400Z</date>
+  <millis>1669582413449</millis>
+  <nanos>781400</nanos>
   <sequence>65</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1544,9 +1373,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.380539700Z</date>
-  <millis>1669582279380</millis>
-  <nanos>539700</nanos>
+  <date>2022-11-27T20:53:33.452780Z</date>
+  <millis>1669582413452</millis>
+  <nanos>780000</nanos>
   <sequence>66</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1556,9 +1385,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.385539600Z</date>
-  <millis>1669582279385</millis>
-  <nanos>539600</nanos>
+  <date>2022-11-27T20:53:33.453779400Z</date>
+  <millis>1669582413453</millis>
+  <nanos>779400</nanos>
   <sequence>67</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1568,9 +1397,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.393537400Z</date>
-  <millis>1669582279393</millis>
-  <nanos>537400</nanos>
+  <date>2022-11-27T20:53:33.459781100Z</date>
+  <millis>1669582413459</millis>
+  <nanos>781100</nanos>
   <sequence>68</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1580,9 +1409,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.394544600Z</date>
-  <millis>1669582279394</millis>
-  <nanos>544600</nanos>
+  <date>2022-11-27T20:53:33.465780700Z</date>
+  <millis>1669582413465</millis>
+  <nanos>780700</nanos>
   <sequence>69</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1592,9 +1421,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.405536300Z</date>
-  <millis>1669582279405</millis>
-  <nanos>536300</nanos>
+  <date>2022-11-27T20:53:33.469781400Z</date>
+  <millis>1669582413469</millis>
+  <nanos>781400</nanos>
   <sequence>70</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1604,9 +1433,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.407537700Z</date>
-  <millis>1669582279407</millis>
-  <nanos>537700</nanos>
+  <date>2022-11-27T20:53:33.470780700Z</date>
+  <millis>1669582413470</millis>
+  <nanos>780700</nanos>
   <sequence>71</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1616,9 +1445,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_ordinarios;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.412537Z</date>
-  <millis>1669582279412</millis>
-  <nanos>537000</nanos>
+  <date>2022-11-27T20:53:33.473781300Z</date>
+  <millis>1669582413473</millis>
+  <nanos>781300</nanos>
   <sequence>72</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1628,9 +1457,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.419538600Z</date>
-  <millis>1669582279419</millis>
-  <nanos>538600</nanos>
+  <date>2022-11-27T20:53:33.482779800Z</date>
+  <millis>1669582413482</millis>
+  <nanos>779800</nanos>
   <sequence>73</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1640,9 +1469,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_ordinarios;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.422536200Z</date>
-  <millis>1669582279422</millis>
-  <nanos>536200</nanos>
+  <date>2022-11-27T20:53:33.485787200Z</date>
+  <millis>1669582413485</millis>
+  <nanos>787200</nanos>
   <sequence>74</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1652,9 +1481,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.439536700Z</date>
-  <millis>1669582279439</millis>
-  <nanos>536700</nanos>
+  <date>2022-11-27T20:53:33.492778900Z</date>
+  <millis>1669582413492</millis>
+  <nanos>778900</nanos>
   <sequence>75</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1664,9 +1493,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.445536600Z</date>
-  <millis>1669582279445</millis>
-  <nanos>536600</nanos>
+  <date>2022-11-27T20:53:33.503778900Z</date>
+  <millis>1669582413503</millis>
+  <nanos>778900</nanos>
   <sequence>76</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1676,9 +1505,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.446536Z</date>
-  <millis>1669582279446</millis>
-  <nanos>536000</nanos>
+  <date>2022-11-27T20:53:33.505781400Z</date>
+  <millis>1669582413505</millis>
+  <nanos>781400</nanos>
   <sequence>77</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1688,9 +1517,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.454537800Z</date>
-  <millis>1669582279454</millis>
-  <nanos>537800</nanos>
+  <date>2022-11-27T20:53:33.507781200Z</date>
+  <millis>1669582413507</millis>
+  <nanos>781200</nanos>
   <sequence>78</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1700,9 +1529,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.457535600Z</date>
-  <millis>1669582279457</millis>
-  <nanos>535600</nanos>
+  <date>2022-11-27T20:53:33.509780400Z</date>
+  <millis>1669582413509</millis>
+  <nanos>780400</nanos>
   <sequence>79</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1712,9 +1541,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.461536600Z</date>
-  <millis>1669582279461</millis>
-  <nanos>536600</nanos>
+  <date>2022-11-27T20:53:33.520779600Z</date>
+  <millis>1669582413520</millis>
+  <nanos>779600</nanos>
   <sequence>80</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1724,9 +1553,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.463537700Z</date>
-  <millis>1669582279463</millis>
-  <nanos>537700</nanos>
+  <date>2022-11-27T20:53:33.522779700Z</date>
+  <millis>1669582413522</millis>
+  <nanos>779700</nanos>
   <sequence>81</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1736,9 +1565,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.471536600Z</date>
-  <millis>1669582279471</millis>
-  <nanos>536600</nanos>
+  <date>2022-11-27T20:53:33.534780200Z</date>
+  <millis>1669582413534</millis>
+  <nanos>780200</nanos>
   <sequence>82</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1748,9 +1577,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.472536700Z</date>
-  <millis>1669582279472</millis>
-  <nanos>536700</nanos>
+  <date>2022-11-27T20:53:33.536781Z</date>
+  <millis>1669582413536</millis>
+  <nanos>781000</nanos>
   <sequence>83</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1760,9 +1589,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '5432';</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.476536700Z</date>
-  <millis>1669582279476</millis>
-  <nanos>536700</nanos>
+  <date>2022-11-27T20:53:33.539780600Z</date>
+  <millis>1669582413539</millis>
+  <nanos>780600</nanos>
   <sequence>84</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1772,9 +1601,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.480536300Z</date>
-  <millis>1669582279480</millis>
-  <nanos>536300</nanos>
+  <date>2022-11-27T20:53:33.542783800Z</date>
+  <millis>1669582413542</millis>
+  <nanos>783800</nanos>
   <sequence>85</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1784,9 +1613,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '9876';</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.490536500Z</date>
-  <millis>1669582279490</millis>
-  <nanos>536500</nanos>
+  <date>2022-11-27T20:53:33.549782300Z</date>
+  <millis>1669582413549</millis>
+  <nanos>782300</nanos>
   <sequence>86</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1796,9 +1625,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.507538200Z</date>
-  <millis>1669582279507</millis>
-  <nanos>538200</nanos>
+  <date>2022-11-27T20:53:33.553780200Z</date>
+  <millis>1669582413553</millis>
+  <nanos>780200</nanos>
   <sequence>87</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1808,9 +1637,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.525536600Z</date>
-  <millis>1669582279525</millis>
-  <nanos>536600</nanos>
+  <date>2022-11-27T20:53:33.565780100Z</date>
+  <millis>1669582413565</millis>
+  <nanos>780100</nanos>
   <sequence>88</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1820,9 +1649,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.526536200Z</date>
-  <millis>1669582279526</millis>
-  <nanos>536200</nanos>
+  <date>2022-11-27T20:53:33.571780Z</date>
+  <millis>1669582413571</millis>
+  <nanos>780000</nanos>
   <sequence>89</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1832,9 +1661,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_ordinarios;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.535542Z</date>
-  <millis>1669582279535</millis>
-  <nanos>542000</nanos>
+  <date>2022-11-27T20:53:33.579783800Z</date>
+  <millis>1669582413579</millis>
+  <nanos>783800</nanos>
   <sequence>90</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1844,9 +1673,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.540536400Z</date>
-  <millis>1669582279540</millis>
-  <nanos>536400</nanos>
+  <date>2022-11-27T20:53:33.585780500Z</date>
+  <millis>1669582413585</millis>
+  <nanos>780500</nanos>
   <sequence>91</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1856,9 +1685,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.543536100Z</date>
-  <millis>1669582279543</millis>
-  <nanos>536100</nanos>
+  <date>2022-11-27T20:53:33.588781300Z</date>
+  <millis>1669582413588</millis>
+  <nanos>781300</nanos>
   <sequence>92</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1868,9 +1697,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.546537Z</date>
-  <millis>1669582279546</millis>
-  <nanos>537000</nanos>
+  <date>2022-11-27T20:53:33.591779800Z</date>
+  <millis>1669582413591</millis>
+  <nanos>779800</nanos>
   <sequence>93</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1880,9 +1709,9 @@
   <message>Carga de todos los usuarios de la base de datos realizada</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.547538400Z</date>
-  <millis>1669582279547</millis>
-  <nanos>538400</nanos>
+  <date>2022-11-27T20:53:33.592781Z</date>
+  <millis>1669582413592</millis>
+  <nanos>781000</nanos>
   <sequence>94</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1892,9 +1721,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_entrada, fecha_salida FROM clientes_ordinarios;</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.553537900Z</date>
-  <millis>1669582279553</millis>
-  <nanos>537900</nanos>
+  <date>2022-11-27T20:53:33.599779400Z</date>
+  <millis>1669582413599</millis>
+  <nanos>779400</nanos>
   <sequence>95</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1904,9 +1733,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.558538700Z</date>
-  <millis>1669582279558</millis>
-  <nanos>538700</nanos>
+  <date>2022-11-27T20:53:33.605781200Z</date>
+  <millis>1669582413605</millis>
+  <nanos>781200</nanos>
   <sequence>96</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1916,9 +1745,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, fecha_comienzo, fecha_final FROM clientes_subscritos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.560537500Z</date>
-  <millis>1669582279560</millis>
-  <nanos>537500</nanos>
+  <date>2022-11-27T20:53:33.608781300Z</date>
+  <millis>1669582413608</millis>
+  <nanos>781300</nanos>
   <sequence>97</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1928,9 +1757,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.562538100Z</date>
-  <millis>1669582279562</millis>
-  <nanos>538100</nanos>
+  <date>2022-11-27T20:53:33.615780200Z</date>
+  <millis>1669582413615</millis>
+  <nanos>780200</nanos>
   <sequence>98</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1940,9 +1769,9 @@
   <message>Carga de todos los usuarios de la base de datos realizada</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.581539900Z</date>
-  <millis>1669582279581</millis>
-  <nanos>539900</nanos>
+  <date>2022-11-27T20:53:33.625780500Z</date>
+  <millis>1669582413625</millis>
+  <nanos>780500</nanos>
   <sequence>99</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1952,9 +1781,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.597536600Z</date>
-  <millis>1669582279597</millis>
-  <nanos>536600</nanos>
+  <date>2022-11-27T20:53:33.634780500Z</date>
+  <millis>1669582413634</millis>
+  <nanos>780500</nanos>
   <sequence>100</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1964,9 +1793,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.604538800Z</date>
-  <millis>1669582279604</millis>
-  <nanos>538800</nanos>
+  <date>2022-11-27T20:53:33.636781100Z</date>
+  <millis>1669582413636</millis>
+  <nanos>781100</nanos>
   <sequence>101</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1976,9 +1805,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '9876';</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.607535200Z</date>
-  <millis>1669582279607</millis>
-  <nanos>535200</nanos>
+  <date>2022-11-27T20:53:33.638780100Z</date>
+  <millis>1669582413638</millis>
+  <nanos>780100</nanos>
   <sequence>102</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -1988,9 +1817,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.610537300Z</date>
-  <millis>1669582279610</millis>
-  <nanos>537300</nanos>
+  <date>2022-11-27T20:53:33.641781Z</date>
+  <millis>1669582413641</millis>
+  <nanos>781000</nanos>
   <sequence>103</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2000,9 +1829,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '9876';</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.613536Z</date>
-  <millis>1669582279613</millis>
-  <nanos>536000</nanos>
+  <date>2022-11-27T20:53:33.648783700Z</date>
+  <millis>1669582413648</millis>
+  <nanos>783700</nanos>
   <sequence>104</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2012,9 +1841,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.622541300Z</date>
-  <millis>1669582279622</millis>
-  <nanos>541300</nanos>
+  <date>2022-11-27T20:53:33.650781200Z</date>
+  <millis>1669582413650</millis>
+  <nanos>781200</nanos>
   <sequence>105</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2024,9 +1853,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.629543500Z</date>
-  <millis>1669582279629</millis>
-  <nanos>543500</nanos>
+  <date>2022-11-27T20:53:33.656780200Z</date>
+  <millis>1669582413656</millis>
+  <nanos>780200</nanos>
   <sequence>106</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2036,9 +1865,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.632538300Z</date>
-  <millis>1669582279632</millis>
-  <nanos>538300</nanos>
+  <date>2022-11-27T20:53:33.667780600Z</date>
+  <millis>1669582413667</millis>
+  <nanos>780600</nanos>
   <sequence>107</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2048,9 +1877,9 @@
   <message>Lanzada consulta a base de datos: SELECT ingresos_planta FROM planta GROUP BY numero_planta</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.642545700Z</date>
-  <millis>1669582279642</millis>
-  <nanos>545700</nanos>
+  <date>2022-11-27T20:53:33.687778800Z</date>
+  <millis>1669582413687</millis>
+  <nanos>778800</nanos>
   <sequence>108</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2060,9 +1889,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.646536900Z</date>
-  <millis>1669582279646</millis>
-  <nanos>536900</nanos>
+  <date>2022-11-27T20:53:33.690780800Z</date>
+  <millis>1669582413690</millis>
+  <nanos>780800</nanos>
   <sequence>109</sequence>
   <logger>Base de Datos: Local</logger>
   <level>SEVERE</level>
@@ -2119,7 +1948,7 @@
     <frame>
       <class>backend.servicios.ServicioPersistenciaBD</class>
       <method>getIngresosPlanta</method>
-      <line>541</line>
+      <line>539</line>
     </frame>
     <frame>
       <class>jtest.ServicioPersistenciaTestBD</class>
@@ -2268,9 +2097,9 @@
   </exception>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.655536100Z</date>
-  <millis>1669582279655</millis>
-  <nanos>536100</nanos>
+  <date>2022-11-27T20:53:33.696779300Z</date>
+  <millis>1669582413696</millis>
+  <nanos>779300</nanos>
   <sequence>110</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2280,9 +2109,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.660536900Z</date>
-  <millis>1669582279660</millis>
-  <nanos>536900</nanos>
+  <date>2022-11-27T20:53:33.714780200Z</date>
+  <millis>1669582413714</millis>
+  <nanos>780200</nanos>
   <sequence>111</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2292,9 +2121,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.661538600Z</date>
-  <millis>1669582279661</millis>
-  <nanos>538600</nanos>
+  <date>2022-11-27T20:53:33.720780Z</date>
+  <millis>1669582413720</millis>
+  <nanos>780000</nanos>
   <sequence>112</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2304,9 +2133,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, tarifa, fecha_entrada FROM clientes_ordinarios</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.664549Z</date>
-  <millis>1669582279664</millis>
-  <nanos>549000</nanos>
+  <date>2022-11-27T20:53:33.731782200Z</date>
+  <millis>1669582413731</millis>
+  <nanos>782200</nanos>
   <sequence>113</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2316,9 +2145,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.676536700Z</date>
-  <millis>1669582279676</millis>
-  <nanos>536700</nanos>
+  <date>2022-11-27T20:53:33.768779900Z</date>
+  <millis>1669582413768</millis>
+  <nanos>779900</nanos>
   <sequence>114</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2328,9 +2157,9 @@
   <message>Lanzada consulta a la base de datos: SELECT matricula, tipo_vehiculo, tarifa, fecha_entrada FROM clientes_ordinarios</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.679536400Z</date>
-  <millis>1669582279679</millis>
-  <nanos>536400</nanos>
+  <date>2022-11-27T20:53:33.774780200Z</date>
+  <millis>1669582413774</millis>
+  <nanos>780200</nanos>
   <sequence>115</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2340,9 +2169,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.706536200Z</date>
-  <millis>1669582279706</millis>
-  <nanos>536200</nanos>
+  <date>2022-11-27T20:53:33.921779300Z</date>
+  <millis>1669582413921</millis>
+  <nanos>779300</nanos>
   <sequence>116</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2352,9 +2181,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.711536400Z</date>
-  <millis>1669582279711</millis>
-  <nanos>536400</nanos>
+  <date>2022-11-27T20:53:33.962778200Z</date>
+  <millis>1669582413962</millis>
+  <nanos>778200</nanos>
   <sequence>117</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2364,21 +2193,21 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.712536600Z</date>
-  <millis>1669582279712</millis>
-  <nanos>536600</nanos>
+  <date>2022-11-27T20:53:33.970779600Z</date>
+  <millis>1669582413970</millis>
+  <nanos>779600</nanos>
   <sequence>118</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Lanzada actualización a base de datos: INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582279712');</message>
+  <message>Lanzada actualización a base de datos: INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582413970');</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:19.721536200Z</date>
-  <millis>1669582279721</millis>
-  <nanos>536200</nanos>
+  <date>2022-11-27T20:53:33.978780800Z</date>
+  <millis>1669582413978</millis>
+  <nanos>780800</nanos>
   <sequence>119</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2388,217 +2217,21 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:54.161421200Z</date>
-  <millis>1669582314161</millis>
-  <nanos>421200</nanos>
+  <date>2022-11-27T20:53:33.997781200Z</date>
+  <millis>1669582413997</millis>
+  <nanos>781200</nanos>
   <sequence>120</sequence>
   <logger>Base de Datos: Local</logger>
-  <level>SEVERE</level>
+  <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Error en inserción de base de datos	INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582279712');</message>
-  <exception>
-    <message>org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)</message>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1135</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1146</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>throwex</method>
-      <line>1106</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec_utf8</method>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec</method>
-      <line>89</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>lambda$executeLargeUpdate$2</method>
-      <line>121</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>withConnectionTimeout</method>
-      <line>429</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeLargeUpdate</method>
-      <line>108</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeUpdate</method>
-      <line>95</line>
-    </frame>
-    <frame>
-      <class>backend.servicios.ServicioPersistenciaBD</class>
-      <method>ordinarioInsert</method>
-      <line>277</line>
-    </frame>
-    <frame>
-      <class>jtest.ServicioPersistenciaTestBD</class>
-      <method>testOrdinarioDeleteTrue</method>
-      <line>59</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke0</method>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>77</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.DelegatingMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>43</line>
-    </frame>
-    <frame>
-      <class>java.lang.reflect.Method</class>
-      <method>invoke</method>
-      <line>568</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod$1</class>
-      <method>runReflectiveCall</method>
-      <line>59</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.model.ReflectiveCallable</class>
-      <method>run</method>
-      <line>12</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod</class>
-      <method>invokeExplosively</method>
-      <line>56</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.InvokeMethod</class>
-      <method>evaluate</method>
-      <line>17</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunBefores</class>
-      <method>evaluate</method>
-      <line>26</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunAfters</class>
-      <method>evaluate</method>
-      <line>27</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner$1</class>
-      <method>evaluate</method>
-      <line>100</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runLeaf</method>
-      <line>366</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>103</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>63</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$4</class>
-      <method>run</method>
-      <line>331</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$1</class>
-      <method>schedule</method>
-      <line>79</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runChildren</method>
-      <line>329</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>access$100</method>
-      <line>66</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$2</class>
-      <method>evaluate</method>
-      <line>293</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>run</method>
-      <line>413</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference</class>
-      <method>run</method>
-      <line>93</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.TestExecution</class>
-      <method>run</method>
-      <line>40</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>529</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>756</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>run</method>
-      <line>452</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>main</method>
-      <line>210</line>
-    </frame>
-  </exception>
+  <message>Añadida 1 fila a base de datos	INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582413970');</message>
 </record>
 <record>
-  <date>2022-11-27T20:51:54.167403800Z</date>
-  <millis>1669582314167</millis>
-  <nanos>403800</nanos>
+  <date>2022-11-27T20:53:34.034781600Z</date>
+  <millis>1669582414034</millis>
+  <nanos>781600</nanos>
   <sequence>121</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2608,217 +2241,21 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.154292700Z</date>
-  <millis>1669582347154</millis>
-  <nanos>292700</nanos>
+  <date>2022-11-27T20:53:34.089782100Z</date>
+  <millis>1669582414089</millis>
+  <nanos>782100</nanos>
   <sequence>122</sequence>
   <logger>Base de Datos: Local</logger>
-  <level>SEVERE</level>
+  <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Error en BD	DELETE FROM clientes_ordinarios WHERE matricula = '1234ABC'</message>
-  <exception>
-    <message>org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)</message>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1135</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1146</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>throwex</method>
-      <line>1106</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec_utf8</method>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec</method>
-      <line>89</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>lambda$executeLargeUpdate$2</method>
-      <line>121</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>withConnectionTimeout</method>
-      <line>429</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeLargeUpdate</method>
-      <line>108</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeUpdate</method>
-      <line>95</line>
-    </frame>
-    <frame>
-      <class>backend.servicios.ServicioPersistenciaBD</class>
-      <method>ordinarioDelete</method>
-      <line>304</line>
-    </frame>
-    <frame>
-      <class>jtest.ServicioPersistenciaTestBD</class>
-      <method>testOrdinarioDeleteTrue</method>
-      <line>60</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke0</method>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>77</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.DelegatingMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>43</line>
-    </frame>
-    <frame>
-      <class>java.lang.reflect.Method</class>
-      <method>invoke</method>
-      <line>568</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod$1</class>
-      <method>runReflectiveCall</method>
-      <line>59</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.model.ReflectiveCallable</class>
-      <method>run</method>
-      <line>12</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod</class>
-      <method>invokeExplosively</method>
-      <line>56</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.InvokeMethod</class>
-      <method>evaluate</method>
-      <line>17</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunBefores</class>
-      <method>evaluate</method>
-      <line>26</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunAfters</class>
-      <method>evaluate</method>
-      <line>27</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner$1</class>
-      <method>evaluate</method>
-      <line>100</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runLeaf</method>
-      <line>366</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>103</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>63</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$4</class>
-      <method>run</method>
-      <line>331</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$1</class>
-      <method>schedule</method>
-      <line>79</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runChildren</method>
-      <line>329</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>access$100</method>
-      <line>66</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$2</class>
-      <method>evaluate</method>
-      <line>293</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>run</method>
-      <line>413</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference</class>
-      <method>run</method>
-      <line>93</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.TestExecution</class>
-      <method>run</method>
-      <line>40</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>529</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>756</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>run</method>
-      <line>452</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>main</method>
-      <line>210</line>
-    </frame>
-  </exception>
+  <message>BD tabla clientes ordinarios eliminada 1 fila	DELETE FROM clientes_ordinarios WHERE matricula = '1234ABC'</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.156269500Z</date>
-  <millis>1669582347156</millis>
-  <nanos>269500</nanos>
+  <date>2022-11-27T20:53:34.096781400Z</date>
+  <millis>1669582414096</millis>
+  <nanos>781400</nanos>
   <sequence>123</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2828,9 +2265,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.169268Z</date>
-  <millis>1669582347169</millis>
-  <nanos>268000</nanos>
+  <date>2022-11-27T20:53:34.289779800Z</date>
+  <millis>1669582414289</millis>
+  <nanos>779800</nanos>
   <sequence>124</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2840,9 +2277,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.169268Z</date>
-  <millis>1669582347169</millis>
-  <nanos>268000</nanos>
+  <date>2022-11-27T20:53:34.291781200Z</date>
+  <millis>1669582414291</millis>
+  <nanos>781200</nanos>
   <sequence>125</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2852,9 +2289,9 @@
   <message>Lanzada consulta a la base de datos: SELECT * FROM plazas</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.175266700Z</date>
-  <millis>1669582347175</millis>
-  <nanos>266700</nanos>
+  <date>2022-11-27T20:53:34.308779100Z</date>
+  <millis>1669582414308</millis>
+  <nanos>779100</nanos>
   <sequence>126</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2864,9 +2301,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.177267200Z</date>
-  <millis>1669582347177</millis>
-  <nanos>267200</nanos>
+  <date>2022-11-27T20:53:34.324779300Z</date>
+  <millis>1669582414324</millis>
+  <nanos>779300</nanos>
   <sequence>127</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2876,9 +2313,9 @@
   <message>Lanzada consulta a la base de datos: SELECT * FROM plazas</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.181267500Z</date>
-  <millis>1669582347181</millis>
-  <nanos>267500</nanos>
+  <date>2022-11-27T20:53:34.350778300Z</date>
+  <millis>1669582414350</millis>
+  <nanos>778300</nanos>
   <sequence>128</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2888,9 +2325,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.185267800Z</date>
-  <millis>1669582347185</millis>
-  <nanos>267800</nanos>
+  <date>2022-11-27T20:53:34.353779100Z</date>
+  <millis>1669582414353</millis>
+  <nanos>779100</nanos>
   <sequence>129</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2900,9 +2337,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.190265500Z</date>
-  <millis>1669582347190</millis>
-  <nanos>265500</nanos>
+  <date>2022-11-27T20:53:34.364778500Z</date>
+  <millis>1669582414364</millis>
+  <nanos>778500</nanos>
   <sequence>130</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2912,9 +2349,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.191265800Z</date>
-  <millis>1669582347191</millis>
-  <nanos>265800</nanos>
+  <date>2022-11-27T20:53:34.366779Z</date>
+  <millis>1669582414366</millis>
+  <nanos>779000</nanos>
   <sequence>131</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2924,9 +2361,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.193290400Z</date>
-  <millis>1669582347193</millis>
-  <nanos>290400</nanos>
+  <date>2022-11-27T20:53:34.369781400Z</date>
+  <millis>1669582414369</millis>
+  <nanos>781400</nanos>
   <sequence>132</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2936,9 +2373,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.198269400Z</date>
-  <millis>1669582347198</millis>
-  <nanos>269400</nanos>
+  <date>2022-11-27T20:53:34.373782400Z</date>
+  <millis>1669582414373</millis>
+  <nanos>782400</nanos>
   <sequence>133</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2948,9 +2385,9 @@
   <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, puesto FROM trabajadores;</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.201267700Z</date>
-  <millis>1669582347201</millis>
-  <nanos>267700</nanos>
+  <date>2022-11-27T20:53:34.382781700Z</date>
+  <millis>1669582414382</millis>
+  <nanos>781700</nanos>
   <sequence>134</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2960,9 +2397,9 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.205267200Z</date>
-  <millis>1669582347205</millis>
-  <nanos>267200</nanos>
+  <date>2022-11-27T20:53:34.430778200Z</date>
+  <millis>1669582414430</millis>
+  <nanos>778200</nanos>
   <sequence>135</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2972,9 +2409,9 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.209268100Z</date>
-  <millis>1669582347209</millis>
-  <nanos>268100</nanos>
+  <date>2022-11-27T20:53:34.485779100Z</date>
+  <millis>1669582414485</millis>
+  <nanos>779100</nanos>
   <sequence>136</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -2984,21 +2421,21 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.211268100Z</date>
-  <millis>1669582347211</millis>
-  <nanos>268100</nanos>
+  <date>2022-11-27T20:53:34.488782400Z</date>
+  <millis>1669582414488</millis>
+  <nanos>782400</nanos>
   <sequence>137</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Lanzada actualización a base de datos: INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582347211');</message>
+  <message>Lanzada actualización a base de datos: INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582414488');</message>
 </record>
 <record>
-  <date>2022-11-27T20:52:27.219268800Z</date>
-  <millis>1669582347219</millis>
-  <nanos>268800</nanos>
+  <date>2022-11-27T20:53:34.499781400Z</date>
+  <millis>1669582414499</millis>
+  <nanos>781400</nanos>
   <sequence>138</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -3008,217 +2445,21 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:00.121269Z</date>
-  <millis>1669582380121</millis>
-  <nanos>269000</nanos>
+  <date>2022-11-27T20:53:34.620779600Z</date>
+  <millis>1669582414620</millis>
+  <nanos>779600</nanos>
   <sequence>139</sequence>
   <logger>Base de Datos: Local</logger>
-  <level>SEVERE</level>
+  <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Error en inserción de base de datos	INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582347211');</message>
-  <exception>
-    <message>org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)</message>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1135</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1146</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>throwex</method>
-      <line>1106</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec_utf8</method>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec</method>
-      <line>89</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>lambda$executeLargeUpdate$2</method>
-      <line>121</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>withConnectionTimeout</method>
-      <line>429</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeLargeUpdate</method>
-      <line>108</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeUpdate</method>
-      <line>95</line>
-    </frame>
-    <frame>
-      <class>backend.servicios.ServicioPersistenciaBD</class>
-      <method>ordinarioInsert</method>
-      <line>277</line>
-    </frame>
-    <frame>
-      <class>jtest.ServicioPersistenciaTestBD</class>
-      <method>testOrdinarioDeleteFalse</method>
-      <line>66</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke0</method>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>77</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.DelegatingMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>43</line>
-    </frame>
-    <frame>
-      <class>java.lang.reflect.Method</class>
-      <method>invoke</method>
-      <line>568</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod$1</class>
-      <method>runReflectiveCall</method>
-      <line>59</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.model.ReflectiveCallable</class>
-      <method>run</method>
-      <line>12</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod</class>
-      <method>invokeExplosively</method>
-      <line>56</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.InvokeMethod</class>
-      <method>evaluate</method>
-      <line>17</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunBefores</class>
-      <method>evaluate</method>
-      <line>26</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunAfters</class>
-      <method>evaluate</method>
-      <line>27</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner$1</class>
-      <method>evaluate</method>
-      <line>100</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runLeaf</method>
-      <line>366</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>103</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>63</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$4</class>
-      <method>run</method>
-      <line>331</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$1</class>
-      <method>schedule</method>
-      <line>79</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runChildren</method>
-      <line>329</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>access$100</method>
-      <line>66</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$2</class>
-      <method>evaluate</method>
-      <line>293</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>run</method>
-      <line>413</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference</class>
-      <method>run</method>
-      <line>93</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.TestExecution</class>
-      <method>run</method>
-      <line>40</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>529</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>756</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>run</method>
-      <line>452</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>main</method>
-      <line>210</line>
-    </frame>
-  </exception>
+  <message>Añadida 1 fila a base de datos	INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234ABC', 'Normal', '0.0', '1669582414488');</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:00.125291600Z</date>
-  <millis>1669582380125</millis>
-  <nanos>291600</nanos>
+  <date>2022-11-27T20:53:34.742872700Z</date>
+  <millis>1669582414742</millis>
+  <nanos>872700</nanos>
   <sequence>140</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
@@ -3228,266 +2469,82 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.097738600Z</date>
-  <millis>1669582413097</millis>
-  <nanos>738600</nanos>
+  <date>2022-11-27T20:53:34.758868200Z</date>
+  <millis>1669582414758</millis>
+  <nanos>868200</nanos>
   <sequence>141</sequence>
-  <logger>Base de Datos: Local</logger>
-  <level>SEVERE</level>
-  <class>backend.servicios.ServicioPersistenciaBD</class>
-  <method>log</method>
-  <thread>1</thread>
-  <message>Error en BD	DELETE FROM clientes_ordinarios WHERE matricula = '4321ABC'</message>
-  <exception>
-    <message>org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)</message>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1135</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1146</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>throwex</method>
-      <line>1106</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec_utf8</method>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec</method>
-      <line>89</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>lambda$executeLargeUpdate$2</method>
-      <line>121</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>withConnectionTimeout</method>
-      <line>429</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeLargeUpdate</method>
-      <line>108</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeUpdate</method>
-      <line>95</line>
-    </frame>
-    <frame>
-      <class>backend.servicios.ServicioPersistenciaBD</class>
-      <method>ordinarioDelete</method>
-      <line>304</line>
-    </frame>
-    <frame>
-      <class>jtest.ServicioPersistenciaTestBD</class>
-      <method>testOrdinarioDeleteFalse</method>
-      <line>67</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke0</method>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.NativeMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>77</line>
-    </frame>
-    <frame>
-      <class>jdk.internal.reflect.DelegatingMethodAccessorImpl</class>
-      <method>invoke</method>
-      <line>43</line>
-    </frame>
-    <frame>
-      <class>java.lang.reflect.Method</class>
-      <method>invoke</method>
-      <line>568</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod$1</class>
-      <method>runReflectiveCall</method>
-      <line>59</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.model.ReflectiveCallable</class>
-      <method>run</method>
-      <line>12</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.model.FrameworkMethod</class>
-      <method>invokeExplosively</method>
-      <line>56</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.InvokeMethod</class>
-      <method>evaluate</method>
-      <line>17</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunBefores</class>
-      <method>evaluate</method>
-      <line>26</line>
-    </frame>
-    <frame>
-      <class>org.junit.internal.runners.statements.RunAfters</class>
-      <method>evaluate</method>
-      <line>27</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner$1</class>
-      <method>evaluate</method>
-      <line>100</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runLeaf</method>
-      <line>366</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>103</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.BlockJUnit4ClassRunner</class>
-      <method>runChild</method>
-      <line>63</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$4</class>
-      <method>run</method>
-      <line>331</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$1</class>
-      <method>schedule</method>
-      <line>79</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>runChildren</method>
-      <line>329</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>access$100</method>
-      <line>66</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$2</class>
-      <method>evaluate</method>
-      <line>293</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner$3</class>
-      <method>evaluate</method>
-      <line>306</line>
-    </frame>
-    <frame>
-      <class>org.junit.runners.ParentRunner</class>
-      <method>run</method>
-      <line>413</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference</class>
-      <method>run</method>
-      <line>93</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.TestExecution</class>
-      <method>run</method>
-      <line>40</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>529</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>runTests</method>
-      <line>756</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>run</method>
-      <line>452</line>
-    </frame>
-    <frame>
-      <class>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner</class>
-      <method>main</method>
-      <line>210</line>
-    </frame>
-  </exception>
-</record>
-<record>
-  <date>2022-11-27T20:53:33.099641100Z</date>
-  <millis>1669582413099</millis>
-  <nanos>641100</nanos>
-  <sequence>142</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Cierre de base de datos</message>
+  <message>BD tabla clientes ordinarios eliminada 0 fila	DELETE FROM clientes_ordinarios WHERE matricula = '4321ABC'</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.103663600Z</date>
-  <millis>1669582413103</millis>
-  <nanos>663600</nanos>
+  <date>2022-11-27T20:53:34.767867900Z</date>
+  <millis>1669582414767</millis>
+  <nanos>867900</nanos>
+  <sequence>142</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>SEVERE</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Error en delete de BD	DELETE FROM clientes_ordinarios WHERE matricula = '4321ABC'</message>
+</record>
+<record>
+  <date>2022-11-27T20:53:34.807868Z</date>
+  <millis>1669582414807</millis>
+  <nanos>868000</nanos>
   <sequence>143</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Conectada la base de datos Parking.db</message>
+  <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.104641500Z</date>
-  <millis>1669582413104</millis>
-  <nanos>641500</nanos>
+  <date>2022-11-27T20:53:34.822974300Z</date>
+  <millis>1669582414822</millis>
+  <nanos>974300</nanos>
   <sequence>144</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
-  <message>Lanzada consulta a base de datos: SELECT COUNT(*) FROM plazas WHERE estado_plaza = 'Disponible' </message>
+  <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.106662600Z</date>
-  <millis>1669582413106</millis>
-  <nanos>662600</nanos>
+  <date>2022-11-27T20:53:34.824974200Z</date>
+  <millis>1669582414824</millis>
+  <nanos>974200</nanos>
   <sequence>145</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
   <method>log</method>
   <thread>1</thread>
+  <message>Lanzada consulta a base de datos: SELECT COUNT(*) FROM plazas WHERE estado_plaza = 'Disponible' </message>
+</record>
+<record>
+  <date>2022-11-27T20:53:34.831973700Z</date>
+  <millis>1669582414831</millis>
+  <nanos>973700</nanos>
+  <sequence>146</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>1</thread>
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.112735700Z</date>
-  <millis>1669582413112</millis>
-  <nanos>735700</nanos>
-  <sequence>146</sequence>
+  <date>2022-11-27T20:53:34.840974500Z</date>
+  <millis>1669582414840</millis>
+  <nanos>974500</nanos>
+  <sequence>147</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
@@ -3496,10 +2553,10 @@
   <message>Lanzada consulta a base de datos: SELECT COUNT(*) FROM plazas WHERE estado_plaza = 'Disponible' </message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.116733300Z</date>
-  <millis>1669582413116</millis>
-  <nanos>733300</nanos>
-  <sequence>147</sequence>
+  <date>2022-11-27T20:53:34.854973300Z</date>
+  <millis>1669582414854</millis>
+  <nanos>973300</nanos>
+  <sequence>148</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
@@ -3508,10 +2565,10 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.118754800Z</date>
-  <millis>1669582413118</millis>
-  <nanos>754800</nanos>
-  <sequence>148</sequence>
+  <date>2022-11-27T20:53:34.857973300Z</date>
+  <millis>1669582414857</millis>
+  <nanos>973300</nanos>
+  <sequence>149</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
@@ -3520,10 +2577,10 @@
   <message>Cierre de base de datos</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.121752700Z</date>
-  <millis>1669582413121</millis>
-  <nanos>752700</nanos>
-  <sequence>149</sequence>
+  <date>2022-11-27T20:53:34.884972500Z</date>
+  <millis>1669582414884</millis>
+  <nanos>972500</nanos>
+  <sequence>150</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
@@ -3532,10 +2589,10 @@
   <message>Conectada la base de datos Parking.db</message>
 </record>
 <record>
-  <date>2022-11-27T20:53:33.122733600Z</date>
-  <millis>1669582413122</millis>
-  <nanos>733600</nanos>
-  <sequence>150</sequence>
+  <date>2022-11-27T20:53:34.886974Z</date>
+  <millis>1669582414886</millis>
+  <nanos>974000</nanos>
+  <sequence>151</sequence>
   <logger>Base de Datos: Local</logger>
   <level>INFO</level>
   <class>backend.servicios.ServicioPersistenciaBD</class>
