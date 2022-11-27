@@ -1,15 +1,15 @@
 package frontend;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import frontend.paneles.WellcomingPanel;
+import frontend.paneles.PanelPrincipal;
 
-public class MainWindow extends JFrame {
+public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -17,35 +17,31 @@ public class MainWindow extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					MainWindow frame = new MainWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				new VentanaPrincipal();
 			}
 		});
 	}
-	
+
 	/**
 	 * Create the frame.
 	 */
-	
-	public MainWindow() {
+
+	public VentanaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 591, 495);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		//creamos el panel y lo a�adimos al frame
-		WellcomingPanel panel = new WellcomingPanel(this);
-		add(panel);
+		setContentPane(contentPane);
+
+		// Creamos el panel y lo anadimos al frame
+		PanelPrincipal panel = new PanelPrincipal(this);
+		getContentPane().add(panel);
+		setVisible(true);
 	}
-	
+
 }
