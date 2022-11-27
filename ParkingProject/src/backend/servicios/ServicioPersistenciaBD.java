@@ -11,13 +11,13 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import backend.clases.clientes.ClienteOrdinario;
-import backend.clases.clientes.ClienteSubscrito;
-import backend.clases.clientes.Usuario;
 import backend.clases.infraestructura.Plaza;
-import backend.clases.personal.Empleado;
-import backend.clases.personal.Manager;
-import backend.clases.personal.Trabajador;
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.ClienteSubscrito;
+import backend.clases.personas.clientes.Usuario;
+import backend.clases.personas.personal.Empleado;
+import backend.clases.personas.personal.Manager;
+import backend.clases.personas.personal.Trabajador;
 
 // Clase de gestion de la BD del sistema
 public class ServicioPersistenciaBD {
@@ -724,9 +724,9 @@ public class ServicioPersistenciaBD {
 
 	public static ArrayList<Empleado> empleadosSelect() {
 		String sentSQL = "";
-		List<Empleado> ret = new ArrayList<>();
 		try {
-			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores;";
+			List<Empleado> ret = new ArrayList<>();
+			sentSQL = "SELECT dni, nombre, apellido, email, puesto FROM trabajadores";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			while (rs.next()) {
@@ -734,7 +734,9 @@ public class ServicioPersistenciaBD {
 				empleado.setDni(rs.getString("dni"));
 				empleado.setNombre(rs.getString("nombre"));
 				empleado.setApellido(rs.getString("apellido"));
+				empleado.setEmail(rs.getString("email"));
 				empleado.setPuesto(rs.getString("puesto"));
+				ret.add(empleado);
 			}
 			rs.close();
 			return (ArrayList<Empleado>) ret;
@@ -747,9 +749,9 @@ public class ServicioPersistenciaBD {
 
 	public static ArrayList<Manager> managersSelect() {
 		String sentSQL = "";
-		List<Manager> ret = new ArrayList<>();
 		try {
-			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores;";
+			List<Manager> ret = new ArrayList<>();
+			sentSQL = "SELECT dni, nombre, apellido, email, puesto FROM trabajadores;";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			while (rs.next()) {
@@ -757,7 +759,9 @@ public class ServicioPersistenciaBD {
 				manager.setDni(rs.getString("dni"));
 				manager.setNombre(rs.getString("nombre"));
 				manager.setApellido(rs.getString("apellido"));
+				manager.setEmail(rs.getString("email"));
 				manager.setPuesto(rs.getString("puesto"));
+				ret.add(manager);
 			}
 			rs.close();
 			return (ArrayList<Manager>) ret;

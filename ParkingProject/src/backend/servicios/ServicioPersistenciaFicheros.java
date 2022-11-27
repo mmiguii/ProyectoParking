@@ -12,10 +12,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import backend.clases.clientes.ClienteOrdinario;
-import backend.clases.clientes.ClienteSubscrito;
 import backend.clases.infraestructura.Planta;
 import backend.clases.infraestructura.Plaza;
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.ClienteSubscrito;
 
 public class ServicioPersistenciaFicheros {
 

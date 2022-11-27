@@ -15,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import backend.clases.clientes.ClienteSubscrito;
 import backend.clases.infraestructura.Plaza;
+import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.salida.PanelSalida;
 

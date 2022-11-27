@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import backend.clases.clientes.ClienteSubscrito;
+import backend.clases.personas.clientes.ClienteSubscrito;
 import frontend.paneles.trabajador.empleado.PanelEmpleado;
 
 public class BajaSubscribersPanel extends JPanel {

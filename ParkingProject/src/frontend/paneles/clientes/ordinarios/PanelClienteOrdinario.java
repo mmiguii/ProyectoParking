@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import backend.clases.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.servicios.ServicioPersistenciaBD;
 
 public class PanelClienteOrdinario extends JPanel {
@@ -23,7 +23,7 @@ public class PanelClienteOrdinario extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable table1;
 
-	public PanelClienteOrdinario(final JFrame frame, JPanel panel, ClienteOrdinario ordinario) {
+	public PanelClienteOrdinario(JFrame frame, JPanel panel, JPanel tPanel, JPanel mPanel, JPanel bPanel, ClienteOrdinario ordinario) {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		setSize(640, 480);
 //		setBounds(10, 10, 567, 448);
@@ -108,18 +108,20 @@ public class PanelClienteOrdinario extends JPanel {
 			}
 		});
 
-		JButton btnBack = new JButton("VOLVER");
-		btnBack.addActionListener(new ActionListener() {
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.getContentPane().add(panel);
-				panel.setVisible(true); // Pasamos la referencia del panel y una vez finalicemos con este panel, vuelvo
-										// hacer visible el panel que anteriormente estaba visible.
+				panel.setVisible(true); 
+				tPanel.setVisible(true);
+				mPanel.setVisible(true);
+				bPanel.setVisible(true);
 				setVisible(false);
 			}
 		});
 
 		bottomPanel.add(btnPlanta2, new GridBagConstraints());
-		bottomPanel.add(btnBack, new GridBagConstraints());
+		bottomPanel.add(btnVolver, new GridBagConstraints());
 
 		add(bottomPanel);
 //		
@@ -127,49 +129,3 @@ public class PanelClienteOrdinario extends JPanel {
 
 	}
 }
-
-// BOTON ACCEDER
-//
-////ReaderWriter rw = new ReaderWriter();
-//ArrayList<ClienteOrdinario> ordinaryCustomers = rw.ordinarioReader();
-//
-//ClienteOrdinario nOrdinaryCustomer = new ClienteOrdinario();
-//
-//nOrdinaryCustomer.setMatricula(plateTextField.getText());
-//
-//// Asignamos el valor del tipo de vehiculo en funcion de lo que el usuario
-//// introduzca y le anadimos la tarifa
-//String tipoVehiculo = radioButtonGroup.getSelection().getActionCommand();
-//double tarifa = 0.00;
-//if (radioButton1.isSelected()) {
-//	tipoVehiculo = "1";
-//	tarifa = 1.00;
-//} else if (radioButton2.isSelected()) {
-//	tipoVehiculo = "2";
-//	tarifa = 2.00;
-//} else if (radioButton3.isSelected()) {
-//	tipoVehiculo = "3";
-//	tarifa = 3.00;
-//}
-////System.out.println(tipoVehiculo);
-//nOrdinaryCustomer.setTipoVehiculo(tipoVehiculo); // Lee la opcion seleccionada
-////System.out.println(tarifa);
-//nOrdinaryCustomer.setTarifa(tarifa); // Aqui debemos establecer la tarifa en cuestion
-//
-////ZonedDateTime now = ZonedDateTime.now();
-////DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
-////String initialTime = formatter.format(now);
-////ZonedDateTime zdtWithZoneOffset = ZonedDateTime.parse(initialTime, formatter);
-////nOrdinaryCustomer.setHoraDeEntrada(zdtWithZoneOffset);
-//////System.out.println("Hora de inicio de la estancia: " + initialTime);
-////
-////ordinaryCustomers.add(nOrdinaryCustomer); // Anado el nuevo cliente
-////rw.ordinaryCustomerWriter(ordinaryCustomers); // Escribimos el cliente BD
-//
-////OrdinaryCustomerPanel ordinaryPanel = new OrdinaryCustomerPanel(plateTextField.getText(), initialTime);
-////add(ordinaryPanel);
-////topPanel.setVisible(false);
-////middlePanel.setVisible(false);
-////bottomPanel.setVisible(false);
-////
-////ordinaryPanel.setVisible(true);
