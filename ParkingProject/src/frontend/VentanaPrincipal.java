@@ -24,7 +24,7 @@ public class VentanaPrincipal extends JFrame {
 				new VentanaPrincipal();
 			}
 		});
-	}
+	} 
 
 	/**
 	 * Create the frame.
