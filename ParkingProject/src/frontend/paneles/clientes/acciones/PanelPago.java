@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -19,8 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import backend.clases.clientes.ClienteOrdinario;
-import backend.clases.clientes.Usuario;
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.salida.PanelSalida;
 
@@ -37,6 +38,7 @@ public class PanelPago extends JPanel{
 	private JTextField textFieldImporteTotal;
 	
 	private ServicioPersistenciaBD servicio;
+	private JTextField textFieldTipoUsuario;
 
 	public PanelPago(final JFrame frame,JPanel panel, Usuario usuario) {
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Payment Panel"));
@@ -58,7 +60,13 @@ public class PanelPago extends JPanel{
 		
 		
 		
-		textFieldFechaSalida = new JTextField(f.format(ZonedDateTime.now()));
+		if (usuario instanceof ClienteOrdinario) {
+			textFieldFechaSalida = new JTextField(f.format(ZonedDateTime.now()));
+		} else {
+			textFieldFechaSalida = new JTextField(formatter.format(new Date(usuario.getFechaSalida()).getTime()));
+		}
+		
+		
 		textFieldFechaSalida.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldFechaSalida.setColumns(10);
 		textFieldFechaSalida.setBounds(238, 169, 175, 26);
@@ -95,7 +103,14 @@ public class PanelPago extends JPanel{
 				tarifa = 0.30;
 			}
 			
-			double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
+			double importe = 0.00;
+			if(usuario instanceof ClienteOrdinario) {
+				importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
+			} else {
+				importe =tarifa * TimeUnit.MILLISECONDS.toDays(time);
+			}
+			
+			
 			
 			textFieldImporteTotal = new JTextField(importe + " €");
 			textFieldImporteTotal.setHorizontalAlignment(SwingConstants.CENTER);
@@ -128,7 +143,7 @@ public class PanelPago extends JPanel{
 		
 		JLabel lblTitulo = new JLabel("PAGO DE PARKING");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTitulo.setBounds(214, 41, 138, 63);
+		lblTitulo.setBounds(214, 41, 138, 49);
 		add(lblTitulo);
 		
 		JLabel lblHoraEntrada = new JLabel("Hora de entrada");
@@ -206,6 +221,24 @@ public class PanelPago extends JPanel{
 		
 		
 		add(btnVolver);
+		
+		JLabel lblTipoUsuario = new JLabel("Tipo de usuario");
+		lblTipoUsuario.setBounds(90, 95, 132, 14);
+		add(lblTipoUsuario);
+		
+		String tipoUsuario = "";
+		if(usuario instanceof ClienteOrdinario) {
+			tipoUsuario = "Cliente ordinario";
+		} else {
+			tipoUsuario = "Cliente subscrito";
+		}
+		
+		textFieldTipoUsuario = new JTextField(tipoUsuario);
+		textFieldTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldTipoUsuario.setEditable(false);
+		textFieldTipoUsuario.setColumns(10);
+		textFieldTipoUsuario.setBounds(238, 89, 175, 26);
+		add(textFieldTipoUsuario);
 		
 		
 		
