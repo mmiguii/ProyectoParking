@@ -53,8 +53,8 @@ public class UsuarioTest {
 
 	@Test
 	public void testSetFechaEntrada() {
-		user.setTipoVehiculo(null);
-		assertEquals(null, user.getFechaEntrada());
+		user.setFechaEntrada(1184104800000L);
+		assertEquals(1184104800000L, user.getFechaEntrada());
 	}
 
 	@Test
@@ -64,8 +64,8 @@ public class UsuarioTest {
 
 	@Test
 	public void testSetFechaSalida() {
-		user.setTipoVehiculo(null);
-		assertEquals(null, user.getFechaSalida());
+		user.setFechaSalida(1184104800000L);
+		assertEquals(1184104800000L, user.getFechaSalida());
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class UsuarioTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("1, 1234AAA, 25/11/22 15:24:46, 25/11/22 15:24:46, 2.00", user.toString());
+		assertEquals("1234AAA, Normal, "+sdf.format(new Date(user.getFechaEntrada()))+", "+sdf.format(new Date(user.getFechaSalida()))+", 2,00", user.toString());//Normal, current time
 	}
 
 }

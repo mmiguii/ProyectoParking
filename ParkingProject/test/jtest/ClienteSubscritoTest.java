@@ -11,11 +11,12 @@ import backend.clases.infraestructura.Plaza;
 public class ClienteSubscritoTest {
 
 	private ClienteSubscrito sC;
+	private Plaza p = new Plaza(400, false, "Normal");
 
 	@Before
 	public void setUp() {
 
-		sC = new ClienteSubscrito("Semanal", 10.00, new Plaza());
+		sC = new ClienteSubscrito("Semanal", 10.00, p);
 	}
 
 	@Test
@@ -24,7 +25,7 @@ public class ClienteSubscritoTest {
 	}
 
 	@Test
-	public void testSetFee() {
+	public void testSetTipoCuota() {
 		sC.setTipoCuota("Mensual");
 		assertEquals("Mensual", sC.getTipoCuota());
 	}
@@ -42,13 +43,13 @@ public class ClienteSubscritoTest {
 
 	@Test
 	public void testGetPlazaOcupada() {
-		assertEquals(new Plaza(), sC.getPlazaOcupada());
+		assertEquals(p, sC.getPlazaOcupada());
 	}
 
 	@Test
 	public void testSetPlazaOcupada() {
-		sC.setPlazaOcupada(new Plaza());
-		assertEquals(5.00, sC.getPlazaOcupada());
+		sC.setPlazaOcupada(p);
+		assertEquals(p, sC.getPlazaOcupada());
 	}
 
 }
