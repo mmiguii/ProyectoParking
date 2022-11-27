@@ -269,6 +269,10 @@ public class ServicioPersistenciaBD {
 					+ securizer(ordinario.getMatricula()) + "', " + "'" + securizer(ordinario.getTipoVehiculo()) + "', "
 					+ "'" + securizer(String.valueOf(ordinario.getTarifa())) + "', " + "'" + ordinario.getFechaEntrada()
 					+ "');";
+			if (ordinario.getTarifa() < 0) {
+				log(Level.WARNING, "Error en insert de base de datos por tarifa negativa\t" + sentSQL, null);
+				return false;
+			}
 			log(Level.INFO, "Lanzada actualización a base de datos: " + sentSQL, null);
 			int val = usarBD(connect()).executeUpdate(sentSQL);
 			log(Level.INFO, "Añadida " + val + " fila a base de datos\t" + sentSQL, null);
@@ -412,6 +416,9 @@ public class ServicioPersistenciaBD {
 					+ securizer(String.valueOf(subscrito.getPlazaOcupada().getNumeroPlaza())) + "', " + "'"
 //					+ securizer(String.valueOf(subscrito.getTipoVehiculo())) + "', " + "'" 
 					+ subscrito.getFechaEntrada() + "', " + "'" + subscrito.getFechaSalida() + "')";
+			if (subscrito.getPrecioCuota() < 0) {
+				
+			}
 			log(Level.INFO, "Lanzada actualización a base de datos: " + sentSQL, null);
 			int val = usarBD(connect()).executeUpdate(sentSQL);
 			log(Level.INFO, "Añadida " + val + " fila a base de datos\t" + sentSQL, null);
@@ -771,7 +778,7 @@ public class ServicioPersistenciaBD {
 		ArrayList<Empleado> e = empleadosSelect();
 		ret.addAll(m);
 		ret.addAll(e);
-		log(Level.INFO, "Carga de todos los usuarios de la base de datos realizada", null);
+		log(Level.INFO, "Carga de todos los trabajadores de la base de datos realizada", null);
 		return (ArrayList<Trabajador>) ret;
 
 	}
@@ -841,4 +848,6 @@ public class ServicioPersistenciaBD {
 		}
 
 	}
+	
+//
 }
