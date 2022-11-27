@@ -97,7 +97,7 @@ public class ServicioPersistenciaBD {
 			}
 			try {
 				stmt.executeUpdate("CREATE TABLE TRABAJADORES " + "(id_trabajador integer, " + "dni string, "
-						+ "nombre string, " + "apellido string, " + "puesto string, " + "fecha_comienzo long, "
+						+ "nombre string, " + "apellido string, " + "email string," + "puesto string, " + "fecha_comienzo long, "
 						+ "antiguedad integer, " + "salario_mes double)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
