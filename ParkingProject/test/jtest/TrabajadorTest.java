@@ -16,7 +16,9 @@ public class TrabajadorTest {
 
 	@Before
 	public void setUp() {
-		w = new Trabajador("Pedro", "Sanchez", "999","pedrosan@gmail.com", "empleado", System.currentTimeMillis(), 2, 1500.0) {
+
+		w = new Trabajador("Pedro", "Sanchez", "999", "pedrosanchez9@gmail.com", "empleado", System.currentTimeMillis(),
+				2, 1500.0) {
 		};
 	}
 
@@ -52,12 +54,12 @@ public class TrabajadorTest {
 		w.setDni("1000");
 		assertEquals("1000", w.getDni());
 	}
-	
+
 	@Test
 	public void testGetPuesto() {
 		assertEquals("empleado", w.getPuesto());
 	}
-	
+
 	@Test
 	public void testSetPuesto() {
 		w.setPuesto("Manager");
@@ -101,7 +103,9 @@ public class TrabajadorTest {
 	public void testToString() {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/YY HH:mm:ss");
 		ZonedDateTime t = ZonedDateTime.now();
-		assertEquals("Pedro, Sanchez, 999, empleado, " + dateFormatter.format(t) + ", 2, 1500,00", w.toString());
+		assertEquals(
+				"Pedro, Sanchez, 999, pedrosanchez9@gmail.com, empleado, " + dateFormatter.format(t) + ", 2, 1500,00",
+				w.toString());
 	}
 
 }

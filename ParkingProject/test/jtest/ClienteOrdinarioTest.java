@@ -22,11 +22,6 @@ public class ClienteOrdinarioTest {
 	}
 
 	@Test
-	public void testOrdinaryCustomer() {
-
-	}
-
-	@Test
 	public void testGetTarifa() {
 		assertEquals(2.3, ordinaryCustomer.getTarifa(), 0.01);
 

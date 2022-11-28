@@ -100,7 +100,7 @@ public class ClienteSubscrito extends Usuario {
 
 	@Override
 	public String toString() {
-		return String.format("%s, %s, %.2f, %d,", super.toString(), tipoCuota, precioCuota,
+		return String.format("%s, %s, %.2f, %d", super.toString(), tipoCuota, precioCuota,
 				plazaOcupada.getNumeroPlaza());
 	}
 

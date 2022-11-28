@@ -190,7 +190,7 @@ public abstract class Trabajador {
 
 	@Override
 	public String toString() {
-		return String.format("%s, %s, %s, %s, %s, %d, %.2f", nombre, apellido, dni, puesto,
+		return String.format("%s, %s, %s, %s, %s, %s, %d, %.2f", nombre, apellido, dni, email, puesto,
 				sdf.format(new Date(fechaComienzo)), antiguedad, salario);
 	}
 
