@@ -73,7 +73,7 @@ public class PanelRecordarDNI extends JPanel {
 		btnVolver.setBounds(30, 180, 201, 29);
 		btnVolver.setBackground(new Color(152, 240, 153));
 		add(btnVolver);
-
+ 
 		
 		btnRecuperarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -95,6 +95,7 @@ public class PanelRecordarDNI extends JPanel {
 					EnvioEmail.bienvenida(trabajador.getEmail(),trabajador.getNombre(), trabajador.getDni());
 					JOptionPane.showMessageDialog(PanelRecordarDNI.this, "El mensage ha sido enviado con exito."
 							+ "\n El mensage de recuperacion ha sido enviado al siguiente correo: "+ trabajador.getEmail());
+					frame.dispose();
 				}
 			}
 		});

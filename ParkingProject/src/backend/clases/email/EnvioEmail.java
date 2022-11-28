@@ -8,10 +8,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.JOptionPane;
 
 /**
- * La función de esta clase email es enviar el dni al correo electronico
- * del trabajador, de tal forma que sea posible recuperar su dni.
+ * La función de esta clase email es enviar el dni al correo electronico del
+ * trabajador, de tal forma que sea posible recuperar su dni.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
  */
@@ -24,7 +25,7 @@ public class EnvioEmail {
 	 * 
 	 * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
 	 * @since 1.1
-	 * @version 1.3
+	 * @version 1.6.2
 	 * @param destinatario : correo destino al que se debe enviar el mensaje.
 	 * @param asunto       : asunto del correo electrónico que se enviará al
 	 *                     destinatario.
@@ -33,31 +34,35 @@ public class EnvioEmail {
 	 */
 	public static void enviarConGMail(String destinatario, String asunto, String cuerpo) {
 
-		// Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el
-		// remitente también.
-		String remitente = "noreply.asistenciaParking@gmail.com"; // Para la dirección nomcuenta@gmail.com
+		String remitente = "noreply.servicioparkingdeusto@gmail.com"; // Para la dirección nomcuenta@gmail.com
 
-		Properties props = System.getProperties();
-		props.put("mail.smtp.host", "smtp.gmail.com"); // El servidor SMTP de Google
-		props.put("mail.smtp.user", remitente);
-		props.put("mail.smtp.clave", "ParkingCompany"); // La clave de la cuenta
-		props.put("mail.smtp.auth", "true"); // Usar autenticación mediante usuario y clave
-		props.put("mail.smtp.starttls.enable", "true"); // Para conectar de manera segura al servidor SMTP
-		props.put("mail.smtp.port", "587"); // El puerto SMTP seguro de Google
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		props.setProperty("mail.smtp.starttls.enable", "true");
+		props.setProperty("mail.smtp.port", "587");
+		props.setProperty("mail.smtp.user", remitente);
+		props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+		props.setProperty("mail.smtp.auth", "true");
 
 		Session session = Session.getDefaultInstance(props);
-		MimeMessage message = new MimeMessage(session);
 
 		try {
+			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(remitente));
-			message.addRecipients(Message.RecipientType.TO, destinatario); // Se podrían anadir varios de la misma
-																			// manera
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
 			message.setSubject(asunto);
-			message.setText(cuerpo);
+			message.setText(cuerpo, "ISO-8859-1", "html");
+
 			Transport transport = session.getTransport("smtp");
-			transport.connect("smtp.gmail.com", remitente, "ParkingCompany");
-			transport.sendMessage(message, message.getAllRecipients());
+
+			transport.connect(remitente, "labttufhikfhedbw");
+
+			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
 			transport.close();
+
+			JOptionPane.showMessageDialog(null, "Correo enviado"); 
+
 		} catch (MessagingException me) {
 			me.printStackTrace(); // Si se produce un error
 			System.out.println("el correro no existe");
@@ -71,14 +76,14 @@ public class EnvioEmail {
 	 * @param destinatario : correo destino al que se debe enviar el mensaje.
 	 * @param nombre:      Nombre personal del usuario del la cuenta Parking y dueno
 	 *                     del correo destinatario.
-	 * @param dni:  dni antigua del usuario, para que la pueda recordar.
+	 * @param dni:         dni antigua del usuario, para que la pueda recordar.
 	 */
 
 	public static void bienvenida(String destinatario, String nombre, String dni) {
 		String asunto = "Recuperación de dni - Parking";
 		String cuerpo = "Buenos dias " + nombre + ":\n"
-				+ "Nos dirigimos a usted para que pueda recuperar su dni y acceder a la"
-				+ " plataforma del Parking. \n" + "\n	dni de recuperación: " + dni;
+				+ "Nos dirigimos a usted para que pueda recuperar su dni y acceder a la" + " plataforma del Parking. \n"
+				+ "\n	dni de recuperación: " + dni;
 
 		enviarConGMail(destinatario, asunto, cuerpo);
 	}
