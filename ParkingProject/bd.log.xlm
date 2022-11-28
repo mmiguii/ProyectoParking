@@ -12642,3 +12642,295 @@
   <message>Añadida 1 fila a base de datos	INSERT INTO clientes_ordinarios (matricula, tipo_vehiculo, tarifa, fecha_entrada) VALUES ('1234AAA', 'ordinario', '0.5', '1669635238000');</message>
 </record>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-28T11:38:56.259072Z</date>
+  <millis>1669635536259</millis>
+  <nanos>72000</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:38:56.295850Z</date>
+  <millis>1669635536295</millis>
+  <nanos>850000</nanos>
+  <sequence>1</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Creada la base de datos</message>
+</record>
+<record>
+  <date>2022-11-28T11:38:57.372200Z</date>
+  <millis>1669635537372</millis>
+  <nanos>200000</nanos>
+  <sequence>2</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, email, puesto FROM trabajadores;</message>
+</record>
+<record>
+  <date>2022-11-28T11:38:57.373829Z</date>
+  <millis>1669635537373</millis>
+  <nanos>829000</nanos>
+  <sequence>3</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:38:57.386150Z</date>
+  <millis>1669635537386</millis>
+  <nanos>150000</nanos>
+  <sequence>4</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, email, puesto FROM trabajadores</message>
+</record>
+<record>
+  <date>2022-11-28T11:38:57.387711Z</date>
+  <millis>1669635537387</millis>
+  <nanos>711000</nanos>
+  <sequence>5</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:38:57.394221Z</date>
+  <millis>1669635537394</millis>
+  <nanos>221000</nanos>
+  <sequence>6</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Carga de todos los trabajadores de la base de datos realizada</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-28T11:39:17.163001Z</date>
+  <millis>1669635557163</millis>
+  <nanos>1000</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:39:17.193582Z</date>
+  <millis>1669635557193</millis>
+  <nanos>582000</nanos>
+  <sequence>1</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Creada la base de datos</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-28T11:39:25.969283Z</date>
+  <millis>1669635565969</millis>
+  <nanos>283000</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:39:26.008059Z</date>
+  <millis>1669635566008</millis>
+  <nanos>59000</nanos>
+  <sequence>1</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Creada la base de datos</message>
+</record>
+<record>
+  <date>2022-11-28T11:39:27.310150Z</date>
+  <millis>1669635567310</millis>
+  <nanos>150000</nanos>
+  <sequence>2</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, email, puesto FROM trabajadores;</message>
+</record>
+<record>
+  <date>2022-11-28T11:39:27.313005Z</date>
+  <millis>1669635567313</millis>
+  <nanos>5000</nanos>
+  <sequence>3</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:39:27.324904Z</date>
+  <millis>1669635567324</millis>
+  <nanos>904000</nanos>
+  <sequence>4</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, email, puesto FROM trabajadores</message>
+</record>
+<record>
+  <date>2022-11-28T11:39:27.327118Z</date>
+  <millis>1669635567327</millis>
+  <nanos>118000</nanos>
+  <sequence>5</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:39:27.334358Z</date>
+  <millis>1669635567334</millis>
+  <nanos>358000</nanos>
+  <sequence>6</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Carga de todos los trabajadores de la base de datos realizada</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-11-28T11:40:38.133546Z</date>
+  <millis>1669635638133</millis>
+  <nanos>546000</nanos>
+  <sequence>0</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:40:38.170954Z</date>
+  <millis>1669635638170</millis>
+  <nanos>954000</nanos>
+  <sequence>1</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Creada la base de datos</message>
+</record>
+<record>
+  <date>2022-11-28T11:40:39.466645Z</date>
+  <millis>1669635639466</millis>
+  <nanos>645000</nanos>
+  <sequence>2</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, email, puesto FROM trabajadores;</message>
+</record>
+<record>
+  <date>2022-11-28T11:40:39.469188Z</date>
+  <millis>1669635639469</millis>
+  <nanos>188000</nanos>
+  <sequence>3</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:40:39.484230Z</date>
+  <millis>1669635639484</millis>
+  <nanos>230000</nanos>
+  <sequence>4</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Lanzada consulta a la base de datos: SELECT dni, nombre, apellido, email, puesto FROM trabajadores</message>
+</record>
+<record>
+  <date>2022-11-28T11:40:39.486301Z</date>
+  <millis>1669635639486</millis>
+  <nanos>301000</nanos>
+  <sequence>5</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Conectada la base de datos Parking.db</message>
+</record>
+<record>
+  <date>2022-11-28T11:40:39.491039Z</date>
+  <millis>1669635639491</millis>
+  <nanos>39000</nanos>
+  <sequence>6</sequence>
+  <logger>Base de Datos: Local</logger>
+  <level>INFO</level>
+  <class>backend.servicios.ServicioPersistenciaBD</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Carga de todos los trabajadores de la base de datos realizada</message>
+</record>
+</log>

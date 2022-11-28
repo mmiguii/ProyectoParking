@@ -61,7 +61,7 @@ public class EnvioEmail {
 			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
 			transport.close();
 
-			JOptionPane.showMessageDialog(null, "Correo enviado");
+			JOptionPane.showMessageDialog(null, "Correo enviado"); 
 
 		} catch (MessagingException me) {
 			me.printStackTrace(); // Si se produce un error

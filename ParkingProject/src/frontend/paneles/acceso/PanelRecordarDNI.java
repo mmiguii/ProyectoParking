@@ -95,6 +95,7 @@ public class PanelRecordarDNI extends JPanel {
 					EnvioEmail.bienvenida(trabajador.getEmail(),trabajador.getNombre(), trabajador.getDni());
 					JOptionPane.showMessageDialog(PanelRecordarDNI.this, "El mensage ha sido enviado con exito."
 							+ "\n El mensage de recuperacion ha sido enviado al siguiente correo: "+ trabajador.getEmail());
+					frame.dispose();
 				}
 			}
 		});
