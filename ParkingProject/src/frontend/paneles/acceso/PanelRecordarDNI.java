@@ -73,7 +73,7 @@ public class PanelRecordarDNI extends JPanel {
 		btnVolver.setBounds(30, 180, 201, 29);
 		btnVolver.setBackground(new Color(152, 240, 153));
 		add(btnVolver);
-
+ 
 		
 		btnRecuperarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
