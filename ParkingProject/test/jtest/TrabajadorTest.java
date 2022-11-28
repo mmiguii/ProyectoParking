@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.personal.Trabajador;
+import backend.clases.personas.personal.Trabajador;
 
 public class TrabajadorTest {
 
@@ -16,7 +16,7 @@ public class TrabajadorTest {
 
 	@Before
 	public void setUp() {
-		w = new Trabajador("Pedro", "Sanchez", "999", "empleado", System.currentTimeMillis(), 2, 1500.0) {
+		w = new Trabajador("Pedro", "Sanchez", "999","pedrosan@gmail.com", "empleado", System.currentTimeMillis(), 2, 1500.0) {
 		};
 	}
 

@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.clientes.ClienteSubscrito;
 import backend.clases.infraestructura.Plaza;
+import backend.clases.personas.clientes.ClienteSubscrito;
 
 public class ClienteSubscritoTest {
 

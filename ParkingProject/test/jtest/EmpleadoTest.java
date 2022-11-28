@@ -3,15 +3,12 @@ package jtest;
 import static org.junit.Assert.assertEquals;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.personal.Empleado;
+import backend.clases.personas.personal.Empleado;
 
 public class EmpleadoTest {
 

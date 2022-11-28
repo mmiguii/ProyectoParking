@@ -10,7 +10,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.personal.Manager;
+import backend.clases.personas.personal.Manager;
 
 public class ManagerTest {
 

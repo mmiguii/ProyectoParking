@@ -33,6 +33,7 @@ import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.clientes.acciones.PanelPago;
 import frontend.paneles.clientes.ordinarios.PanelClienteOrdinario;
 import frontend.paneles.clientes.subscritos.PanelClienteSubscrito;
+import javax.swing.SwingConstants;
 
 public class PanelAccesoCliente extends JPanel {
 
@@ -49,12 +50,13 @@ public class PanelAccesoCliente extends JPanel {
 	private JRadioButton radioButtonElectrico;
 	private JRadioButton radioButtonMinusvalido;
 
-	public PanelAccesoCliente(JFrame frame, JPanel panel) {
+	public PanelAccesoCliente(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
 
 		servicio = new ServicioPersistenciaBD();
 
 		instance = this;
 
+		DateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		ZonedDateTime horaDeEntrada = ZonedDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 
@@ -69,13 +71,13 @@ public class PanelAccesoCliente extends JPanel {
 		topPanel.setLayout(gbl_topPanel);
 
 		// Labels del panel superior
-		JLabel lblHoraActual = new JLabel("Hora actual:");
-		GridBagConstraints gbc_lblHoraActual = new GridBagConstraints();
-		gbc_lblHoraActual.anchor = GridBagConstraints.EAST;
-		gbc_lblHoraActual.insets = new Insets(0, 0, 5, 5);
-		gbc_lblHoraActual.gridx = 0;
-		gbc_lblHoraActual.gridy = 0;
-		topPanel.add(lblHoraActual, gbc_lblHoraActual);
+		JLabel lblHoraEntrada = new JLabel("Hora de entrada");
+		GridBagConstraints gbc_lblHoraEntrada = new GridBagConstraints();
+		gbc_lblHoraEntrada.anchor = GridBagConstraints.EAST;
+		gbc_lblHoraEntrada.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHoraEntrada.gridx = 0;
+		gbc_lblHoraEntrada.gridy = 0;
+		topPanel.add(lblHoraEntrada, gbc_lblHoraEntrada);
 
 		JLabel lblMatricula = new JLabel("Ingrese su numero de matricula ");
 		lblMatricula.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -86,7 +88,9 @@ public class PanelAccesoCliente extends JPanel {
 		topPanel.add(lblMatricula, gbc_lblMatricula);
 
 		// TextFields del panel superior
-		textFieldHorarioActual = new JTextField(formatter.format(horaDeEntrada));
+		// f.format(new Date(Long.parseLong(horaEntrada)).getTime())
+		textFieldHorarioActual = new JTextField(formatter.format(ZonedDateTime.now()));
+		textFieldHorarioActual.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_textFieldHorarioActual = new GridBagConstraints();
 		gbc_textFieldHorarioActual.insets = new Insets(0, 0, 5, 0);
 		gbc_textFieldHorarioActual.fill = GridBagConstraints.HORIZONTAL;
@@ -96,7 +100,8 @@ public class PanelAccesoCliente extends JPanel {
 		textFieldHorarioActual.setColumns(10);
 		textFieldHorarioActual.setEditable(false);
 
-		textFieldMatricula = new JTextField(20);
+		textFieldMatricula = new JTextField(matricula);
+		textFieldMatricula.setEditable(false);
 		textFieldMatricula.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				List<String> matriculas = new ArrayList<String>();
@@ -268,7 +273,7 @@ public class PanelAccesoCliente extends JPanel {
 
 				Usuario usuario = servicio.usuario(textFieldMatricula.getText());
 
-				PanelPago panel = new PanelPago(frame, instance, usuario);
+				PanelPago panel = new PanelPago(frame, instance, usuario, textFieldHorarioActual.getText());
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);

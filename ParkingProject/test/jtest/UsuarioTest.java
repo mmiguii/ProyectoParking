@@ -8,7 +8,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.clientes.Usuario;
+import backend.clases.personas.clientes.Usuario;
 
 public class UsuarioTest {
 

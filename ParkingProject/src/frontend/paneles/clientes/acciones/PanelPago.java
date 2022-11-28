@@ -40,7 +40,7 @@ public class PanelPago extends JPanel{
 	private ServicioPersistenciaBD servicio;
 	private JTextField textFieldTipoUsuario;
 
-	public PanelPago(final JFrame frame,JPanel panel, Usuario usuario) {
+	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, String horaSalida) {
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Payment Panel"));
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
