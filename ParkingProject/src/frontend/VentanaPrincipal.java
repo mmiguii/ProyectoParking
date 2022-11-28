@@ -43,10 +43,7 @@ public class VentanaPrincipal extends JFrame {
 		PanelPrincipal panel = new PanelPrincipal(this);
 		getContentPane().add(panel);
 		setVisible(true);
-		
-		ServicioPersistenciaBD s = new ServicioPersistenciaBD();
-		s.usarCrearTablasBD(s.connect());
-		
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package frontend.paneles;
 
+import java.awt.Button;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
