@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.personal.Trabajador;
+import backend.clases.personas.personal.Trabajador;
 
 public class TrabajadorTest {
 
@@ -16,7 +16,8 @@ public class TrabajadorTest {
 
 	@Before
 	public void setUp() {
-		w = new Trabajador("Pedro", "Sanchez", "999", "empleado", System.currentTimeMillis(), 2, 1500.0) {
+		w = new Trabajador("Pedro", "Sanchez", "999", "pedrosanchez9@gmail.com", "empleado",System.currentTimeMillis() , 2, 1500.0) {
+			
 		};
 	}
 
@@ -101,7 +102,7 @@ public class TrabajadorTest {
 	public void testToString() {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/YY HH:mm:ss");
 		ZonedDateTime t = ZonedDateTime.now();
-		assertEquals("Pedro, Sanchez, 999, empleado, " + dateFormatter.format(t) + ", 2, 1500,00", w.toString());
+		assertEquals("Pedro, Sanchez, 999, pedrosanchez9@gmail.com, empleado, " + dateFormatter.format(t) + ", 2, 1500,00", w.toString());
 	}
 
 }

@@ -9,8 +9,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.clientes.ClienteOrdinario;
-import backend.clases.clientes.Usuario;
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.Usuario;
 
 public class ClienteOrdinarioTest {
 
@@ -21,11 +21,6 @@ public class ClienteOrdinarioTest {
 			// para ser utilizado en los distintos test
 	public void setUp() {
 		ordinaryCustomer = new ClienteOrdinario(2.3);
-	}
-
-	@Test
-	public void testOrdinaryCustomer() {
-
 	}
 
 	@Test

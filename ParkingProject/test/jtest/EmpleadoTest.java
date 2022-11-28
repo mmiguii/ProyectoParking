@@ -11,7 +11,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.personal.Empleado;
+import backend.clases.personas.personal.Empleado;
 
 public class EmpleadoTest {
 
@@ -37,6 +37,7 @@ public class EmpleadoTest {
 		employee.setNombre("Pedro");
 		employee.setSalario(1500.00);
 		employee.setAntiguedad(2);
+		employee.setEmail("pedrosanchez9@gmail.com");
 		employee.setPuesto("empleado");
 //		employee.setFechaComienzo(t);
 		employee.setApellido("Sanchez");
@@ -48,7 +49,7 @@ public class EmpleadoTest {
 //		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
 //        dtf.format(LocalDateTime.now());
         
-		assertEquals("Pedro, Sanchez, 999, empleado, " + sdf.format(new Date(fechaComienzo)) + ", 2, 1500,00", employee.toString());
+		assertEquals("Pedro, Sanchez, 999, pedrosanchez9@gmail.com, empleado, " + sdf.format(new Date(fechaComienzo)) + ", 2, 1500,00", employee.toString());
 		
 	}
 }

@@ -8,13 +8,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.clientes.ClienteOrdinario;
-import backend.clases.clientes.ClienteSubscrito;
-import backend.clases.clientes.Usuario;
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.ClienteSubscrito;
+import backend.clases.personas.clientes.Usuario;
 import backend.clases.infraestructura.Plaza;
-import backend.clases.personal.Empleado;
-import backend.clases.personal.Manager;
-import backend.clases.personal.Trabajador;
+import backend.clases.personas.personal.*;
 import backend.servicios.ServicioPersistenciaBD;
 
 public class ServicioPersistenciaTestBD {

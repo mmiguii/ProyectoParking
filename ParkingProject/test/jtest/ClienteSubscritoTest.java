@@ -2,10 +2,13 @@ package jtest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import backend.clases.clientes.ClienteSubscrito;
+import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.clases.infraestructura.Plaza;
 
 public class ClienteSubscritoTest {
@@ -52,4 +55,14 @@ public class ClienteSubscritoTest {
 		assertEquals(p, sC.getPlazaOcupada());
 	}
 
+	@Test
+	public void testToString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		sC.setMatricula("1234AAA");
+		sC.setTipoVehiculo("Normal");
+		sC.setFechaEntrada(1184104800000L);
+		sC.setFechaSalida(1184104800000L);
+		sC.setImporte(2.30);
+		assertEquals("1234AAA, Normal, "+sdf.format(new Date(sC.getFechaEntrada()))+", "+sdf.format(new Date(sC.getFechaSalida()))+", 2,30, Semanal, 10,00, 400", sC.toString());
+	}
 }
