@@ -47,6 +47,7 @@ public class PanelPrincipal extends JPanel {
 	private JLabel lblHoraActual;
 	private JTextField textFieldMatricula;
 	private JPasswordField passwordFieldCredenciales;
+	private JLabel lblXRojo;
 
 	public PanelPrincipal(JFrame frame) {
 
@@ -248,7 +249,7 @@ public class PanelPrincipal extends JPanel {
 		
 		
 		
-		JLabel lblLogo = new JLabel("New label");
+		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(59, 133, 145, 133);
 		lblLogo.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/LogoParking.png")));
 		leftPanel.add(lblLogo);
@@ -303,6 +304,7 @@ public class PanelPrincipal extends JPanel {
 			estado = "Completo";
 		} else {
 			estado = "Disponible";
+
 		}
 		
 		JLabel lblEstadoParking = new JLabel("Estado actual: " + estado);
@@ -310,6 +312,23 @@ public class PanelPrincipal extends JPanel {
 		lblEstadoParking.setForeground(new Color(255, 255, 255));
 		lblEstadoParking.setBounds(59, 354, 172, 16);
 		leftPanel.add(lblEstadoParking);
+		
+		lblXRojo = new JLabel("");
+		lblXRojo.setVisible(false);
+		lblXRojo.setBounds(240, 354, 31, 16);
+		lblXRojo.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/XRojo.png")));
+		if (estado.equals("Completo")) {
+			lblXRojo.setVisible(true);
+		} else {
+			lblXRojo.setVisible(false);
+		}
+		leftPanel.add(lblXRojo);
+		
+
+		
+		
+		
+		
 		
 		add(rightPanel);
 
