@@ -16,6 +16,7 @@ public class BDPropiedades {
             System.out.format("URL: %s%n", properties.getProperty("URL"));
             System.out.format("Path: %s%n", properties.getProperty("Path"));
             System.out.format("Admin: %s%n", properties.getProperty("Admin"));
+            System.out.format("E-mail de servicio de acceso: %s%n", properties.getProperty("E-mail"));
           } catch (FileNotFoundException e) {
             System.out.println("Fichero de propiedades no encontrado");
           } catch (IOException e) {
