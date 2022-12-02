@@ -224,7 +224,7 @@ public class PanelAccesoTrabajador extends JPanel {
 		lblRecuerdoDNI.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PanelRecordarDNI panel = new PanelRecordarDNI(frame, instance, trabajadores);
+				PanelRecordarCredenciales panel = new PanelRecordarCredenciales(frame, instance, trabajadores);
 				frame.getContentPane().add(panel);
 				setVisible(false);
 				panel.setVisible(true);

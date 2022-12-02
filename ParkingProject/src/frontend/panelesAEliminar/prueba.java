@@ -1,4 +1,4 @@
-package frontend.paneles.clientes.ordinarios;
+package frontend.panelesAEliminar;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;

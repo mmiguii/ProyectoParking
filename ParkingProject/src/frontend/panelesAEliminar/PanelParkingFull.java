@@ -1,4 +1,4 @@
-package frontend.paneles.clientes.acciones;
+package frontend.panelesAEliminar;
 
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -11,8 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import frontend.paneles.acceso.PanelAccesoCliente;
 
 public class PanelParkingFull extends JPanel {
 
@@ -52,10 +50,10 @@ public class PanelParkingFull extends JPanel {
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelAccesoCliente panel = new PanelAccesoCliente(frame, instance);
-				frame.add(panel);
-				setVisible(false);
-				panel.setVisible(true);
+//				PanelAccesoCliente panel = new PanelAccesoCliente(frame, instance);
+//				frame.add(panel);
+//				setVisible(false);
+//				panel.setVisible(true);
 			}
 		});
 		bottomPanel.add(btnVolver);

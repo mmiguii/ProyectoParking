@@ -9,21 +9,44 @@ package backend.clases.infraestructura;
 public class Plaza {
 
 	/** Atributos especificos de un objeto Plaza */
+	private int numeroPlanta;
 	private int numeroPlaza;
 	private boolean estadoPlaza; // vacio (false) o ocupado (true)
 	private String tipoPlaza; // Corresponde al tipo de vehiculo que vaya a aparcar: normal (1), electrico
 								// (2), ...
 
+	private String matricula;
+	
+	
 	/** Constructor vacio de la clase Planta */
 	public Plaza() {
 		super();
 	}
 
-	public Plaza(int numeroPlaza, boolean estadoPlaza, String tipoPlaza) {
+	public Plaza(int numeroPlanta, int numeroPlaza, boolean estadoPlaza, String tipoPlaza) {
 		super();
+		this.numeroPlanta = numeroPlanta;
 		this.numeroPlaza = numeroPlaza;
 		this.estadoPlaza = estadoPlaza;
 		this.tipoPlaza = tipoPlaza;
+	}
+
+	/**
+	 * Metodo getter del atributo numeroPlanta de la plaza.
+	 * 
+	 * @return numeroPlanta: numero de la planta correspondiente.
+	 */
+	public int getNumeroPlanta() {
+		return numeroPlanta;
+	}
+
+	/**
+	 * Metodo setter del atributo numeroPlanta de la plaza.
+	 * 
+	 * @param numeroPlanta: numero de la la planta correspondiente.
+	 */
+	public void setNumeroPlanta(int numeroPlanta) {
+		this.numeroPlanta = numeroPlanta;
 	}
 
 	/**
@@ -82,9 +105,18 @@ public class Plaza {
 		this.tipoPlaza = tipoPlaza;
 	}
 
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
+
+	
 	@Override
 	public String toString() {
-		return String.format("%d, %b, %s", numeroPlaza, estadoPlaza, tipoPlaza);
+		return String.format("%d, %d, %s, %b", numeroPlanta, numeroPlaza, tipoPlaza, estadoPlaza);
 	}
 
 }

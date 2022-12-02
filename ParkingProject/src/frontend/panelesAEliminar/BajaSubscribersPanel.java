@@ -1,4 +1,4 @@
-package frontend.paneles.clientes.acciones;
+package frontend.panelesAEliminar;
 
 import java.awt.Font;
 import java.awt.GridBagLayout;

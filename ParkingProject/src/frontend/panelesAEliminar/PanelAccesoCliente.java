@@ -1,4 +1,4 @@
-package frontend.paneles.acceso;
+package frontend.panelesAEliminar;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -24,16 +24,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
-import frontend.paneles.clientes.acciones.PanelPago;
-import frontend.paneles.clientes.ordinarios.PanelClienteOrdinario;
-import frontend.paneles.clientes.subscritos.PanelClienteSubscrito;
-import javax.swing.SwingConstants;
+import frontend.paneles.pagar.PanelPago;
 
 public class PanelAccesoCliente extends JPanel {
 
@@ -87,9 +85,10 @@ public class PanelAccesoCliente extends JPanel {
 		gbc_lblMatricula.gridy = 1;
 		topPanel.add(lblMatricula, gbc_lblMatricula);
 
-		// TextFields del panel superior
-		// f.format(new Date(Long.parseLong(horaEntrada)).getTime())
-		textFieldHorarioActual = new JTextField(formatter.format(ZonedDateTime.now()));
+		
+	
+		
+		textFieldHorarioActual = new JTextField(horaEntrada);
 		textFieldHorarioActual.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_textFieldHorarioActual = new GridBagConstraints();
 		gbc_textFieldHorarioActual.insets = new Insets(0, 0, 5, 0);

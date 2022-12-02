@@ -19,11 +19,11 @@ import javax.swing.JTextField;
 import backend.clases.email.EnvioEmail;
 import backend.clases.personas.personal.Trabajador;
 
-public class PanelRecordarDNI extends JPanel {
+public class PanelRecordarCredenciales extends JPanel {
 	
 	private JTextField txtNombreDeUsuario;
 
-	public PanelRecordarDNI(JFrame frame, JPanel panel, ArrayList<Trabajador> trabajadores) {
+	public PanelRecordarCredenciales(JFrame frame, JPanel panel, ArrayList<Trabajador> trabajadores) {
 		setLayout(null);
 		
 		JLabel label = new JLabel("En breve recibiras un email en tu correo");
@@ -89,11 +89,11 @@ public class PanelRecordarDNI extends JPanel {
 					}
 				}
 				if(encontrado==false) {
-					JOptionPane.showMessageDialog(PanelRecordarDNI.this, "El nombre del trabajador introducido no existe. Intentelo de nuevo.");
+					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this, "El nombre del trabajador introducido no existe. Intentelo de nuevo.");
 				}else {
 					
 					EnvioEmail.bienvenida(trabajador.getEmail(),trabajador.getNombre(), trabajador.getDni());
-					JOptionPane.showMessageDialog(PanelRecordarDNI.this, "El mensage ha sido enviado con exito."
+					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this, "El mensage ha sido enviado con exito."
 							+ "\n El mensage de recuperacion ha sido enviado al siguiente correo: "+ trabajador.getEmail());
 					frame.dispose();
 				}

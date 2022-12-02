@@ -1,0 +1,312 @@
+package frontend.paneles.acceso;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.ClienteSubscrito;
+import backend.servicios.ServicioPersistenciaBD;
+import frontend.paneles.acceso.clientes.PanelAccesoOrdinariosSeleccionPlaza;
+import frontend.paneles.acceso.clientes.PanelAccesoSubscritosSeleccionAbono;
+import frontend.panelesAEliminar.PanelClienteOrdinario;
+
+public class PanelAccesoParking extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+//	private ServicioPersistenciaBD servicio;
+	private JPanel instance;
+	private JButton btnComprarBono;
+	private JButton btnAcceder;
+	private JRadioButton radioButtonOrdinario;
+	private JRadioButton radioButtonElectrico;
+	private JRadioButton radioButtonMinusvalido;
+	private JTextField textFieldHoraEntrada;
+	private JTextField textFieldMatricula;
+	private JLabel lblBienvenida;
+	private JLabel lblSeleccionTipo;
+
+	public PanelAccesoParking(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
+
+		instance = this;
+		
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+
+		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de acceso al parking"));
+		setBounds(10, 10, 567, 448);
+		this.setLayout(new GridLayout(3, 1));
+
+		// Panel superior
+		JPanel topPanel = new JPanel();
+		GridBagLayout gbl_topPanel = new GridBagLayout();
+		gbl_topPanel.columnWidths = new int[] { 0, 503, 503, 0 };
+		gbl_topPanel.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0 };
+		topPanel.setLayout(gbl_topPanel);
+
+		lblBienvenida = new JLabel("Bienvenido a Deusto Parking");
+		GridBagConstraints gbc_lblBienvenida = new GridBagConstraints();
+		gbc_lblBienvenida.gridwidth = 2;
+		gbc_lblBienvenida.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBienvenida.gridx = 1;
+		gbc_lblBienvenida.gridy = 0;
+		topPanel.add(lblBienvenida, gbc_lblBienvenida);
+		
+		JLabel lblHoraEntrada = new JLabel("Hora de entrada");
+		GridBagConstraints gbc_lblHoraEntrada = new GridBagConstraints();
+		gbc_lblHoraEntrada.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHoraEntrada.gridx = 1;
+		gbc_lblHoraEntrada.gridy = 1;
+		topPanel.add(lblHoraEntrada, gbc_lblHoraEntrada);
+
+		textFieldHoraEntrada = new JTextField(horaEntrada);
+		textFieldHoraEntrada.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldHoraEntrada.setColumns(10);
+		textFieldHoraEntrada.setEditable(false);
+		GridBagConstraints gbc_textFieldHoraEntrada = new GridBagConstraints();
+		gbc_textFieldHoraEntrada.insets = new Insets(0, 0, 5, 5);
+		gbc_textFieldHoraEntrada.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldHoraEntrada.gridx = 2;
+		gbc_textFieldHoraEntrada.gridy = 1;
+		topPanel.add(textFieldHoraEntrada, gbc_textFieldHoraEntrada);
+
+		JLabel lblMatricula = new JLabel("Matricula");
+		GridBagConstraints gbc_lblMatricula = new GridBagConstraints();
+		gbc_lblMatricula.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMatricula.gridx = 1;
+		gbc_lblMatricula.gridy = 2;
+		topPanel.add(lblMatricula, gbc_lblMatricula);
+
+		textFieldMatricula = new JTextField(matricula);
+		textFieldMatricula.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldMatricula.setColumns(10);
+		textFieldMatricula.setEditable(false);
+		GridBagConstraints gbc_textFieldMatricula = new GridBagConstraints();
+		gbc_textFieldMatricula.insets = new Insets(0, 0, 5, 5);
+		gbc_textFieldMatricula.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldMatricula.gridx = 2;
+		gbc_textFieldMatricula.gridy = 2;
+		topPanel.add(textFieldMatricula, gbc_textFieldMatricula);
+		
+		
+		// Panel central
+		JPanel middlePanel = new JPanel();
+		GridBagLayout gbl_middlePanel = new GridBagLayout();
+		gbl_middlePanel.columnWeights = new double[] { 1.0, 1.0, 1.0 };
+		middlePanel.setLayout(gbl_middlePanel);
+		middlePanel.setBorder(BorderFactory.createTitledBorder("Seleccion de plaza"));
+
+		ButtonGroup radioButtonGroup = new ButtonGroup(); // Para que las opciones sean excluyentes, creamos un grupo
+
+		lblSeleccionTipo = new JLabel("Seleccione el tipo de plaza que va ocupar");
+		GridBagConstraints gbc_lblSeleccionTipo = new GridBagConstraints();
+		gbc_lblSeleccionTipo.gridwidth = 2;
+		gbc_lblSeleccionTipo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSeleccionTipo.gridx = 0;
+		gbc_lblSeleccionTipo.gridy = 0;
+		middlePanel.add(lblSeleccionTipo, gbc_lblSeleccionTipo);
+		
+		radioButtonOrdinario = new JRadioButton("Ordinario");
+		radioButtonOrdinario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAcceder.setEnabled(true);
+				btnComprarBono.setEnabled(true);
+			}
+		});
+		radioButtonGroup.add(radioButtonOrdinario); // Anadimos el boton al grupo
+		GridBagConstraints gbc_radioButtonOrdinario = new GridBagConstraints(); 
+		gbc_radioButtonOrdinario.insets = new Insets(0, 0, 5, 5);
+		gbc_radioButtonOrdinario.gridx = 0;
+		gbc_radioButtonOrdinario.gridy = 1;
+		middlePanel.add(radioButtonOrdinario, gbc_radioButtonOrdinario);
+		
+		radioButtonElectrico = new JRadioButton("Electrico");
+		radioButtonElectrico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAcceder.setEnabled(true);
+				btnComprarBono.setEnabled(true);
+			}
+		});
+		radioButtonGroup.add(radioButtonElectrico); // Anadimos el boton al grupo
+		GridBagConstraints gbc_radioButtonElectrico = new GridBagConstraints();
+		gbc_radioButtonElectrico.insets = new Insets(0, 0, 5, 5);
+		gbc_radioButtonElectrico.gridx = 1;
+		gbc_radioButtonElectrico.gridy = 1;
+		middlePanel.add(radioButtonElectrico, gbc_radioButtonElectrico);
+		
+		radioButtonMinusvalido = new JRadioButton("Minusvalido");
+		radioButtonMinusvalido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAcceder.setEnabled(true);
+				btnComprarBono.setEnabled(true);
+			}
+		});
+		radioButtonGroup.add(radioButtonMinusvalido); // Anadimos el boton al grupo
+		GridBagConstraints gbc_radioButtonMinusvalido = new GridBagConstraints();
+		gbc_radioButtonMinusvalido.insets = new Insets(0, 0, 5, 5);
+		gbc_radioButtonMinusvalido.gridx = 2;
+		gbc_radioButtonMinusvalido.gridy = 1;
+		middlePanel.add(radioButtonMinusvalido, gbc_radioButtonMinusvalido);
+		
+		
+		// Panel inferior
+		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
+
+		// Panel inferior (izq)
+		JPanel leftBottomPanel = new JPanel();
+		leftBottomPanel.setLayout(new GridBagLayout());
+
+		btnAcceder = new JButton("ACCEDER");
+		btnAcceder.setEnabled(false);
+		btnAcceder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ClienteOrdinario ordinario = new ClienteOrdinario();
+					ordinario.setMatricula(textFieldMatricula.getText());
+
+					String tipoVehiculo = radioButtonGroup.getSelection().getActionCommand();
+					double tarifa = 0.00;
+					if (radioButtonOrdinario.isSelected()) {
+						tipoVehiculo = radioButtonOrdinario.getText();
+						tarifa = 0.50;
+					} else if (radioButtonElectrico.isSelected()) {
+						tipoVehiculo = radioButtonElectrico.getText();
+						tarifa = 0.40;
+					} else if (radioButtonMinusvalido.isSelected()) {
+						tipoVehiculo = radioButtonMinusvalido.getText();
+						tarifa = 0.30;
+					}
+					ordinario.setTipoVehiculo(tipoVehiculo);
+					ordinario.setTarifa(tarifa);
+					ordinario.setFechaEntrada(formatter.parse(horaEntrada).getTime());
+//					servicio.ordinarioInsert(ordinario);
+					
+					PanelAccesoOrdinariosSeleccionPlaza panel  = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance, ordinario);
+					frame.getContentPane().add(panel);
+					panel.setVisible(true);
+					setVisible(false);
+
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		leftBottomPanel.add(btnAcceder, new GridBagConstraints());
+		
+		
+		// Panel inferior (dcha)
+		JPanel rightBottomPanel = new JPanel();
+		rightBottomPanel.setLayout(new GridBagLayout());
+		
+		btnComprarBono = new JButton("COMPRAR ABONO");
+		btnComprarBono.setEnabled(false);
+		btnComprarBono.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ClienteSubscrito subscrito = new ClienteSubscrito();
+					subscrito.setMatricula(textFieldMatricula.getText()); 
+					String tipoVehiculo = radioButtonGroup.getSelection().getActionCommand();
+					String tipoCuota = "0.00";
+					if (radioButtonOrdinario.isSelected()) {
+						tipoVehiculo = radioButtonOrdinario.getText(); 
+						tipoCuota = "0.50";
+					} else if (radioButtonElectrico.isSelected()) {
+						tipoVehiculo = radioButtonElectrico.getText();
+						tipoCuota = "0.40";
+					} else if (radioButtonMinusvalido.isSelected()) {
+						tipoVehiculo = radioButtonMinusvalido.getText();
+						tipoCuota = "0.30";
+					}
+					subscrito.setTipoVehiculo(tipoVehiculo); 
+					subscrito.setTipoCuota(tipoCuota); 
+					subscrito.setFechaEntrada(formatter.parse(horaEntrada).getTime()); 
+//					servicio.subscritoInsert(subscrito);
+					PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance, subscrito);
+					frame.getContentPane().add(panel);
+					panel.setVisible(true);
+					setVisible(false);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		rightBottomPanel.add(btnComprarBono, new GridBagConstraints());
+
+		bottomPanel.add(leftBottomPanel);
+		bottomPanel.add(rightBottomPanel);
+		
+		add(topPanel);
+		add(middlePanel);
+		add(bottomPanel);
+	}
+
+}
+
+
+
+
+
+
+
+
+//JPanel middleRightBottomPanel = new JPanel();
+//middleRightBottomPanel.setLayout(new GridBagLayout());
+//btnPagar = new JButton("PAGAR");
+//btnPagar.addActionListener(new ActionListener() {
+//	public void actionPerformed(ActionEvent e) {
+//
+//		Usuario usuario = servicio.usuario(textFieldMatricula.getText());
+//
+//		PanelPago panel = new PanelPago(frame, instance, usuario, textFieldHorarioActual.getText());
+//		frame.getContentPane().add(panel);
+//		panel.setVisible(true);
+//		setVisible(false);
+//
+////		ZonedDateTime now = ZonedDateTime.now();
+////		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
+////		String initialTime = formatter.format(now);
+////		PaymentPanel panel = new PaymentPanel(frame, "ordinary" ,initialTime,plateTextField.getText());
+////		frame.add(panel);
+////		setVisible(false);
+////		panel.setVisible(true);
+//	}
+//});
+//middleRightBottomPanel.add(btnPagar, new GridBagConstraints());
+//
+////JPanel rightBottomPanel = new JPanel();
+////rightBottomPanel.setLayout(new GridBagLayout());
+////btnVolver = new JButton("VOLVER");
+////btnVolver.addActionListener(new ActionListener() {
+////	public void actionPerformed(ActionEvent e) {
+////		frame.getContentPane().add(panel);
+////		panel.setVisible(true);
+////		setVisible(false);
+////	}
+////});
+////rightBottomPanel.add(btnVolver);
+
+
+
+
+
+//bottomPanel.add(middleRightBottomPanel);
+//bottomPanel.add(rightBottomPanel);
+
+
+
+//btnPagar.setEnabled(false);
