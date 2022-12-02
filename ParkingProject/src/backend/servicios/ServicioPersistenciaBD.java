@@ -490,7 +490,7 @@ public class ServicioPersistenciaBD {
 				}
 				plaza.setEstadoPlaza(estado);
 				plaza.setTipoPlaza(rs.getString("tipo_plaza"));
-				plaza.setMatricula(rs.getString("matricula"));
+//				plaza.setMatricula(rs.getString("matricula"));
 				ret.add(plaza);
 			}
 			rs.close();
@@ -569,31 +569,26 @@ public class ServicioPersistenciaBD {
 			return null;
 		}
 	}
-	
-	
-	public void update(Plaza plaza, String estado, String matricula) {
-	try (PreparedStatement stmt = connect().prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
-		stmt.setString(1, estado);
-		stmt.setString(2, matricula);	
-		stmt.setInt(3, plaza.getNumeroPlaza());
-		stmt.executeUpdate();
-	} catch (SQLException e) {
-		log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
-		lastError = e;
-		e.printStackTrace();
-	}
-	}
-	
-	
-	
-	
-	
 
-	
-	public void updateDel(int numeroPlaza, String estado) {
-		try (PreparedStatement stmt = connect().prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
+	public void update(Plaza plaza, String estado, String matricula) {
+		try (PreparedStatement stmt = connect()
+				.prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
 			stmt.setString(1, estado);
-			stmt.setString(2, "");	
+			stmt.setString(2, matricula);
+			stmt.setInt(3, plaza.getNumeroPlaza());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
+			lastError = e;
+			e.printStackTrace();
+		}
+	}
+
+	public void updateDel(int numeroPlaza, String estado) {
+		try (PreparedStatement stmt = connect()
+				.prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
+			stmt.setString(1, estado);
+			stmt.setString(2, "");
 			stmt.setInt(3, numeroPlaza);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -601,13 +596,12 @@ public class ServicioPersistenciaBD {
 			lastError = e;
 			e.printStackTrace();
 		}
-}
-	
-	
+	}
+
 	public static int getPlaza(String matricula) {
 		String sentSQL = "";
 		try {
-			sentSQL = "SELECT numero_plaza FROM plazas WHERE matricula = '" + securizer(matricula) +"';" ;
+			sentSQL = "SELECT numero_plaza FROM plazas WHERE matricula = '" + securizer(matricula) + "';";
 			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			rs.next();
@@ -968,7 +962,3 @@ public class ServicioPersistenciaBD {
 
 //
 }
-
-
-
-

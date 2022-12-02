@@ -15,9 +15,6 @@ public class Plaza {
 	private String tipoPlaza; // Corresponde al tipo de vehiculo que vaya a aparcar: normal (1), electrico
 								// (2), ...
 
-	private String matricula;
-	
-	
 	/** Constructor vacio de la clase Planta */
 	public Plaza() {
 		super();
@@ -105,15 +102,6 @@ public class Plaza {
 		this.tipoPlaza = tipoPlaza;
 	}
 
-	public String getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
-	}
-
-	
 	@Override
 	public String toString() {
 		return String.format("%d, %d, %s, %b", numeroPlanta, numeroPlaza, tipoPlaza, estadoPlaza);

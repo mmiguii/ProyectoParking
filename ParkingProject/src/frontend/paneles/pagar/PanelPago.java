@@ -43,9 +43,6 @@ public class PanelPago extends JPanel {
 
 		servicio = new ServicioPersistenciaBD();
 		List<Plaza> plazas = servicio.plazasSelect();
-		
-
-		
 
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
@@ -197,16 +194,8 @@ public class PanelPago extends JPanel {
 						JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if (opcion == 0) {
 					if (usuario instanceof ClienteOrdinario) {
-						
-						int numeroPlaza = 0;
-						for (Plaza p : plazas) {
-							if (p.getMatricula() == usuario.getMatricula()) {
-								numeroPlaza = p.getNumeroPlaza();
-								
-							}
-						}
-						
-						servicio.updateDel(servicio.getPlaza(usuario.getMatricula()),"Disponible");
+
+//						servicio.updateDel(servicio.getPlaza(usuario.getMatricula()),"Disponible");
 						servicio.ordinarioDelete(usuario.getMatricula());
 						PanelSalida panel = new PanelSalida(frame);
 						frame.getContentPane().add(panel);
