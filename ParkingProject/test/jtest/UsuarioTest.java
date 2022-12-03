@@ -18,7 +18,6 @@ public class UsuarioTest {
 	@Before
 	public void setUp() {
 
-
 		user = new Usuario("1234AAA", "Normal", System.currentTimeMillis(), System.currentTimeMillis(), 2.00) {
 
 		};
@@ -81,7 +80,8 @@ public class UsuarioTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("1234AAA, Normal, "+sdf.format(new Date(user.getFechaEntrada()))+", "+sdf.format(new Date(user.getFechaSalida()))+", 2,00", user.toString());//Normal, current time
+		assertEquals("1234AAA, Normal, " + sdf.format(new Date(user.getFechaEntrada())) + ", "
+				+ sdf.format(new Date(user.getFechaSalida())) + ", 2,00", user.toString());// Normal, current time
 	}
 
 }

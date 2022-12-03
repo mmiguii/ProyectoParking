@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.PanelPrincipal;
 
 public class VentanaPrincipal extends JFrame {

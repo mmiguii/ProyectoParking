@@ -6,8 +6,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -28,8 +26,7 @@ import backend.servicios.ServicioPersistenciaBD;
 public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private ServicioPersistenciaBD servicio;
-	private JPanel instance;
+//	private ServicioPersistenciaBD servicio;
 
 	private JTable tPlazas1;
 	private JTable tPlazas2;
@@ -45,15 +42,14 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	public PanelAccesoOrdinariosSeleccionPlaza(JFrame frame, JPanel panel, ClienteOrdinario ordinario) {
 
-		instance = this;
-		servicio = new ServicioPersistenciaBD();
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+//		servicio = new ServicioPersistenciaBD();
+//		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		int p1 = 1;
-		List<Plaza> plazas1 = servicio.plazasSelect(p1, ordinario.getTipoVehiculo());
+		List<Plaza> plazas1 = ServicioPersistenciaBD.plazasSelect(p1, ordinario.getTipoVehiculo());
 
 		int p2 = 2;
-		List<Plaza> plazas2 = servicio.plazasSelect(p2, ordinario.getTipoVehiculo());
+		List<Plaza> plazas2 = ServicioPersistenciaBD.plazasSelect(p2, ordinario.getTipoVehiculo());
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
 		setBounds(10, 10, 567, 448);
@@ -171,15 +167,15 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 					int plazaSeleccionada = tPlazas1.getSelectedRow();
 					Plaza p = plazas1.get(plazaSeleccionada);
 					String estado = "Ocupado";
-					servicio.ordinarioInsert(ordinario);
-					servicio.update(p, estado, ordinario.getMatricula());
+					ServicioPersistenciaBD.ordinarioInsert(ordinario);
+					ServicioPersistenciaBD.update(p, estado, ordinario.getMatricula());
 
 				} else {
 					int plazaSeleccionada = tPlazas2.getSelectedRow();
 					Plaza p = plazas2.get(plazaSeleccionada);
 					String estado = "Ocupado";
-					servicio.ordinarioInsert(ordinario);
-					servicio.update(p, estado, ordinario.getMatricula());
+					ServicioPersistenciaBD.ordinarioInsert(ordinario);
+					ServicioPersistenciaBD.update(p, estado, ordinario.getMatricula());
 
 				}
 

@@ -1,4 +1,4 @@
-package frontend.paneles.trabajador.empleado;
+package frontend.paneles.trabajador.acciones;
 
 import java.awt.Font;
 import java.awt.GridBagLayout;

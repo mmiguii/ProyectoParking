@@ -14,7 +14,6 @@ public class ClienteOrdinarioTest {
 
 	private ClienteOrdinario ordinaryCustomer;
 
-
 	@Before // ese metodo se inicializa antes de cada test creando un nuevo ordinaryCustomer
 			// para ser utilizado en los distintos test
 	public void setUp() {
@@ -42,7 +41,10 @@ public class ClienteOrdinarioTest {
 		ordinaryCustomer.setFechaEntrada(1184104800000L);
 		ordinaryCustomer.setFechaSalida(1184104800000L);
 		ordinaryCustomer.setImporte(2.30);
-		assertEquals("1234AAA, Normal, "+sdf.format(new Date(ordinaryCustomer.getFechaEntrada()))+", "+sdf.format(new Date(ordinaryCustomer.getFechaSalida()))+", 2,30, 2,30", ordinaryCustomer.toString());
+		assertEquals(
+				"1234AAA, Normal, " + sdf.format(new Date(ordinaryCustomer.getFechaEntrada())) + ", "
+						+ sdf.format(new Date(ordinaryCustomer.getFechaSalida())) + ", 2,30, 2,30",
+				ordinaryCustomer.toString());
 	}
 
 }

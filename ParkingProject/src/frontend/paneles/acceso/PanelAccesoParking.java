@@ -22,10 +22,8 @@ import javax.swing.SwingConstants;
 
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.ClienteSubscrito;
-import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.acceso.clientes.PanelAccesoOrdinariosSeleccionPlaza;
 import frontend.paneles.acceso.clientes.PanelAccesoSubscritosSeleccionAbono;
-import frontend.panelesAEliminar.PanelClienteOrdinario;
 
 public class PanelAccesoParking extends JPanel {
 
@@ -45,7 +43,7 @@ public class PanelAccesoParking extends JPanel {
 	public PanelAccesoParking(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
 
 		instance = this;
-		
+
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de acceso al parking"));
@@ -66,7 +64,7 @@ public class PanelAccesoParking extends JPanel {
 		gbc_lblBienvenida.gridx = 1;
 		gbc_lblBienvenida.gridy = 0;
 		topPanel.add(lblBienvenida, gbc_lblBienvenida);
-		
+
 		JLabel lblHoraEntrada = new JLabel("Hora de entrada");
 		GridBagConstraints gbc_lblHoraEntrada = new GridBagConstraints();
 		gbc_lblHoraEntrada.insets = new Insets(0, 0, 5, 5);
@@ -102,8 +100,7 @@ public class PanelAccesoParking extends JPanel {
 		gbc_textFieldMatricula.gridx = 2;
 		gbc_textFieldMatricula.gridy = 2;
 		topPanel.add(textFieldMatricula, gbc_textFieldMatricula);
-		
-		
+
 		// Panel central
 		JPanel middlePanel = new JPanel();
 		GridBagLayout gbl_middlePanel = new GridBagLayout();
@@ -120,7 +117,7 @@ public class PanelAccesoParking extends JPanel {
 		gbc_lblSeleccionTipo.gridx = 0;
 		gbc_lblSeleccionTipo.gridy = 0;
 		middlePanel.add(lblSeleccionTipo, gbc_lblSeleccionTipo);
-		
+
 		radioButtonOrdinario = new JRadioButton("Ordinario");
 		radioButtonOrdinario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,12 +126,12 @@ public class PanelAccesoParking extends JPanel {
 			}
 		});
 		radioButtonGroup.add(radioButtonOrdinario); // Anadimos el boton al grupo
-		GridBagConstraints gbc_radioButtonOrdinario = new GridBagConstraints(); 
+		GridBagConstraints gbc_radioButtonOrdinario = new GridBagConstraints();
 		gbc_radioButtonOrdinario.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButtonOrdinario.gridx = 0;
 		gbc_radioButtonOrdinario.gridy = 1;
 		middlePanel.add(radioButtonOrdinario, gbc_radioButtonOrdinario);
-		
+
 		radioButtonElectrico = new JRadioButton("Electrico");
 		radioButtonElectrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -148,7 +145,7 @@ public class PanelAccesoParking extends JPanel {
 		gbc_radioButtonElectrico.gridx = 1;
 		gbc_radioButtonElectrico.gridy = 1;
 		middlePanel.add(radioButtonElectrico, gbc_radioButtonElectrico);
-		
+
 		radioButtonMinusvalido = new JRadioButton("Minusvalido");
 		radioButtonMinusvalido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -162,8 +159,7 @@ public class PanelAccesoParking extends JPanel {
 		gbc_radioButtonMinusvalido.gridx = 2;
 		gbc_radioButtonMinusvalido.gridy = 1;
 		middlePanel.add(radioButtonMinusvalido, gbc_radioButtonMinusvalido);
-		
-		
+
 		// Panel inferior
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
 
@@ -195,8 +191,9 @@ public class PanelAccesoParking extends JPanel {
 					ordinario.setTarifa(tarifa);
 					ordinario.setFechaEntrada(formatter.parse(horaEntrada).getTime());
 //					servicio.ordinarioInsert(ordinario);
-					
-					PanelAccesoOrdinariosSeleccionPlaza panel  = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance, ordinario);
+
+					PanelAccesoOrdinariosSeleccionPlaza panel = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance,
+							ordinario);
 					frame.getContentPane().add(panel);
 					panel.setVisible(true);
 					setVisible(false);
@@ -207,23 +204,22 @@ public class PanelAccesoParking extends JPanel {
 			}
 		});
 		leftBottomPanel.add(btnAcceder, new GridBagConstraints());
-		
-		
+
 		// Panel inferior (dcha)
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
-		
+
 		btnComprarBono = new JButton("COMPRAR ABONO");
 		btnComprarBono.setEnabled(false);
 		btnComprarBono.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ClienteSubscrito subscrito = new ClienteSubscrito();
-					subscrito.setMatricula(textFieldMatricula.getText()); 
+					subscrito.setMatricula(textFieldMatricula.getText());
 					String tipoVehiculo = radioButtonGroup.getSelection().getActionCommand();
 					String tipoCuota = "0.00";
 					if (radioButtonOrdinario.isSelected()) {
-						tipoVehiculo = radioButtonOrdinario.getText(); 
+						tipoVehiculo = radioButtonOrdinario.getText();
 						tipoCuota = "0.50";
 					} else if (radioButtonElectrico.isSelected()) {
 						tipoVehiculo = radioButtonElectrico.getText();
@@ -232,11 +228,12 @@ public class PanelAccesoParking extends JPanel {
 						tipoVehiculo = radioButtonMinusvalido.getText();
 						tipoCuota = "0.30";
 					}
-					subscrito.setTipoVehiculo(tipoVehiculo); 
-					subscrito.setTipoCuota(tipoCuota); 
-					subscrito.setFechaEntrada(formatter.parse(horaEntrada).getTime()); 
+					subscrito.setTipoVehiculo(tipoVehiculo);
+					subscrito.setTipoCuota(tipoCuota);
+					subscrito.setFechaEntrada(formatter.parse(horaEntrada).getTime());
 //					servicio.subscritoInsert(subscrito);
-					PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance, subscrito);
+					PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance,
+							subscrito);
 					frame.getContentPane().add(panel);
 					panel.setVisible(true);
 					setVisible(false);
@@ -249,64 +246,10 @@ public class PanelAccesoParking extends JPanel {
 
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(rightBottomPanel);
-		
+
 		add(topPanel);
 		add(middlePanel);
 		add(bottomPanel);
 	}
 
 }
-
-
-
-
-
-
-
-
-//JPanel middleRightBottomPanel = new JPanel();
-//middleRightBottomPanel.setLayout(new GridBagLayout());
-//btnPagar = new JButton("PAGAR");
-//btnPagar.addActionListener(new ActionListener() {
-//	public void actionPerformed(ActionEvent e) {
-//
-//		Usuario usuario = servicio.usuario(textFieldMatricula.getText());
-//
-//		PanelPago panel = new PanelPago(frame, instance, usuario, textFieldHorarioActual.getText());
-//		frame.getContentPane().add(panel);
-//		panel.setVisible(true);
-//		setVisible(false);
-//
-////		ZonedDateTime now = ZonedDateTime.now();
-////		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ");
-////		String initialTime = formatter.format(now);
-////		PaymentPanel panel = new PaymentPanel(frame, "ordinary" ,initialTime,plateTextField.getText());
-////		frame.add(panel);
-////		setVisible(false);
-////		panel.setVisible(true);
-//	}
-//});
-//middleRightBottomPanel.add(btnPagar, new GridBagConstraints());
-//
-////JPanel rightBottomPanel = new JPanel();
-////rightBottomPanel.setLayout(new GridBagLayout());
-////btnVolver = new JButton("VOLVER");
-////btnVolver.addActionListener(new ActionListener() {
-////	public void actionPerformed(ActionEvent e) {
-////		frame.getContentPane().add(panel);
-////		panel.setVisible(true);
-////		setVisible(false);
-////	}
-////});
-////rightBottomPanel.add(btnVolver);
-
-
-
-
-
-//bottomPanel.add(middleRightBottomPanel);
-//bottomPanel.add(rightBottomPanel);
-
-
-
-//btnPagar.setEnabled(false);

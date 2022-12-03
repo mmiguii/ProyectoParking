@@ -31,8 +31,8 @@ public class ManagerTest {
 	public void testToString() {
 		ZonedDateTime t = ZonedDateTime.now();
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
-		manager.setNombre("Pedro");
-		manager.setApellido("Sanchez");
+		manager.setNombreUsuario("Pedro");
+		manager.setPassword("Sanchez");
 		manager.setDni("999");
 		manager.setEmail("pedrosanchez9@gmail.com");
 		manager.setPuesto("manager");
@@ -40,6 +40,7 @@ public class ManagerTest {
 		manager.setAntiguedad(2);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
-		assertEquals("Pedro, Sanchez, pedrosanchez9@gmail.com, 999, manager, " + sdf.format(new Date(fechaComienzo)) + ", 2, 1500,00", manager.toString());
+		assertEquals("Pedro, Sanchez, pedrosanchez9@gmail.com, 999, manager, " + sdf.format(new Date(fechaComienzo))
+				+ ", 2, 1500,00", manager.toString());
 	}
 }

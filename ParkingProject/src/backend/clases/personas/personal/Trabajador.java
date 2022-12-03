@@ -15,8 +15,8 @@ import java.util.Date;
 public abstract class Trabajador {
 
 	/** Atributos genericos de un objeto Trabajador */
-	private String nombre;
-	private String apellido;
+	private String nombreUsuario;
+	private String password;
 	private String dni;
 	private String email;
 	private String puesto; // Manager o empleado
@@ -29,11 +29,11 @@ public abstract class Trabajador {
 		super();
 	}
 
-	public Trabajador(String nombre, String apellido, String dni, String email, String puesto, long fechaComienzo,
-			int antiguedad, double salario) {
+	public Trabajador(String nombreUsuario, String password, String dni, String email, String puesto,
+			long fechaComienzo, int antiguedad, double salario) {
 		super();
-		this.nombre = nombre;
-		this.apellido = apellido;
+		this.nombreUsuario = nombreUsuario;
+		this.password = password;
 		this.dni = dni;
 		this.email = email;
 		this.puesto = puesto;
@@ -43,39 +43,39 @@ public abstract class Trabajador {
 	}
 
 	/**
-	 * Metodo getter del atributo nombre del trabajador.
+	 * Metodo getter del atributo nombre de usuario del trabajador.
 	 * 
-	 * @return nombre:nombre del trabajador.
+	 * @return nombreUsuario:nombre del trabajador.
 	 */
-	public String getNombre() {
-		return nombre;
+	public String getNombreUsuario() {
+		return nombreUsuario;
 	}
 
 	/**
-	 * Metodo setter del atributo nombre del trabajador.
+	 * Metodo setter del atributo nombre de usuario del trabajador.
 	 * 
-	 * @param nombre: nombre del trabajador.
+	 * @param nombreUsuario: nombre del trabajador.
 	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 
 	/**
-	 * Metodo getter del atributo apellido del trabajador.
+	 * Metodo getter del atributo password del trabajador.
 	 * 
-	 * @return apellido: apellido del trabajador.
+	 * @return password: password del trabajador.
 	 */
-	public String getApellido() {
-		return apellido;
+	public String getPassword() {
+		return password;
 	}
 
 	/**
-	 * Metodo setter del atributo apellido del trabajador.
+	 * Metodo setter del atributo password del trabajador.
 	 * 
-	 * @param apellido: apellido del trabajador.
+	 * @param password: password del trabajador.
 	 */
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/**
@@ -190,8 +190,17 @@ public abstract class Trabajador {
 
 	@Override
 	public String toString() {
-		return String.format("%s, %s, %s, %s, %s, %s, %d, %.2f", nombre, apellido, dni, email, puesto,
+		return String.format("%s, %s, %s, %s, %s, %s, %d, %.2f", nombreUsuario, password, dni, email, puesto,
 				sdf.format(new Date(fechaComienzo)), antiguedad, salario);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Trabajador) {
+			return nombreUsuario == ((Trabajador) obj).nombreUsuario;
+		} else {
+			return false;
+		}
 	}
 
 }

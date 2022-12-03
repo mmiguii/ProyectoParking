@@ -79,16 +79,16 @@ public class ServicioPersistenciaBD {
 			Statement stmt = conn.createStatement();
 			stmt.setQueryTimeout(30); // poner timeout 30 msg
 			try {
-				stmt.executeUpdate("CREATE TABLE CLIENTES_ORDINARIOS " + "(id_cliente_ordinario integer, "
-						+ "matricula string, " + "tipo_vehiculo string, " + "fecha_entrada long, "
-						+ "fecha_salida long, " + "tarifa double, " + "importe)");
+				stmt.executeUpdate(
+						"CREATE TABLE CLIENTES_ORDINARIOS " + "(matricula string, " + "tipo_vehiculo string, "
+								+ "fecha_entrada long, " + "fecha_salida long, " + "tarifa double, " + "importe)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			}
 			try {
-				stmt.executeUpdate("CREATE TABLE CLIENTES_SUBSCRITOS " + "(id_cliente_subscrito integer, "
-						+ "matricula string, " + "tipo_vehiculo string, " + "tipo_cuota string, " // Semanal, Mensual,
-																									// Anual
+				stmt.executeUpdate("CREATE TABLE CLIENTES_SUBSCRITOS " + "(matricula string, "
+						+ "tipo_vehiculo string, " + "tipo_cuota string, " // Semanal, Mensual,
+																			// Anual
 						+ "precio_cuota double, " // Cuota fija correspondiente al tiempo que se reserva (semana, mes,
 													// año)
 						+ "numero_plaza_ocupada integer, " + "fecha_comienzo long, " + "fecha_final long, "
@@ -570,7 +570,7 @@ public class ServicioPersistenciaBD {
 		}
 	}
 
-	public void update(Plaza plaza, String estado, String matricula) {
+	public static void update(Plaza plaza, String estado, String matricula) {
 		try (PreparedStatement stmt = connect()
 				.prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
 			stmt.setString(1, estado);
@@ -637,25 +637,25 @@ public class ServicioPersistenciaBD {
 	/// Operaciones con plantas ///
 	/////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Cuenta el total de ingresos que se han obtnido por planta
-	 * 
-	 * @return cantidad de ingresos totales por planta
-	 */
-	public static double getIngresosPlanta() {
-		String sentSQL = "";
-		try {
-			sentSQL = "SELECT ingresos_planta FROM planta GROUP BY numero_planta";
-			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
-			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
-			rs.next();
-			return rs.getDouble(1);
-		} catch (SQLException e) {
-			lastError = e;
-			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
-			return 0;
-		}
-	}
+//	/**
+//	 * Cuenta el total de ingresos que se han obtnido por planta
+//	 * 
+//	 * @return cantidad de ingresos totales por planta
+//	 */
+//	public static double getIngresosPlanta() {
+//		String sentSQL = "";
+//		try {
+//			sentSQL = "SELECT ingresos_planta FROM planta GROUP BY numero_planta";
+//			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
+//			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+//			rs.next();
+//			return rs.getDouble(1);
+//		} catch (SQLException e) {
+//			lastError = e;
+//			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+//			return 0;
+//		}
+//	}
 
 	/////////////////////////////////////////////////////////////////////
 	/// Operaciones con ingresos por plaza en plantas ///
@@ -665,21 +665,21 @@ public class ServicioPersistenciaBD {
 	/// Operaciones por tipo de cliente ///
 	/////////////////////////////////////////////////////////////////////
 
-	public static int getClientesPorTipo() {
-		String sentSQL = "";
-		try {
-			sentSQL = "SELECT COUNT(*) FROM tipo_cliente GROUP BY id_tipo_cliente";
-			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
-			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
-			rs.next();
-			return rs.getInt(1);
-		} catch (SQLException e) {
-			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
-			lastError = e;
-			e.printStackTrace();
-			return 0;
-		}
-	}
+//	public static int getClientesPorTipo() {
+//		String sentSQL = "";
+//		try {
+//			sentSQL = "SELECT COUNT(*) FROM tipo_cliente GROUP BY id_tipo_cliente";
+//			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
+//			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+//			rs.next();
+//			return rs.getInt(1);
+//		} catch (SQLException e) {
+//			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+//			lastError = e;
+//			e.printStackTrace();
+//			return 0;
+//		}
+//	}
 
 	/////////////////////////////////////////////////////////////////////
 	/// Operaciones por tipo de tarifa ///
@@ -786,14 +786,15 @@ public class ServicioPersistenciaBD {
 	public static Manager managerSelect(String dni) {
 		String sentSQL = "";
 		try {
-			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '" + securizer(dni) + "';";
+			sentSQL = "SELECT dni, nombre_usuario, password, puesto FROM trabajadores WHERE dni = '" + securizer(dni)
+					+ "';";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			if (rs.next()) {
 				Manager ret = new Manager();
 				ret.setDni(rs.getString("dni"));
-				ret.setNombre(rs.getString("nombre"));
-				ret.setApellido(rs.getString("apellido"));
+				ret.setNombreUsuario(rs.getString("nombre_usuario"));
+				ret.setPassword(rs.getString("password"));
 				ret.setPuesto(rs.getString("puesto"));
 				rs.close();
 				return ret;
@@ -811,14 +812,15 @@ public class ServicioPersistenciaBD {
 	public static Empleado empleadoSelect(String dni) {
 		String sentSQL = "";
 		try {
-			sentSQL = "SELECT dni, nombre, apellido, puesto FROM trabajadores WHERE dni = '" + securizer(dni) + "';";
+			sentSQL = "SELECT dni, nombre_usuario, password, puesto FROM trabajadores WHERE dni = '" + securizer(dni)
+					+ "';";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			if (rs.next()) {
 				Empleado ret = new Empleado();
 				ret.setDni(rs.getString("dni"));
-				ret.setNombre(rs.getString("nombre"));
-				ret.setApellido(rs.getString("apellido"));
+				ret.setNombreUsuario(rs.getString("nombre_usuario"));
+				ret.setPassword(rs.getString("password"));
 				ret.setPuesto(rs.getString("puesto"));
 				rs.close();
 				return ret;
@@ -837,14 +839,14 @@ public class ServicioPersistenciaBD {
 		String sentSQL = "";
 		try {
 			List<Empleado> ret = new ArrayList<>();
-			sentSQL = "SELECT dni, nombre, apellido, email, puesto FROM trabajadores";
+			sentSQL = "SELECT dni, nombre_usuario, password, email, puesto FROM trabajadores";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			while (rs.next()) {
 				Empleado empleado = new Empleado();
 				empleado.setDni(rs.getString("dni"));
-				empleado.setNombre(rs.getString("nombre"));
-				empleado.setApellido(rs.getString("apellido"));
+				empleado.setNombreUsuario(rs.getString("nombre_usuario"));
+				empleado.setPassword(rs.getString("password"));
 				empleado.setEmail(rs.getString("email"));
 				empleado.setPuesto(rs.getString("puesto"));
 				ret.add(empleado);
@@ -862,14 +864,14 @@ public class ServicioPersistenciaBD {
 		String sentSQL = "";
 		try {
 			List<Manager> ret = new ArrayList<>();
-			sentSQL = "SELECT dni, nombre, apellido, email, puesto FROM trabajadores;";
+			sentSQL = "SELECT dni, nombre_usuario, password, email, puesto FROM trabajadores;";
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			while (rs.next()) {
 				Manager manager = new Manager();
 				manager.setDni(rs.getString("dni"));
-				manager.setNombre(rs.getString("nombre"));
-				manager.setApellido(rs.getString("apellido"));
+				manager.setNombreUsuario(rs.getString("nombre_usuario"));
+				manager.setPassword(rs.getString("password"));
 				manager.setEmail(rs.getString("email"));
 				manager.setPuesto(rs.getString("puesto"));
 				ret.add(manager);

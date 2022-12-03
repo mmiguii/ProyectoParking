@@ -1,4 +1,4 @@
-package frontend.paneles.trabajador.manager;
+package frontend.paneles.acceso.trabajdor;
 
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -14,9 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import backend.clases.personas.personal.Trabajador;
-import frontend.paneles.trabajador.empleado.PersonalDataWorkerPanel;
-import frontend.panelesAEliminar.BajaSubscribersPanel;
-import frontend.panelesAEliminar.StateParkingPanel;
+import frontend.paneles.trabajador.acciones.BajaSubscribersPanel;
+import frontend.paneles.trabajador.acciones.PersonalDataWorkerPanel;
+import frontend.paneles.trabajador.acciones.PanelEstadoParking;
 
 public class PanelManager extends JPanel {
 
@@ -39,7 +39,7 @@ public class PanelManager extends JPanel {
 		labelWellcoming.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		topPanel.add(labelWellcoming);
 
-		JTextField text = new JTextField(trabajador.getNombre() + " " + trabajador.getApellido());
+		JTextField text = new JTextField(trabajador.getNombreUsuario() + " " + trabajador.getPassword());
 		text.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		text.setEditable(false);
 		text.setBorder(null);
@@ -66,7 +66,7 @@ public class PanelManager extends JPanel {
 		JButton btnFichero = new JButton("CONSULTAR FICHEROS");
 		btnFichero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StateParkingPanel panel = new StateParkingPanel(frame);
+				PanelEstadoParking panel = new PanelEstadoParking(frame, instance);
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
@@ -85,7 +85,7 @@ public class PanelManager extends JPanel {
 		JButton btnDatosParking = new JButton("CONSULTAR DATOS DEL PARKING");
 		btnDatosParking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame);
+				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);

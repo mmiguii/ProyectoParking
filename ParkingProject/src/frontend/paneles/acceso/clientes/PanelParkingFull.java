@@ -1,11 +1,9 @@
-package frontend.paneles.clientes.acciones;
+package frontend.paneles.acceso.clientes;
 
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,19 +12,17 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import frontend.panelesAEliminar.PanelAccesoCliente;
-
 public class PanelParkingFull extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private JPanel instance;
+//	private JPanel instance;
 
-	public PanelParkingFull(JFrame frame, String matricula) {
+	public PanelParkingFull(JFrame frame, JPanel panel, String matricula) {
 
-		instance = this;
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
+//		instance = this;
+
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Full Panel"));
 		setBounds(10, 10, 567, 448);
@@ -56,10 +52,10 @@ public class PanelParkingFull extends JPanel {
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelAccesoCliente panel = new PanelAccesoCliente(frame, instance,formatter.format(LocalDate.now()),matricula);
-				frame.add(panel);
-				setVisible(false);
+
+				frame.getContentPane().add(panel);
 				panel.setVisible(true);
+				setVisible(false);
 			}
 		});
 		bottomPanel.add(btnVolver);

@@ -1,4 +1,4 @@
-package frontend.paneles.pagar;
+package frontend.paneles.acceso.clientes.pago;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -6,9 +6,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
@@ -19,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
@@ -33,7 +30,6 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldTipoVehiculo;
 	private JTextField textFieldImporteTotal;
 
-	private ServicioPersistenciaBD servicio;
 	private JTextField textFieldTipoUsuario;
 
 	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, String horaActual) {
@@ -41,11 +37,9 @@ public class PanelPago extends JPanel {
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 
-		servicio = new ServicioPersistenciaBD();
-		List<Plaza> plazas = servicio.plazasSelect();
+//		List<Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
 
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 
 		textFieldFechaEntrada = new JTextField(formatter.format(new Date(usuario.getFechaEntrada()).getTime()));
 		textFieldFechaEntrada.setHorizontalAlignment(SwingConstants.CENTER);
@@ -68,7 +62,7 @@ public class PanelPago extends JPanel {
 
 		try {
 
-			Date date = formatter.parse(textFieldFechaSalida.getText());
+//			Date date = formatter.parse(textFieldFechaSalida.getText());
 
 			if (usuario instanceof ClienteOrdinario) {
 
@@ -196,18 +190,15 @@ public class PanelPago extends JPanel {
 					if (usuario instanceof ClienteOrdinario) {
 
 //						servicio.updateDel(servicio.getPlaza(usuario.getMatricula()),"Disponible");
-						servicio.ordinarioDelete(usuario.getMatricula());
-						PanelSalida panel = new PanelSalida(frame);
-						frame.getContentPane().add(panel);
-						setVisible(false);
-						panel.setVisible(true);
+						ServicioPersistenciaBD.ordinarioDelete(usuario.getMatricula());
+						frame.dispose();
+
 					} else {
-						servicio.subscritoDelete(usuario.getMatricula());
+//						ServicioPersistenciaBD.subscritoDelete(usuario.getMatricula());
 						// servicio.subscritoDelete(usuario.getMatricula());
-						PanelSalida panel = new PanelSalida(frame);
-						frame.getContentPane().add(panel);
-						setVisible(false);
-						panel.setVisible(true);
+
+						frame.dispose();
+
 					}
 				} else {
 					// No sucede nada

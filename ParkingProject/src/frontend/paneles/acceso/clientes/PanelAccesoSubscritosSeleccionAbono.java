@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,14 +26,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import backend.clases.infraestructura.Plaza;
+import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.servicios.ServicioPersistenciaBD;
-import frontend.paneles.pagar.PanelPago;
+import frontend.paneles.acceso.clientes.pago.PanelPago;
 
 public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private ServicioPersistenciaBD servicio;
+//	private ServicioPersistenciaBD servicio;
 	private JPanel instance;
 	private JTable tPlazas;
 	private JScrollPane scrollPane;
@@ -40,7 +42,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 	public PanelAccesoSubscritosSeleccionAbono(JFrame frame, JPanel panel, ClienteSubscrito subscrito) {
 
 		instance = this;
-		servicio = new ServicioPersistenciaBD();
+//		servicio = new ServicioPersistenciaBD();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
@@ -66,7 +68,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		topPanel.add(lblTextoSeleccion, gbc_lblTextoSeleccion);
 
 		int numeroPlanta = 3;
-		List<Plaza> plazas = servicio.plazasSelect(numeroPlanta, subscrito.getTipoVehiculo());
+		List<Plaza> plazas = ServicioPersistenciaBD.plazasSelect(numeroPlanta, subscrito.getTipoVehiculo());
 		cargarTabla(plazas);
 
 		GridBagConstraints gbc_tPlazas = new GridBagConstraints();
@@ -244,7 +246,23 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 				subscrito.setFechaSalida(sal);
 				System.out.println(s1);
-				servicio.subscritoInsert(subscrito);
+				
+				
+				long tiempoTrans = new Date(sal).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
+				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
+
+				
+				double tarifa;
+				if (subscrito.getTipoVehiculo().equals("Ordinario")) {
+					tarifa = 0.50;
+				} else if (subscrito.getTipoVehiculo().equals("Electrico")) {
+					tarifa = 0.40;
+				} else {
+					tarifa = 0.30;
+				}
+				double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
+				subscrito.setPrecioCuota(importe);				
+				ServicioPersistenciaBD.subscritoInsert(subscrito);
 
 //				System.out.println(plazas.get(seleccionado));
 				PanelPago panel = new PanelPago(frame, instance, subscrito, lblSalidaSem.toString());
@@ -274,7 +292,22 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 				subscrito.setFechaSalida(sal);
 				System.out.println(s1);
-				servicio.subscritoInsert(subscrito);
+				
+				long tiempoTrans = new Date(sal).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
+				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
+
+				
+				double tarifa;
+				if (subscrito.getTipoVehiculo().equals("Ordinario")) {
+					tarifa = 0.50;
+				} else if (subscrito.getTipoVehiculo().equals("Electrico")) {
+					tarifa = 0.40;
+				} else {
+					tarifa = 0.30;
+				}
+				double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
+				subscrito.setPrecioCuota(importe);				
+				ServicioPersistenciaBD.subscritoInsert(subscrito);
 
 //				System.out.println(plazas.get(seleccionado));
 				PanelPago panel = new PanelPago(frame, instance, subscrito, lblSalidaSem.toString());
@@ -304,7 +337,22 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 				subscrito.setFechaSalida(sal);
 				System.out.println(s1);
-				servicio.subscritoInsert(subscrito);
+				
+				long tiempoTrans = new Date(sal).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
+				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
+
+				
+				double tarifa;
+				if (subscrito.getTipoVehiculo().equals("Ordinario")) {
+					tarifa = 0.50;
+				} else if (subscrito.getTipoVehiculo().equals("Electrico")) {
+					tarifa = 0.40;
+				} else {
+					tarifa = 0.30;
+				}
+				double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
+				subscrito.setPrecioCuota(importe);				
+				ServicioPersistenciaBD.subscritoInsert(subscrito);
 
 //				System.out.println(plazas.get(seleccionado));
 				PanelPago panel = new PanelPago(frame, instance, subscrito, lblSalidaSem.toString());

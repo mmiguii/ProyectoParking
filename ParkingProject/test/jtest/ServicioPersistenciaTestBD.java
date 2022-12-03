@@ -85,13 +85,13 @@ public class ServicioPersistenciaTestBD {
 
 	@Test
 	public void testSubscritoInsertFalse() {
-		ClienteSubscrito c = new ClienteSubscrito("Mes", -100, new Plaza(400, true, "Normal"));
+		ClienteSubscrito c = new ClienteSubscrito("Mes", -100, new Plaza(1, 400, true, "Normal"));
 		assertFalse(ServicioPersistenciaBD.subscritoInsert(c));
 	}
 
 	@Test
 	public void testSubscritoInsertTrue() {
-		ClienteSubscrito c = new ClienteSubscrito("Mes", 100, new Plaza(400, true, "Normal"));
+		ClienteSubscrito c = new ClienteSubscrito("Mes", 100, new Plaza(1, 400, true, "Normal"));
 		assertFalse(ServicioPersistenciaBD.subscritoInsert(c));
 	}
 
@@ -123,15 +123,15 @@ public class ServicioPersistenciaTestBD {
 				&& ServicioPersistenciaBD.getPlazasDisponibles() >= 0);
 	}
 
-	@Test
-	public void testGetIngresosPlanta() {
-		assertTrue(ServicioPersistenciaBD.getIngresosPlanta() >= 0);
-	}
-
-	@Test
-	public void testGetClientesPorTipo() {
-		assertTrue(ServicioPersistenciaBD.getClientesPorTipo() >= 0);
-	}
+//	@Test
+//	public void testGetIngresosPlanta() {
+//		assertTrue(ServicioPersistenciaBD.getIngresosPlanta() >= 0);
+//	}
+//
+//	@Test
+//	public void testGetClientesPorTipo() {
+//		assertTrue(ServicioPersistenciaBD.getClientesPorTipo() >= 0);
+//	}
 
 	@Test
 	public void testUsuariosOrds() {

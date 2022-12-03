@@ -61,7 +61,7 @@ public class EnvioEmail {
 			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
 			transport.close();
 
-			JOptionPane.showMessageDialog(null, "Correo enviado"); 
+			JOptionPane.showMessageDialog(null, "Correo enviado");
 
 		} catch (MessagingException me) {
 			me.printStackTrace(); // Si se produce un error
@@ -80,10 +80,10 @@ public class EnvioEmail {
 	 */
 
 	public static void bienvenida(String destinatario, String nombre, String dni) {
-		String asunto = "Recuperación de dni - Parking";
+		String asunto = "Recuperación credenciales (DNI) acceso plataforma - Parking";
 		String cuerpo = "Buenos dias " + nombre + ":\n"
-				+ "Nos dirigimos a usted para que pueda recuperar su dni y acceder a la" + " plataforma del Parking. \n"
-				+ "\n	dni de recuperación: " + dni;
+				+ "Nos dirigimos a usted para que pueda recuperar su DNI y acceder a la" + " plataforma del Parking. \n"
+				+ "\n	DNI de recuperación: " + dni;
 
 		enviarConGMail(destinatario, asunto, cuerpo);
 	}
