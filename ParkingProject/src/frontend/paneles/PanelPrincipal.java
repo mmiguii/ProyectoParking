@@ -35,8 +35,8 @@ import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.acceso.PanelAccesoParking;
 import frontend.paneles.acceso.PanelRecordarCredenciales;
 import frontend.paneles.acceso.clientes.pago.PanelPago;
-import frontend.paneles.acceso.trabajdor.PanelEmpleado;
-import frontend.paneles.acceso.trabajdor.PanelManager;
+import frontend.paneles.acceso.trabajador.PanelEmpleado;
+import frontend.paneles.acceso.trabajador.PanelManager;
 
 public class PanelPrincipal extends JPanel {
 

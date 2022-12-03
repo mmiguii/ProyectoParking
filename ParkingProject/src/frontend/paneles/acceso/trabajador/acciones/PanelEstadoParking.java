@@ -1,4 +1,4 @@
-package frontend.paneles.trabajador.acciones;
+package frontend.paneles.acceso.trabajador.acciones;
 
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -10,16 +10,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-import backend.clases.personas.personal.Trabajador;
-
-public class PersonalDataWorkerPanel extends JPanel {
+public class PanelEstadoParking extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public PersonalDataWorkerPanel(JFrame frame, JPanel panel, Trabajador trabajador) {
+	public PanelEstadoParking(JFrame frame, JPanel panel) {
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Personal Data Panel"));
+		setBorder(javax.swing.BorderFactory.createTitledBorder("Parking State Panel"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
@@ -33,6 +33,13 @@ public class PersonalDataWorkerPanel extends JPanel {
 
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new GridBagLayout());
+
+		DefaultTableModel modelo = new DefaultTableModel();
+		modelo.addColumn("Prueba");
+		JTable table = new JTable();
+		table.setModel(modelo);
+		middlePanel.add(table);
+
 		add(middlePanel);
 
 		JPanel bottomPanel = new JPanel();
@@ -43,11 +50,9 @@ public class PersonalDataWorkerPanel extends JPanel {
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
-
 			}
 		});
 		bottomPanel.add(btnVolver);
 		add(bottomPanel);
 	}
-
 }
