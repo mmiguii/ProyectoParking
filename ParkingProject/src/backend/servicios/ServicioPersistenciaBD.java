@@ -585,8 +585,7 @@ public class ServicioPersistenciaBD {
 	}
 
 	public void updateDel(int numeroPlaza, String estado) {
-		try (PreparedStatement stmt = connect()
-				.prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
+		try (PreparedStatement stmt = connect().prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
 			stmt.setString(1, estado);
 			stmt.setString(2, "");
 			stmt.setInt(3, numeroPlaza);

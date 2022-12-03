@@ -91,9 +91,12 @@ public class PanelRecordarCredenciales extends JPanel {
 					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this,
 							"El nombre de usuario y password introducido no coinciden. Intentelo de nuevo.");
 				} else {
-					EnvioEmail.bienvenida(trabajador.getEmail(), trabajador.getNombreUsuario(), trabajador.getDni());
 					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this,
-							"En breve recibiras un email en tu correo." + "\nEl mensage ha sido enviado con exito."
+							"En breve recibiras un email en tu correo.");
+					EnvioEmail.bienvenida(trabajador.getEmail(), trabajador.getNombreUsuario(), trabajador.getDni());
+
+					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this,
+							"\nEl mensage ha sido enviado con exito."
 									+ "\nEl mensage de recuperacion de credenciales ha sido enviado al siguiente correo: "
 									+ trabajador.getEmail());
 					frame.dispose();

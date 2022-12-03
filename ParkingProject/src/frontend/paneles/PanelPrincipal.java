@@ -210,13 +210,17 @@ public class PanelPrincipal extends JPanel {
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
+							break;
 						} else {
 							PanelEmpleado panel = new PanelEmpleado(frame, instance, t);
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
+							break;
 						}
 
+					} else {
+						
 					}
 
 				}
@@ -258,7 +262,6 @@ public class PanelPrincipal extends JPanel {
 		lblCopyright.setBounds(6, 402, 11, 16);
 		leftPanel.add(lblCopyright);
 
-		// lblHoraActual = new JLabel(formatter.format(ZonedDateTime.now()));
 		lblHoraActual = new JLabel();
 		lblHoraActual.setForeground(new Color(255, 255, 255));
 		lblHoraActual.setBackground(new Color(0, 128, 128));

@@ -26,7 +26,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import backend.clases.infraestructura.Plaza;
-import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.acceso.clientes.pago.PanelPago;
@@ -260,7 +259,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 				} else {
 					tarifa = 0.30;
 				}
-				double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
+				double importe = tarifa * min;
 				subscrito.setPrecioCuota(importe);				
 				ServicioPersistenciaBD.subscritoInsert(subscrito);
 
@@ -305,7 +304,8 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 				} else {
 					tarifa = 0.30;
 				}
-				double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
+				double importe = tarifa * min;
+
 				subscrito.setPrecioCuota(importe);				
 				ServicioPersistenciaBD.subscritoInsert(subscrito);
 
@@ -350,7 +350,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 				} else {
 					tarifa = 0.30;
 				}
-				double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
+				double importe = tarifa * min;
 				subscrito.setPrecioCuota(importe);				
 				ServicioPersistenciaBD.subscritoInsert(subscrito);
 
