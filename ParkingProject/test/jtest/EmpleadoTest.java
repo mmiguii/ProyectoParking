@@ -31,22 +31,23 @@ public class EmpleadoTest {
 //		ZonedDateTime t = ZonedDateTime.now();
 //		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
 		employee.setDni("999");
-		employee.setNombre("Pedro");
+		employee.setNombreUsuario("Pedro");
 		employee.setSalario(1500.00);
 		employee.setAntiguedad(2);
 		employee.setEmail("pedrosanchez9@gmail.com");
 		employee.setPuesto("empleado");
 //		employee.setFechaComienzo(t);
-		employee.setApellido("Sanchez");
+		employee.setPassword("Sanchez");
 		employee.setSalario(1500.00);
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 //		assertEquals("Pedro, Sanchez, 999, " + dateFormatter.format(t) + ", 2, 1500,00", employee.toString());
-		
+
 //		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
 //        dtf.format(LocalDateTime.now());
-        
-		assertEquals("Pedro, Sanchez, 999, pedrosanchez9@gmail.com, empleado, " + sdf.format(new Date(fechaComienzo)) + ", 2, 1500,00", employee.toString());
-		
+
+		assertEquals("Pedro, Sanchez, 999, pedrosanchez9@gmail.com, empleado, " + sdf.format(new Date(fechaComienzo))
+				+ ", 2, 1500,00", employee.toString());
+
 	}
 }

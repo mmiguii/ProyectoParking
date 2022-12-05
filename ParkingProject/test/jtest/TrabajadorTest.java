@@ -23,25 +23,25 @@ public class TrabajadorTest {
 	}
 
 	@Test
-	public void testGetName() {
-		assertEquals("Pedro", w.getNombre());
+	public void testGetNombreUsuario() {
+		assertEquals("Pedro", w.getNombreUsuario());
 	}
 
 	@Test
-	public void testSetName() {
-		w.setNombre("Pablo");
-		assertEquals("Pablo", w.getNombre());
+	public void testSetNombreUsuario() {
+		w.setNombreUsuario("Pablo");
+		assertEquals("Pablo", w.getNombreUsuario());
 	}
 
 	@Test
-	public void testGetSurname() {
-		assertEquals("Sanchez", w.getApellido());
+	public void testGetPassword() {
+		assertEquals("Sanchez", w.getPassword());
 	}
 
 	@Test
-	public void testSetSurname() {
-		w.setApellido("Iglesias");
-		assertEquals("Iglesias", w.getApellido());
+	public void testSetPassword() {
+		w.setPassword("Iglesias");
+		assertEquals("Iglesias", w.getPassword());
 	}
 
 	@Test

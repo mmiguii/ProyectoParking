@@ -15,7 +15,9 @@ import backend.clases.personas.clientes.ClienteSubscrito;
 public class ClienteSubscritoTest {
 
 	private ClienteSubscrito sC;
+
 	private Plaza p = new Plaza(1,400, false, "Normal");
+
 
 	@Before
 	public void setUp() {

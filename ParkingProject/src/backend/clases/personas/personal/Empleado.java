@@ -16,8 +16,8 @@ public class Empleado extends Trabajador {
 
 	/**
 	 * 
-	 * @param nombre:        nombre del empleado.
-	 * @param apellido:      apellido del empleado.
+	 * @param nombreUsuario: nombre de usuario del empleado.
+	 * @param password:      password del empleado.
 	 * @param dni:           dni del empleado.
 	 * @param email:         email del empleado.
 	 * @param puesto:        puesto que ocupa. (empleado en este caso).
@@ -25,9 +25,9 @@ public class Empleado extends Trabajador {
 	 * @param antiguedad:    anos que lleva en el parking.
 	 * @param salario:       salario mensual del empleado.
 	 */
-	public Empleado(String nombre, String apellido, String dni, String email, String puesto, long fechaComienzo,
+	public Empleado(String nombreUsuario, String password, String dni, String email, String puesto, long fechaComienzo,
 			int antiguedad, double salario) {
-		super(nombre, apellido, dni, email, puesto, fechaComienzo, antiguedad, salario);
+		super(nombreUsuario, password, dni, email, puesto, fechaComienzo, antiguedad, salario);
 	}
 
 	@Override

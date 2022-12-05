@@ -8,12 +8,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,14 +37,12 @@ import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.acceso.PanelAccesoParking;
 import frontend.paneles.acceso.PanelRecordarCredenciales;
-import frontend.paneles.pagar.PanelPago;
-import frontend.paneles.trabajador.empleado.PanelEmpleado;
-import frontend.paneles.trabajador.manager.PanelManager;
-import frontend.panelesAEliminar.PanelAccesoCliente;
+import frontend.paneles.acceso.clientes.pago.PanelPago;
+import frontend.paneles.acceso.trabajador.PanelEmpleado;
+import frontend.paneles.acceso.trabajador.PanelManager;
 
 public class PanelPrincipal extends JPanel {
 
-	private ServicioPersistenciaBD servicio;
 	private JPanel instance;
 	private ArrayList<Trabajador> trabajadores;
 
@@ -52,11 +54,11 @@ public class PanelPrincipal extends JPanel {
 
 	public PanelPrincipal(JFrame frame) {
 
-		servicio = new ServicioPersistenciaBD();
+		new ServicioPersistenciaBD();
 
 		instance = this;
 
-		trabajadores = servicio.trabajadoresSelect();
+		trabajadores = ServicioPersistenciaBD.trabajadoresSelect();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 		DateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
@@ -85,7 +87,7 @@ public class PanelPrincipal extends JPanel {
 		btnContinuarPanelCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				ArrayList<String> matriculas = obtenerMatriculas(servicio.usuarios());
+				List<String> matriculas = (ArrayList<String>) obtenerMatriculas(ServicioPersistenciaBD.usuarios());
 
 				String matricula = textFieldMatricula.getText().toUpperCase();
 
@@ -99,7 +101,7 @@ public class PanelPrincipal extends JPanel {
 
 							if (existeMatricula) {
 
-								Usuario usuario = servicio.usuario(textFieldMatricula.getText());
+								Usuario usuario = ServicioPersistenciaBD.usuario(textFieldMatricula.getText());
 
 								if (usuario instanceof ClienteOrdinario) {
 									PanelPago panel = new PanelPago(frame, instance, usuario, lblHoraActual.getText());
@@ -108,45 +110,56 @@ public class PanelPrincipal extends JPanel {
 									setVisible(false);
 								} else { // usuario instanceof ClienteSubscrito
 
-									Date actual = (Date) formatter.parse(lblHoraActual.getText());
+									try {
 
-									// Si la fecha actual es mayor o igual a la maxima establecida por el bono.
-									// Borramos y mostramos
-									// opcion de si desea volver acceder al parking
-									if (new Date(actual.getTime()).getTime() >= new Date(usuario.getFechaSalida())
-											.getTime()) {
-										servicio.subscritoDelete(matricula);
-										int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
-												"Desea volver acceder al parking?", "Confirmación",
-												JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-										// 0 = Si; 1 = No
-										if (opcion == 0) {
-											PanelAccesoCliente panel = new PanelAccesoCliente(frame, instance,
-													lblHoraActual.getText(), matricula);
-											frame.getContentPane().add(panel);
-											setVisible(false);
-											panel.setVisible(true);
+										Date fechaActualDate = f.parse(lblHoraActual.getText());
+										Date fechaSalidaDate = new Date(usuario.getFechaSalida());
+
+										// Si la fecha actual es BEFORE (antes) a la maxima establecida por el bono.
+										// Accedemos al parking/plaza del usuario en cuestion
+										if (fechaActualDate.before(fechaSalidaDate)) {
+											// CLASE PLAZA DEL SUBSCRITO
+											// Accede a su plaza (hasta que se le agote el bono)
+											// Accede a un panel en el que se le muestra su plaza (con una imagen),
+											// y se le muestran las caracteristicas de la plaza, ademas de otras cosas.
+
+											// Por lo tanto: Accede a la plaza, puede salir, volver a ingresar, asi
+											// sucesivamente hasta que se le agote el tiempo.
+
 										} else {
-											// Si no quiere acceder, muestra la pantalla en la que esta
+											// Si la fecha actual es mayor o igual a la maxima establecida por el bono.
+											// Borramos y mostramos
+											// opcion de si desea volver acceder al parking
+											ServicioPersistenciaBD.subscritoDelete(matricula);
+											int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
+													"Desea volver acceder al parking?", "Confirmación",
+													JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+											// 0 = Si; 1 = No
+											if (opcion == 0) {
+												PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
+														lblHoraActual.getText(), matricula);
+												frame.getContentPane().add(panel);
+												setVisible(false);
+												panel.setVisible(true);
+											} else {
+												// Si no quiere acceder, sale de la aplicacion
+												frame.dispose();
+											}
 										}
-
-									} else {
-										// CLASE PLAZA DEL SUBSCRITO
-										// Accede a su plaza (hasta que se le agote el bono)
-										// Accede a un panel en el que se le muestra su plaza (con una imagen),
-										// y se le muestran las caracteristicas de la plaza, ademas de otras cosas.
-
-										// Por lo tanto: Accede a la plaza, puede salir, volver a ingresar, asi
-										// sucesivamente hasta que se le agote el tiempo.
-
+									} catch (ParseException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
 									}
+//									
 
 								}
 
 							} else {
 								// Si la matricula no se encuentra registrada, se accede al panel de registro
-								PanelAccesoParking panel = new PanelAccesoParking(frame, instance,lblHoraActual.getText(), matricula);
-								//PanelAccesoCliente panel = new PanelAccesoCliente(frame, instance,lblHoraActual.getText(), matricula);
+								PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
+										lblHoraActual.getText(), matricula);
+								// PanelAccesoCliente panel = new PanelAccesoCliente(frame,
+								// instance,lblHoraActual.getText(), matricula);
 								frame.getContentPane().add(panel);
 								setVisible(false);
 								panel.setVisible(true);
@@ -200,12 +213,16 @@ public class PanelPrincipal extends JPanel {
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
+							break;
 						} else {
 							PanelEmpleado panel = new PanelEmpleado(frame, instance, t);
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
+							break;
 						}
+
+					} else {
 
 					}
 
@@ -248,7 +265,6 @@ public class PanelPrincipal extends JPanel {
 		lblCopyright.setBounds(6, 402, 11, 16);
 		leftPanel.add(lblCopyright);
 
-		// lblHoraActual = new JLabel(formatter.format(ZonedDateTime.now()));
 		lblHoraActual = new JLabel();
 		lblHoraActual.setForeground(new Color(255, 255, 255));
 		lblHoraActual.setBackground(new Color(0, 128, 128));
@@ -273,14 +289,15 @@ public class PanelPrincipal extends JPanel {
 		Thread hilo = new Thread(runnable);
 		hilo.start();
 
-		ArrayList<Plaza> plazas = servicio.plazasSelect();
-		String estado;
-		if (plazas.size() == 90) {
-			estado = "Completo";
-		} else {
-			estado = "Disponible";
-
-		}
+		Map<Integer, Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
+		String estado = (plazas.size() == 90) ? "Completo" : "Disponible";
+//		String estado;
+//		if (plazas.size() == 90) {
+//			estado = "Completo";
+//		} else {
+//			estado = "Disponible";
+//
+//		}
 
 		JLabel lblEstadoParking = new JLabel("Estado actual: " + estado);
 		lblEstadoParking.setBackground(new Color(0, 128, 128));
@@ -303,15 +320,17 @@ public class PanelPrincipal extends JPanel {
 
 	}
 
-	private static ArrayList<String> obtenerMatriculas(ArrayList<Usuario> servUsuarios) {
-		List<String> matriculas = new ArrayList<String>();
-		ArrayList<Usuario> usuarios = servUsuarios;
+	private static List<String> obtenerMatriculas(List<Usuario> servUsuarios) {
+		// Utilizamos un Set ya que garantiza que no haya elementos repetidos en la
+		// coleccion (Facil conversion a List posteriormente)
+		Set<String> matriculas = new HashSet<>();
 
-		for (Usuario u : usuarios) {
-			if (!matriculas.contains(u.getMatricula())) {
-				matriculas.add(u.getMatricula());
-			}
-		}
-		return (ArrayList<String>) matriculas;
+		// Iteramos directamente sobre la List "servUsuarios" utilizando un .forEach(),
+		// seguido de una expresion lambda.
+		servUsuarios.forEach(u -> {
+			// Si no contiene la matrícula, se agrega al HashSet.
+			matriculas.add(u.getMatricula());
+		});
+		return new ArrayList<String>(matriculas);
 	}
 }

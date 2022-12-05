@@ -1,4 +1,4 @@
-package frontend.paneles.trabajador.empleado;
+package frontend.paneles.acceso.trabajador;
 
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -14,20 +14,21 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import backend.clases.personas.personal.Trabajador;
-import frontend.panelesAEliminar.BajaSubscribersPanel;
-import frontend.panelesAEliminar.StateParkingPanel;
+import frontend.paneles.acceso.trabajador.acciones.BajaSubscribersPanel;
+import frontend.paneles.acceso.trabajador.acciones.PanelEstadoParking;
+import frontend.paneles.acceso.trabajador.acciones.PersonalDataWorkerPanel;
 
-public class PanelEmpleado extends JPanel {
+public class PanelManager extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel instance;
 
-	public PanelEmpleado(JFrame frame, JPanel panel, Trabajador trabajador) {
+	public PanelManager(JFrame frame, JPanel panel, Trabajador trabajador) {
 
 		instance = this;
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Worker Wellcoming Panel"));
+		setBorder(javax.swing.BorderFactory.createTitledBorder("Manager Wellcoming Panel"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
@@ -38,7 +39,7 @@ public class PanelEmpleado extends JPanel {
 		labelWellcoming.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		topPanel.add(labelWellcoming);
 
-		JTextField text = new JTextField(trabajador.getNombre() + " " + trabajador.getApellido());
+		JTextField text = new JTextField(trabajador.getNombreUsuario() + " " + trabajador.getPassword());
 		text.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		text.setEditable(false);
 		text.setBorder(null);
@@ -62,16 +63,16 @@ public class PanelEmpleado extends JPanel {
 
 		JPanel rightMiddlePanel = new JPanel();
 		rightMiddlePanel.setLayout(new GridBagLayout());
-		JButton btnEstado = new JButton("ESTADO DEL PARKING");
-		btnEstado.addActionListener(new ActionListener() {
+		JButton btnFichero = new JButton("CONSULTAR FICHEROS");
+		btnFichero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StateParkingPanel panel = new StateParkingPanel(frame);
+				PanelEstadoParking panel = new PanelEstadoParking(frame, instance);
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
 			}
 		});
-		rightMiddlePanel.add(btnEstado);
+		rightMiddlePanel.add(btnFichero);
 
 		middlePanel.add(leftMiddlePanel);
 		middlePanel.add(rightMiddlePanel);
@@ -81,23 +82,22 @@ public class PanelEmpleado extends JPanel {
 
 		JPanel leftBottomPanel = new JPanel();
 		leftBottomPanel.setLayout(new GridBagLayout());
-		JButton btnDarBaja = new JButton("DAR DE BAJA A ABONADOS");
-		btnDarBaja.addActionListener(new ActionListener() {
+		JButton btnDatosParking = new JButton("CONSULTAR DATOS DEL PARKING");
+		btnDatosParking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame);
+				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
 			}
 		});
-		leftBottomPanel.add(btnDarBaja);
+		leftBottomPanel.add(btnDatosParking);
 
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
@@ -108,5 +108,7 @@ public class PanelEmpleado extends JPanel {
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(rightBottomPanel);
 		add(bottomPanel);
+
 	}
+
 }
