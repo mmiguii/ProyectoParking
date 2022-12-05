@@ -202,8 +202,8 @@ public class ServicioPersistenciaBD {
 		List<ClienteOrdinario> ret = new ArrayList<>();
 		try {
 			sentSQL = "SELECT matricula, tipo_vehiculo, tarifa, fecha_entrada FROM clientes_ordinarios";
-			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			while (rs.next()) {
 				ClienteOrdinario ordinario = new ClienteOrdinario();
 				ordinario.setMatricula(rs.getString("matricula"));

@@ -83,8 +83,10 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		modelo2 = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras2);
 		tPlazas2 = new JTable(modelo2);
 
-		cargarTabla1(plazas1);
-		cargarTabla2(plazas2);
+		cargarTabla(plazas1, modelo1, tPlazas1);
+		cargarTabla(plazas2, modelo2, tPlazas2);
+//		cargarTabla1(plazas1);
+//		cargarTabla2(plazas2);
 
 		tPlazas1.setVisible(true);
 
@@ -161,26 +163,40 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				if (tPlazas1.isVisible()) {
-
-					int plazaSeleccionada = tPlazas1.getSelectedRow();
-					Plaza p = plazas1.get(plazaSeleccionada);
-					String estado = "Ocupado";
-					ServicioPersistenciaBD.ordinarioInsert(ordinario);
-					ServicioPersistenciaBD.update(p, estado, ordinario.getMatricula());
-
-				} else {
-					int plazaSeleccionada = tPlazas2.getSelectedRow();
-					Plaza p = plazas2.get(plazaSeleccionada);
-					String estado = "Ocupado";
-					ServicioPersistenciaBD.ordinarioInsert(ordinario);
-					ServicioPersistenciaBD.update(p, estado, ordinario.getMatricula());
-
-				}
-
+				
+				int plazaSeleccionada = tPlazas1.isVisible() ? tPlazas1.getSelectedRow() : tPlazas2.getSelectedRow();
+				Plaza p = tPlazas1.isVisible() ? plazas1.get(plazaSeleccionada) : plazas2.get(plazaSeleccionada);
+				
+				String estado = "Ocupado";
+				
+				ServicioPersistenciaBD.ordinarioInsert(ordinario);
+				ServicioPersistenciaBD.update(p, estado, ordinario.getMatricula());
+				
 				JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
+				
 				frame.dispose();
+				
+				
+				
+//				if (tPlazas1.isVisible()) {
+//
+//					int plazaSeleccionada = tPlazas1.getSelectedRow();
+//					Plaza p = plazas1.get(plazaSeleccionada);
+//					String estado = "Ocupado";
+//					ServicioPersistenciaBD.ordinarioInsert(ordinario);
+//					ServicioPersistenciaBD.update(p, estado, ordinario.getMatricula());
+//
+//				} else {
+//					int plazaSeleccionada = tPlazas2.getSelectedRow();
+//					Plaza p = plazas2.get(plazaSeleccionada);
+//					String estado = "Ocupado";
+//					ServicioPersistenciaBD.ordinarioInsert(ordinario);
+//					ServicioPersistenciaBD.update(p, estado, ordinario.getMatricula());
+//
+//				}
+//
+//				JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
+//				frame.dispose();
 
 			}
 		});
@@ -209,14 +225,14 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		gbc_btnCargarPlanta2.gridy = 1;
 		bottomPanel.add(btnCargarPlanta2, gbc_btnCargarPlanta2);
 
+		
+		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
-
 			}
 		});
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
@@ -227,35 +243,47 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		gbc_btnCancelar.gridy = 2;
 		bottomPanel.add(btnCancelar, gbc_btnCancelar);
 
+		
 		add(topPanel);
 		add(bottomPanel);
 
 	}
 
-	public void cargarTabla1(List<Plaza> plazas) {
-		for (Plaza p : plazas) {
-			String estado;
-			if (!p.isEstadoPlaza()) {
-				estado = "Disponible";
-			} else {
-				estado = "Ocupado";
-			}
-			modelo1.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
+	
+	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
+		  for (Plaza p : plazas) {
+		    String estado = p.isEstadoPlaza() ? "Ocupado" : "Disponible";
+		    modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
+		  }
+		  tabla.setModel(modelo);
 		}
-		tPlazas1.setModel(modelo1);
-	}
 
-	public void cargarTabla2(List<Plaza> plazas) {
-		for (Plaza p : plazas) {
-			String estado;
-			if (!p.isEstadoPlaza()) {
-				estado = "Disponible";
-			} else {
-				estado = "Ocupado";
-			}
-			modelo2.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
-		}
-		tPlazas2.setModel(modelo2);
-	}
+	
+	
+//	public void cargarTabla1(List<Plaza> plazas) {
+//		for (Plaza p : plazas) {
+//			String estado;
+//			if (!p.isEstadoPlaza()) {
+//				estado = "Disponible";
+//			} else {
+//				estado = "Ocupado";
+//			}
+//			modelo1.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
+//		}
+//		tPlazas1.setModel(modelo1);
+//	}
+//
+//	public void cargarTabla2(List<Plaza> plazas) {
+//		for (Plaza p : plazas) {
+//			String estado;
+//			if (!p.isEstadoPlaza()) {
+//				estado = "Disponible";
+//			} else {
+//				estado = "Ocupado";
+//			}
+//			modelo2.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
+//		}
+//		tPlazas2.setModel(modelo2);
+//	}
 
 }
