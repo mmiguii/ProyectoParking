@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import backend.clases.personas.personal.Trabajador;
-import frontend.paneles.clientes.acciones.BajaSubscribersPanel;
-import frontend.paneles.trabajador.StateParkingPanel;
+import frontend.panelesAEliminar.BajaSubscribersPanel;
+import frontend.panelesAEliminar.StateParkingPanel;
 
 public class PanelEmpleado extends JPanel {
 

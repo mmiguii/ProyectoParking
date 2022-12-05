@@ -19,15 +19,15 @@ import javax.swing.JTextField;
 import backend.clases.email.EnvioEmail;
 import backend.clases.personas.personal.Trabajador;
 
-public class PanelRecordarDNI extends JPanel {
+public class PanelRecordarCredenciales extends JPanel {
 	
-	private JTextField textField;
+	private JTextField txtNombreDeUsuario;
 
-	public PanelRecordarDNI(JFrame frame, JPanel panel, ArrayList<Trabajador> trabajadores) {
+	public PanelRecordarCredenciales(JFrame frame, JPanel panel, ArrayList<Trabajador> trabajadores) {
 		setLayout(null);
 		
 		JLabel label = new JLabel("En breve recibiras un email en tu correo");
-		label.setBounds(85, 224, 299, 35);
+		label.setBounds(85, 233, 299, 35);
 		add(label);
 		
 		JLabel label1 = new JLabel("indicando tu dni actual");
@@ -36,24 +36,24 @@ public class PanelRecordarDNI extends JPanel {
 		
 		
 		
-		textField = new JTextField();
-		textField.addMouseListener(new MouseAdapter() {
+		txtNombreDeUsuario = new JTextField();
+		txtNombreDeUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				textField.setText("");
+				txtNombreDeUsuario.setText("");
 			}
 		});
-		textField.setBounds(150, 93, 298, 26);
-		textField.setText("Nombre de usuario");
-		add(textField);
-		textField.setColumns(10);
+		txtNombreDeUsuario.setBounds(86, 117, 298, 26);
+		txtNombreDeUsuario.setText("Nombre de usuario (por ahora)");
+		add(txtNombreDeUsuario);
+		txtNombreDeUsuario.setColumns(10);
 		
-		JLabel lblUser = new JLabel("User:");
-		lblUser.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.BOLD, 17));
-		lblUser.setBounds(68, 94, 69, 20);
-		add(lblUser);
+		JLabel lblDNI = new JLabel("Introduzca su DNI\n");
+		lblDNI.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.BOLD, 17));
+		lblDNI.setBounds(137, 85, 236, 20);
+		add(lblDNI);
 		
-		JButton btnRecuperarContrasea = new JButton("Recuperar DNI");
+		JButton btnRecuperarContrasea = new JButton("Recuperar credenciales");
 		btnRecuperarContrasea.setBounds(231, 180, 218, 29);
 		btnRecuperarContrasea.setBackground(new Color(255, 102, 102));
 		add(btnRecuperarContrasea);
@@ -77,7 +77,7 @@ public class PanelRecordarDNI extends JPanel {
 		
 		btnRecuperarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombreTrabajador =textField.getText();
+				String nombreTrabajador =txtNombreDeUsuario.getText();
 				boolean encontrado = false;
 				Trabajador trabajador = null;
 				for(Trabajador t: trabajadores){
@@ -89,11 +89,11 @@ public class PanelRecordarDNI extends JPanel {
 					}
 				}
 				if(encontrado==false) {
-					JOptionPane.showMessageDialog(PanelRecordarDNI.this, "El nombre del trabajador introducido no existe. Intentelo de nuevo.");
+					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this, "El nombre del trabajador introducido no existe. Intentelo de nuevo.");
 				}else {
 					
 					EnvioEmail.bienvenida(trabajador.getEmail(),trabajador.getNombre(), trabajador.getDni());
-					JOptionPane.showMessageDialog(PanelRecordarDNI.this, "El mensage ha sido enviado con exito."
+					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this, "El mensage ha sido enviado con exito."
 							+ "\n El mensage de recuperacion ha sido enviado al siguiente correo: "+ trabajador.getEmail());
 					frame.dispose();
 				}

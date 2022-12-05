@@ -1,4 +1,4 @@
-package frontend.paneles.salida;
+package frontend.paneles.pagar;
 
 import java.awt.Font;
 import java.awt.GridLayout;

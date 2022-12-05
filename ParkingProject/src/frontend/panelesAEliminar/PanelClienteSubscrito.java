@@ -1,4 +1,4 @@
-package frontend.paneles.clientes.subscritos;
+package frontend.panelesAEliminar;
 
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.servicios.ServicioPersistenciaBD;
-import frontend.paneles.salida.PanelSalida;
+import frontend.paneles.pagar.PanelSalida;
 
 public class PanelClienteSubscrito extends JPanel {
 
@@ -61,8 +61,8 @@ public class PanelClienteSubscrito extends JPanel {
 				subscrito.setPrecioCuota(precioCuota);
 
 //				ME FALTA NUMERO DE PLAZA OCUPADA CORREGIRLO
-				Plaza p = new Plaza(10, false, subscrito.getTipoVehiculo());
-				subscrito.setPlazaOcupada(p);
+//				Plaza p = new Plaza(10, false, subscrito.getTipoVehiculo());
+//				subscrito.setPlazaOcupada(p);
 //				HASTA AQUI CORREGIR
 
 				// Obtengo fecha de salida maxima
@@ -102,9 +102,9 @@ public class PanelClienteSubscrito extends JPanel {
 				subscrito.setPrecioCuota(precioCuota);
 
 //				ME FALTA NUMERO DE PLAZA OCUPADA CORREGIRLO
-				Plaza p = new Plaza(110, false, subscrito.getTipoVehiculo());
-				subscrito.setPlazaOcupada(p);
-//				HASTA AQUI CORREGIR
+//				Plaza p = new Plaza(110, false, subscrito.getTipoVehiculo());
+//				subscrito.setPlazaOcupada(p);
+////				HASTA AQUI CORREGIR
 
 				// Obtengo fecha de salida maxima
 				long fechaEntrada = subscrito.getFechaEntrada();
@@ -141,8 +141,8 @@ public class PanelClienteSubscrito extends JPanel {
 				subscrito.setPrecioCuota(precioCuota);
 
 //				ME FALTA NUMERO DE PLAZA OCUPADA CORREGIRLO
-				Plaza p = new Plaza(210, false, subscrito.getTipoVehiculo());
-				subscrito.setPlazaOcupada(p);
+//				Plaza p = new Plaza(210, false, subscrito.getTipoVehiculo());
+//				subscrito.setPlazaOcupada(p);
 //				HASTA AQUI CORREGIR
 
 				// Obtengo fecha de salida maxima

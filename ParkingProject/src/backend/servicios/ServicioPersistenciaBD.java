@@ -2,6 +2,7 @@ package backend.servicios;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -97,8 +98,8 @@ public class ServicioPersistenciaBD {
 			}
 			try {
 				stmt.executeUpdate("CREATE TABLE TRABAJADORES " + "(id_trabajador integer, " + "dni string, "
-						+ "nombre string, " + "apellido string, " + "email string," + "puesto string, " + "fecha_comienzo long, "
-						+ "antiguedad integer, " + "salario_mes double)");
+						+ "nombre string, " + "apellido string, " + "email string," + "puesto string, "
+						+ "fecha_comienzo long, " + "antiguedad integer, " + "salario_mes double)");
 			} catch (SQLException e) {
 				// Tabla ya existe. Nada que hacer
 			}
@@ -416,9 +417,6 @@ public class ServicioPersistenciaBD {
 					+ securizer(String.valueOf(subscrito.getPlazaOcupada().getNumeroPlaza())) + "', " + "'"
 //					+ securizer(String.valueOf(subscrito.getTipoVehiculo())) + "', " + "'" 
 					+ subscrito.getFechaEntrada() + "', " + "'" + subscrito.getFechaSalida() + "')";
-			if (subscrito.getPrecioCuota() < 0) {
-
-			}
 			log(Level.INFO, "Lanzada actualización a base de datos: " + sentSQL, null);
 			int val = usarBD(connect()).executeUpdate(sentSQL);
 			log(Level.INFO, "Añadida " + val + " fila a base de datos\t" + sentSQL, null);
@@ -444,16 +442,17 @@ public class ServicioPersistenciaBD {
 	 * @return Devuelve true si el borrado es correcto, false en caso contrario
 	 */
 	public static boolean subscritoDelete(String matricula) {
-		String sentSQL = "";
-		try {
-			sentSQL = "DELETE FROM clientes_subscritos WHERE matricula = '" + securizer(matricula) + "'";
-			int val = usarBD(connect()).executeUpdate(sentSQL);
+		String sentSQL = "DELETE FROM clientes_subscritos WHERE matricula = ?";
+		try (PreparedStatement pStmt = connect().prepareStatement(sentSQL)) {
+			pStmt.setString(1, matricula);
+			int val = pStmt.executeUpdate();
 			log(Level.INFO, "BD tabla clientes subscritos eliminada " + val + " fila\t" + sentSQL, null);
 			if (val != 1) { // Se tiene que eliminar 1 - error si no
 				log(Level.SEVERE, "Error en delete de BD\t" + sentSQL, null);
 				return false;
 			}
 			return true;
+
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error en BD\t" + sentSQL, e);
 			lastError = e;
@@ -481,6 +480,7 @@ public class ServicioPersistenciaBD {
 			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
 			while (rs.next()) {
 				Plaza plaza = new Plaza();
+				plaza.setNumeroPlanta(rs.getInt("numero_planta"));
 				plaza.setNumeroPlaza(rs.getInt("numero_plaza"));
 				boolean estado;
 				if (rs.getString("estado_plaza").equals("Disponible")) {
@@ -490,6 +490,7 @@ public class ServicioPersistenciaBD {
 				}
 				plaza.setEstadoPlaza(estado);
 				plaza.setTipoPlaza(rs.getString("tipo_plaza"));
+//				plaza.setMatricula(rs.getString("matricula"));
 				ret.add(plaza);
 			}
 			rs.close();
@@ -499,6 +500,116 @@ public class ServicioPersistenciaBD {
 			lastError = e;
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+//	public static ArrayList<Plaza> plazasSelect(int numeroPlanta) {
+//		String sentSQL = "SELECT numero_planta, numero_plaza, tipo_plaza, estado_plaza FROM plazas WHERE numero_planta = ?";
+//		List<Plaza> ret = new ArrayList<>();
+//		
+//		try (PreparedStatement pStmt = connect().prepareStatement(sentSQL)) {
+//			pStmt.setInt(1, numeroPlanta);
+//			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+//			ResultSet rs = pStmt.executeQuery(sentSQL);
+//			while (rs.next()) {
+//				Plaza plaza = new Plaza();
+//				plaza.setNumeroPlaza(rs.getInt("numero_plaza"));
+//				plaza.setTipoPlaza(rs.getString("tipo_plaza"));
+//				boolean estado;
+//				if (rs.getString("estado_plaza").equals("Disponible")) {
+//					estado = false;
+//				} else {
+//					estado = true;
+//				}
+//				plaza.setEstadoPlaza(estado);
+//			
+//				ret.add(plaza);
+//			}
+//			rs.close();
+//			return (ArrayList<Plaza>) ret;
+//		} catch (SQLException e) {
+//			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+//			lastError = e;
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
+
+	public static ArrayList<Plaza> plazasSelect(int numeroPlanta, String tipoPlaza) {
+		String sentSQL = "";
+		List<Plaza> ret = new ArrayList<>();
+
+		try {
+			sentSQL = "SELECT numero_planta, numero_plaza, tipo_plaza, estado_plaza FROM plazas WHERE numero_planta = "
+					+ securizer(String.valueOf(numeroPlanta)) + " AND tipo_plaza = '" + securizer(tipoPlaza) + "'";
+			;
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+			while (rs.next()) {
+				Plaza plaza = new Plaza();
+				plaza.setNumeroPlanta(rs.getInt("numero_planta"));
+				plaza.setNumeroPlaza(rs.getInt("numero_plaza"));
+				plaza.setTipoPlaza(rs.getString("tipo_plaza"));
+				boolean estado;
+				if (rs.getString("estado_plaza").equals("Disponible")) {
+					estado = false;
+				} else {
+					estado = true;
+				}
+				plaza.setEstadoPlaza(estado);
+
+				ret.add(plaza);
+			}
+			rs.close();
+			return (ArrayList<Plaza>) ret;
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			lastError = e;
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void update(Plaza plaza, String estado, String matricula) {
+		try (PreparedStatement stmt = connect()
+				.prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
+			stmt.setString(1, estado);
+			stmt.setString(2, matricula);
+			stmt.setInt(3, plaza.getNumeroPlaza());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
+			lastError = e;
+			e.printStackTrace();
+		}
+	}
+
+	public void updateDel(int numeroPlaza, String estado) {
+		try (PreparedStatement stmt = connect()
+				.prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
+			stmt.setString(1, estado);
+			stmt.setString(2, "");
+			stmt.setInt(3, numeroPlaza);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
+			lastError = e;
+			e.printStackTrace();
+		}
+	}
+
+	public static int getPlaza(String matricula) {
+		String sentSQL = "";
+		try {
+			sentSQL = "SELECT numero_plaza FROM plazas WHERE matricula = '" + securizer(matricula) + "';";
+			log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
+			ResultSet rs = usarBD(connect()).executeQuery(sentSQL);
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return 0;
 		}
 	}
 
