@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -37,18 +36,32 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 	private JPanel instance;
 	private JTable tPlazas;
 	private JScrollPane scrollPane;
+	
+	private JFrame frame;
+	private JPanel panel;
+	private ClienteSubscrito subscrito;
+	private List<Plaza> plazas;
 
 	public PanelAccesoSubscritosSeleccionAbono(JFrame frame, JPanel panel, ClienteSubscrito subscrito) {
-
-		instance = this;
-//		servicio = new ServicioPersistenciaBD();
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(2, 1));
+		
+		instance = this;
+		this.frame = frame;
+		this.panel = panel;
+		this.subscrito = subscrito;
+		
+		plazas = ServicioPersistenciaBD.plazasSelect(3, subscrito.getTipoVehiculo());
+		cargarTabla(plazas);
+		
+		
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
-		// Panel superior
+		
+
+			// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
@@ -66,10 +79,6 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_lblTextoSeleccion.gridy = 0;
 		topPanel.add(lblTextoSeleccion, gbc_lblTextoSeleccion);
 
-		int numeroPlanta = 3;
-		List<Plaza> plazas = ServicioPersistenciaBD.plazasSelect(numeroPlanta, subscrito.getTipoVehiculo());
-		cargarTabla(plazas);
-
 		GridBagConstraints gbc_tPlazas = new GridBagConstraints();
 		gbc_tPlazas.gridheight = 3;
 		gbc_tPlazas.gridwidth = 2;
@@ -79,8 +88,8 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_tPlazas.gridy = 1;
 		topPanel.add(tPlazas, gbc_tPlazas);
 
+		
 		scrollPane = new JScrollPane(tPlazas);
-
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 3;
 		gbc_scrollPane.gridwidth = 2;
@@ -90,10 +99,11 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_scrollPane.gridy = 1;
 		topPanel.add(scrollPane, gbc_scrollPane);
 
-		// Panel inferior
+		// PANEL INFERIOR
+		JPanel bottomPanel = new JPanel();
 		GridBagLayout gbl_bottomPanel = new GridBagLayout();
 		gbl_bottomPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 };
-		JPanel bottomPanel = new JPanel(gbl_bottomPanel);
+		bottomPanel.setLayout(gbl_bottomPanel);
 
 		JLabel lblSemana = new JLabel("ABONO SEMANAL");
 		GridBagConstraints gbc_lblSemana = new GridBagConstraints();
@@ -190,15 +200,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_lblHastaAn.gridy = 3;
 		bottomPanel.add(lblHastaAn, gbc_lblHastaAn);
 
-		// Obtengo fecha de salida maxima
-		Date fechaEntrada = new Date(subscrito.getFechaEntrada());
-
-		Calendar c1 = Calendar.getInstance();
-		c1.setTime(fechaEntrada);
-		c1.add(Calendar.DATE, 7); // Anado 7 dias
-		long s1 = c1.getTime().getTime();
-
-		JLabel lblSalidaSem = new JLabel(formatter.format(new Date(s1).getTime()));
+		JLabel lblSalidaSem = new JLabel(formatter.format(new Date(anadirDias(7).getTime().getTime()).getTime()));
 		lblSalidaSem.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblSalidaSem = new GridBagConstraints();
 		gbc_lblSalidaSem.insets = new Insets(0, 0, 5, 5);
@@ -206,11 +208,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_lblSalidaSem.gridy = 4;
 		bottomPanel.add(lblSalidaSem, gbc_lblSalidaSem);
 
-		Calendar c2 = Calendar.getInstance();
-		c2.setTime(fechaEntrada);
-		c2.add(Calendar.MONTH, 1); // Anado 1 mes
-
-		JLabel lblSalidaMes = new JLabel(formatter.format(new Date(c2.getTime().getTime()).getTime()));
+		JLabel lblSalidaMes = new JLabel(formatter.format(new Date(anadirDias(31).getTime().getTime()).getTime()));
 		lblSalidaMes.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblSalidaMes = new GridBagConstraints();
 		gbc_lblSalidaMes.insets = new Insets(0, 0, 5, 5);
@@ -218,11 +216,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_lblSalidaMes.gridy = 4;
 		bottomPanel.add(lblSalidaMes, gbc_lblSalidaMes);
 
-		Calendar c3 = Calendar.getInstance();
-		c3.setTime(fechaEntrada);
-		c3.add(Calendar.YEAR, 1); // Anado 1 mes
-
-		JLabel lblSalidaAno = new JLabel(formatter.format(new Date(c3.getTime().getTime()).getTime()));
+		JLabel lblSalidaAno = new JLabel(formatter.format(new Date(anadirDias(365).getTime().getTime()).getTime()));
 		lblSalidaAno.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblSalidaAno = new GridBagConstraints();
 		gbc_lblSalidaAno.insets = new Insets(0, 0, 5, 5);
@@ -231,46 +225,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblSalidaAno, gbc_lblSalidaAno);
 
 		JButton btnSem = new JButton("COMPRAR");
-		btnSem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				int seleccionado = tPlazas.getSelectedRow();
-				subscrito.setPlazaOcupada(plazas.get(seleccionado));
-
-				Date ent = new Date(subscrito.getFechaEntrada());
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(ent);
-				cal.add(Calendar.DATE, 7); // Anado 7 dias
-				long sal = cal.getTime().getTime();
-
-				subscrito.setFechaSalida(sal);
-				System.out.println(s1);
-				
-				
-				long tiempoTrans = new Date(sal).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
-				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
-
-				
-				double tarifa;
-				if (subscrito.getTipoVehiculo().equals("Ordinario")) {
-					tarifa = 0.50;
-				} else if (subscrito.getTipoVehiculo().equals("Electrico")) {
-					tarifa = 0.40;
-				} else {
-					tarifa = 0.30;
-				}
-				double importe = tarifa * min;
-				subscrito.setPrecioCuota(importe);				
-				ServicioPersistenciaBD.subscritoInsert(subscrito);
-
-//				System.out.println(plazas.get(seleccionado));
-				PanelPago panel = new PanelPago(frame, instance, subscrito, lblSalidaSem.toString());
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-
-			}
-		});
+		btnSem.addActionListener(e -> comprarPlaza(7, lblSemana.toString()));
 		GridBagConstraints gbc_btnSem = new GridBagConstraints();
 		gbc_btnSem.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSem.gridx = 1;
@@ -278,45 +233,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnSem, gbc_btnSem);
 
 		JButton btnMes = new JButton("COMPRAR");
-		btnMes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int seleccionado = tPlazas.getSelectedRow();
-				subscrito.setPlazaOcupada(plazas.get(seleccionado));
-
-				Date ent = new Date(subscrito.getFechaEntrada());
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(ent);
-				cal.add(Calendar.MONTH, 1); // Anado 7 dias
-				long sal = cal.getTime().getTime();
-
-				subscrito.setFechaSalida(sal);
-				System.out.println(s1);
-				
-				long tiempoTrans = new Date(sal).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
-				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
-
-				
-				double tarifa;
-				if (subscrito.getTipoVehiculo().equals("Ordinario")) {
-					tarifa = 0.50;
-				} else if (subscrito.getTipoVehiculo().equals("Electrico")) {
-					tarifa = 0.40;
-				} else {
-					tarifa = 0.30;
-				}
-				double importe = tarifa * min;
-
-				subscrito.setPrecioCuota(importe);				
-				ServicioPersistenciaBD.subscritoInsert(subscrito);
-
-//				System.out.println(plazas.get(seleccionado));
-				PanelPago panel = new PanelPago(frame, instance, subscrito, lblSalidaSem.toString());
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-
-			}
-		});
+		btnMes.addActionListener(e -> comprarPlaza(31, lblSalidaMes.toString()));
 		GridBagConstraints gbc_btnMes = new GridBagConstraints();
 		gbc_btnMes.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMes.gridx = 3;
@@ -324,43 +241,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnMes, gbc_btnMes);
 
 		JButton btnAn = new JButton("COMPRAR");
-		btnAn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int seleccionado = tPlazas.getSelectedRow();
-				subscrito.setPlazaOcupada(plazas.get(seleccionado));
-
-				Date ent = new Date(subscrito.getFechaEntrada());
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(ent);
-				cal.add(Calendar.YEAR, 1); // Anado 7 dias
-				long sal = cal.getTime().getTime();
-
-				subscrito.setFechaSalida(sal);
-				System.out.println(s1);
-				
-				long tiempoTrans = new Date(sal).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
-				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
-
-				
-				double tarifa;
-				if (subscrito.getTipoVehiculo().equals("Ordinario")) {
-					tarifa = 0.50;
-				} else if (subscrito.getTipoVehiculo().equals("Electrico")) {
-					tarifa = 0.40;
-				} else {
-					tarifa = 0.30;
-				}
-				double importe = tarifa * min;
-				subscrito.setPrecioCuota(importe);				
-				ServicioPersistenciaBD.subscritoInsert(subscrito);
-
-//				System.out.println(plazas.get(seleccionado));
-				PanelPago panel = new PanelPago(frame, instance, subscrito, lblSalidaSem.toString());
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
+		btnAn.addActionListener(e -> comprarPlaza(365, lblSalidaAno.toString()));
 		GridBagConstraints gbc_btnAn = new GridBagConstraints();
 		gbc_btnAn.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAn.gridx = 5;
@@ -368,13 +249,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnAn, gbc_btnAn);
 
 		JButton btnCancelar = new JButton("CANCELAR");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
+		btnCancelar.addActionListener(this::cancelar);
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnCancelar.gridwidth = 5;
@@ -384,23 +259,54 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnCancelar, gbc_btnCancelar);
 
 		add(topPanel);
-		add(bottomPanel);
+		add(bottomPanel); 
+	}
+	
+	public Calendar anadirDias(int numeroDias) {
+	    Calendar c = Calendar.getInstance();
+	    c.setTime(new Date(subscrito.getFechaEntrada()));
+	    c.add(Calendar.DATE, numeroDias);
+	    return c;
 	}
 
 	public void cargarTabla(List<Plaza> plazas) {
-		Vector<String> cabeceras = new Vector<String>(
-				Arrays.asList("Numero de planta", "Numero de plaza", "Tipo de plaza", "Estado"));
+		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Numero de planta", "Numero de plaza", "Tipo de plaza", "Estado"));
 		DefaultTableModel modelo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 		tPlazas = new JTable(modelo);
-		for (Plaza p : plazas) {
-			String estado;
-			if (!p.isEstadoPlaza()) {
-				estado = "Disponible";
-			} else {
-				estado = "Ocupado";
-			}
+		
+		plazas.forEach(p -> {
+			String estado = p.isEstadoPlaza() ? "Ocupado" : "Disponible";
 			modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
-		}
+		});
 	}
+	
+	private void cancelar(ActionEvent event) {
+		frame.getContentPane().add(panel);
+		panel.setVisible(true);
+		setVisible(false);
+	}
+	
+	public void comprarPlaza(int numeroDias, String fechaSalida) {
+	    int seleccionado = tPlazas.getSelectedRow();
+	    subscrito.setPlazaOcupada(plazas.get(seleccionado));
+	    
+	    Calendar c = Calendar.getInstance();
+	    c.setTime(new Date(subscrito.getFechaEntrada()));
+	    c.add(Calendar.DATE, numeroDias);
+	    subscrito.setFechaSalida(c.getTime().getTime());	   
+	    
+	    long tiempoTrans = new Date(c.getTime().getTime()).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
+	    long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
+	    double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50 : (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
+	    subscrito.setPrecioCuota(importe);	
+	    
+	    ServicioPersistenciaBD.subscritoInsert(subscrito);
+
+	    PanelPago panel = new PanelPago(frame, instance, subscrito, fechaSalida);
+	    frame.getContentPane().add(panel);
+	    panel.setVisible(true);
+	    setVisible(false);
+	}
+
 
 }

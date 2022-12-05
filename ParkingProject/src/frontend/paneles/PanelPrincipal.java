@@ -14,7 +14,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -84,7 +87,7 @@ public class PanelPrincipal extends JPanel {
 		btnContinuarPanelCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				ArrayList<String> matriculas = obtenerMatriculas(ServicioPersistenciaBD.usuarios());
+				List<String> matriculas = (ArrayList<String>) obtenerMatriculas(ServicioPersistenciaBD.usuarios());
 
 				String matricula = textFieldMatricula.getText().toUpperCase();
 
@@ -220,7 +223,7 @@ public class PanelPrincipal extends JPanel {
 						}
 
 					} else {
-						
+
 					}
 
 				}
@@ -286,14 +289,15 @@ public class PanelPrincipal extends JPanel {
 		Thread hilo = new Thread(runnable);
 		hilo.start();
 
-		ArrayList<Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
-		String estado;
-		if (plazas.size() == 90) {
-			estado = "Completo";
-		} else {
-			estado = "Disponible";
-
-		}
+		Map<Integer, Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
+		String estado = (plazas.size() == 90) ? "Completo" : "Disponible";
+//		String estado;
+//		if (plazas.size() == 90) {
+//			estado = "Completo";
+//		} else {
+//			estado = "Disponible";
+//
+//		}
 
 		JLabel lblEstadoParking = new JLabel("Estado actual: " + estado);
 		lblEstadoParking.setBackground(new Color(0, 128, 128));
@@ -316,15 +320,17 @@ public class PanelPrincipal extends JPanel {
 
 	}
 
-	private static ArrayList<String> obtenerMatriculas(ArrayList<Usuario> servUsuarios) {
-		List<String> matriculas = new ArrayList<String>();
-		ArrayList<Usuario> usuarios = servUsuarios;
+	private static List<String> obtenerMatriculas(List<Usuario> servUsuarios) {
+		// Utilizamos un Set ya que garantiza que no haya elementos repetidos en la
+		// coleccion (Facil conversion a List posteriormente)
+		Set<String> matriculas = new HashSet<>();
 
-		for (Usuario u : usuarios) {
-			if (!matriculas.contains(u.getMatricula())) {
-				matriculas.add(u.getMatricula());
-			}
-		}
-		return (ArrayList<String>) matriculas;
+		// Iteramos directamente sobre la List "servUsuarios" utilizando un .forEach(),
+		// seguido de una expresion lambda.
+		servUsuarios.forEach(u -> {
+			// Si no contiene la matrícula, se agrega al HashSet.
+			matriculas.add(u.getMatricula());
+		});
+		return new ArrayList<String>(matriculas);
 	}
 }

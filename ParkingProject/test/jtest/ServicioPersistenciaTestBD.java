@@ -73,7 +73,7 @@ public class ServicioPersistenciaTestBD {
 
 	@Test
 	public void testSubscritosSelect() {
-		ArrayList<ClienteSubscrito> p = ServicioPersistenciaBD.subscritosSelect();
+		ArrayList<ClienteSubscrito> p = (ArrayList<ClienteSubscrito>) ServicioPersistenciaBD.subscritosSelect();
 		assertEquals(p, ServicioPersistenciaBD.subscritosSelect());
 	}
 
@@ -113,7 +113,7 @@ public class ServicioPersistenciaTestBD {
 
 	@Test
 	public void testPlazasSelect() {
-		ArrayList<Plaza> p = ServicioPersistenciaBD.plazasSelect();
+		ArrayList<Plaza> p = (ArrayList<Plaza>) ServicioPersistenciaBD.plazasSelect();
 		assertEquals(p, ServicioPersistenciaBD.plazasSelect());
 	}
 

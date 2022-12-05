@@ -33,127 +33,13 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldTipoUsuario;
 
 	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, String horaActual) {
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Payment Panel"));
+		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel Pago"));
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 
 //		List<Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
 
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-
-		textFieldFechaEntrada = new JTextField(formatter.format(new Date(usuario.getFechaEntrada()).getTime()));
-		textFieldFechaEntrada.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldFechaEntrada.setBounds(238, 122, 175, 26);
-		add(textFieldFechaEntrada);
-		textFieldFechaEntrada.setColumns(10);
-		textFieldFechaEntrada.setEditable(false);
-
-		if (usuario instanceof ClienteOrdinario) {
-			textFieldFechaSalida = new JTextField(horaActual);
-		} else {
-			textFieldFechaSalida = new JTextField(formatter.format(new Date(usuario.getFechaSalida()).getTime()));
-		}
-
-		textFieldFechaSalida.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldFechaSalida.setColumns(10);
-		textFieldFechaSalida.setBounds(238, 169, 175, 26);
-		add(textFieldFechaSalida);
-		textFieldFechaSalida.setEditable(false);
-
-		try {
-
-//			Date date = formatter.parse(textFieldFechaSalida.getText());
-
-			if (usuario instanceof ClienteOrdinario) {
-
-				long dOrd = formatter.parse(horaActual).getTime();
-				long tOrd = new Date(dOrd).getTime() - new Date(usuario.getFechaEntrada()).getTime();
-				long hours = TimeUnit.MILLISECONDS.toHours(tOrd);
-				long min = TimeUnit.MILLISECONDS.toMinutes(tOrd)
-						- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tOrd));
-				long sec = TimeUnit.MILLISECONDS.toSeconds(tOrd)
-						- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(tOrd));
-				textFieldTiempoTranscurrido = new JTextField(String.format("%02dh %02dm %02ds", hours, min, sec));
-				textFieldTiempoTranscurrido.setHorizontalAlignment(SwingConstants.CENTER);
-				textFieldTiempoTranscurrido.setColumns(10);
-				textFieldTiempoTranscurrido.setBounds(238, 204, 175, 26);
-				add(textFieldTiempoTranscurrido);
-				textFieldTiempoTranscurrido.setEditable(false);
-
-				double tarifa;
-				if (usuario.getTipoVehiculo().equals("ordinario")) {
-					tarifa = 0.50;
-				} else if (usuario.getTipoVehiculo().equals("electrico")) {
-					tarifa = 0.40;
-				} else {
-					tarifa = 0.30;
-				}
-
-				double importe = 0.00;
-				if (usuario instanceof ClienteOrdinario) {
-					importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tOrd);
-				} else {
-					importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(tOrd);
-				}
-
-				textFieldImporteTotal = new JTextField(importe + " €");
-				textFieldImporteTotal.setHorizontalAlignment(SwingConstants.CENTER);
-				textFieldImporteTotal.setColumns(10);
-				textFieldImporteTotal.setBounds(238, 294, 175, 26);
-				add(textFieldImporteTotal);
-				textFieldImporteTotal.setEditable(false);
-
-			} else {
-				long time = new Date(usuario.getFechaSalida()).getTime()
-						- new Date(usuario.getFechaEntrada()).getTime();
-				long hours = TimeUnit.MILLISECONDS.toHours(time);
-				long min = TimeUnit.MILLISECONDS.toMinutes(time)
-						- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time));
-				long sec = TimeUnit.MILLISECONDS.toSeconds(time)
-						- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time));
-
-				textFieldTiempoTranscurrido = new JTextField(String.format("%02dh %02dm %02ds", hours, min, sec));
-				textFieldTiempoTranscurrido.setHorizontalAlignment(SwingConstants.CENTER);
-				textFieldTiempoTranscurrido.setColumns(10);
-				textFieldTiempoTranscurrido.setBounds(238, 204, 175, 26);
-				add(textFieldTiempoTranscurrido);
-				textFieldTiempoTranscurrido.setEditable(false);
-
-				double tarifa;
-				if (usuario.getTipoVehiculo().equals("ordinario")) {
-					tarifa = 0.50;
-				} else if (usuario.getTipoVehiculo().equals("electrico")) {
-					tarifa = 0.40;
-				} else {
-					tarifa = 0.30;
-				}
-
-				double importe = 0.00;
-				if (usuario instanceof ClienteOrdinario) {
-					importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
-				} else {
-					importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
-				}
-
-				textFieldImporteTotal = new JTextField(importe + " €");
-				textFieldImporteTotal.setHorizontalAlignment(SwingConstants.CENTER);
-				textFieldImporteTotal.setColumns(10);
-				textFieldImporteTotal.setBounds(238, 294, 175, 26);
-				add(textFieldImporteTotal);
-				textFieldImporteTotal.setEditable(false);
-
-			}
-
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-
-		textFieldTipoVehiculo = new JTextField(usuario.getTipoVehiculo());
-		textFieldTipoVehiculo.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldTipoVehiculo.setColumns(10);
-		textFieldTipoVehiculo.setBounds(238, 248, 175, 26);
-		add(textFieldTipoVehiculo);
-		textFieldTipoVehiculo.setEditable(false);
 
 		JLabel lblTitulo = new JLabel("PAGO DE PARKING");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -180,6 +66,87 @@ public class PanelPago extends JPanel {
 		lblImporteTotal.setBounds(90, 300, 144, 14);
 		add(lblImporteTotal);
 
+		// Crea el campo de texto textFieldTipoUsuario y establece sus propiedades.
+		textFieldTipoUsuario = new JTextField();
+		textFieldTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldTipoUsuario.setBounds(238, 89, 175, 26);
+		textFieldTipoUsuario.setColumns(10);
+		add(textFieldTipoUsuario);
+		textFieldTipoUsuario.setEditable(false);
+		String tipoUsuario = (usuario instanceof ClienteOrdinario) ? "Cliente ordinario" : "Cliente subscrito";
+		textFieldTipoUsuario.setText(tipoUsuario);
+
+		// Crea el campo de texto textFieldFechaEntrada y establece sus propiedades.
+		textFieldFechaEntrada = new JTextField();
+		textFieldFechaEntrada.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldFechaEntrada.setBounds(238, 122, 175, 26);
+		textFieldFechaEntrada.setColumns(10);
+		add(textFieldFechaEntrada);
+		textFieldFechaEntrada.setEditable(false);
+		textFieldFechaEntrada.setText(formatter.format(new Date(usuario.getFechaEntrada()).getTime()));
+
+		// Crea el campo de texto textFieldFechaSalida y establece sus propiedades.
+		textFieldFechaSalida = new JTextField();
+		textFieldFechaSalida.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldFechaSalida.setColumns(10);
+		textFieldFechaSalida.setBounds(238, 169, 175, 26);
+		add(textFieldFechaSalida);
+		textFieldFechaSalida.setEditable(false);
+		if (usuario instanceof ClienteOrdinario) {
+			textFieldFechaSalida.setText(horaActual);
+		} else {
+			textFieldFechaSalida.setText(formatter.format(new Date(usuario.getFechaSalida()).getTime()));
+		}
+
+		try {
+
+			// Crea el campo de texto textFieldTiempoTranscurrido y establece sus
+			// propiedades.
+			textFieldTiempoTranscurrido = new JTextField();
+			textFieldTiempoTranscurrido.setHorizontalAlignment(SwingConstants.CENTER);
+			textFieldTiempoTranscurrido.setColumns(10);
+			textFieldTiempoTranscurrido.setBounds(238, 204, 175, 26);
+			add(textFieldTiempoTranscurrido);
+			textFieldTiempoTranscurrido.setEditable(false);
+
+			// Crea el campo de texto textFieldImporteTotal y establece sus propiedades.
+			textFieldImporteTotal = new JTextField();
+			textFieldImporteTotal.setHorizontalAlignment(SwingConstants.CENTER);
+			textFieldImporteTotal.setColumns(10);
+			textFieldImporteTotal.setBounds(238, 294, 175, 26);
+			add(textFieldImporteTotal);
+			textFieldImporteTotal.setEditable(false);
+
+			// Calcula el tiempo transcurrido.
+			long time = (usuario instanceof ClienteOrdinario)
+					? formatter.parse(horaActual).getTime() - new Date(usuario.getFechaEntrada()).getTime()
+					: new Date(usuario.getFechaSalida()).getTime() - new Date(usuario.getFechaEntrada()).getTime();
+			long hours = TimeUnit.MILLISECONDS.toHours(time);
+			long min = TimeUnit.MILLISECONDS.toMinutes(time)
+					- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time));
+			long sec = TimeUnit.MILLISECONDS.toSeconds(time)
+					- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time));
+			textFieldTiempoTranscurrido.setText(String.format("%02dh %02dm %02ds", hours, min, sec));
+
+			// Obtiene la tarifa a aplicar y calcula el importe total.
+			double tarifa = usuario.getTipoVehiculo().equals("Ordinario") ? 0.50
+					: (usuario.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30);
+			double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
+			textFieldImporteTotal.setText(String.format("%.2f €", importe));
+
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+
+		// Crea el campo de texto textFieldTipoVehiculo y establece sus propiedades.
+		textFieldTipoVehiculo = new JTextField();
+		textFieldTipoVehiculo.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldTipoVehiculo.setColumns(10);
+		textFieldTipoVehiculo.setBounds(238, 248, 175, 26);
+		add(textFieldTipoVehiculo);
+		textFieldTipoVehiculo.setEditable(false);
+		textFieldTipoVehiculo.setText(usuario.getTipoVehiculo());
+
 		JButton btnPagar = new JButton("PAGAR");
 		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -198,12 +165,10 @@ public class PanelPago extends JPanel {
 						// servicio.subscritoDelete(usuario.getMatricula());
 
 						frame.dispose();
-
 					}
 				} else {
 					// No sucede nada
 				}
-
 			}
 		});
 		btnPagar.setBounds(186, 364, 89, 23);
@@ -221,24 +186,6 @@ public class PanelPago extends JPanel {
 		});
 
 		add(btnVolver);
-
-		JLabel lblTipoUsuario = new JLabel("Tipo de usuario");
-		lblTipoUsuario.setBounds(90, 95, 132, 14);
-		add(lblTipoUsuario);
-
-		String tipoUsuario = "";
-		if (usuario instanceof ClienteOrdinario) {
-			tipoUsuario = "Cliente ordinario";
-		} else {
-			tipoUsuario = "Cliente subscrito";
-		}
-
-		textFieldTipoUsuario = new JTextField(tipoUsuario);
-		textFieldTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldTipoUsuario.setEditable(false);
-		textFieldTipoUsuario.setColumns(10);
-		textFieldTipoUsuario.setBounds(238, 89, 175, 26);
-		add(textFieldTipoUsuario);
 
 	}
 }
