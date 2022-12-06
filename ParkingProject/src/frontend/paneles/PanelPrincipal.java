@@ -248,8 +248,6 @@ public class PanelPrincipal extends JPanel {
 		lblRecordarCredenciales.setBounds(178, 190, 80, 16);
 		rightBottomPanel.add(lblRecordarCredenciales);
 
-		add(leftPanel);
-
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(59, 133, 145, 133);
 		lblLogo.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/LogoParking.png")));
@@ -291,13 +289,6 @@ public class PanelPrincipal extends JPanel {
 
 		Map<Integer, Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
 		String estado = (plazas.size() == 90) ? "Completo" : "Disponible";
-//		String estado;
-//		if (plazas.size() == 90) {
-//			estado = "Completo";
-//		} else {
-//			estado = "Disponible";
-//
-//		}
 
 		JLabel lblEstadoParking = new JLabel("Estado actual: " + estado);
 		lblEstadoParking.setBackground(new Color(0, 128, 128));
@@ -316,6 +307,7 @@ public class PanelPrincipal extends JPanel {
 		}
 		leftPanel.add(lblXRojo);
 
+		add(leftPanel);
 		add(rightPanel);
 
 	}
