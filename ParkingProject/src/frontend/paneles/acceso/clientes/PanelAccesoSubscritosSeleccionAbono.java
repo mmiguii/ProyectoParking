@@ -1,5 +1,7 @@
 package frontend.paneles.acceso.clientes;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,9 +21,11 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import backend.clases.infraestructura.Plaza;
@@ -32,7 +36,6 @@ import frontend.paneles.acceso.clientes.pago.PanelPago;
 public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-//	private ServicioPersistenciaBD servicio;
 	private JPanel instance;
 	private JTable tPlazas;
 	private JScrollPane scrollPane;
@@ -275,8 +278,22 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		tPlazas = new JTable(modelo);
 		
 		plazas.forEach(p -> {
-			String estado = p.isEstadoPlaza() ? "Ocupado" : "Disponible";
+			String estado = p.isEstadoPlaza() ? "DISPONIBLE" : "OCUPADO";
 			modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
+		});
+		
+		
+		tPlazas.setDefaultRenderer( Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				if(table.getValueAt(row, 3).toString().equals("OCUPADO")){
+					elementoActual.setBackground( Color.red );
+				} else {
+					elementoActual.setBackground( Color.green );
+				}
+				return elementoActual;
+			}
 		});
 	}
 	
@@ -287,25 +304,39 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 	}
 	
 	public void comprarPlaza(int numeroDias, String fechaSalida) {
-	    int seleccionado = tPlazas.getSelectedRow();
-	    subscrito.setPlazaOcupada(plazas.get(seleccionado));
+				
+		try {
+			int plazaSeleccionada = tPlazas.getSelectedRow();
+			Plaza plaza = plazas.get(plazaSeleccionada);
+			if (!plaza.isEstadoPlaza()) {
+				JOptionPane.showMessageDialog(PanelAccesoSubscritosSeleccionAbono.this, "Seleccione una plaza DISPONIBLE");
+			} else {
+			    subscrito.setPlazaOcupada(plazas.get(plazaSeleccionada));
+			    Calendar c = Calendar.getInstance();
+			    c.setTime(new Date(subscrito.getFechaEntrada()));
+			    c.add(Calendar.DATE, numeroDias);
+			    subscrito.setFechaSalida(c.getTime().getTime());	
+			    
+			    long tiempoTrans = new Date(c.getTime().getTime()).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
+			    long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
+			    double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50 : (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
+			    subscrito.setPrecioCuota(importe);	
+			    
+			    ServicioPersistenciaBD.subscritoInsert(subscrito);
+			    
+			    ServicioPersistenciaBD.updatePlaza(plaza, "OCUPADO", subscrito.getMatricula());
+			    
+			    PanelPago panel = new PanelPago(frame, instance, subscrito, fechaSalida);
+			    frame.getContentPane().add(panel);
+			    panel.setVisible(true);
+			    setVisible(false);
+			    
+			}
+		    
+		} catch (IndexOutOfBoundsException e) {
+			JOptionPane.showMessageDialog(this, "Seleccione una plaza antes de realizar la compra");
+		}
 	    
-	    Calendar c = Calendar.getInstance();
-	    c.setTime(new Date(subscrito.getFechaEntrada()));
-	    c.add(Calendar.DATE, numeroDias);
-	    subscrito.setFechaSalida(c.getTime().getTime());	   
-	    
-	    long tiempoTrans = new Date(c.getTime().getTime()).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
-	    long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
-	    double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50 : (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
-	    subscrito.setPrecioCuota(importe);	
-	    
-	    ServicioPersistenciaBD.subscritoInsert(subscrito);
-
-	    PanelPago panel = new PanelPago(frame, instance, subscrito, fechaSalida);
-	    frame.getContentPane().add(panel);
-	    panel.setVisible(true);
-	    setVisible(false);
 	}
 
 

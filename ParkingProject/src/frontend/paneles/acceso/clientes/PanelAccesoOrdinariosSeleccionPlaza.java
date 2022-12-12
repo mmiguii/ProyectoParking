@@ -1,14 +1,19 @@
 package frontend.paneles.acceso.clientes;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
+import java.util.EventObject;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +21,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.CellEditorListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
@@ -151,13 +159,31 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		add(bottomPanel);
 
 	}
-
+	
 	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
-		plazas.forEach(p -> {
-			String estadoPlaza = p.isEstadoPlaza() ? "Ocupado" : "Disponible";
-			modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estadoPlaza });
-		});
-	}
+		  // Agrega un renderer personalizado para cambiar el color de fondo de las celdas
+		  // en función del estado de la plaza
+		  tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		      Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		      // Verifica el estado de la plaza en la fila actual y cambia el color de fondo en consecuencia
+		      if (table.getValueAt(row, 3).toString().equals("OCUPADO")) {
+		        elementoActual.setBackground(Color.RED);
+		      } else {
+		        elementoActual.setBackground(Color.GREEN);
+		      }
+		      return elementoActual;
+		    }
+		  });
+		  // Agrega una fila por cada plaza en la tabla
+		  plazas.forEach(p -> {
+		    String estadoPlaza = p.isEstadoPlaza() ? "DISPONIBLE" : "OCUPADO";
+		    modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estadoPlaza });
+		  });
+		}
+
+	
 
 	private void cargarPrimeraPlanta(ActionEvent event) {
 		listaAUsar = true;
@@ -184,10 +210,17 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		// Cargamos "plazas" con la lista de la planta correspondiente
 		List<Plaza> plazas = listaAUsar ? plazas1 : plazas2;
 		Plaza plaza = plazas.get(plazaSeleccionada);
-		ServicioPersistenciaBD.ordinarioInsert(ordinario);
-		ServicioPersistenciaBD.update(plaza, "Ocupado", ordinario.getMatricula());
-		JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
-		frame.dispose();
+		// Si la plaza se encuentra OCUPADA..
+		if (!plaza.isEstadoPlaza()) {
+			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza DISPONIBLE");
+		} else {
+			ServicioPersistenciaBD.ordinarioInsert(ordinario);
+			ServicioPersistenciaBD.updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
+			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
+			frame.dispose();
+			ServicioPersistenciaBD.disconnect();
+			System.exit(0);
+		}
 	}
 
 	private void cancelar(ActionEvent event) {

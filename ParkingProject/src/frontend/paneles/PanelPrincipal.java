@@ -37,6 +37,7 @@ import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.acceso.PanelAccesoParking;
 import frontend.paneles.acceso.PanelRecordarCredenciales;
+import frontend.paneles.acceso.clientes.PanelPlazaParking;
 import frontend.paneles.acceso.clientes.pago.PanelPago;
 import frontend.paneles.acceso.trabajador.PanelEmpleado;
 import frontend.paneles.acceso.trabajador.PanelManager;
@@ -44,7 +45,7 @@ import frontend.paneles.acceso.trabajador.PanelManager;
 public class PanelPrincipal extends JPanel {
 
 	private JPanel instance;
-	private ArrayList<Trabajador> trabajadores;
+	private List<Trabajador> trabajadores;
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblHoraActual;
@@ -119,18 +120,29 @@ public class PanelPrincipal extends JPanel {
 										// Accedemos al parking/plaza del usuario en cuestion
 										if (fechaActualDate.before(fechaSalidaDate)) {
 											// CLASE PLAZA DEL SUBSCRITO
-											// Accede a su plaza (hasta que se le agote el bono)
-											// Accede a un panel en el que se le muestra su plaza (con una imagen),
-											// y se le muestran las caracteristicas de la plaza, ademas de otras cosas.
-
-											// Por lo tanto: Accede a la plaza, puede salir, volver a ingresar, asi
-											// sucesivamente hasta que se le agote el tiempo.
+											PanelPlazaParking panel = new PanelPlazaParking(frame, usuario);
+											frame.getContentPane().add(panel);
+											setVisible(false);
+											panel.setVisible(true);
+											
+											
 
 										} else {
 											// Si la fecha actual es mayor o igual a la maxima establecida por el bono.
 											// Borramos y mostramos
 											// opcion de si desea volver acceder al parking
+											
+											
+											Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.plazasSelect();
+											Plaza plaza = new Plaza();
+											for(Plaza p : plazasMap.values()){
+												if (p.getMatricula().equals(usuario.getMatricula())) {
+													plaza = p;
+												} 
+											}
+											
 											ServicioPersistenciaBD.subscritoDelete(matricula);
+											ServicioPersistenciaBD.updatePlaza(plaza, "DISPONIBLE", "");
 											int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
 													"Desea volver acceder al parking?", "Confirmación",
 													JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -188,14 +200,19 @@ public class PanelPrincipal extends JPanel {
 
 		textFieldMatricula = new JTextField();
 		textFieldMatricula.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldMatricula.setText("Ingrese su matricula");
+		textFieldMatricula.setText("DDDDCCC");
 		textFieldMatricula.setBounds(65, 95, 145, 35);
 		rightTopPanel.add(textFieldMatricula);
 		textFieldMatricula.setColumns(10);
+		
+		JLabel lblTextoIngreso = new JLabel("Ingrese su matricula");
+		lblTextoIngreso.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTextoIngreso.setBounds(65, 67, 145, 16);
+		rightTopPanel.add(lblTextoIngreso);
 		rightPanel.add(rightBottomPanel);
 
 		passwordFieldCredenciales = new JPasswordField();
-		passwordFieldCredenciales.setBounds(65, 94, 146, 35);
+		passwordFieldCredenciales.setBounds(65, 94, 154, 35);
 		rightBottomPanel.add(passwordFieldCredenciales);
 
 		JButton btnAcceder = new JButton("Continuar");
@@ -230,7 +247,7 @@ public class PanelPrincipal extends JPanel {
 
 			}
 		});
-		btnAcceder.setBounds(75, 141, 123, 29);
+		btnAcceder.setBounds(75, 141, 131, 29);
 		rightBottomPanel.add(btnAcceder);
 
 		JLabel lblRecordarCredenciales = new JLabel("* Recordar credenciales");
@@ -247,6 +264,11 @@ public class PanelPrincipal extends JPanel {
 		lblRecordarCredenciales.setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 		lblRecordarCredenciales.setBounds(178, 190, 80, 16);
 		rightBottomPanel.add(lblRecordarCredenciales);
+		
+		JLabel lblIngreseSusCredenciales = new JLabel("Ingrese sus credenciales");
+		lblIngreseSusCredenciales.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIngreseSusCredenciales.setBounds(65, 76, 154, 16);
+		rightBottomPanel.add(lblIngreseSusCredenciales);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(59, 133, 145, 133);
