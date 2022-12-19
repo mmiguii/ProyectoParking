@@ -55,10 +55,7 @@ public class PanelPrincipal extends JPanel {
 
 	public PanelPrincipal(JFrame frame) {
 
-		new ServicioPersistenciaBD();
-
 		instance = this;
-
 		trabajadores = ServicioPersistenciaBD.trabajadoresSelect();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
@@ -109,38 +106,35 @@ public class PanelPrincipal extends JPanel {
 									frame.getContentPane().add(panel);
 									panel.setVisible(true);
 									setVisible(false);
-								} else { // usuario instanceof ClienteSubscrito
-
+								} else {
+									// usuario instanceof ClienteSubscrito
 									try {
 
 										Date fechaActualDate = f.parse(lblHoraActual.getText());
 										Date fechaSalidaDate = new Date(usuario.getFechaSalida());
 
-										// Si la fecha actual es BEFORE (antes) a la maxima establecida por el bono.
-										// Accedemos al parking/plaza del usuario en cuestion
+										// Si la fecha actual es BEFORE (antes) a la maxima establecida por el bono,
+										// accedemos a la plaza del usuario en cuestion
 										if (fechaActualDate.before(fechaSalidaDate)) {
 											// CLASE PLAZA DEL SUBSCRITO
 											PanelPlazaParking panel = new PanelPlazaParking(frame, usuario);
 											frame.getContentPane().add(panel);
 											setVisible(false);
 											panel.setVisible(true);
-											
-											
 
 										} else {
-											// Si la fecha actual es mayor o igual a la maxima establecida por el bono.
-											// Borramos y mostramos
-											// opcion de si desea volver acceder al parking
-											
-											
+											// Si la fecha actual es mayor o igual a la maxima establecida por el bono,
+											// liberamos la plaza y le mostramos un mensaje que le indique si desea
+											// volver acceder
+
 											Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.plazasSelect();
 											Plaza plaza = new Plaza();
-											for(Plaza p : plazasMap.values()){
+											for (Plaza p : plazasMap.values()) {
 												if (p.getMatricula().equals(usuario.getMatricula())) {
 													plaza = p;
-												} 
+												}
 											}
-											
+
 											ServicioPersistenciaBD.subscritoDelete(matricula);
 											ServicioPersistenciaBD.updatePlaza(plaza, "DISPONIBLE", "");
 											int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
@@ -168,28 +162,26 @@ public class PanelPrincipal extends JPanel {
 
 							} else {
 								// Si la matricula no se encuentra registrada, se accede al panel de registro
-								PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
-										lblHoraActual.getText(), matricula);
-								// PanelAccesoCliente panel = new PanelAccesoCliente(frame,
-								// instance,lblHoraActual.getText(), matricula);
+								PanelAccesoParking panel = new PanelAccesoParking(frame, instance, lblHoraActual.getText(), matricula);
 								frame.getContentPane().add(panel);
 								setVisible(false);
 								panel.setVisible(true);
 							}
 
 						} else {
-							// System.out.println("caracteres");
-							JOptionPane.showMessageDialog(PanelPrincipal.this, "Ingrese correctamente la matricula");
+
+							JOptionPane.showMessageDialog(PanelPrincipal.this,
+									"Ingrese correctamente la matricula (Caracteres = 3 && Consonantes)");
 							textFieldMatricula.setText("");
 						}
 					} else {
-						// System.out.println("digitos");
-						JOptionPane.showMessageDialog(PanelPrincipal.this, "Ingrese correctamente la matricula");
+						JOptionPane.showMessageDialog(PanelPrincipal.this,
+								"Ingrese correctamente la matricula (Digitos = 4)");
 						textFieldMatricula.setText("");
 					}
 				} else {
-					// System.out.println("tamanyo");
-					JOptionPane.showMessageDialog(PanelPrincipal.this, "Ingrese correctamente la matricula");
+					JOptionPane.showMessageDialog(PanelPrincipal.this,
+							"Ingrese correctamente la matricula (Longitud = 7)");
 					textFieldMatricula.setText("");
 				}
 
@@ -204,7 +196,7 @@ public class PanelPrincipal extends JPanel {
 		textFieldMatricula.setBounds(65, 95, 145, 35);
 		rightTopPanel.add(textFieldMatricula);
 		textFieldMatricula.setColumns(10);
-		
+
 		JLabel lblTextoIngreso = new JLabel("Ingrese su matricula");
 		lblTextoIngreso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTextoIngreso.setBounds(65, 67, 145, 16);
@@ -218,31 +210,24 @@ public class PanelPrincipal extends JPanel {
 		JButton btnAcceder = new JButton("Continuar");
 		btnAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// CREDENCIALES SON EL DNI POR AHORA
-				// List<Trabajador> trabajadores = servicio.trabajadoresSelect();
-				// System.out.println(trabajadores.get(0));
-				for (Trabajador t : trabajadores) {
-					// System.out.println(t.getDni());
-					if (t.getDni().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
-						if (t instanceof Manager) {
-							PanelManager panel = new PanelManager(frame, instance, t);
+				for (Trabajador trabajador : trabajadores) {
+					if (trabajador.getDni().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
+						if (trabajador instanceof Manager) {
+							PanelManager panel = new PanelManager(frame, instance, trabajador);
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
 							break;
 						} else {
-							PanelEmpleado panel = new PanelEmpleado(frame, instance, t);
+							PanelEmpleado panel = new PanelEmpleado(frame, instance, trabajador);
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
 							break;
 						}
-
 					} else {
-
+						JOptionPane.showMessageDialog(PanelPrincipal.this, "Credenciales incorrectas");
 					}
-
 				}
 
 			}
@@ -254,7 +239,6 @@ public class PanelPrincipal extends JPanel {
 		lblRecordarCredenciales.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// CAMBIARLO A PANEL RECORDAR CREDENCIALES
 				PanelRecordarCredenciales panel = new PanelRecordarCredenciales(frame, instance, trabajadores);
 				frame.getContentPane().add(panel);
 				setVisible(false);
@@ -264,7 +248,7 @@ public class PanelPrincipal extends JPanel {
 		lblRecordarCredenciales.setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 		lblRecordarCredenciales.setBounds(178, 190, 80, 16);
 		rightBottomPanel.add(lblRecordarCredenciales);
-		
+
 		JLabel lblIngreseSusCredenciales = new JLabel("Ingrese sus credenciales");
 		lblIngreseSusCredenciales.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIngreseSusCredenciales.setBounds(65, 76, 154, 16);
@@ -334,17 +318,17 @@ public class PanelPrincipal extends JPanel {
 
 	}
 
-	private static List<String> obtenerMatriculas(List<Usuario> servUsuarios) {
-		// Utilizamos un Set ya que garantiza que no haya elementos repetidos en la
-		// coleccion (Facil conversion a List posteriormente)
+	private static List<String> obtenerMatriculas(List<Usuario> usuarios) {
+		// Creamos un conjunto para almacenar las matrículas de manera única
 		Set<String> matriculas = new HashSet<>();
 
-		// Iteramos directamente sobre la List "servUsuarios" utilizando un .forEach(),
-		// seguido de una expresion lambda.
-		servUsuarios.forEach(u -> {
-			// Si no contiene la matrícula, se agrega al HashSet.
-			matriculas.add(u.getMatricula());
+		// Recorremos la lista de usuarios y añadimos cada matrícula al conjunto
+		usuarios.forEach(usuario -> {
+			matriculas.add(usuario.getMatricula());
 		});
+
+		// Creamos una lista a partir del conjunto y la devolvemos como resultado
 		return new ArrayList<String>(matriculas);
 	}
+
 }

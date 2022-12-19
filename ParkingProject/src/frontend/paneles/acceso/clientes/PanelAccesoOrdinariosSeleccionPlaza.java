@@ -159,31 +159,35 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		add(bottomPanel);
 
 	}
-	
-	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
-		  // Agrega un renderer personalizado para cambiar el color de fondo de las celdas
-		  // en función del estado de la plaza
-		  tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-		    @Override
-		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-		      Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		      // Verifica el estado de la plaza en la fila actual y cambia el color de fondo en consecuencia
-		      if (table.getValueAt(row, 3).toString().equals("OCUPADO")) {
-		        elementoActual.setBackground(Color.RED);
-		      } else {
-		        elementoActual.setBackground(Color.GREEN);
-		      }
-		      return elementoActual;
-		    }
-		  });
-		  // Agrega una fila por cada plaza en la tabla
-		  plazas.forEach(p -> {
-		    String estadoPlaza = p.isEstadoPlaza() ? "DISPONIBLE" : "OCUPADO";
-		    modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estadoPlaza });
-		  });
-		}
 
-	
+	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
+		// Agrega un renderer personalizado para cambiar el color de fondo de las celdas
+		// en función del estado de la plaza
+		tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+						column);
+				// Verifica el estado de la plaza en la fila actual y cambia el color de fondo
+				// en consecuencia
+				if (table.getValueAt(row, 3).toString().equals("OCUPADO")) {
+					elementoActual.setBackground(new Color(205, 92, 92));
+				} else {
+					elementoActual.setBackground(new Color(144, 238, 144));
+				}
+				return elementoActual;
+			}
+		});
+		// Agrega una fila por cada plaza en la tabla
+		plazas.forEach(plaza -> {
+			String estadoPlaza = plaza.isEstadoPlaza() ? "DISPONIBLE" : "OCUPADO";
+			modelo.addRow(new Object[] { plaza.getNumeroPlanta(), plaza.getNumeroPlaza(), plaza.getTipoPlaza(),
+					estadoPlaza });
+		});
+	}
 
 	private void cargarPrimeraPlanta(ActionEvent event) {
 		listaAUsar = true;

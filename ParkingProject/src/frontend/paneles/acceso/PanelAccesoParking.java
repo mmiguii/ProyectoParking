@@ -40,18 +40,25 @@ public class PanelAccesoParking extends JPanel {
 	private JTextField textFieldMatricula;
 	private JLabel lblBienvenida;
 	private JLabel lblSeleccionTipo;
+	private JFrame frame;
+	private DateFormat formatter;
+	private String horaEntrada;
 
 	public PanelAccesoParking(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
 
 		instance = this;
 
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		this.frame = frame;
+
+		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+
+		this.horaEntrada = horaEntrada;
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de acceso al parking"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
-		// Panel superior
+		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.columnWidths = new int[] { 0, 503, 503, 0 };
@@ -102,14 +109,15 @@ public class PanelAccesoParking extends JPanel {
 		gbc_textFieldMatricula.gridy = 2;
 		topPanel.add(textFieldMatricula, gbc_textFieldMatricula);
 
-		// Panel central
+		// PANEL CENTRAL
 		JPanel middlePanel = new JPanel();
 		GridBagLayout gbl_middlePanel = new GridBagLayout();
 		gbl_middlePanel.columnWeights = new double[] { 1.0, 1.0, 1.0 };
 		middlePanel.setLayout(gbl_middlePanel);
 		middlePanel.setBorder(BorderFactory.createTitledBorder("Seleccion de plaza"));
 
-		ButtonGroup radioButtonGroup = new ButtonGroup(); // Para que las opciones sean excluyentes, creamos un grupo
+		// Se crea un grupo para que las opciones sean excluyentes
+		ButtonGroup radioButtonGroup = new ButtonGroup();
 
 		lblSeleccionTipo = new JLabel("Seleccione el tipo de plaza que va ocupar");
 		GridBagConstraints gbc_lblSeleccionTipo = new GridBagConstraints();
@@ -140,7 +148,7 @@ public class PanelAccesoParking extends JPanel {
 				btnComprarBono.setEnabled(true);
 			}
 		});
-		radioButtonGroup.add(radioButtonElectrico); // Anadimos el boton al grupo
+		radioButtonGroup.add(radioButtonElectrico); 
 		GridBagConstraints gbc_radioButtonElectrico = new GridBagConstraints();
 		gbc_radioButtonElectrico.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButtonElectrico.gridx = 1;
@@ -154,97 +162,32 @@ public class PanelAccesoParking extends JPanel {
 				btnComprarBono.setEnabled(true);
 			}
 		});
-		radioButtonGroup.add(radioButtonMinusvalido); // Anadimos el boton al grupo
+		radioButtonGroup.add(radioButtonMinusvalido); 
 		GridBagConstraints gbc_radioButtonMinusvalido = new GridBagConstraints();
 		gbc_radioButtonMinusvalido.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButtonMinusvalido.gridx = 2;
 		gbc_radioButtonMinusvalido.gridy = 1;
 		middlePanel.add(radioButtonMinusvalido, gbc_radioButtonMinusvalido);
 
-		// Panel inferior
+		//PANEL INFERIOR
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
 
-		// Panel inferior (izq)
+		// PANEL INFERIOR (IZQ)
 		JPanel leftBottomPanel = new JPanel();
 		leftBottomPanel.setLayout(new GridBagLayout());
 
 		btnAcceder = new JButton("ACCEDER");
 		btnAcceder.setEnabled(false);
-		btnAcceder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					
-					ClienteOrdinario ordinario = new ClienteOrdinario();
-					ordinario.setMatricula(textFieldMatricula.getText());
-					
-					// Crea un Map que almacena las tarifas de cada tipo de vehículo
-					Map<String, Double> tarifas = new HashMap<>();
-					tarifas.put(radioButtonOrdinario.getText(), 0.50);
-					tarifas.put(radioButtonElectrico.getText(), 0.40);
-					tarifas.put(radioButtonMinusvalido.getText(), 0.30);
-
-					// Obtiene el tipo de vehículo seleccionado y su tarifa correspondiente
-					String tipoVehiculo = radioButtonOrdinario.isSelected() ? radioButtonOrdinario.getText() : (radioButtonElectrico.isSelected() ? radioButtonElectrico.getText() : radioButtonMinusvalido.getText());
-					double tarifa = tarifas.get(tipoVehiculo);
-
-					// Asigna el tipo de vehículo y la tarifa al objeto ordinario
-					ordinario.setTipoVehiculo(tipoVehiculo);
-					ordinario.setTarifa(tarifa);
-					ordinario.setFechaEntrada(formatter.parse(horaEntrada).getTime());
-//					servicio.ordinarioInsert(ordinario);
-					
-					PanelAccesoOrdinariosSeleccionPlaza panel = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance, ordinario);
-					frame.getContentPane().add(panel);
-					panel.setVisible(true);
-					setVisible(false);
-
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
+		btnAcceder.addActionListener(this::acceder);
 		leftBottomPanel.add(btnAcceder, new GridBagConstraints());
 
-		// Panel inferior (dcha)
+		// PANEL INFERIOR (DCH)
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
 
 		btnComprarBono = new JButton("COMPRAR ABONO");
+		btnComprarBono.addActionListener(this::comprarAbono);
 		btnComprarBono.setEnabled(false);
-		btnComprarBono.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					
-					ClienteSubscrito subscrito = new ClienteSubscrito();
-					subscrito.setMatricula(textFieldMatricula.getText());
-					
-					// Crea un Map que almacena las cuotas de cada tipo de vehículo
-					Map<String, String> cuotas = new HashMap<>();
-					cuotas.put(radioButtonOrdinario.getText(), "0.50");
-					cuotas.put(radioButtonElectrico.getText(), "0.40");
-					cuotas.put(radioButtonMinusvalido.getText(), "0.30");
-
-					// Obtiene el tipo de vehículo seleccionado y su tarifa correspondiente
-					String tipoVehiculo = radioButtonOrdinario.isSelected() ? radioButtonOrdinario.getText() : (radioButtonElectrico.isSelected() ? radioButtonElectrico.getText() : radioButtonMinusvalido.getText());
-					String tipoCuota = cuotas.get(tipoVehiculo);
-					
-
-					// Asigna el tipo de vehículo y la cuota al objeto subscrito
-					subscrito.setTipoVehiculo(tipoVehiculo);
-					subscrito.setTipoCuota(tipoCuota);
-					subscrito.setFechaEntrada(formatter.parse(horaEntrada).getTime());
-//					servicio.subscritoInsert(subscrito);
-					PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance, subscrito);
-					frame.getContentPane().add(panel);
-					panel.setVisible(true);
-					setVisible(false);
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
 		rightBottomPanel.add(btnComprarBono, new GridBagConstraints());
 
 		bottomPanel.add(leftBottomPanel);
@@ -253,6 +196,71 @@ public class PanelAccesoParking extends JPanel {
 		add(topPanel);
 		add(middlePanel);
 		add(bottomPanel);
+	}
+
+	public void comprarAbono(ActionEvent event) {
+		try {
+
+			ClienteSubscrito subscrito = new ClienteSubscrito();
+			subscrito.setMatricula(textFieldMatricula.getText());
+
+			// Crea un Map que almacena las cuotas de cada tipo de vehículo
+			Map<String, String> cuotas = new HashMap<>();
+			cuotas.put(radioButtonOrdinario.getText(), "0.50");
+			cuotas.put(radioButtonElectrico.getText(), "0.40");
+			cuotas.put(radioButtonMinusvalido.getText(), "0.30");
+
+			// Obtiene el tipo de vehículo seleccionado y su tarifa correspondiente
+			String tipoVehiculo = radioButtonOrdinario.isSelected() ? radioButtonOrdinario.getText()
+					: (radioButtonElectrico.isSelected() ? radioButtonElectrico.getText()
+							: radioButtonMinusvalido.getText());
+			String tipoCuota = cuotas.get(tipoVehiculo);
+
+			// Asigna el tipo de vehículo y la cuota al objeto subscrito
+			subscrito.setTipoVehiculo(tipoVehiculo);
+			subscrito.setTipoCuota(tipoCuota);
+			subscrito.setFechaEntrada(formatter.parse(horaEntrada).getTime());
+//			servicio.subscritoInsert(subscrito);
+			PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance, subscrito);
+			frame.getContentPane().add(panel);
+			panel.setVisible(true);
+			setVisible(false);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public void acceder(ActionEvent event) {
+		try {
+			ClienteOrdinario ordinario = new ClienteOrdinario();
+			ordinario.setMatricula(textFieldMatricula.getText());
+
+			// Crea un Map que almacena las tarifas de cada tipo de vehículo
+			Map<String, Double> tarifas = new HashMap<>();
+			tarifas.put(radioButtonOrdinario.getText(), 0.50);
+			tarifas.put(radioButtonElectrico.getText(), 0.40);
+			tarifas.put(radioButtonMinusvalido.getText(), 0.30);
+
+			// Obtiene el tipo de vehículo seleccionado y su tarifa correspondiente
+			String tipoVehiculo = radioButtonOrdinario.isSelected() ? radioButtonOrdinario.getText()
+					: (radioButtonElectrico.isSelected() ? radioButtonElectrico.getText()
+							: radioButtonMinusvalido.getText());
+			double tarifa = tarifas.get(tipoVehiculo);
+
+			// Asigna el tipo de vehículo y la tarifa al objeto ordinario
+			ordinario.setTipoVehiculo(tipoVehiculo);
+			ordinario.setTarifa(tarifa);
+			ordinario.setFechaEntrada(formatter.parse(horaEntrada).getTime());
+//			servicio.ordinarioInsert(ordinario);
+
+			PanelAccesoOrdinariosSeleccionPlaza panel = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance, ordinario);
+			frame.getContentPane().add(panel);
+			panel.setVisible(true);
+			setVisible(false);
+
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 }
