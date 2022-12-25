@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import backend.clases.email.PasswordGenerator;
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.ClienteSubscrito;
@@ -746,6 +747,26 @@ public class ServicioPersistenciaBD {
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 		return sortedMap;
 	}
+	
+	public String trabajadoresUpdate(String dni) {
+		String sentSQL = "UPDATE trabajadores SET password = ? WHERE dni = ?";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+			PasswordGenerator pg = new PasswordGenerator();
+			String nuevoPass = pg.generate(10, 3, 3);
+			stmt.setString(1, nuevoPass);
+			stmt.setString(2, dni);
+			stmt.executeUpdate();
+			return nuevoPass;
+			
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
+			lastError = e;
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 
 	/**
 	 * Metodo local para poder loggear. (si no se asigna un logger externo, se

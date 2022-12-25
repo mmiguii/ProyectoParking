@@ -76,14 +76,14 @@ public class EnvioEmail {
 	 * @param destinatario : correo destino al que se debe enviar el mensaje.
 	 * @param nombre:      Nombre personal del usuario del la cuenta Parking y dueno
 	 *                     del correo destinatario.
-	 * @param dni:         dni antigua del usuario, para que la pueda recordar.
+	 * @param password:         password nuevo del usuario.
 	 */
 
-	public static void bienvenida(String destinatario, String nombre, String dni) {
-		String asunto = "Recuperación credenciales (DNI) acceso plataforma - Parking";
+	public static void bienvenida(String destinatario, String nombre, String password) {
+		String asunto = "Recuperación credenciales (Password) acceso plataforma - Parking";
 		String cuerpo = "Buenos dias " + nombre + ":\n"
-				+ "Nos dirigimos a usted para que pueda recuperar su DNI y acceder a la" + " plataforma del Parking. \n"
-				+ "\n	DNI de recuperación: " + dni;
+				+ "Nos dirigimos a usted para que pueda recuperar su password y acceda a la plataforma del Parking. \n"
+				+ "\n	Nuevo password: " + password;
 
 		enviarConGMail(destinatario, asunto, cuerpo);
 	}

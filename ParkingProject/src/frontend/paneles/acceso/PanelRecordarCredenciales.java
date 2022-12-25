@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 
 import backend.clases.email.EnvioEmail;
 import backend.clases.personas.personal.Trabajador;
+import backend.servicios.ServicioPersistenciaBD;
 
 public class PanelRecordarCredenciales extends JPanel {
 
@@ -80,17 +81,19 @@ public class PanelRecordarCredenciales extends JPanel {
 					public void run() {
 						// Aquí va el código que quieres que se ejecute en el thread
 						String nombreTrabajador = textFieldNombreUsuario.getText();
-						String passwordTrabajador = String.valueOf(passwordFieldPassword.getPassword());
+						String dniTrabajador = String.valueOf(passwordFieldPassword.getPassword());
 						boolean encontrado = false;
 
 						for (Map.Entry<String, Trabajador> entry : trabajadores.entrySet()) {
 							Trabajador trabajador = entry.getValue();
 							if (trabajador.getNombreUsuario().equals(nombreTrabajador)
-									&& trabajador.getPassword().equals(passwordTrabajador)) {
+									&& trabajador.getDni().equals(dniTrabajador)) {
 								encontrado = true;
+//								ServicioPersistenciaBD.getInstance().connect("Parking.db");
+								String nuevoPass = ServicioPersistenciaBD.getInstance().trabajadoresUpdate(trabajador.getDni());
 								EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
 										"Su usuario es: " + nombreTrabajador + " y su contraseña es: "
-												+ passwordTrabajador);
+												+ nuevoPass);
 								JOptionPane.showMessageDialog(null,
 										"Se ha enviado un email con sus credenciales al correo: "
 												+ trabajador.getEmail());

@@ -54,7 +54,7 @@ public class PanelPrincipal extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelPrincipal.class.getName());
 	
 	public PanelPrincipal(JFrame frame) {
-		 
+		  
 		{
 	        setBorder(javax.swing.BorderFactory.createTitledBorder("Inicio"));
 	        setBounds(10, 10, 567, 448);
@@ -188,15 +188,17 @@ public class PanelPrincipal extends JPanel {
 		JButton btnAcceder = new JButton("CONTINUAR");
 		btnAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean encontrado = false;
 				for (Trabajador trabajador : trabajadores.values()) {
 					
-					if (trabajador.getDni().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
+					if (trabajador.getPassword().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
 						
 						if (trabajador instanceof Manager) {
 							PanelManager panel = new PanelManager(frame, instance, trabajador);
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
+							encontrado = true;
 							break;
 							
 						} else {
@@ -204,13 +206,14 @@ public class PanelPrincipal extends JPanel {
 							frame.getContentPane().add(panel);
 							setVisible(false);
 							panel.setVisible(true);
+							encontrado = true;
 							break;
 						}
-						
-					} else {
-						logger.info("Credenciales no coincidentes");
-						JOptionPane.showMessageDialog(PanelPrincipal.this, "Credenciales incorrectas");
 					}
+				}
+				if (!encontrado) {
+					logger.info("Credenciales no coincidentes");
+					JOptionPane.showMessageDialog(PanelPrincipal.this, "Credenciales incorrectas");
 				}
 			}
 		});
