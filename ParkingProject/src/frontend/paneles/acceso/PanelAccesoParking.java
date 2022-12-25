@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -43,12 +44,15 @@ public class PanelAccesoParking extends JPanel {
 	private JFrame frame;
 	private DateFormat formatter;
 	private String horaEntrada;
+	
+	private static Logger logger = Logger.getLogger(PanelAccesoParking.class.getName());
+
 
 	public PanelAccesoParking(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
 
 		instance = this;
 
-		this.frame = frame;
+		this.frame = frame; 
 
 		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
@@ -220,13 +224,13 @@ public class PanelAccesoParking extends JPanel {
 			subscrito.setTipoVehiculo(tipoVehiculo);
 			subscrito.setTipoCuota(tipoCuota);
 			subscrito.setFechaEntrada(formatter.parse(horaEntrada).getTime());
-//			servicio.subscritoInsert(subscrito);
+
 			PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance, subscrito);
 			frame.getContentPane().add(panel);
 			panel.setVisible(true);
 			setVisible(false);
 		} catch (ParseException e1) {
-			e1.printStackTrace();
+			logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
 		}
 	}
 
@@ -251,7 +255,6 @@ public class PanelAccesoParking extends JPanel {
 			ordinario.setTipoVehiculo(tipoVehiculo);
 			ordinario.setTarifa(tarifa);
 			ordinario.setFechaEntrada(formatter.parse(horaEntrada).getTime());
-//			servicio.ordinarioInsert(ordinario);
 
 			PanelAccesoOrdinariosSeleccionPlaza panel = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance, ordinario);
 			frame.getContentPane().add(panel);
@@ -259,7 +262,7 @@ public class PanelAccesoParking extends JPanel {
 			setVisible(false);
 
 		} catch (ParseException e1) {
-			e1.printStackTrace();
+			logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
 		}
 	}
 

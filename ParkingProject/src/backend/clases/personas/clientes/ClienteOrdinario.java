@@ -30,6 +30,11 @@ public class ClienteOrdinario extends Usuario {
 		super(matricula, tipoVehiculo, fechaEntrada, fechaSalida, importe);
 	}
 
+	/**
+	 * Constructor que se utiliza para crear una nueva instancia de ClienteOrdinario
+	 * con una tarifa específica y para inicializar los campos de la instancia de
+	 * ClienteOrdinario y de su superclase.
+	 */
 	public ClienteOrdinario(double tarifa) {
 		super();
 		this.tarifa = tarifa;
@@ -53,6 +58,12 @@ public class ClienteOrdinario extends Usuario {
 		this.tarifa = tarifa;
 	}
 
+	/**
+	 * Este método es un método de instancia de la clase ClienteOrdinario que
+	 * sobrescribe el método toString() de la clase Object. Devuelve una cadena que
+	 * contiene los valores de los atributos de la instancia de ClienteOrdinario,
+	 * formateados de acuerdo con el formato especificado.
+	 */
 	@Override
 	public String toString() {
 		return String.format("%s, %.2f", super.toString(), tarifa);

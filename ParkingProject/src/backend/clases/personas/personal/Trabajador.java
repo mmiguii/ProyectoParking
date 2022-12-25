@@ -186,21 +186,36 @@ public abstract class Trabajador {
 		this.salario = salario;
 	}
 
+	/** Variable que permite darle formato a las fechas */
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
+	/**
+	 * Este metodo es un método de instancia de la clase Planta que sobrescribe el
+	 * metodo toString() de la clase Object. Devuelve una cadena que contiene los
+	 * valores de los atributos de la instancia de Planta, formateados de acuerdo
+	 * con el formato especificado.
+	 */
 	@Override
 	public String toString() {
 		return String.format("%s, %s, %s, %s, %s, %s, %d, %.2f", nombreUsuario, password, dni, email, puesto,
 				sdf.format(new Date(fechaComienzo)), antiguedad, salario);
 	}
 
+	/**
+	 * Sobrescribe el metodo equals de la clase Object en Java y se utiliza para
+	 * determinar si dos objetos son iguales. En este caso, el metodo comprueba si
+	 * el objeto pasado como parametro es una instancia de la clase Trabajador y, si
+	 * lo es, compara el campo nombreUsuario del objeto actual con el campo
+	 * nombreUsuario del objeto pasado como parametro. Si ambos campos son iguales,
+	 * el metodo devuelve true, en caso contrario devuelve false.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Trabajador) {
-			return nombreUsuario == ((Trabajador) obj).nombreUsuario;
+			Trabajador otroTrabajador = (Trabajador) obj;
+			return nombreUsuario.equals(otroTrabajador.nombreUsuario);
 		} else {
 			return false;
 		}
 	}
-
 }

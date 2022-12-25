@@ -8,23 +8,20 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
-import java.util.EventObject;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Logger;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
@@ -51,21 +48,25 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 	private ClienteOrdinario ordinario;
 	private boolean listaAUsar; // true (plazas1), false (plazas2)
 
+	private static Logger logger = Logger.getLogger(PanelAccesoOrdinariosSeleccionPlaza.class.getName());
+
 	public PanelAccesoOrdinariosSeleccionPlaza(JFrame frame, JPanel panel, ClienteOrdinario ordinario) {
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(2, 1));
 
+		ServicioPersistenciaBD.getInstance().connect("Parking.db");
+
 		this.frame = frame;
 		this.panel = panel;
 		this.ordinario = ordinario;
 
 		// Cargamos las plazas de la primera planta
-		plazas1 = ServicioPersistenciaBD.plazasSelect(1, ordinario.getTipoVehiculo());
+		plazas1 = ServicioPersistenciaBD.getInstance().plazasSelect(1, ordinario.getTipoVehiculo());
 
 		// Cargamos las plazas de la segunda planta
-		plazas2 = ServicioPersistenciaBD.plazasSelect(2, ordinario.getTipoVehiculo());
+		plazas2 = ServicioPersistenciaBD.getInstance().plazasSelect(2, ordinario.getTipoVehiculo());
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
@@ -174,8 +175,10 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 				// Verifica el estado de la plaza en la fila actual y cambia el color de fondo
 				// en consecuencia
 				if (table.getValueAt(row, 3).toString().equals("OCUPADO")) {
+					((JComponent) elementoActual).setOpaque(true);
 					elementoActual.setBackground(new Color(205, 92, 92));
 				} else {
+					((JComponent) elementoActual).setOpaque(true);
 					elementoActual.setBackground(new Color(144, 238, 144));
 				}
 				return elementoActual;
@@ -216,13 +219,15 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		Plaza plaza = plazas.get(plazaSeleccionada);
 		// Si la plaza se encuentra OCUPADA..
 		if (!plaza.isEstadoPlaza()) {
+			logger.info("Seleccione una plaza disponible");
 			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza DISPONIBLE");
 		} else {
-			ServicioPersistenciaBD.ordinarioInsert(ordinario);
-			ServicioPersistenciaBD.updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
+			ServicioPersistenciaBD.getInstance().ordinarioInsert(ordinario);
+			ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
 			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
+			logger.info("Cerrando aplicacion...");
 			frame.dispose();
-			ServicioPersistenciaBD.disconnect();
+			ServicioPersistenciaBD.getInstance().disconnect();
 			System.exit(0);
 		}
 	}

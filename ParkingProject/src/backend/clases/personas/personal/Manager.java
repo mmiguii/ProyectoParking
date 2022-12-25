@@ -30,9 +30,12 @@ public class Manager extends Trabajador {
 		super(nombreUsuario, password, dni, email, puesto, fechaComienzo, antiguedad, salario);
 	}
 
+	/**
+	 * Sobrescribe el metodo toString de la superclase y devuelve una representacion
+	 * en forma de cadena del objeto actual.
+	 */
 	@Override
 	public String toString() {
 		return super.toString();
 	}
-
 }

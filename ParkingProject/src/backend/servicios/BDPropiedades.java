@@ -5,6 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Lee un archivo de configuración y luego imprime sus propiedades en la
+ * consola.
+ * 
+ * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
+ */
 public class BDPropiedades {
 
 	public static void main(String[] args) {
@@ -22,6 +28,5 @@ public class BDPropiedades {
 		} catch (IOException e) {
 			System.out.println("Error al cargar fichero de propiedades:");
 		}
-
 	}
 }

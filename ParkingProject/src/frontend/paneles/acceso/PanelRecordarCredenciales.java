@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +20,6 @@ import javax.swing.SwingConstants;
 
 import backend.clases.email.EnvioEmail;
 import backend.clases.personas.personal.Trabajador;
-import backend.servicios.ServicioPersistenciaBD;
 
 public class PanelRecordarCredenciales extends JPanel {
 
@@ -27,9 +27,11 @@ public class PanelRecordarCredenciales extends JPanel {
 	private JTextField textFieldNombreUsuario;
 	private JPasswordField passwordFieldPassword;
 
-	public PanelRecordarCredenciales(JFrame frame, JPanel panel, List<Trabajador> trabajadores) {
-		setLayout(null);
+	private static Logger logger = Logger.getLogger(PanelRecordarCredenciales.class.getName());
 
+	public PanelRecordarCredenciales(JFrame frame, JPanel panel, Map<String, Trabajador> trabajadores) {
+		setLayout(null);
+		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de recuperacion de credenciales"));
 		textFieldNombreUsuario = new JTextField();
 		textFieldNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNombreUsuario.addMouseListener(new MouseAdapter() {
@@ -38,18 +40,18 @@ public class PanelRecordarCredenciales extends JPanel {
 				textFieldNombreUsuario.setText("");
 			}
 		});
-		textFieldNombreUsuario.setBounds(86, 99, 298, 26);
+		textFieldNombreUsuario.setBounds(138, 171, 298, 26);
 		textFieldNombreUsuario.setText("Nombre de usuario");
 		add(textFieldNombreUsuario);
 		textFieldNombreUsuario.setColumns(10);
 
 		JLabel lblTexto = new JLabel("Introduzca su usuario y password");
 		lblTexto.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.BOLD, 17));
-		lblTexto.setBounds(73, 51, 312, 20);
+		lblTexto.setBounds(124, 77, 312, 20);
 		add(lblTexto);
 
 		JButton btnRecuperarContrasea = new JButton("Recuperar credenciales");
-		btnRecuperarContrasea.setBounds(226, 207, 218, 29);
+		btnRecuperarContrasea.setBounds(294, 322, 218, 29);
 		btnRecuperarContrasea.setBackground(new Color(255, 102, 102));
 		add(btnRecuperarContrasea);
 
@@ -61,49 +63,53 @@ public class PanelRecordarCredenciales extends JPanel {
 				setVisible(false);
 			}
 		});
-		btnCancelar.setBounds(30, 207, 201, 29);
+		btnCancelar.setBounds(61, 322, 201, 29);
 		btnCancelar.setBackground(new Color(152, 240, 153));
 		add(btnCancelar);
 
 		passwordFieldPassword = new JPasswordField();
-		passwordFieldPassword.setBounds(87, 137, 298, 26);
+		passwordFieldPassword.setBounds(138, 242, 298, 26);
 		add(passwordFieldPassword);
 
 		btnRecuperarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombreTrabajador = textFieldNombreUsuario.getText();
-				String passwordTrabajador = String.valueOf(passwordFieldPassword.getPassword());
-				boolean encontrado = false;
-				Trabajador trabajador = null;
-				for (Trabajador t : trabajadores) {
+				// Crea una instancia de la clase Thread y le pasa una instancia de una clase
+				// anónima que implemente la interface Runnable
+				Thread thread = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// Aquí va el código que quieres que se ejecute en el thread
+						String nombreTrabajador = textFieldNombreUsuario.getText();
+						String passwordTrabajador = String.valueOf(passwordFieldPassword.getPassword());
+						boolean encontrado = false;
 
-					if (t.getNombreUsuario().equals(nombreTrabajador)) {
-						// Usuario existe
-						if (t.getPassword().equals(passwordTrabajador)) {
-							// Usuario encontrado
-							encontrado = true;
-							trabajador = t;
-							break;
+						for (Map.Entry<String, Trabajador> entry : trabajadores.entrySet()) {
+							Trabajador trabajador = entry.getValue();
+							if (trabajador.getNombreUsuario().equals(nombreTrabajador)
+									&& trabajador.getPassword().equals(passwordTrabajador)) {
+								encontrado = true;
+								EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
+										"Su usuario es: " + nombreTrabajador + " y su contraseña es: "
+												+ passwordTrabajador);
+								JOptionPane.showMessageDialog(null,
+										"Se ha enviado un email con sus credenciales al correo: "
+												+ trabajador.getEmail());
+								setVisible(false);
+								panel.setVisible(true);
+								break;
+							}
+						}
+
+						if (!encontrado) {
+							logger.info("No se ha encontrado ningun trabajador con los datos introducidos");
+							JOptionPane.showMessageDialog(null,
+									"No se ha encontrado ningún trabajador con ese nombre de usuario y contraseña");
 						}
 					}
+				});
 
-				}
-				if (encontrado == false) {
-					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this,
-							"El nombre de usuario y password introducido no coinciden. Intentelo de nuevo.");
-				} else {
-					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this,
-							"En breve recibiras un email en tu correo.");
-					EnvioEmail.bienvenida(trabajador.getEmail(), trabajador.getNombreUsuario(), trabajador.getDni());
-
-					JOptionPane.showMessageDialog(PanelRecordarCredenciales.this,
-							"\nEl mensage ha sido enviado con exito."
-									+ "\nEl mensage de recuperacion de credenciales ha sido enviado al siguiente correo: "
-									+ trabajador.getEmail());
-					frame.dispose();
-					ServicioPersistenciaBD.disconnect();
-					System.exit(0);
-				}
+				// Inicia el thread
+				thread.start();
 			}
 		});
 	}

@@ -17,8 +17,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,32 +41,33 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 	private JPanel instance;
 	private JTable tPlazas;
 	private JScrollPane scrollPane;
-	
+
 	private JFrame frame;
 	private JPanel panel;
 	private ClienteSubscrito subscrito;
 	private List<Plaza> plazas;
-
+	
+	private static Logger logger = Logger.getLogger(PanelAccesoSubscritosSeleccionAbono.class.getName());
+ 
 	public PanelAccesoSubscritosSeleccionAbono(JFrame frame, JPanel panel, ClienteSubscrito subscrito) {
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(2, 1));
+
+		ServicioPersistenciaBD.getInstance().connect("Parking.db");
 		
 		instance = this;
 		this.frame = frame;
 		this.panel = panel;
 		this.subscrito = subscrito;
-		
-		plazas = ServicioPersistenciaBD.plazasSelect(3, subscrito.getTipoVehiculo());
+
+		plazas = ServicioPersistenciaBD.getInstance().plazasSelect(3, subscrito.getTipoVehiculo());
 		cargarTabla(plazas);
-		
-		
+
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
-		
-
-			// PANEL SUPERIOR
+		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
@@ -91,7 +94,6 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_tPlazas.gridy = 1;
 		topPanel.add(tPlazas, gbc_tPlazas);
 
-		
 		scrollPane = new JScrollPane(tPlazas);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 3;
@@ -262,82 +264,92 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnCancelar, gbc_btnCancelar);
 
 		add(topPanel);
-		add(bottomPanel); 
+		add(bottomPanel);
 	}
-	
+
 	public Calendar anadirDias(int numeroDias) {
-	    Calendar c = Calendar.getInstance();
-	    c.setTime(new Date(subscrito.getFechaEntrada()));
-	    c.add(Calendar.DATE, numeroDias);
-	    return c;
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date(subscrito.getFechaEntrada()));
+		c.add(Calendar.DATE, numeroDias);
+		return c;
 	}
 
 	public void cargarTabla(List<Plaza> plazas) {
-		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Numero de planta", "Numero de plaza", "Tipo de plaza", "Estado"));
+		Vector<String> cabeceras = new Vector<String>(
+				Arrays.asList("Numero de planta", "Numero de plaza", "Tipo de plaza", "Estado"));
 		DefaultTableModel modelo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 		tPlazas = new JTable(modelo);
-		
+
 		plazas.forEach(p -> {
 			String estado = p.isEstadoPlaza() ? "DISPONIBLE" : "OCUPADO";
 			modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estado });
 		});
-		
-		
-		tPlazas.setDefaultRenderer( Object.class, new DefaultTableCellRenderer() {
+
+		tPlazas.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-				Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if(table.getValueAt(row, 3).toString().equals("OCUPADO")){
-					elementoActual.setBackground( Color.red );
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+						column);
+				if (table.getValueAt(row, 3).toString().equals("OCUPADO")) {
+					((JComponent) elementoActual).setOpaque(true);
+					elementoActual.setBackground(new Color(205, 92, 92));
 				} else {
-					elementoActual.setBackground( Color.green );
+					((JComponent) elementoActual).setOpaque(true);
+					elementoActual.setBackground(new Color(144, 238, 144));
 				}
 				return elementoActual;
 			}
 		});
 	}
-	
+
 	private void cancelar(ActionEvent event) {
 		frame.getContentPane().add(panel);
 		panel.setVisible(true);
 		setVisible(false);
 	}
-	
+
 	public void comprarPlaza(int numeroDias, String fechaSalida) {
-				
+
 		try {
 			int plazaSeleccionada = tPlazas.getSelectedRow();
 			Plaza plaza = plazas.get(plazaSeleccionada);
 			if (!plaza.isEstadoPlaza()) {
-				JOptionPane.showMessageDialog(PanelAccesoSubscritosSeleccionAbono.this, "Seleccione una plaza DISPONIBLE");
+				JOptionPane.showMessageDialog(PanelAccesoSubscritosSeleccionAbono.this,
+						"Seleccione una plaza DISPONIBLE");
 			} else {
-			    subscrito.setPlazaOcupada(plazas.get(plazaSeleccionada));
-			    Calendar c = Calendar.getInstance();
-			    c.setTime(new Date(subscrito.getFechaEntrada()));
-			    c.add(Calendar.DATE, numeroDias);
-			    subscrito.setFechaSalida(c.getTime().getTime());	
-			    
-			    long tiempoTrans = new Date(c.getTime().getTime()).getTime() - new Date(subscrito.getFechaEntrada()).getTime();
-			    long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
-			    double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50 : (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
-			    subscrito.setPrecioCuota(importe);	
-			    
-			    ServicioPersistenciaBD.subscritoInsert(subscrito);
-			    
-			    ServicioPersistenciaBD.updatePlaza(plaza, "OCUPADO", subscrito.getMatricula());
-			    
-			    PanelPago panel = new PanelPago(frame, instance, subscrito, fechaSalida);
-			    frame.getContentPane().add(panel);
-			    panel.setVisible(true);
-			    setVisible(false);
-			    
+				subscrito.setPlazaOcupada(plazas.get(plazaSeleccionada));
+				Calendar c = Calendar.getInstance();
+				c.setTime(new Date(subscrito.getFechaEntrada()));
+				c.add(Calendar.DATE, numeroDias);
+				subscrito.setFechaSalida(c.getTime().getTime());
+
+				long tiempoTrans = new Date(c.getTime().getTime()).getTime()
+						- new Date(subscrito.getFechaEntrada()).getTime();
+				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)
+						- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
+				double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50
+						: (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
+				subscrito.setPrecioCuota(importe);
+
+				ServicioPersistenciaBD.getInstance().subscritoInsert(subscrito);
+
+				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", subscrito.getMatricula());
+
+				PanelPago panel = new PanelPago(frame, instance, subscrito, fechaSalida);
+				frame.getContentPane().add(panel);
+				panel.setVisible(true);
+				setVisible(false);
+
 			}
-		    
+
 		} catch (IndexOutOfBoundsException e) {
+			logger.severe(String.format("%s %s", e.getMessage(), e.getCause().getMessage()));
 			JOptionPane.showMessageDialog(this, "Seleccione una plaza antes de realizar la compra");
 		}
-	    
-	}
 
+	}
 
 }

@@ -111,7 +111,7 @@ public class PanelEstadoParking extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 					frame.dispose();
-					ServicioPersistenciaBD.disconnect();
+					ServicioPersistenciaBD.getInstance().disconnect();
 					System.exit(0);
 				
 			}

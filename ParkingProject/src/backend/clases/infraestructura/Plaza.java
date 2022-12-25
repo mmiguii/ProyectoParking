@@ -13,13 +13,19 @@ public class Plaza {
 	private int numeroPlaza;
 	private boolean estadoPlaza; // vacio (false) o ocupado (true)
 	private String tipoPlaza; // Corresponde al tipo de vehiculo que vaya a aparcar: normal (1), electrico
-	private String matricula;							// (2), ...
+	private String matricula; // (2), ...
 
 	/** Constructor vacio de la clase Planta */
 	public Plaza() {
 		super();
 	}
 
+	/**
+	 * Constructor de la clase Plaza. Inicializa una nueva instancia de
+	 * la clase Plaza con los valores de los argumentos proporcionados. Asigna los
+	 * valores de los argumentos a los atributos de la instancia de Plaza
+	 * correspondientes.
+	 */
 	public Plaza(int numeroPlanta, int numeroPlaza, boolean estadoPlaza, String tipoPlaza, String matricula) {
 		super();
 		this.numeroPlanta = numeroPlanta;
@@ -102,20 +108,31 @@ public class Plaza {
 	public void setTipoPlaza(String tipoPlaza) {
 		this.tipoPlaza = tipoPlaza;
 	}
-	
-	
-	
+
+	/**
+	 * Metodo getter del atributo matricula de la plaza.
+	 * 
+	 * @return tipoPlaza: matricula del vehiculo que ocupa la plaza.
+	 */
 	public String getMatricula() {
 		return matricula;
 	}
 
-	
+	/**
+	 * Metodo setter del atributo matricula de la plaza.
+	 * 
+	 * @param matricula: matricula del vehiculo que ocupa la plaza.
+	 */
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-	
-	
 
+	/**
+	 * Este método es un método de instancia de la clase Plaza que sobrescribe el
+	 * método toString() de la clase Object. Devuelve una cadena que contiene los
+	 * valores de los atributos de la instancia de Plaza, formateados de acuerdo con
+	 * el formato especificado.
+	 */
 	@Override
 	public String toString() {
 		return String.format("%d, %d, %s, %b", numeroPlanta, numeroPlaza, tipoPlaza, estadoPlaza);
