@@ -1,5 +1,8 @@
 package backend.clases.email;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -33,40 +36,53 @@ public class EnvioEmail {
 	 *                     destinatario.
 	 * @param cuerpo       : contiene al completo el mensaja que se enviara al
 	 *                     destinatario.
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void enviarConGMail(String destinatario, String asunto, String cuerpo) {
-
-		String remitente = "noreply.servicioparkingdeusto@gmail.com"; // Para la direccion nomcuenta@gmail.com
-
+	public static void enviarConGMail(String destinatario, String asunto, String cuerpo) throws FileNotFoundException, IOException {
+		
 		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-		props.setProperty("mail.smtp.starttls.enable", "true");
-		props.setProperty("mail.smtp.port", "587");
-		props.setProperty("mail.smtp.user", remitente);
-		props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
-		props.setProperty("mail.smtp.auth", "true");
+		
+		try (FileReader fr = new FileReader("configuracion.properties")){
+			props.load(fr);
+			
+			String remitente = props.getProperty("E-mail"); // Para la direccion nomcuenta@gmail.com
 
-		Session session = Session.getDefaultInstance(props);
+			props.getProperty("mail.smtp.host");
+			props.getProperty("mail.smtp.ssl.trust");
+			props.getProperty("mail.smtp.starttls.enable");			
+			props.getProperty("mail.smtp.port");
+			props.getProperty("mail.smtp.user");			
+			props.getProperty("mail.smtp.ssl.protocols");
+			props.getProperty("mail.smtp.auth");
 
-		try {
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(remitente));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
-			message.setSubject(asunto);
-			message.setText(cuerpo, "ISO-8859-1", "html");
-
-			Transport transport = session.getTransport("smtp");
-
-			transport.connect(remitente, "labttufhikfhedbw");
-
-			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
-			transport.close();
-
-			logger.info("Correo enviado");
-
-		} catch (MessagingException me) {
-			logger.severe(String.format("%s %s", me.getMessage(), me.getCause().getMessage()));
+			Session session = Session.getDefaultInstance(props);
+			
+			try {
+				MimeMessage message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(remitente));
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+				message.setSubject(asunto);
+				message.setText(cuerpo, props.getProperty("charset"), props.getProperty("subtype"));
+	
+				Transport transport = session.getTransport(props.getProperty("protocol"));
+	
+				transport.connect(remitente, "labttufhikfhedbw");
+	
+				transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+				transport.close();
+	
+				logger.info("Correo enviado");
+	
+			} catch (MessagingException me) {
+				logger.severe(String.format("%s %s", me.getMessage(), me.getCause().getMessage()));
+			}
+		} catch (FileNotFoundException e) {
+			// TODO: handle exception
+			logger.info("No se ha podido encontrar el fichero de propiedades");
+		} catch (IOException e) {
+			// TODO: handle exception
+			logger.info("No se ha podido leer del fichero de propiedades");
 		}
 	}
 
@@ -78,9 +94,11 @@ public class EnvioEmail {
 	 * @param nombre:      Nombre personal del usuario del la cuenta Parking y dueno
 	 *                     del correo destinatario.
 	 * @param password:    password nuevo del usuario.
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
 
-	public static void bienvenida(String destinatario, String nombre, String password) {
+	public static void bienvenida(String destinatario, String nombre, String password) throws FileNotFoundException, IOException {
 		String asunto = "Recuperación credenciales (Password) acceso plataforma - Parking";
 		String cuerpo = "Hola " + nombre
 				+ ": Nos dirigimos a usted para que pueda recuperar su password y acceda a la plataforma del Parking. Este es su nuevo password: '"

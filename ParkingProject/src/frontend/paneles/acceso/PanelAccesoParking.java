@@ -35,7 +35,7 @@ public class PanelAccesoParking extends JPanel {
 	private JButton btnComprarBono;
 	private JButton btnAcceder;
 	private JRadioButton radioButtonOrdinario;
-	private JRadioButton radioButtonElectrico;
+	private JRadioButton radioButtonElectrico; 
 	private JRadioButton radioButtonMinusvalido;
 	private JTextField textFieldHoraEntrada;
 	private JTextField textFieldMatricula;

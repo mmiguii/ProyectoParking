@@ -129,7 +129,7 @@ public class PanelPrincipal extends JPanel {
 											logger.info("Lo sentimos. Su tiempo ha expirado.");
 											Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance()
 													.plazasSelect();
-											Plaza plaza = plazasMap.values().stream()
+											Plaza plaza = plazasMap.values().stream() 
 													.filter(p -> p.getMatricula().equals(usuario.getMatricula()))
 													.findFirst().orElse(null);
 

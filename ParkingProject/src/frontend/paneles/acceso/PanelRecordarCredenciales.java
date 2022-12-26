@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -26,7 +28,7 @@ public class PanelRecordarCredenciales extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldNombreUsuario;
-	private JPasswordField passwordFieldPassword;
+	private JPasswordField passwordFieldPassword; 
 
 	private static Logger logger = Logger.getLogger(PanelRecordarCredenciales.class.getName());
 
@@ -94,8 +96,16 @@ public class PanelRecordarCredenciales extends JPanel {
 //								ServicioPersistenciaBD.getInstance().connect("Parking.db");
 								String nuevoPass = ServicioPersistenciaBD.getInstance()
 										.trabajadoresUpdate(trabajador.getDni());
-								EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
-										"Su usuario es: " + nombreTrabajador + " y su contraseña es: " + nuevoPass);
+								try {
+									EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
+											"Su usuario es: " + nombreTrabajador + " y su contraseña es: " + nuevoPass);
+								} catch (FileNotFoundException e) {
+									// TODO Auto-generated catch block
+									logger.info("El fichero de propiedades no existe");
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									logger.info("No se ha leido correctamente del fichero de propiedades");
+								}
 								logger.info("Mensaje enviado.");
 								JOptionPane.showMessageDialog(null,
 										"Se ha enviado un email con sus credenciales al correo: "

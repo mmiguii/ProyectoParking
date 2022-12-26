@@ -36,7 +36,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	private JScrollPane scrollPane;
 
-	private JButton btnCargarPlanta1;
+	private JButton btnCargarPlanta1; 
 	private JButton btnCargarPlanta2;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
