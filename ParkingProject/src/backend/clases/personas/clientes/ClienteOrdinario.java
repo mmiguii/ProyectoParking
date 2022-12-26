@@ -1,7 +1,7 @@
 package backend.clases.personas.clientes;
 
 /**
- * La función de esta clase ClienteOrdinario es definir y crear un objeto de
+ * La funcion de esta clase ClienteOrdinario es definir y crear un objeto de
  * tipo ordinario que desciende de un objeto usuario.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
@@ -59,10 +59,10 @@ public class ClienteOrdinario extends Usuario {
 	}
 
 	/**
-	 * Este método es un método de instancia de la clase ClienteOrdinario que
-	 * sobrescribe el método toString() de la clase Object. Devuelve una cadena que
-	 * contiene los valores de los atributos de la instancia de ClienteOrdinario,
-	 * formateados de acuerdo con el formato especificado.
+	 * Metodo de instancia de la clase ClienteOrdinario que sobrescribe el metodo
+	 * toString() de la clase Object. Devuelve una cadena que contiene los valores
+	 * de los atributos de la instancia de ClienteOrdinario, formateados de acuerdo
+	 * con el formato especificado.
 	 */
 	@Override
 	public String toString() {

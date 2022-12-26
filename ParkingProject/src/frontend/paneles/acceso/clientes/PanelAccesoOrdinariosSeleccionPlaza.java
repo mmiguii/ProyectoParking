@@ -40,13 +40,12 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 	private JButton btnCargarPlanta2;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
-
 	private JFrame frame;
 	private JPanel panel;
 	private List<Plaza> plazas1;
 	private List<Plaza> plazas2;
 	private ClienteOrdinario ordinario;
-	private boolean listaAUsar; // true (plazas1), false (plazas2)
+	private boolean listaAUsar;
 
 	private static Logger logger = Logger.getLogger(PanelAccesoOrdinariosSeleccionPlaza.class.getName());
 
@@ -57,16 +56,14 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		this.setLayout(new GridLayout(2, 1));
 
 		ServicioPersistenciaBD.getInstance().connect("Parking.db");
+		// Cargamos las plazas de la primera planta
+		plazas1 = ServicioPersistenciaBD.getInstance().plazasSelect(1, ordinario.getTipoVehiculo());
+		// Cargamos las plazas de la segunda planta
+		plazas2 = ServicioPersistenciaBD.getInstance().plazasSelect(2, ordinario.getTipoVehiculo());
 
 		this.frame = frame;
 		this.panel = panel;
 		this.ordinario = ordinario;
-
-		// Cargamos las plazas de la primera planta
-		plazas1 = ServicioPersistenciaBD.getInstance().plazasSelect(1, ordinario.getTipoVehiculo());
-
-		// Cargamos las plazas de la segunda planta
-		plazas2 = ServicioPersistenciaBD.getInstance().plazasSelect(2, ordinario.getTipoVehiculo());
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
@@ -162,8 +159,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 	}
 
 	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
-		// Agrega un renderer personalizado para cambiar el color de fondo de las celdas
-		// en función del estado de la plaza
+
 		tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			private static final long serialVersionUID = 1L;
 

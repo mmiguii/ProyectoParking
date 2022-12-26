@@ -4,10 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * La función de esta clase Usuario es definir un objeto de tipo usuario. Este
+ * La funcion de esta clase Usuario es definir un objeto de tipo usuario. Este
  * objeto totalmente abstracto extenderán los dos tipos posibles de usuarios:los
  * clientes ordinarios y los clientes subscritos.
- * 
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
  */
@@ -135,10 +134,10 @@ public abstract class Usuario {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
 	/**
-	 * Este método es un método de instancia de la clase Usuario que sobrescribe el
-	 * metodo toString() de la clase Object. Devuelve una cadena que contiene los
-	 * valores de los atributos de la instancia de Usuario, formateados de acuerdo
-	 * con el formato especificado.
+	 * Metodo de instancia de la clase Usuario que sobrescribe el metodo toString()
+	 * de la clase Object. Devuelve una cadena que contiene los valores de los
+	 * atributos de la instancia de Usuario, formateados de acuerdo con el formato
+	 * especificado.
 	 */
 	@Override
 	public String toString() {

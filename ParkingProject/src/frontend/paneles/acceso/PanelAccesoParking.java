@@ -44,18 +44,15 @@ public class PanelAccesoParking extends JPanel {
 	private JFrame frame;
 	private DateFormat formatter;
 	private String horaEntrada;
-	
-	private static Logger logger = Logger.getLogger(PanelAccesoParking.class.getName());
 
+	private static Logger logger = Logger.getLogger(PanelAccesoParking.class.getName());
 
 	public PanelAccesoParking(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
 
 		instance = this;
-
-		this.frame = frame; 
-
 		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
+		this.frame = frame;
 		this.horaEntrada = horaEntrada;
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de acceso al parking"));
@@ -152,7 +149,7 @@ public class PanelAccesoParking extends JPanel {
 				btnComprarBono.setEnabled(true);
 			}
 		});
-		radioButtonGroup.add(radioButtonElectrico); 
+		radioButtonGroup.add(radioButtonElectrico);
 		GridBagConstraints gbc_radioButtonElectrico = new GridBagConstraints();
 		gbc_radioButtonElectrico.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButtonElectrico.gridx = 1;
@@ -166,14 +163,14 @@ public class PanelAccesoParking extends JPanel {
 				btnComprarBono.setEnabled(true);
 			}
 		});
-		radioButtonGroup.add(radioButtonMinusvalido); 
+		radioButtonGroup.add(radioButtonMinusvalido);
 		GridBagConstraints gbc_radioButtonMinusvalido = new GridBagConstraints();
 		gbc_radioButtonMinusvalido.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButtonMinusvalido.gridx = 2;
 		gbc_radioButtonMinusvalido.gridy = 1;
 		middlePanel.add(radioButtonMinusvalido, gbc_radioButtonMinusvalido);
 
-		//PANEL INFERIOR
+		// PANEL INFERIOR
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
 
 		// PANEL INFERIOR (IZQ)
@@ -225,7 +222,10 @@ public class PanelAccesoParking extends JPanel {
 			subscrito.setTipoCuota(tipoCuota);
 			subscrito.setFechaEntrada(formatter.parse(horaEntrada).getTime());
 
-			PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance, subscrito);
+			logger.info("Accediendo a la seleccion de la plaza y tiempo de estancia...");
+
+			PanelAccesoSubscritosSeleccionAbono panel = new PanelAccesoSubscritosSeleccionAbono(frame, instance,
+					subscrito);
 			frame.getContentPane().add(panel);
 			panel.setVisible(true);
 			setVisible(false);
@@ -256,7 +256,10 @@ public class PanelAccesoParking extends JPanel {
 			ordinario.setTarifa(tarifa);
 			ordinario.setFechaEntrada(formatter.parse(horaEntrada).getTime());
 
-			PanelAccesoOrdinariosSeleccionPlaza panel = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance, ordinario);
+			logger.info("Accediendo a la seleccion de la plaza...");
+
+			PanelAccesoOrdinariosSeleccionPlaza panel = new PanelAccesoOrdinariosSeleccionPlaza(frame, instance,
+					ordinario);
 			frame.getContentPane().add(panel);
 			panel.setVisible(true);
 			setVisible(false);

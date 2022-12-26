@@ -1,7 +1,7 @@
 package backend.clases.personas.personal;
 
 /**
- * La función de esta clase Empleado es definir y crear un objeto de tipo
+ * La funcion de esta clase Empleado es definir y crear un objeto de tipo
  * empleado que desciende de un objeto Trabajador.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
@@ -9,12 +9,14 @@ package backend.clases.personas.personal;
 
 public class Empleado extends Trabajador {
 
-	/** Constructor vacio de la clase ClienteSubscrito */
+	/** Constructor vacio de la clase Empleado */
 	public Empleado() {
 		super();
 	}
 
 	/**
+	 * 
+	 * Constuctor super del objeto Trabajador (con todos los atributos).
 	 * 
 	 * @param nombreUsuario: nombre de usuario del empleado.
 	 * @param password:      password del empleado.
@@ -33,6 +35,7 @@ public class Empleado extends Trabajador {
 	/**
 	 * Sobrescribe el metodo toString de la superclase y devuelve una representacion
 	 * en forma de cadena del objeto actual.
+	 * 
 	 */
 	@Override
 	public String toString() {

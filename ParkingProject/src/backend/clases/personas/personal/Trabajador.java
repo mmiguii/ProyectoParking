@@ -4,10 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * La función de esta clase Trabajador es definir un objeto de tipo trabajador.
- * Este objeto totalmente abstracto extenderán los dos tipos posibles de
+ * La funcion de esta clase Trabajador es definir un objeto de tipo trabajador.
+ * Este objeto totalmente abstracto extenderan los dos tipos posibles de
  * trabajadores: los managers y los empleados.
- * 
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
  */
@@ -29,6 +28,12 @@ public abstract class Trabajador {
 		super();
 	}
 
+	/**
+	 * Constructor de la clase Trabajador. Inicializa una nueva instancia de la
+	 * clase Trabajador con los valores de los argumentos proporcionados. Asigna los
+	 * valores de los argumentos a los atributos de la instancia de Trabajador
+	 * correspondientes.
+	 */
 	public Trabajador(String nombreUsuario, String password, String dni, String email, String puesto,
 			long fechaComienzo, int antiguedad, double salario) {
 		super();
@@ -190,10 +195,10 @@ public abstract class Trabajador {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
 	/**
-	 * Este metodo es un método de instancia de la clase Planta que sobrescribe el
-	 * metodo toString() de la clase Object. Devuelve una cadena que contiene los
-	 * valores de los atributos de la instancia de Planta, formateados de acuerdo
-	 * con el formato especificado.
+	 * Metodo de instancia de la clase Trabajador que sobrescribe el metodo
+	 * toString() de la clase Object. Devuelve una cadena que contiene los valores
+	 * de los atributos de la instancia de Trabajador, formateados de acuerdo con el
+	 * formato especificado.
 	 */
 	@Override
 	public String toString() {

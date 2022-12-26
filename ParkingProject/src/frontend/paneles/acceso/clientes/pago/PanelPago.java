@@ -32,23 +32,25 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldTiempoTranscurrido;
 	private JTextField textFieldTipoVehiculo;
 	private JTextField textFieldImporteTotal;
-
 	private JTextField textFieldTipoUsuario;
-
+	private DateFormat formatter;
 	private Usuario usuario;
+	private Plaza plaza;
 
 	private static Logger logger = Logger.getLogger(PanelPago.class.getName());
 
-	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, String horaActual) {
+	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, Plaza plaza, String horaActual) {
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel Pago"));
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 
 		ServicioPersistenciaBD.getInstance().connect("Parking.db");
 
+		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+	
 		this.usuario = usuario;
+		this.plaza = plaza;
 
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		JLabel lblTitulo = new JLabel("PAGO DE PARKING");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -178,7 +180,7 @@ public class PanelPago extends JPanel {
 						System.exit(0);
 					}
 				} else {
-					// No sucede nada
+					logger.info("Transaccion cancelada");
 				}
 			}
 		});
@@ -189,6 +191,8 @@ public class PanelPago extends JPanel {
 		btnVolver.setBounds(415, 364, 89, 23);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ServicioPersistenciaBD.getInstance().subscritoDelete(usuario.getMatricula());
+				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
@@ -196,7 +200,6 @@ public class PanelPago extends JPanel {
 		});
 
 		add(btnVolver);
-
 	}
 
 	public Plaza plazaSel() {
@@ -207,7 +210,6 @@ public class PanelPago extends JPanel {
 			}
 		}
 		return null;
-
 	}
 
 }

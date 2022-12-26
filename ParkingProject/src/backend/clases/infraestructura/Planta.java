@@ -1,7 +1,7 @@
 package backend.clases.infraestructura;
 
 /**
- * La función de esta clase Planta es definir y crear un objeto de tipo planta.
+ * La funcion de esta clase Planta es definir y crear un objeto de tipo planta.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
  */
@@ -111,10 +111,10 @@ public class Planta {
 	}
 
 	/**
-	 * Este metodo es un método de instancia de la clase Planta que sobrescribe el
-	 * metodo toString() de la clase Object. Devuelve una cadena que contiene los
-	 * valores de los atributos de la instancia de Planta, formateados de acuerdo
-	 * con el formato especificado.
+	 * Metodo de instancia de la clase Planta que sobrescribe el metodo toString()
+	 * de la clase Object. Devuelve una cadena que contiene los valores de los
+	 * atributos de la instancia de Planta, formateados de acuerdo con el formato
+	 * especificado.
 	 */
 	@Override
 	public String toString() {

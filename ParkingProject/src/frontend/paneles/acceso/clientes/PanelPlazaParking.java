@@ -37,26 +37,21 @@ public class PanelPlazaParking extends JPanel {
 		});
 		btnSalir.setBounds(112, 372, 327, 29);
 		add(btnSalir);
+		
+		JLabel lblImagen = new JLabel("");  
+		lblImagen.setBounds(122, 79, 292, 238);  
 
 		if (usuario.getTipoVehiculo().equals("Ordinario")) {
-			logger.info("Accediendo al aparcamiento ordinario...");
-			JLabel lblOrd = new JLabel("");
-			lblOrd.setBounds(122, 79, 292, 238);
-			lblOrd.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaOrdinaria.jpeg")));
-			add(lblOrd);
+		  logger.info("Accediendo al aparcamiento ordinario...");
+		  lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaOrdinaria.jpeg")));  // asignamos una imagen al objeto JLabel
 		} else if (usuario.getTipoVehiculo().equals("Minusvalido")) {
-			logger.info("Accediendo al aparcamiento minusvalido...");
-			JLabel lblMin = new JLabel("");
-			lblMin.setBounds(122, 79, 292, 238);
-			lblMin.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaMinusvalido.jpeg")));
-			add(lblMin);
+		  logger.info("Accediendo al aparcamiento minusvalido...");
+		  lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaMinusvalido.jpeg")));  // asignamos una imagen al objeto JLabel
 		} else {
-			JLabel lblEl = new JLabel("");
-			logger.info("Accediendo al aparcamiento electrico...");
-			lblEl.setBounds(122, 79, 292, 238);
-			lblEl.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaElectrico.jpeg")));
-			add(lblEl);
+		  logger.info("Accediendo al aparcamiento electrico...");
+		  lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaElectrico.jpeg")));  // asignamos una imagen al objeto JLabel
 		}
 
+		add(lblImagen);  
 	}
 }

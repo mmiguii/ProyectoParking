@@ -5,12 +5,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Esta clase permite crear un nuevo password con caracteres y digitos de manera
+ * aleatoria cuando el usuario en cuestion olvida su password en cuestion. El
+ * nuevo password generado es enviado al correo del usuario en cuestion.
+ * 
+ * @author Miguel Aroztegi, Eduardo Sanjurjo e ikerlekuona
+ *
+ */
 public class PasswordGenerator {
 
-	// usados para la generaci?n aleatoria
 	private final char[] LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 	private final char[] DIGITS = "0123456789".toCharArray();
-	private Random r;
+	private Random random;
 
 	/**
 	 * Indica si debe generarse un digito o una letra
@@ -21,10 +28,11 @@ public class PasswordGenerator {
 	}
 
 	/**
-	 * Constructor del generador de contrase?as
+	 * Constructor del generador de passwords
+	 * 
 	 */
 	public PasswordGenerator() {
-		r = new Random();
+		random = new Random();
 	}
 
 	/**
@@ -33,7 +41,7 @@ public class PasswordGenerator {
 	 * @return letra aleatoria generada
 	 */
 	private char getRandomLetter() {
-		return LETTERS[r.nextInt(LETTERS.length)];
+		return LETTERS[random.nextInt(LETTERS.length)];
 	}
 
 	/**
@@ -42,7 +50,7 @@ public class PasswordGenerator {
 	 * @return digito aleatorio generado
 	 */
 	private char getRandomDigit() {
-		return DIGITS[r.nextInt(DIGITS.length)];
+		return DIGITS[random.nextInt(DIGITS.length)];
 	}
 
 	/**
@@ -53,57 +61,83 @@ public class PasswordGenerator {
 	 */
 	private List<CharType> getRandomOrder() {
 		List<CharType> generationOrder = Arrays.asList(CharType.values());
-		Collections.shuffle(generationOrder, r);
+		Collections.shuffle(generationOrder, random);
 		return generationOrder;
 	}
 
+	/**
+	 * Metodo que determina si se cumplen ciertas condiciones basadas en la longitud
+	 * actual del password, el numero actual de digitos y letras en el password y el
+	 * size deseado del password, y el numero minimo requerido de digitos y letras.
+	 * Las condiciones se cumplen si el numero de digitos y letras restantes
+	 * necesarios para cumplir con los requisitos minimos es menor o igual al numero
+	 * de caracteres restantes en el password. Si se cumplen estas condiciones, el
+	 * metodo devuelve verdadero, de lo contrario, devuelve falso.
+	 * 
+	 */
 	private boolean holdsConditions(int length, int numDigits, int numLetters, int size, int minDigits,
 			int minLetters) {
 		int remainingChars = size - length;
 		return minDigits - numDigits <= remainingChars && minLetters - numLetters <= remainingChars;
 	}
 
-	// - Si se cumplen las condiciones:
-	// - Si se ha alcanzado la longitud deseada devolver el string (vac?o)
-	// - Si no se ha alcanzado la longitud deseada:
-	// - Generar una secuencia de prueba aleatoria (utilizando el m?todo)
-	// getRandomOrder y probar/iterar sobre las distintas posibilidades (DIGIT,
-	// LETTER).
-	// - Si la posibilidad probada ha devuelto null, se sabe que ese camino es
-	// incorrecto.
-	// - Si la posibilidad probada ha devuelto una cadena v?lida (distinta de null),
-	// concatenarla a un caracter aleatorio del tipo correspondiente y devolverla.
-	// - Si no se cumplen las condiciones devolver null
+	/**
+	 * Metodo recursivo que genera un password aleatorio de una longitud
+	 * especificada y ciertas condiciones de numeros y letras. Devuelve null si las
+	 * condiciones no se cumplen o si no se encuentra un password valido.
+	 * 
+	 */
 	private String generateRec(int length, int numDigits, int numLetters, int size, int minDigits, int minLetters) {
-		// TODO T5. Implementar recursividad
+		// Comprueba si la longitud actual, el numero de digitos y letras y el size
+		// deseado cumplen con las condiciones especificadas
 		if (holdsConditions(length, numDigits, numLetters, size, minDigits, minLetters)) {
+			// Si la longitud actual es igual al size deseado, devuelve una cadena vacia
 			if (length == size)
 				return "";
 
+			// Inicializa el password y el caracter aleatorio a null y 0 respectivamente
 			String password = null;
 			char randomChar = 0;
 
+			// Itera sobre una secuencia de tipos de caracteres aleatorios
 			for (CharType charType : getRandomOrder()) {
 				switch (charType) {
+
+				// Si el tipo de caracter es un digito, llama a la funcion recursivamente con el
+				// numero de digitos actualizado
 				case DIGIT:
 					password = generateRec(length + 1, numDigits + 1, numLetters, size, minDigits, minLetters);
+					// Asigna un digito aleatorio a la variable "randomChar"
 					randomChar = getRandomDigit();
 					break;
 
+				// Si el tipo de caracter es una letra, llama a la función recursivamente con el
+				// numero de letras actualizado
 				case LETTER:
 					password = generateRec(length + 1, numDigits, numLetters + 1, size, minDigits, minLetters);
+					// Asigna una letra aleatoria a la variable "randomChar"
 					randomChar = getRandomLetter();
 					break;
 				}
 
+				// Si se ha encontrado un password no nulo, devuelve "randomChar" concatenado
+				// con "password" y sale del bucle
 				if (password != null)
 					return randomChar + password;
 			}
 		}
-
+		// Si no se cumplen las condiciones o no se ha encontrado un password no nulo,
+		// devuelve nulo
 		return null;
 	}
 
+	/**
+	 * Metodo que llama al metodo recursivo "generateRec" para generar un password
+	 * aleatorio de una longitud especificada y ciertas condiciones de numeros y
+	 * letras. Lanza una excepcion si las condiciones de numeros y letras son
+	 * incompatibles con el size deseado del password.
+	 * 
+	 */
 	public String generate(int size, int minDigits, int minLetters) {
 		if (minDigits + minLetters > size)
 			throw new IllegalArgumentException(String.format(

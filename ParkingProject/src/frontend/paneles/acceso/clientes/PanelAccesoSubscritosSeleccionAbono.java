@@ -41,14 +41,14 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 	private JPanel instance;
 	private JTable tPlazas;
 	private JScrollPane scrollPane;
-
 	private JFrame frame;
 	private JPanel panel;
+	private DateFormat formatter;
 	private ClienteSubscrito subscrito;
 	private List<Plaza> plazas;
-	
+
 	private static Logger logger = Logger.getLogger(PanelAccesoSubscritosSeleccionAbono.class.getName());
- 
+
 	public PanelAccesoSubscritosSeleccionAbono(JFrame frame, JPanel panel, ClienteSubscrito subscrito) {
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
@@ -56,16 +56,15 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		this.setLayout(new GridLayout(2, 1));
 
 		ServicioPersistenciaBD.getInstance().connect("Parking.db");
-		
-		instance = this;
-		this.frame = frame;
-		this.panel = panel;
-		this.subscrito = subscrito;
 
+		instance = this;
+		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		plazas = ServicioPersistenciaBD.getInstance().plazasSelect(3, subscrito.getTipoVehiculo());
 		cargarTabla(plazas);
 
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		this.frame = frame;
+		this.panel = panel;
+		this.subscrito = subscrito;
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
@@ -328,8 +327,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 				long tiempoTrans = new Date(c.getTime().getTime()).getTime()
 						- new Date(subscrito.getFechaEntrada()).getTime();
-				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans)
-						- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempoTrans));
+				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
 				double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50
 						: (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
 				subscrito.setPrecioCuota(importe);
@@ -338,7 +336,8 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", subscrito.getMatricula());
 
-				PanelPago panel = new PanelPago(frame, instance, subscrito, fechaSalida);
+				logger.info("Accediendo a la secccion de pago...");
+				PanelPago panel = new PanelPago(frame, instance, subscrito, plaza, fechaSalida);
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);

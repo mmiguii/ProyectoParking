@@ -31,8 +31,10 @@ public class PanelRecordarCredenciales extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelRecordarCredenciales.class.getName());
 
 	public PanelRecordarCredenciales(JFrame frame, JPanel panel, Map<String, Trabajador> trabajadores) {
+
 		setLayout(null);
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de recuperacion de credenciales"));
+
 		textFieldNombreUsuario = new JTextField();
 		textFieldNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNombreUsuario.addMouseListener(new MouseAdapter() {
@@ -46,7 +48,11 @@ public class PanelRecordarCredenciales extends JPanel {
 		add(textFieldNombreUsuario);
 		textFieldNombreUsuario.setColumns(10);
 
-		JLabel lblTexto = new JLabel("Introduzca su usuario y password");
+		passwordFieldPassword = new JPasswordField();
+		passwordFieldPassword.setBounds(138, 242, 298, 26);
+		add(passwordFieldPassword);
+
+		JLabel lblTexto = new JLabel("Introduzca su usuario y DNI");
 		lblTexto.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.BOLD, 17));
 		lblTexto.setBounds(124, 77, 312, 20);
 		add(lblTexto);
@@ -68,14 +74,10 @@ public class PanelRecordarCredenciales extends JPanel {
 		btnCancelar.setBackground(new Color(152, 240, 153));
 		add(btnCancelar);
 
-		passwordFieldPassword = new JPasswordField();
-		passwordFieldPassword.setBounds(138, 242, 298, 26);
-		add(passwordFieldPassword);
-
 		btnRecuperarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Crea una instancia de la clase Thread y le pasa una instancia de una clase
-				// anónima que implemente la interface Runnable
+				// anonima que implemente la interface Runnable
 				Thread thread = new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -90,10 +92,11 @@ public class PanelRecordarCredenciales extends JPanel {
 									&& trabajador.getDni().equals(dniTrabajador)) {
 								encontrado = true;
 //								ServicioPersistenciaBD.getInstance().connect("Parking.db");
-								String nuevoPass = ServicioPersistenciaBD.getInstance().trabajadoresUpdate(trabajador.getDni());
+								String nuevoPass = ServicioPersistenciaBD.getInstance()
+										.trabajadoresUpdate(trabajador.getDni());
 								EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
-										"Su usuario es: " + nombreTrabajador + " y su contraseña es: "
-												+ nuevoPass);
+										"Su usuario es: " + nombreTrabajador + " y su contraseña es: " + nuevoPass);
+								logger.info("Mensaje enviado.");
 								JOptionPane.showMessageDialog(null,
 										"Se ha enviado un email con sus credenciales al correo: "
 												+ trabajador.getEmail());
@@ -106,7 +109,7 @@ public class PanelRecordarCredenciales extends JPanel {
 						if (!encontrado) {
 							logger.info("No se ha encontrado ningun trabajador con los datos introducidos");
 							JOptionPane.showMessageDialog(null,
-									"No se ha encontrado ningún trabajador con ese nombre de usuario y contraseña");
+									"No se ha encontrado ningun trabajador con ese nombre de usuario y DNI introducidos");
 						}
 					}
 				});
