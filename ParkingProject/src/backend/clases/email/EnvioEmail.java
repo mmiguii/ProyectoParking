@@ -39,7 +39,7 @@ public class EnvioEmail {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public static void enviarConGMail(String destinatario, String asunto, String cuerpo) throws FileNotFoundException, IOException {
+	public static void enviarConGMail(String destinatario, String asunto, String cuerpo) {
 		
 		Properties props = new Properties();
 		
@@ -78,10 +78,8 @@ public class EnvioEmail {
 				logger.severe(String.format("%s %s", me.getMessage(), me.getCause().getMessage()));
 			}
 		} catch (FileNotFoundException e) {
-			// TODO: handle exception
 			logger.info("No se ha podido encontrar el fichero de propiedades");
 		} catch (IOException e) {
-			// TODO: handle exception
 			logger.info("No se ha podido leer del fichero de propiedades");
 		}
 	}
