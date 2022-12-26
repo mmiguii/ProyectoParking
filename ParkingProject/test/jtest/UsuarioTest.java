@@ -17,9 +17,7 @@ public class UsuarioTest {
 
 	@Before
 	public void setUp() {
-
 		user = new Usuario("1234AAA", "Normal", System.currentTimeMillis(), System.currentTimeMillis(), 2.00) {
-
 		};
 	}
 

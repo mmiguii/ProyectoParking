@@ -56,6 +56,7 @@ public class PanelEmpleado extends JPanel {
 		btnConsultarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PersonalDataWorkerPanel panel = new PersonalDataWorkerPanel(frame, instance, trabajador);
+				logger.info("Accediendo a la consulta de los datos personales de los empleados");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);

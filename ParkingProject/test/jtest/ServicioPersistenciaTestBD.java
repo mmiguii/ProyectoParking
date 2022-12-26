@@ -30,7 +30,6 @@ import backend.servicios.ServicioPersistenciaBD;
 
 public class ServicioPersistenciaTestBD {
 
-	@SuppressWarnings("unused")
 	private Connection conn;
 
 	@Before

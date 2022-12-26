@@ -14,8 +14,7 @@ public class ClienteOrdinarioTest {
 
 	private ClienteOrdinario ordinaryCustomer;
 
-	@Before // ese metodo se inicializa antes de cada test creando un nuevo ordinaryCustomer
-			// para ser utilizado en los distintos test
+	@Before
 	public void setUp() {
 		ordinaryCustomer = new ClienteOrdinario(2.3);
 	}
@@ -23,14 +22,12 @@ public class ClienteOrdinarioTest {
 	@Test
 	public void testGetTarifa() {
 		assertEquals(2.3, ordinaryCustomer.getTarifa(), 0.01);
-
 	}
 
 	@Test
 	public void testSetTarifa() {
 		ordinaryCustomer.setTarifa(2.3);
 		assertEquals(2.3, ordinaryCustomer.getTarifa(), 0.01);
-
 	}
 
 	@Test

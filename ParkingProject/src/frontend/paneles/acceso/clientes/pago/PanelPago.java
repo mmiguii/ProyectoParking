@@ -35,6 +35,7 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldTipoUsuario;
 	private DateFormat formatter;
 	private Usuario usuario;
+	@SuppressWarnings("unused")
 	private Plaza plaza;
 
 	private static Logger logger = Logger.getLogger(PanelPago.class.getName());

@@ -88,6 +88,7 @@ public class PanelManager extends JPanel {
 		btnDatosParking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
+				logger.info("Accediendo al estado de la consulta del parking");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);

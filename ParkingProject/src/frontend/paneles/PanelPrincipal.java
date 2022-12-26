@@ -61,7 +61,7 @@ public class PanelPrincipal extends JPanel {
 		}
 
 		ServicioPersistenciaBD.getInstance().connect("Parking.db");
-		
+
 		instance = this;
 		trabajadores = ServicioPersistenciaBD.getInstance().trabajadoresSelect();
 
@@ -89,7 +89,7 @@ public class PanelPrincipal extends JPanel {
 				Map<String, Usuario> usuarios = ServicioPersistenciaBD.getInstance().getAllUsuarios();
 				List<String> matriculas = usuarios.keySet().stream().collect(Collectors.toList());
 				String matricula = textFieldMatricula.getText().toUpperCase();
-				
+
 				if (matricula.length() == 7) {
 					String digitos = matricula.substring(0, 4);
 
@@ -106,7 +106,8 @@ public class PanelPrincipal extends JPanel {
 
 								if (usuario instanceof ClienteOrdinario) {
 									logger.info("¡Es hora de pagar!");
-									PanelPago panel = new PanelPago(frame, instance, usuario, null,lblHoraActual.getText());
+									PanelPago panel = new PanelPago(frame, instance, usuario, null,
+											lblHoraActual.getText());
 									frame.getContentPane().add(panel);
 									panel.setVisible(true);
 									setVisible(false);
@@ -129,7 +130,7 @@ public class PanelPrincipal extends JPanel {
 											logger.info("Lo sentimos. Su tiempo ha expirado.");
 											Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance()
 													.plazasSelect();
-											Plaza plaza = plazasMap.values().stream() 
+											Plaza plaza = plazasMap.values().stream()
 													.filter(p -> p.getMatricula().equals(usuario.getMatricula()))
 													.findFirst().orElse(null);
 
@@ -295,12 +296,16 @@ public class PanelPrincipal extends JPanel {
 		lblEstadoParking.setBounds(59, 354, 172, 16);
 		leftPanel.add(lblEstadoParking);
 
-		JLabel lblXRojo = new JLabel("");
-		lblXRojo.setVisible(false);
-		lblXRojo.setBounds(240, 354, 31, 16);
-		lblXRojo.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/XRojo.png")));
-		lblXRojo.setVisible((obtenerEstado().equals("Completo") ? true : false));
-		leftPanel.add(lblXRojo);
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setBounds(240, 354, 31, 16);
+		if (obtenerEstado().equals("Completo")) {
+			logger.info("Parking completo");
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/XRojo.png")));
+		} else {
+			logger.info("Parking con plazas disponibles");
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/VVerde.png")));
+		}
+		leftPanel.add(lblImagen);
 
 		/** Hilo que me mostrando la hora en tiempo real */
 		Runnable runnable = new Runnable() {
