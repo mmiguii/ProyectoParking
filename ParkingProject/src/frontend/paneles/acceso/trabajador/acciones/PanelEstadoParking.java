@@ -1,6 +1,7 @@
 package frontend.paneles.acceso.trabajador.acciones;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,8 +10,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -18,12 +26,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import backend.clases.infraestructura.Plaza;
+import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.personal.Empleado;
+import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
+import frontend.paneles.acceso.trabajador.PanelEmpleado;
 
 public class PanelEstadoParking extends JPanel {
 
@@ -42,16 +57,8 @@ public class PanelEstadoParking extends JPanel {
 		gbl_topPanel.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_topPanel.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0};
 		topPanel.setLayout(gbl_topPanel);
-		
-		
-		
-		
-		
-		
+	
 		add(topPanel);
-		
-		
-		
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(255, 255, 255));
@@ -66,33 +73,39 @@ public class PanelEstadoParking extends JPanel {
 		JMenu fileJMenu = new JMenu("Fichero");
 		menuBar.add(fileJMenu);
 		
-		JMenuItem importItem = new JMenuItem("Importar...");
-		fileJMenu.add(importItem);
-		
-		importItem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser fileChooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheros CSV", "csv");
-				fileChooser.setFileFilter(filter); 
-				
-				int status = fileChooser.showOpenDialog(PanelEstadoParking.this);
-				if (status == JFileChooser.APPROVE_OPTION) {					
-					try {
+		JMenuItem importItem;
+		JMenuItem importItem1;
+		JMenuItem importItem2;
+		JMenuItem importItem3;
+		JMenuItem importItem4;
+		JMenuItem importItem5;
 
-//						List<Plaza> plazas = readFromFile(MyListModel.getPlazas(), fileChooser.getSelectedFile());
-//					
-//						
-////						updateUI();
-////						
-						JOptionPane.showMessageDialog(PanelEstadoParking.this, "Datos importados correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-					} catch (Exception e) {
-						JOptionPane.showMessageDialog(PanelEstadoParking.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
+		
+		if(panel instanceof PanelEmpleado) {
+			importItem = new JMenuItem("Consultar clientes ordinarios");
+			importItem1 = new JMenuItem("Consultar clientes subscritos");
+			importItem2 = new JMenuItem("Comprobar plazas");
+			
+			fileJMenu.add(importItem);
+			fileJMenu.add(importItem1);
+			fileJMenu.add(importItem2);
+		} else {
+			importItem = new JMenuItem("Consultar clientes ordinarios");
+			importItem1 = new JMenuItem("Consultar clientes subscritos");
+			importItem2 = new JMenuItem("Comprobar plazas");
+			importItem3 = new JMenuItem("Comprobar ingresos y gastos");
+			importItem4 = new JMenuItem("Comprobar tipos de vehículo");
+			importItem5 = new JMenuItem("Comprobar tipos de cliente");
+
+			fileJMenu.add(importItem);
+			fileJMenu.add(importItem1);
+			fileJMenu.add(importItem2);
+			fileJMenu.add(importItem3);
+			fileJMenu.add(importItem4);
+			fileJMenu.add(importItem5);
+		}
+		
+		
 		
 		JMenuItem exitItem = new JMenuItem("Salir");
 		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, InputEvent.CTRL_DOWN_MASK));
@@ -111,16 +124,33 @@ public class PanelEstadoParking extends JPanel {
 		});
 
 		JPanel middlePanel = new JPanel();
-		middlePanel.setLayout(new GridBagLayout());
 
 		DefaultTableModel modelo = new DefaultTableModel();
 		modelo.addColumn("Prueba");
-		JTable table = new JTable();
-		table.setModel(modelo);
-		middlePanel.add(table);
-
+		middlePanel.setLayout(null);
 		add(middlePanel);
-
+		
+		importItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Tarifa","Fecha de Entrada"));
+				DefaultTableModel modelo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
+				
+				Map<String,ClienteOrdinario> mapaOrdinarios = ServicioPersistenciaBD.getInstance().ordinariosSelect();
+				for (Map.Entry<String, ClienteOrdinario> entry : mapaOrdinarios.entrySet()) {
+				    ClienteOrdinario ordinario = entry.getValue();
+				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				    modelo.addRow(new Object[] {ordinario.getMatricula(), ordinario.getTipoVehiculo(),ordinario.getTarifa(), sdf.format(new Date(ordinario.getFechaEntrada()))
+				    });
+				}			
+	
+				JScrollPane tablaOrdinarios = new JScrollPane(new JTable(modelo));
+				tablaOrdinarios.setBounds(25, 25, 500, 100);
+				middlePanel.add(tablaOrdinarios);
+			}
+		});
+		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridBagLayout());
 		JButton btnVolver = new JButton("VOLVER");
@@ -135,3 +165,4 @@ public class PanelEstadoParking extends JPanel {
 		add(bottomPanel);
 	}
 }
+

@@ -198,6 +198,30 @@ public class ServicioPersistenciaBD {
 			return null;
 		}
 	}
+	
+	public void ordinarioCargbr(DefaultTableModel modelo) {
+		String sentSQL = "SELECT matricula, tipo_vehiculo, tarifa, fecha_entrada FROM clientes_ordinarios ";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+//			stmt.setString(1, matricula);
+			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					ClienteOrdinario ordinario = new ClienteOrdinario();
+					modelo.addRow(new Object[] {rs.getString("matricula"),rs.getString("tipo_vehiculo"),rs.getDouble("tarifa"),rs.getLong("fecha_entrada")} );
+//					ordinario.setMatricula(rs.getString("matricula"));
+//					ordinario.setTipoVehiculo(rs.getString("tipo_vehiculo"));
+//					ordinario.setTarifa(rs.getDouble("tarifa"));
+//					ordinario.setFechaEntrada(rs.getLong("fecha_entrada"));
+				} else {
+//					return null;
+				}
+			}
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+//			return null;
+		}
+	}
  
 	/**
 	 * Realiza una consulta a una base de datos para obtener una fila de la tabla
