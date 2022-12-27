@@ -192,8 +192,8 @@ public class PanelPago extends JPanel {
 		btnVolver.setBounds(415, 364, 89, 23);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ServicioPersistenciaBD.getInstance().subscritoDelete(usuario.getMatricula());
-				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
+//				ServicioPersistenciaBD.getInstance().subscritoDelete(usuario.getMatricula());
+//				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
