@@ -619,10 +619,10 @@ public class ServicioPersistenciaBD {
 				Plaza plaza = new Plaza();
 				plaza.setNumeroPlanta(rs.getInt("numero_planta"));
 				plaza.setNumeroPlaza(rs.getInt("numero_plaza"));
-				plaza.setEstadoPlaza(rs.getString("estado_plaza").equals("Disponible"));
-
+				boolean disp = rs.getString("estado_plaza").equals("DISPONIBLE") ? true : false;
+				plaza.setEstadoPlaza(disp);
 				plaza.setTipoPlaza(rs.getString("tipo_plaza"));
-//	          plaza.setMatricula(rs.getString("matricula"));
+	          plaza.setMatricula(rs.getString("matricula"));
 				ret.put(plaza.getNumeroPlaza(), plaza);
 			}
 			rs.close();
@@ -705,7 +705,7 @@ public class ServicioPersistenciaBD {
 		}
 	}
 
-	public static void update(Plaza plaza, String estado, String matricula) {
+	public static void updatePlaza(Plaza plaza, String estado, String matricula) {
 		try (PreparedStatement stmt = connect()
 				.prepareStatement("UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?")) {
 			stmt.setString(1, estado);

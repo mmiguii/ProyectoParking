@@ -13,19 +13,20 @@ public class Plaza {
 	private int numeroPlaza;
 	private boolean estadoPlaza; // vacio (false) o ocupado (true)
 	private String tipoPlaza; // Corresponde al tipo de vehiculo que vaya a aparcar: normal (1), electrico
-								// (2), ...
+	private String matricula;							// (2), ...
 
 	/** Constructor vacio de la clase Planta */
 	public Plaza() {
 		super();
 	}
 
-	public Plaza(int numeroPlanta, int numeroPlaza, boolean estadoPlaza, String tipoPlaza) {
+	public Plaza(int numeroPlanta, int numeroPlaza, boolean estadoPlaza, String tipoPlaza, String matricula) {
 		super();
 		this.numeroPlanta = numeroPlanta;
 		this.numeroPlaza = numeroPlaza;
 		this.estadoPlaza = estadoPlaza;
 		this.tipoPlaza = tipoPlaza;
+		this.matricula = matricula;
 	}
 
 	/**
@@ -101,6 +102,19 @@ public class Plaza {
 	public void setTipoPlaza(String tipoPlaza) {
 		this.tipoPlaza = tipoPlaza;
 	}
+	
+	
+	
+	public String getMatricula() {
+		return matricula;
+	}
+
+	
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
+	
+	
 
 	@Override
 	public String toString() {

@@ -16,7 +16,7 @@ public class PlazaTest {
 	@Before
 	public void setUp() {
 
-		p = new Plaza(1, 200, false, "Normal");
+		p = new Plaza(1, 200, false, "Normal", "1111ZZZ");
 
 	}
 

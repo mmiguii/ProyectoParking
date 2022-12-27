@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 import backend.clases.email.EnvioEmail;
 import backend.clases.personas.personal.Trabajador;
+import backend.servicios.ServicioPersistenciaBD;
 
 public class PanelRecordarCredenciales extends JPanel {
 
@@ -26,7 +27,7 @@ public class PanelRecordarCredenciales extends JPanel {
 	private JTextField textFieldNombreUsuario;
 	private JPasswordField passwordFieldPassword;
 
-	public PanelRecordarCredenciales(JFrame frame, JPanel panel, ArrayList<Trabajador> trabajadores) {
+	public PanelRecordarCredenciales(JFrame frame, JPanel panel, List<Trabajador> trabajadores) {
 		setLayout(null);
 
 		textFieldNombreUsuario = new JTextField();
@@ -100,6 +101,8 @@ public class PanelRecordarCredenciales extends JPanel {
 									+ "\nEl mensage de recuperacion de credenciales ha sido enviado al siguiente correo: "
 									+ trabajador.getEmail());
 					frame.dispose();
+					ServicioPersistenciaBD.disconnect();
+					System.exit(0);
 				}
 			}
 		});

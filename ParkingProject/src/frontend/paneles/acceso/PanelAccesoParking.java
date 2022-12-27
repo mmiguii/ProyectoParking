@@ -30,7 +30,6 @@ import frontend.paneles.acceso.clientes.PanelAccesoSubscritosSeleccionAbono;
 public class PanelAccesoParking extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-//	private ServicioPersistenciaBD servicio;
 	private JPanel instance;
 	private JButton btnComprarBono;
 	private JButton btnAcceder;

@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
@@ -31,14 +33,18 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldImporteTotal;
 
 	private JTextField textFieldTipoUsuario;
+	
+	private Usuario usuario;
 
 	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, String horaActual) {
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel Pago"));
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 
-//		List<Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
-
+		this.usuario = usuario;
+		
+		System.out.println(plazaSel());
+		
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		JLabel lblTitulo = new JLabel("PAGO DE PARKING");
@@ -157,14 +163,19 @@ public class PanelPago extends JPanel {
 					if (usuario instanceof ClienteOrdinario) {
 
 //						servicio.updateDel(servicio.getPlaza(usuario.getMatricula()),"Disponible");
+						ServicioPersistenciaBD.updatePlaza(plazaSel(), "DISPONIBLE", "");
 						ServicioPersistenciaBD.ordinarioDelete(usuario.getMatricula());
 						frame.dispose();
+						ServicioPersistenciaBD.disconnect();
+						System.exit(0);
 
 					} else {
 //						ServicioPersistenciaBD.subscritoDelete(usuario.getMatricula());
 						// servicio.subscritoDelete(usuario.getMatricula());
 
 						frame.dispose();
+						ServicioPersistenciaBD.disconnect();
+						System.exit(0);
 					}
 				} else {
 					// No sucede nada
@@ -188,4 +199,16 @@ public class PanelPago extends JPanel {
 		add(btnVolver);
 
 	}
+	
+	public Plaza plazaSel() {
+		Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.plazasSelect();
+		for(Plaza p : plazasMap.values()){
+			if (p.getMatricula().equals(usuario.getMatricula())) {
+				return p;
+			} 
+		}
+		return null; 
+		
+	}
+	
 }
