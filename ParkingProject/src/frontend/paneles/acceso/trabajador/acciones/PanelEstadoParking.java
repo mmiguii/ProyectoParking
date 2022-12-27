@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.print.attribute.standard.JobMediaSheetsCompleted;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -35,16 +38,23 @@ import javax.swing.table.DefaultTableModel;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
+import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.clases.personas.personal.Empleado;
+import backend.clases.personas.personal.Manager;
 import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
-import frontend.paneles.acceso.trabajador.PanelEmpleado;
+import frontend.paneles.acceso.trabajador.PanelTrabajador;
 
 public class PanelEstadoParking extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private JScrollPane tablaOrdinarios;
+	private JScrollPane tablaSubscritos;
+	private JScrollPane tablaTrabajadores;
+	private JScrollPane scroll;
+	private JTable table;
 
-	public PanelEstadoParking(JFrame frame, JPanel panel) {
+	public PanelEstadoParking(JFrame frame, JPanel panel, Trabajador trabajador) {
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Parking State Panel"));
 		setBounds(10, 10, 567, 448);
@@ -70,32 +80,45 @@ public class PanelEstadoParking extends JPanel {
 		gbc_menuBar.gridy = 0;
 		topPanel.add(menuBar, gbc_menuBar);
 		
-		JMenu fileJMenu = new JMenu("Fichero");
+		JMenu fileJMenu = new JMenu("Consultas");
 		menuBar.add(fileJMenu);
 		
-		JMenuItem importItem;
-		JMenuItem importItem1;
-		JMenuItem importItem2;
-		JMenuItem importItem3;
-		JMenuItem importItem4;
-		JMenuItem importItem5;
+		JMenuItem importItem = null;
+		JMenuItem importItem1 = null;
+		JMenuItem importItem2 = null;
+		JMenuItem importItem3 = null;
+		JMenuItem importItem4 = null;
+		JMenuItem importItem5 = null;
+		JMenuItem importItem6 = null;
 
 		
-		if(panel instanceof PanelEmpleado) {
-			importItem = new JMenuItem("Consultar clientes ordinarios");
-			importItem1 = new JMenuItem("Consultar clientes subscritos");
-			importItem2 = new JMenuItem("Comprobar plazas");
-			
-			fileJMenu.add(importItem);
-			fileJMenu.add(importItem1);
-			fileJMenu.add(importItem2);
-		} else {
+		if(trabajador instanceof Empleado) {
 			importItem = new JMenuItem("Consultar clientes ordinarios");
 			importItem1 = new JMenuItem("Consultar clientes subscritos");
 			importItem2 = new JMenuItem("Comprobar plazas");
 			importItem3 = new JMenuItem("Comprobar ingresos y gastos");
 			importItem4 = new JMenuItem("Comprobar tipos de vehículo");
 			importItem5 = new JMenuItem("Comprobar tipos de cliente");
+			importItem6 = new JMenuItem("Comprobar trabajadores");
+			
+			fileJMenu.add(importItem);
+			fileJMenu.add(importItem1);
+			fileJMenu.add(importItem2);
+			fileJMenu.add(importItem3);
+			fileJMenu.add(importItem4);
+			fileJMenu.add(importItem5);
+			fileJMenu.add(importItem6);
+			
+			// aqui en principo solo es hasta comprobar plazas porque se trata de una empleado pero para poder
+//			comprobar ya que el instance of no funciona bien lo meto de momento.
+		} else if (trabajador instanceof Manager){
+			importItem = new JMenuItem("Consultar clientes ordinarios");
+			importItem1 = new JMenuItem("Consultar clientes subscritos");
+			importItem2 = new JMenuItem("Comprobar plazas");
+			importItem3 = new JMenuItem("Comprobar ingresos y gastos");
+			importItem4 = new JMenuItem("Comprobar tipos de vehículo");
+			importItem5 = new JMenuItem("Comprobar tipos de cliente");
+			importItem6 = new JMenuItem("Comprobar trabajadores");
 
 			fileJMenu.add(importItem);
 			fileJMenu.add(importItem1);
@@ -103,6 +126,7 @@ public class PanelEstadoParking extends JPanel {
 			fileJMenu.add(importItem3);
 			fileJMenu.add(importItem4);
 			fileJMenu.add(importItem5);
+			fileJMenu.add(importItem6);
 		}
 		
 		
@@ -130,10 +154,20 @@ public class PanelEstadoParking extends JPanel {
 		middlePanel.setLayout(null);
 		add(middlePanel);
 		
+		JButton btnBajaAbonado = new JButton("DAR DE BAJA");
+		
+		btnBajaAbonado.setBounds(433, 108, 112, 23);
+		btnBajaAbonado.setVisible(false);
+		middlePanel.add(btnBajaAbonado);
+		
+		table = new JTable();
+		
 		importItem.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+//				tablaSubscritos.setVisible(false);
+//				tablaTrabajadores.setVisible(false);
 				Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Tarifa","Fecha de Entrada"));
 				DefaultTableModel modelo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 				
@@ -145,9 +179,121 @@ public class PanelEstadoParking extends JPanel {
 				    });
 				}			
 	
-				JScrollPane tablaOrdinarios = new JScrollPane(new JTable(modelo));
-				tablaOrdinarios.setBounds(25, 25, 500, 100);
-				middlePanel.add(tablaOrdinarios);
+//				tablaOrdinarios = new JScrollPane(new JTable(modelo));
+//				tablaOrdinarios.setBounds(25, 25, 500, 100);
+//				middlePanel.add(tablaOrdinarios);
+				
+				table.setModel(modelo);
+				scroll = new JScrollPane(table);
+				
+				table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+					
+					@Override
+					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+							int row, int column) {
+						
+						Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+						if (isSelected) {
+							c.setBackground(Color.RED);
+						} else {
+							c.setBackground(Color.WHITE);
+						}
+						return c;
+					}
+				});
+				
+				table.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+						btnBajaAbonado.setVisible(true);
+//						btnBajaAbonado.addActionListener(new ActionListener() {
+//							public void actionPerformed(ActionEvent e) {
+//								ServicioPersistenciaBD.getInstance().subscritoDelete();
+//							}
+//						});
+					}
+				});
+				
+				scroll.setBounds(25, 25, 500, 100);
+				middlePanel.add(scroll);
+			}
+		});
+		
+		importItem1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+//				tablaOrdinarios.setVisible(false);
+//				tablaTrabajadores.setVisible(false);
+				Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Cuota","Fecha de Entrada"));
+				DefaultTableModel modelo1 = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
+				
+				Map<String,ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();
+				for (Map.Entry<String, ClienteSubscrito> entry : mapaSubscritos.entrySet()) {
+				    ClienteSubscrito subscrito = entry.getValue();
+				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				    modelo1.addRow(new Object[] {subscrito.getMatricula(), subscrito.getTipoVehiculo(),subscrito.getPrecioCuota(), sdf.format(new Date(subscrito.getFechaEntrada()))
+				    });
+				}			
+	
+//				tablaSubscritos = new JScrollPane(new JTable(modelo));
+				table.setModel(modelo1);
+				scroll = new JScrollPane(table);
+				scroll.setBounds(25, 25, 500, 100);
+				middlePanel.add(scroll);
+			}
+		});
+		
+		importItem6.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+//				tablaOrdinarios.setVisible(false);
+//				tablaSubscritos.setVisible(false);
+				Vector<String> cabeceras = new Vector<>(Arrays.asList("Usuario","DNI","Contrase�a","Email", "Fecha inicio", "Salario"));
+				DefaultTableModel modelo2 = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
+				
+				Map<String,Trabajador> mapaTrabajador = ServicioPersistenciaBD.getInstance().trabajadoresSelect();
+				for (Map.Entry<String, Trabajador> entry : mapaTrabajador.entrySet()) {
+				    Trabajador trabajador = entry.getValue();
+				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				    modelo2.addRow(new Object[] {trabajador.getNombreUsuario(), trabajador.getDni(),trabajador.getPassword(), trabajador.getEmail(), sdf.format(new Date(trabajador.getFechaComienzo())), 
+				    		Double.toString(trabajador.getSalario())
+				    });
+				}			
+	
+//				tablaTrabajadores = new JScrollPane(new JTable(modelo));
+				table.setModel(modelo2);
+				scroll = new JScrollPane(table);
+				scroll.setBounds(25, 25, 500, 100);
+				middlePanel.add(scroll);
 			}
 		});
 		

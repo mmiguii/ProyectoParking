@@ -19,18 +19,18 @@ import frontend.paneles.acceso.trabajador.acciones.BajaSubscribersPanel;
 import frontend.paneles.acceso.trabajador.acciones.PanelEstadoParking;
 import frontend.paneles.acceso.trabajador.acciones.PersonalDataWorkerPanel;
 
-public class PanelManager extends JPanel {
+public class PanelTrabajador extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel instance;
-	private static Logger logger = Logger.getLogger(PanelManager.class.getName());
+	private static Logger logger = Logger.getLogger(PanelTrabajador.class.getName());
 
-	public PanelManager(JFrame frame, JPanel panel, Trabajador trabajador) {
+	public PanelTrabajador(JFrame frame, JPanel panel, Trabajador trabajador) {
 
 		instance = this;
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Manager Wellcoming Panel"));
+		setBorder(javax.swing.BorderFactory.createTitledBorder("Worker Wellcoming Panel"));
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
@@ -56,6 +56,7 @@ public class PanelManager extends JPanel {
 		btnConsultarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PersonalDataWorkerPanel panel = new PersonalDataWorkerPanel(frame, instance, trabajador);
+				logger.info("Accediendo a la consulta de los datos personales de los empleados");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
@@ -65,16 +66,16 @@ public class PanelManager extends JPanel {
 
 		JPanel rightMiddlePanel = new JPanel();
 		rightMiddlePanel.setLayout(new GridBagLayout());
-		JButton btnFichero = new JButton("CONSULTAR FICHEROS");
-		btnFichero.addActionListener(new ActionListener() {
+		JButton btnEstado = new JButton("ESTADO DEL PARKING");
+		btnEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelEstadoParking panel = new PanelEstadoParking(frame, instance);
+				PanelEstadoParking panel = new PanelEstadoParking(frame, instance, trabajador);
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
 			}
 		});
-		rightMiddlePanel.add(btnFichero);
+		rightMiddlePanel.add(btnEstado);
 
 		middlePanel.add(leftMiddlePanel);
 		middlePanel.add(rightMiddlePanel);
@@ -84,23 +85,23 @@ public class PanelManager extends JPanel {
 
 		JPanel leftBottomPanel = new JPanel();
 		leftBottomPanel.setLayout(new GridBagLayout());
-		JButton btnDatosParking = new JButton("CONSULTAR DATOS DEL PARKING");
-		btnDatosParking.addActionListener(new ActionListener() {
+		JButton btnDarBaja = new JButton("DAR DE BAJA A ABONADOS");
+		btnDarBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
-				logger.info("Accediendo al estado de la consulta del parking");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
 			}
 		});
-		leftBottomPanel.add(btnDatosParking);
+		leftBottomPanel.add(btnDarBaja);
 
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
@@ -111,7 +112,5 @@ public class PanelManager extends JPanel {
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(rightBottomPanel);
 		add(bottomPanel);
-
 	}
-
 }

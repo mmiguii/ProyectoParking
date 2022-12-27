@@ -38,8 +38,7 @@ import frontend.paneles.acceso.PanelAccesoParking;
 import frontend.paneles.acceso.PanelRecordarCredenciales;
 import frontend.paneles.acceso.clientes.PanelPlazaParking;
 import frontend.paneles.acceso.clientes.pago.PanelPago;
-import frontend.paneles.acceso.trabajador.PanelEmpleado;
-import frontend.paneles.acceso.trabajador.PanelManager;
+import frontend.paneles.acceso.trabajador.PanelTrabajador;
 
 public class PanelPrincipal extends JPanel {
 
@@ -202,25 +201,13 @@ public class PanelPrincipal extends JPanel {
 				for (Trabajador trabajador : trabajadores.values()) {
 
 					if (trabajador.getPassword().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
-
-						if (trabajador instanceof Manager) {
-							logger.info("Accediendo a la seccion 'Manager'.");
-							PanelManager panel = new PanelManager(frame, instance, trabajador);
-							frame.getContentPane().add(panel);
-							setVisible(false);
-							panel.setVisible(true);
-							encontrado = true;
-							break;
-
-						} else {
-							logger.info("Accediendo a la seccion 'Empleado'.");
-							PanelEmpleado panel = new PanelEmpleado(frame, instance, trabajador);
-							frame.getContentPane().add(panel);
-							setVisible(false);
-							panel.setVisible(true);
-							encontrado = true;
-							break;
-						}
+						logger.info("Accediendo a la seccion 'Trabajador'.");
+						PanelTrabajador panel = new PanelTrabajador(frame, instance, trabajador);
+						frame.getContentPane().add(panel);
+						setVisible(false);
+						panel.setVisible(true);
+						encontrado = true;
+						break;		
 					}
 				}
 				if (!encontrado) {

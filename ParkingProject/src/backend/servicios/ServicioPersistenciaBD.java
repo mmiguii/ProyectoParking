@@ -774,6 +774,10 @@ public class ServicioPersistenciaBD {
 		return sortedMap;
 	}
 	
+	
+	/**
+	 * Metodo que acutaliza la contraseña del trabajador segun su DNI.
+	 */
 	public String trabajadoresUpdate(String dni) {
 		String sentSQL = "UPDATE trabajadores SET password = ? WHERE dni = ?";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
