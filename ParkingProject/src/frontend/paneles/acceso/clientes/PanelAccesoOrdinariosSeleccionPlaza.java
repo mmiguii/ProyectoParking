@@ -8,23 +8,20 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
-import java.util.EventObject;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Logger;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
@@ -39,17 +36,18 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	private JScrollPane scrollPane;
 
-	private JButton btnCargarPlanta1;
+	private JButton btnCargarPlanta1; 
 	private JButton btnCargarPlanta2;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
-
 	private JFrame frame;
 	private JPanel panel;
 	private List<Plaza> plazas1;
 	private List<Plaza> plazas2;
 	private ClienteOrdinario ordinario;
-	private boolean listaAUsar; // true (plazas1), false (plazas2)
+	private boolean listaAUsar;
+
+	private static Logger logger = Logger.getLogger(PanelAccesoOrdinariosSeleccionPlaza.class.getName());
 
 	public PanelAccesoOrdinariosSeleccionPlaza(JFrame frame, JPanel panel, ClienteOrdinario ordinario) {
 
@@ -57,15 +55,15 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(2, 1));
 
+		ServicioPersistenciaBD.getInstance().connect("Parking.db");
+		// Cargamos las plazas de la primera planta
+		plazas1 = ServicioPersistenciaBD.getInstance().plazasSelect(1, ordinario.getTipoVehiculo());
+		// Cargamos las plazas de la segunda planta
+		plazas2 = ServicioPersistenciaBD.getInstance().plazasSelect(2, ordinario.getTipoVehiculo());
+
 		this.frame = frame;
 		this.panel = panel;
 		this.ordinario = ordinario;
-
-		// Cargamos las plazas de la primera planta
-		plazas1 = ServicioPersistenciaBD.plazasSelect(1, ordinario.getTipoVehiculo());
-
-		// Cargamos las plazas de la segunda planta
-		plazas2 = ServicioPersistenciaBD.plazasSelect(2, ordinario.getTipoVehiculo());
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
@@ -159,31 +157,36 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		add(bottomPanel);
 
 	}
-	
-	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
-		  // Agrega un renderer personalizado para cambiar el color de fondo de las celdas
-		  // en función del estado de la plaza
-		  tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-		    @Override
-		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-		      Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		      // Verifica el estado de la plaza en la fila actual y cambia el color de fondo en consecuencia
-		      if (table.getValueAt(row, 3).toString().equals("OCUPADO")) {
-		        elementoActual.setBackground(Color.RED);
-		      } else {
-		        elementoActual.setBackground(Color.GREEN);
-		      }
-		      return elementoActual;
-		    }
-		  });
-		  // Agrega una fila por cada plaza en la tabla
-		  plazas.forEach(p -> {
-		    String estadoPlaza = p.isEstadoPlaza() ? "DISPONIBLE" : "OCUPADO";
-		    modelo.addRow(new Object[] { p.getNumeroPlanta(), p.getNumeroPlaza(), p.getTipoPlaza(), estadoPlaza });
-		  });
-		}
 
-	
+	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
+
+		tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				Component elementoActual = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+						column);
+				// Verifica el estado de la plaza en la fila actual y cambia el color de fondo
+				// en consecuencia
+				if (table.getValueAt(row, 3).toString().equals("OCUPADO")) {
+					((JComponent) elementoActual).setOpaque(true);
+					elementoActual.setBackground(new Color(205, 92, 92));
+				} else {
+					((JComponent) elementoActual).setOpaque(true);
+					elementoActual.setBackground(new Color(144, 238, 144));
+				}
+				return elementoActual;
+			}
+		});
+		// Agrega una fila por cada plaza en la tabla
+		plazas.forEach(plaza -> {
+			String estadoPlaza = plaza.isEstadoPlaza() ? "DISPONIBLE" : "OCUPADO";
+			modelo.addRow(new Object[] { plaza.getNumeroPlanta(), plaza.getNumeroPlaza(), plaza.getTipoPlaza(),
+					estadoPlaza });
+		});
+	}
 
 	private void cargarPrimeraPlanta(ActionEvent event) {
 		listaAUsar = true;
@@ -212,13 +215,15 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		Plaza plaza = plazas.get(plazaSeleccionada);
 		// Si la plaza se encuentra OCUPADA..
 		if (!plaza.isEstadoPlaza()) {
+			logger.info("Seleccione una plaza disponible");
 			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza DISPONIBLE");
 		} else {
-			ServicioPersistenciaBD.ordinarioInsert(ordinario);
-			ServicioPersistenciaBD.updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
+			ServicioPersistenciaBD.getInstance().ordinarioInsert(ordinario);
+			ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
 			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
+			logger.info("Cerrando aplicacion...");
 			frame.dispose();
-			ServicioPersistenciaBD.disconnect();
+			ServicioPersistenciaBD.getInstance().disconnect();
 			System.exit(0);
 		}
 	}

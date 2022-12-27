@@ -37,8 +37,8 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 
-		// Creamos el panel y lo anadimos al frame
 		PanelPrincipal panel = new PanelPrincipal(this);
 		getContentPane().add(panel);
 		setVisible(true);

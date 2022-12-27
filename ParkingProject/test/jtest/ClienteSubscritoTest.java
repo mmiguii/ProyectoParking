@@ -21,7 +21,6 @@ public class ClienteSubscritoTest {
 
 	@Before
 	public void setUp() {
-
 		sC = new ClienteSubscrito("Semanal", 10.00, p);
 	}
 

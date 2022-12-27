@@ -12,12 +12,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -44,29 +43,27 @@ import frontend.paneles.acceso.trabajador.PanelManager;
 
 public class PanelPrincipal extends JPanel {
 
-	private JPanel instance;
-	private List<Trabajador> trabajadores;
-
 	private static final long serialVersionUID = 1L;
 	private JLabel lblHoraActual;
 	private JTextField textFieldMatricula;
 	private JPasswordField passwordFieldCredenciales;
-	private JLabel lblXRojo;
+	private JPanel instance;
+	private Map<String, Trabajador> trabajadores;
+
+	private static Logger logger = Logger.getLogger(PanelPrincipal.class.getName());
 
 	public PanelPrincipal(JFrame frame) {
 
-		new ServicioPersistenciaBD();
+		{
+			setBorder(javax.swing.BorderFactory.createTitledBorder("Inicio"));
+			setBounds(10, 10, 567, 448);
+			setLayout(new GridLayout(1, 2));
+		}
+
+		ServicioPersistenciaBD.getInstance().connect("Parking.db");
 
 		instance = this;
-
-		trabajadores = ServicioPersistenciaBD.trabajadoresSelect();
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
-		DateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Inicio"));
-		setBounds(10, 10, 567, 448);
-		setLayout(new GridLayout(1, 2));
+		trabajadores = ServicioPersistenciaBD.getInstance().trabajadoresSelect();
 
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(null);
@@ -84,119 +81,156 @@ public class PanelPrincipal extends JPanel {
 
 		rightPanel.add(rightTopPanel);
 
-		JButton btnContinuarPanelCliente = new JButton("Continuar");
+		JButton btnContinuarPanelCliente = new JButton("CONTINUAR");
 		btnContinuarPanelCliente.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 
-				List<String> matriculas = (ArrayList<String>) obtenerMatriculas(ServicioPersistenciaBD.usuarios());
-
+				Map<String, Usuario> usuarios = ServicioPersistenciaBD.getInstance().getAllUsuarios();
+				List<String> matriculas = usuarios.keySet().stream().collect(Collectors.toList());
 				String matricula = textFieldMatricula.getText().toUpperCase();
 
 				if (matricula.length() == 7) {
 					String digitos = matricula.substring(0, 4);
+
 					if (digitos.matches("[0-9]*")) {
 						String caracteres = matricula.substring(4, 7);
-						if (caracteres.matches("[A-Z]*") && caracteres.matches("[^AEIOU]*")) {
 
+						if (caracteres.matches("[A-Z]*") && caracteres.matches("[^AEIOU]*")) {
 							boolean existeMatricula = matriculas.contains(textFieldMatricula.getText());
 
 							if (existeMatricula) {
-
-								Usuario usuario = ServicioPersistenciaBD.usuario(textFieldMatricula.getText());
+								logger.info("El vehiculo se encuentra actualmente registrado en la BD del parking");
+								Usuario usuario = ServicioPersistenciaBD.getInstance()
+										.getUsuario(textFieldMatricula.getText());
 
 								if (usuario instanceof ClienteOrdinario) {
-									PanelPago panel = new PanelPago(frame, instance, usuario, lblHoraActual.getText());
+									logger.info("¡Es hora de pagar!");
+									PanelPago panel = new PanelPago(frame, instance, usuario, null,
+											lblHoraActual.getText());
 									frame.getContentPane().add(panel);
 									panel.setVisible(true);
 									setVisible(false);
-								} else { // usuario instanceof ClienteSubscrito
 
+								} else {
 									try {
-
+										logger.info("¡Bienvenido de nuevo!");
+										DateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 										Date fechaActualDate = f.parse(lblHoraActual.getText());
 										Date fechaSalidaDate = new Date(usuario.getFechaSalida());
 
-										// Si la fecha actual es BEFORE (antes) a la maxima establecida por el bono.
-										// Accedemos al parking/plaza del usuario en cuestion
 										if (fechaActualDate.before(fechaSalidaDate)) {
-											// CLASE PLAZA DEL SUBSCRITO
+											logger.info("Accediendo a la plaza...");
 											PanelPlazaParking panel = new PanelPlazaParking(frame, usuario);
 											frame.getContentPane().add(panel);
 											setVisible(false);
 											panel.setVisible(true);
-											
-											
 
 										} else {
-											// Si la fecha actual es mayor o igual a la maxima establecida por el bono.
-											// Borramos y mostramos
-											// opcion de si desea volver acceder al parking
-											
-											
-											Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.plazasSelect();
-											Plaza plaza = new Plaza();
-											for(Plaza p : plazasMap.values()){
-												if (p.getMatricula().equals(usuario.getMatricula())) {
-													plaza = p;
-												} 
-											}
-											
-											ServicioPersistenciaBD.subscritoDelete(matricula);
-											ServicioPersistenciaBD.updatePlaza(plaza, "DISPONIBLE", "");
+											logger.info("Lo sentimos. Su tiempo ha expirado.");
+											Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance()
+													.plazasSelect();
+											Plaza plaza = plazasMap.values().stream()
+													.filter(p -> p.getMatricula().equals(usuario.getMatricula()))
+													.findFirst().orElse(null);
+
+											ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
+											ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
+
 											int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
 													"Desea volver acceder al parking?", "Confirmación",
 													JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-											// 0 = Si; 1 = No
+
 											if (opcion == 0) {
+												logger.info("Nuevo acceso al parking");
 												PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
 														lblHoraActual.getText(), matricula);
 												frame.getContentPane().add(panel);
 												setVisible(false);
 												panel.setVisible(true);
+
 											} else {
-												// Si no quiere acceder, sale de la aplicacion
+												logger.info("Cerrando aplicacion...");
 												frame.dispose();
+												ServicioPersistenciaBD.getInstance().disconnect();
+												System.exit(0);
 											}
 										}
 									} catch (ParseException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
+										logger.severe(
+												String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
 									}
-//									
-
 								}
 
 							} else {
-								// Si la matricula no se encuentra registrada, se accede al panel de registro
+								logger.info("El vehiculo no se encuentra actualmente registrado en la BD del parking");
 								PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
 										lblHoraActual.getText(), matricula);
-								// PanelAccesoCliente panel = new PanelAccesoCliente(frame,
-								// instance,lblHoraActual.getText(), matricula);
 								frame.getContentPane().add(panel);
 								setVisible(false);
 								panel.setVisible(true);
 							}
 
 						} else {
-							// System.out.println("caracteres");
-							JOptionPane.showMessageDialog(PanelPrincipal.this, "Ingrese correctamente la matricula");
+							logger.info("Ingrese correctamente la matricula (Caracteres = 3 && Consonantes)");
+							JOptionPane.showMessageDialog(PanelPrincipal.this,
+									"Ingrese correctamente la matricula (Caracteres = 3 && Consonantes)");
 							textFieldMatricula.setText("");
 						}
+
 					} else {
-						// System.out.println("digitos");
-						JOptionPane.showMessageDialog(PanelPrincipal.this, "Ingrese correctamente la matricula");
+						logger.info("Ingrese correctamente la matricula (Digitos = 4)");
+						JOptionPane.showMessageDialog(PanelPrincipal.this,
+								"Ingrese correctamente la matricula (Digitos = 4)");
 						textFieldMatricula.setText("");
 					}
 				} else {
-					// System.out.println("tamanyo");
-					JOptionPane.showMessageDialog(PanelPrincipal.this, "Ingrese correctamente la matricula");
+					logger.info("Ingrese correctamente la matricula (Longitud = 7)");
+					JOptionPane.showMessageDialog(PanelPrincipal.this,
+							"Ingrese correctamente la matricula (Longitud = 7)");
 					textFieldMatricula.setText("");
 				}
-
 			}
 		});
 		btnContinuarPanelCliente.setBounds(78, 142, 117, 29);
 		rightTopPanel.add(btnContinuarPanelCliente);
+
+		JButton btnAcceder = new JButton("CONTINUAR");
+		btnAcceder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean encontrado = false;
+				for (Trabajador trabajador : trabajadores.values()) {
+
+					if (trabajador.getPassword().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
+
+						if (trabajador instanceof Manager) {
+							logger.info("Accediendo a la seccion 'Manager'.");
+							PanelManager panel = new PanelManager(frame, instance, trabajador);
+							frame.getContentPane().add(panel);
+							setVisible(false);
+							panel.setVisible(true);
+							encontrado = true;
+							break;
+
+						} else {
+							logger.info("Accediendo a la seccion 'Empleado'.");
+							PanelEmpleado panel = new PanelEmpleado(frame, instance, trabajador);
+							frame.getContentPane().add(panel);
+							setVisible(false);
+							panel.setVisible(true);
+							encontrado = true;
+							break;
+						}
+					}
+				}
+				if (!encontrado) {
+					logger.info("Credenciales no coincidentes");
+					JOptionPane.showMessageDialog(PanelPrincipal.this, "Credenciales incorrectas");
+				}
+			}
+		});
+		btnAcceder.setBounds(75, 141, 131, 29);
+		rightBottomPanel.add(btnAcceder);
 
 		textFieldMatricula = new JTextField();
 		textFieldMatricula.setHorizontalAlignment(SwingConstants.CENTER);
@@ -204,57 +238,28 @@ public class PanelPrincipal extends JPanel {
 		textFieldMatricula.setBounds(65, 95, 145, 35);
 		rightTopPanel.add(textFieldMatricula);
 		textFieldMatricula.setColumns(10);
-		
+
+		passwordFieldCredenciales = new JPasswordField();
+		passwordFieldCredenciales.setBounds(65, 94, 154, 35);
+		rightBottomPanel.add(passwordFieldCredenciales);
+
+		lblHoraActual = new JLabel();
+		lblHoraActual.setForeground(new Color(255, 255, 255));
+		lblHoraActual.setBackground(new Color(0, 128, 128));
+		lblHoraActual.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHoraActual.setBounds(43, 300, 188, 26);
+		leftPanel.add(lblHoraActual);
+
 		JLabel lblTextoIngreso = new JLabel("Ingrese su matricula");
 		lblTextoIngreso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTextoIngreso.setBounds(65, 67, 145, 16);
 		rightTopPanel.add(lblTextoIngreso);
 		rightPanel.add(rightBottomPanel);
 
-		passwordFieldCredenciales = new JPasswordField();
-		passwordFieldCredenciales.setBounds(65, 94, 154, 35);
-		rightBottomPanel.add(passwordFieldCredenciales);
-
-		JButton btnAcceder = new JButton("Continuar");
-		btnAcceder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// CREDENCIALES SON EL DNI POR AHORA
-				// List<Trabajador> trabajadores = servicio.trabajadoresSelect();
-				// System.out.println(trabajadores.get(0));
-				for (Trabajador t : trabajadores) {
-					// System.out.println(t.getDni());
-					if (t.getDni().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
-						if (t instanceof Manager) {
-							PanelManager panel = new PanelManager(frame, instance, t);
-							frame.getContentPane().add(panel);
-							setVisible(false);
-							panel.setVisible(true);
-							break;
-						} else {
-							PanelEmpleado panel = new PanelEmpleado(frame, instance, t);
-							frame.getContentPane().add(panel);
-							setVisible(false);
-							panel.setVisible(true);
-							break;
-						}
-
-					} else {
-
-					}
-
-				}
-
-			}
-		});
-		btnAcceder.setBounds(75, 141, 131, 29);
-		rightBottomPanel.add(btnAcceder);
-
 		JLabel lblRecordarCredenciales = new JLabel("* Recordar credenciales");
 		lblRecordarCredenciales.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// CAMBIARLO A PANEL RECORDAR CREDENCIALES
 				PanelRecordarCredenciales panel = new PanelRecordarCredenciales(frame, instance, trabajadores);
 				frame.getContentPane().add(panel);
 				setVisible(false);
@@ -264,7 +269,7 @@ public class PanelPrincipal extends JPanel {
 		lblRecordarCredenciales.setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 		lblRecordarCredenciales.setBounds(178, 190, 80, 16);
 		rightBottomPanel.add(lblRecordarCredenciales);
-		
+
 		JLabel lblIngreseSusCredenciales = new JLabel("Ingrese sus credenciales");
 		lblIngreseSusCredenciales.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIngreseSusCredenciales.setBounds(65, 76, 154, 16);
@@ -285,12 +290,22 @@ public class PanelPrincipal extends JPanel {
 		lblCopyright.setBounds(6, 402, 11, 16);
 		leftPanel.add(lblCopyright);
 
-		lblHoraActual = new JLabel();
-		lblHoraActual.setForeground(new Color(255, 255, 255));
-		lblHoraActual.setBackground(new Color(0, 128, 128));
-		lblHoraActual.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHoraActual.setBounds(43, 300, 188, 26);
-		leftPanel.add(lblHoraActual);
+		JLabel lblEstadoParking = new JLabel("Estado actual: " + obtenerEstado());
+		lblEstadoParking.setBackground(new Color(0, 128, 128));
+		lblEstadoParking.setForeground(new Color(255, 255, 255));
+		lblEstadoParking.setBounds(59, 354, 172, 16);
+		leftPanel.add(lblEstadoParking);
+
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setBounds(240, 354, 31, 16);
+		if (obtenerEstado().equals("Completo")) {
+			logger.info("Parking completo");
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/XRojo.png")));
+		} else {
+			logger.info("Parking con plazas disponibles");
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/VVerde.png")));
+		}
+		leftPanel.add(lblImagen);
 
 		/** Hilo que me mostrando la hora en tiempo real */
 		Runnable runnable = new Runnable() {
@@ -298,10 +313,11 @@ public class PanelPrincipal extends JPanel {
 			public void run() {
 				while (true) {
 					try {
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 						Thread.sleep(500);
 						lblHoraActual.setText(formatter.format(LocalDateTime.now()));
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						logger.severe(String.format("%s %s", e.getMessage(), e.getCause().getMessage()));
 					}
 				}
 			}
@@ -309,42 +325,14 @@ public class PanelPrincipal extends JPanel {
 		Thread hilo = new Thread(runnable);
 		hilo.start();
 
-		Map<Integer, Plaza> plazas = ServicioPersistenciaBD.plazasSelect();
-		String estado = (plazas.size() == 90) ? "Completo" : "Disponible";
-
-		JLabel lblEstadoParking = new JLabel("Estado actual: " + estado);
-		lblEstadoParking.setBackground(new Color(0, 128, 128));
-		lblEstadoParking.setForeground(new Color(255, 255, 255));
-		lblEstadoParking.setBounds(59, 354, 172, 16);
-		leftPanel.add(lblEstadoParking);
-
-		lblXRojo = new JLabel("");
-		lblXRojo.setVisible(false);
-		lblXRojo.setBounds(240, 354, 31, 16);
-		lblXRojo.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/XRojo.png")));
-		if (estado.equals("Completo")) {
-			lblXRojo.setVisible(true);
-		} else {
-			lblXRojo.setVisible(false);
-		}
-		leftPanel.add(lblXRojo);
-
 		add(leftPanel);
 		add(rightPanel);
-
 	}
 
-	private static List<String> obtenerMatriculas(List<Usuario> servUsuarios) {
-		// Utilizamos un Set ya que garantiza que no haya elementos repetidos en la
-		// coleccion (Facil conversion a List posteriormente)
-		Set<String> matriculas = new HashSet<>();
-
-		// Iteramos directamente sobre la List "servUsuarios" utilizando un .forEach(),
-		// seguido de una expresion lambda.
-		servUsuarios.forEach(u -> {
-			// Si no contiene la matrícula, se agrega al HashSet.
-			matriculas.add(u.getMatricula());
-		});
-		return new ArrayList<String>(matriculas);
+	private static String obtenerEstado() {
+		Map<Integer, Plaza> plazas = ServicioPersistenciaBD.getInstance().plazasSelect();
+		String estado = (plazas.size() == 90) ? "Completo" : "Disponible";
+		return estado;
 	}
+
 }

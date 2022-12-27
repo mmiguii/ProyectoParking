@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ public class PanelEmpleado extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel instance;
+	private static Logger logger = Logger.getLogger(PanelEmpleado.class.getName());
 
 	public PanelEmpleado(JFrame frame, JPanel panel, Trabajador trabajador) {
 
@@ -54,6 +56,7 @@ public class PanelEmpleado extends JPanel {
 		btnConsultarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PersonalDataWorkerPanel panel = new PersonalDataWorkerPanel(frame, instance, trabajador);
+				logger.info("Accediendo a la consulta de los datos personales de los empleados");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);

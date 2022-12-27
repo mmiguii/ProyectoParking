@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,21 +32,26 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldTiempoTranscurrido;
 	private JTextField textFieldTipoVehiculo;
 	private JTextField textFieldImporteTotal;
-
 	private JTextField textFieldTipoUsuario;
-	
+	private DateFormat formatter;
 	private Usuario usuario;
+	@SuppressWarnings("unused")
+	private Plaza plaza;
 
-	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, String horaActual) {
+	private static Logger logger = Logger.getLogger(PanelPago.class.getName());
+
+	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, Plaza plaza, String horaActual) {
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel Pago"));
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 
+		ServicioPersistenciaBD.getInstance().connect("Parking.db");
+
+		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+	
 		this.usuario = usuario;
-		
-		System.out.println(plazaSel());
-		
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		this.plaza = plaza;
+
 
 		JLabel lblTitulo = new JLabel("PAGO DE PARKING");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -140,8 +146,8 @@ public class PanelPago extends JPanel {
 			double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
 			textFieldImporteTotal.setText(String.format("%.2f €", importe));
 
-		} catch (ParseException e1) {
-			e1.printStackTrace();
+		} catch (ParseException e1) {	
+			logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
 		}
 
 		// Crea el campo de texto textFieldTipoVehiculo y establece sus propiedades.
@@ -161,24 +167,21 @@ public class PanelPago extends JPanel {
 						JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if (opcion == 0) {
 					if (usuario instanceof ClienteOrdinario) {
-
-//						servicio.updateDel(servicio.getPlaza(usuario.getMatricula()),"Disponible");
-						ServicioPersistenciaBD.updatePlaza(plazaSel(), "DISPONIBLE", "");
-						ServicioPersistenciaBD.ordinarioDelete(usuario.getMatricula());
+						ServicioPersistenciaBD.getInstance().updatePlaza(plazaSel(), "DISPONIBLE", "");
+						ServicioPersistenciaBD.getInstance().ordinarioDelete(usuario.getMatricula());
+						logger.info("Cerrando aplicacion...");
 						frame.dispose();
-						ServicioPersistenciaBD.disconnect();
+						ServicioPersistenciaBD.getInstance().disconnect();
 						System.exit(0);
 
 					} else {
-//						ServicioPersistenciaBD.subscritoDelete(usuario.getMatricula());
-						// servicio.subscritoDelete(usuario.getMatricula());
-
+						logger.info("Cerrando aplicacion...");
 						frame.dispose();
-						ServicioPersistenciaBD.disconnect();
+						ServicioPersistenciaBD.getInstance().disconnect();
 						System.exit(0);
 					}
 				} else {
-					// No sucede nada
+					logger.info("Transaccion cancelada");
 				}
 			}
 		});
@@ -189,26 +192,25 @@ public class PanelPago extends JPanel {
 		btnVolver.setBounds(415, 364, 89, 23);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ServicioPersistenciaBD.getInstance().subscritoDelete(usuario.getMatricula());
+				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
 				frame.getContentPane().add(panel);
-				panel.setVisible(true); // Pasamos la referencia del panel y una vez finalicemos con este panel, vuelvo
-										// hacer visible el panel que anteriormente estaba visible.
+				panel.setVisible(true);
 				setVisible(false);
 			}
 		});
 
 		add(btnVolver);
-
 	}
-	
+
 	public Plaza plazaSel() {
-		Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.plazasSelect();
-		for(Plaza p : plazasMap.values()){
+		Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance().plazasSelect();
+		for (Plaza p : plazasMap.values()) {
 			if (p.getMatricula().equals(usuario.getMatricula())) {
 				return p;
-			} 
+			}
 		}
-		return null; 
-		
+		return null;
 	}
-	
+
 }

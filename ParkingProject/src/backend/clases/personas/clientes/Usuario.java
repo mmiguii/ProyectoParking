@@ -4,10 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * La función de esta clase Usuario es definir un objeto de tipo usuario. Este
+ * La funcion de esta clase Usuario es definir un objeto de tipo usuario. Este
  * objeto totalmente abstracto extenderán los dos tipos posibles de usuarios:los
  * clientes ordinarios y los clientes subscritos.
- * 
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
  */
@@ -26,6 +25,12 @@ public abstract class Usuario {
 		super();
 	}
 
+	/**
+	 * Constructor de la clase Usuario. Inicializa una nueva instancia de la clase
+	 * Usuario con los valores de los argumentos proporcionados. Asigna los valores
+	 * de los argumentos a los atributos de la instancia de Usuario
+	 * correspondientes.
+	 */
 	public Usuario(String matricula, String tipoVehiculo, long fechaEntrada, long fechaSalida, double importe) {
 		super();
 		this.matricula = matricula;
@@ -128,19 +133,33 @@ public abstract class Usuario {
 	/** Variable que permite darle formato a las fechas */
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
+	/**
+	 * Metodo de instancia de la clase Usuario que sobrescribe el metodo toString()
+	 * de la clase Object. Devuelve una cadena que contiene los valores de los
+	 * atributos de la instancia de Usuario, formateados de acuerdo con el formato
+	 * especificado.
+	 */
 	@Override
 	public String toString() {
 		return String.format("%s, %s, %s, %s, %.2f", matricula, tipoVehiculo, sdf.format(new Date(fechaEntrada)),
 				sdf.format(new Date(fechaSalida)), importe);
 	}
 
+	/**
+	 * Sobrescribe el metodo equals de la clase Object en Java y se utiliza para
+	 * determinar si dos objetos son iguales. En este caso, el metodo comprueba si
+	 * el objeto pasado como parametro es una instancia de la clase Usuario y, si lo
+	 * es, compara el campo matricula del objeto actual con el campo matricula del
+	 * objeto pasado como parametro. Si ambos campos son iguales, el metodo devuelve
+	 * true, en caso contrario devuelve false.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Usuario) {
-			return matricula == ((Usuario) obj).matricula;
+			Usuario otroUsuario = (Usuario) obj;
+			return matricula.equals(otroUsuario.matricula);
 		} else {
 			return false;
 		}
 	}
-
 }

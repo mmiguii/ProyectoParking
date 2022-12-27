@@ -3,7 +3,7 @@ package backend.clases.personas.clientes;
 import backend.clases.infraestructura.Plaza;
 
 /**
- * La función de esta clase ClienteSubscrito es definir y crear un objeto de
+ * La funcion de esta clase ClienteSubscrito es definir y crear un objeto de
  * tipo subscrito que desciende de un objeto usuario.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
@@ -35,6 +35,12 @@ public class ClienteSubscrito extends Usuario {
 		super(matricula, tipoVehiculo, fechaEntrada, fechaSalida, importe);
 	}
 
+	/**
+	 * Constructor de la clase CLienteSubscrito. Inicializa una nueva instancia de
+	 * la clase ClienteSubscrito con los valores de los argumentos proporcionados.
+	 * Asigna los valores de los argumentos a los atributos de la instancia de
+	 * ClienteSubscrito correspondientes.
+	 */
 	public ClienteSubscrito(String tipoCuota, double precioCuota, Plaza plazaOcupada) {
 		super();
 		this.tipoCuota = tipoCuota;
@@ -98,6 +104,12 @@ public class ClienteSubscrito extends Usuario {
 		this.plazaOcupada = plazaOcupada;
 	}
 
+	/**
+	 * Metodo de instancia de la clase ClienteSubscrito que sobrescribe el metodo
+	 * toString() de la clase Object. Devuelve una cadena que contiene los valores
+	 * de los atributos de la instancia de ClienteSubscrito, formateados de acuerdo
+	 * con el formato especificado.
+	 */
 	@Override
 	public String toString() {
 		return String.format("%s, %s, %.2f, %d", super.toString(), tipoCuota, precioCuota,

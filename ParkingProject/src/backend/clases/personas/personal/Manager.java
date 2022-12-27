@@ -1,7 +1,7 @@
 package backend.clases.personas.personal;
 
 /**
- * La función de esta clase Manager es definir y crear un objeto de tipo manager
+ * La funcion de esta clase Manager es definir y crear un objeto de tipo manager
  * que desciende de un objeto Trabajador.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
@@ -9,12 +9,13 @@ package backend.clases.personas.personal;
 
 public class Manager extends Trabajador {
 
-	/** Constructor vacio de la clase ClienteSubscrito */
+	/** Constructor vacio de la clase Manager */
 	public Manager() {
 		super();
 	}
 
 	/**
+	 * Constuctor super del objeto Trabajador (con todos los atributos).
 	 * 
 	 * @param nombreUsuario: nombre de usuario del manager.
 	 * @param password:      password del manager.
@@ -30,9 +31,13 @@ public class Manager extends Trabajador {
 		super(nombreUsuario, password, dni, email, puesto, fechaComienzo, antiguedad, salario);
 	}
 
+	/**
+	 * Sobrescribe el metodo toString de la superclase y devuelve una representacion
+	 * en forma de cadena del objeto actual.
+	 * 
+	 */
 	@Override
 	public String toString() {
 		return super.toString();
 	}
-
 }

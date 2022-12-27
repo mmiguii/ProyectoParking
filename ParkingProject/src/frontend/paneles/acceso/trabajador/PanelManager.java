@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ public class PanelManager extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel instance;
+	private static Logger logger = Logger.getLogger(PanelManager.class.getName());
 
 	public PanelManager(JFrame frame, JPanel panel, Trabajador trabajador) {
 
@@ -86,6 +88,7 @@ public class PanelManager extends JPanel {
 		btnDatosParking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
+				logger.info("Accediendo al estado de la consulta del parking");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);

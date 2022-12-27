@@ -4,10 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * La función de esta clase Trabajador es definir un objeto de tipo trabajador.
- * Este objeto totalmente abstracto extenderán los dos tipos posibles de
+ * La funcion de esta clase Trabajador es definir un objeto de tipo trabajador.
+ * Este objeto totalmente abstracto extenderan los dos tipos posibles de
  * trabajadores: los managers y los empleados.
- * 
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
  */
@@ -29,6 +28,12 @@ public abstract class Trabajador {
 		super();
 	}
 
+	/**
+	 * Constructor de la clase Trabajador. Inicializa una nueva instancia de la
+	 * clase Trabajador con los valores de los argumentos proporcionados. Asigna los
+	 * valores de los argumentos a los atributos de la instancia de Trabajador
+	 * correspondientes.
+	 */
 	public Trabajador(String nombreUsuario, String password, String dni, String email, String puesto,
 			long fechaComienzo, int antiguedad, double salario) {
 		super();
@@ -186,21 +191,36 @@ public abstract class Trabajador {
 		this.salario = salario;
 	}
 
+	/** Variable que permite darle formato a las fechas */
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
+	/**
+	 * Metodo de instancia de la clase Trabajador que sobrescribe el metodo
+	 * toString() de la clase Object. Devuelve una cadena que contiene los valores
+	 * de los atributos de la instancia de Trabajador, formateados de acuerdo con el
+	 * formato especificado.
+	 */
 	@Override
 	public String toString() {
 		return String.format("%s, %s, %s, %s, %s, %s, %d, %.2f", nombreUsuario, password, dni, email, puesto,
 				sdf.format(new Date(fechaComienzo)), antiguedad, salario);
 	}
 
+	/**
+	 * Sobrescribe el metodo equals de la clase Object en Java y se utiliza para
+	 * determinar si dos objetos son iguales. En este caso, el metodo comprueba si
+	 * el objeto pasado como parametro es una instancia de la clase Trabajador y, si
+	 * lo es, compara el campo nombreUsuario del objeto actual con el campo
+	 * nombreUsuario del objeto pasado como parametro. Si ambos campos son iguales,
+	 * el metodo devuelve true, en caso contrario devuelve false.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Trabajador) {
-			return nombreUsuario == ((Trabajador) obj).nombreUsuario;
+			Trabajador otroTrabajador = (Trabajador) obj;
+			return nombreUsuario.equals(otroTrabajador.nombreUsuario);
 		} else {
 			return false;
 		}
 	}
-
 }

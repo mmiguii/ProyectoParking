@@ -17,7 +17,6 @@ public class PlazaTest {
 	public void setUp() {
 
 		p = new Plaza(1, 200, false, "Normal", "1111ZZZ");
-
 	}
 
 	@Test
@@ -59,7 +58,7 @@ public class PlazaTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("200, false, Normal", p.toString());
+		assertEquals("1, 200, Normal, false", p.toString());
 	}
 
 }
