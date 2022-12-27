@@ -36,15 +36,16 @@ import javax.swing.table.DefaultTableModel;
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.personal.Empleado;
+import backend.clases.personas.personal.Manager;
 import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
-import frontend.paneles.acceso.trabajador.PanelEmpleado;
+import frontend.paneles.acceso.trabajador.PanelTrabajador;
 
 public class PanelEstadoParking extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public PanelEstadoParking(JFrame frame, JPanel panel) {
+	public PanelEstadoParking(JFrame frame, JPanel panel, Trabajador trabajador) {
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Parking State Panel"));
 		setBounds(10, 10, 567, 448);
@@ -70,18 +71,19 @@ public class PanelEstadoParking extends JPanel {
 		gbc_menuBar.gridy = 0;
 		topPanel.add(menuBar, gbc_menuBar);
 		
-		JMenu fileJMenu = new JMenu("Fichero");
+		JMenu fileJMenu = new JMenu("Consultas");
 		menuBar.add(fileJMenu);
 		
-		JMenuItem importItem;
-		JMenuItem importItem1;
-		JMenuItem importItem2;
-		JMenuItem importItem3;
-		JMenuItem importItem4;
-		JMenuItem importItem5;
+		JMenuItem importItem = null;
+		JMenuItem importItem1 = null;
+		JMenuItem importItem2 = null;
+		JMenuItem importItem3 = null;
+		JMenuItem importItem4 = null;
+		JMenuItem importItem5 = null;
+		JMenuItem importItem6 = null;
 
 		
-		if(panel instanceof PanelEmpleado) {
+		if(trabajador instanceof Empleado) {
 			importItem = new JMenuItem("Consultar clientes ordinarios");
 			importItem1 = new JMenuItem("Consultar clientes subscritos");
 			importItem2 = new JMenuItem("Comprobar plazas");
@@ -89,13 +91,14 @@ public class PanelEstadoParking extends JPanel {
 			fileJMenu.add(importItem);
 			fileJMenu.add(importItem1);
 			fileJMenu.add(importItem2);
-		} else {
+		} else if (trabajador instanceof Manager){
 			importItem = new JMenuItem("Consultar clientes ordinarios");
 			importItem1 = new JMenuItem("Consultar clientes subscritos");
 			importItem2 = new JMenuItem("Comprobar plazas");
 			importItem3 = new JMenuItem("Comprobar ingresos y gastos");
 			importItem4 = new JMenuItem("Comprobar tipos de vehículo");
 			importItem5 = new JMenuItem("Comprobar tipos de cliente");
+			importItem6 = new JMenuItem("Comprobar trabajadores");
 
 			fileJMenu.add(importItem);
 			fileJMenu.add(importItem1);
@@ -103,6 +106,7 @@ public class PanelEstadoParking extends JPanel {
 			fileJMenu.add(importItem3);
 			fileJMenu.add(importItem4);
 			fileJMenu.add(importItem5);
+			fileJMenu.add(importItem6);
 		}
 		
 		
