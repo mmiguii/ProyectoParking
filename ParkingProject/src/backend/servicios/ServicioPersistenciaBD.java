@@ -135,7 +135,7 @@ public class ServicioPersistenciaBD {
 			stmt.executeUpdate(
 					"CREATE TABLE clientes_subscritos (matricula TEXT, tipo_vehiculo TEXT, tipo_cuota TEXT, precio_cuota DOUBLE, plaza_ocupada INTEGER,  fecha_comienzo LONG, fecha_final LONG)");
 			stmt.executeUpdate(
-					"CREATE TABLE trabajadores (id_trabajador INTEGER, dni TEXT, nombre TEXT, apellido TEXT, email TEXT, puesto TEXT, fecha_comienzo LONG, antiguedad INTEGER, salario_mensual TEXT)");
+					"CREATE TABLE trabajadores (id_trabajador INTEGER, dni TEXT, nombre TEXT, apellido TEXT, email TEXT, puesto TEXT, fecha_comienzo LONG, antiguedad INTEGER, salario_mensual DOUBLE)");
 			stmt.executeUpdate(
 					"CREATE TABLE plantas (numero_planta INTEGER, cantidad_plazas_normales INTEGER, cantidad_plazas_electricos INTEGER, cantidad_plazas_minusvalidos INTEGER, cantidad_plazas_ocupadas INTEGER)");
 			stmt.executeUpdate(
@@ -712,13 +712,11 @@ public class ServicioPersistenciaBD {
 					empleado.setEmail(rs.getString("email"));
 					empleado.setPuesto(rs.getString("puesto"));
 					empleado.setAntiguedad(rs.getInt("antiguedad"));
-//					double salario = (double) rs.getObject("salario_mes");
-					String salario1 = rs.getString("salario_mes");
-					
-//					String salario = salario1.toString();
-//					String salarioFormateado = NumberFormat.getNumberInstance().format(salario);
-//					double salarioFormateado = Double.parseDouble(NumberFormat.getNumberInstance().format(salario));
-					empleado.setSalario(Double.parseDouble(salario1));
+					empleado.setSalario(rs.getDouble("salario_mes"));
+//					char c = (Character) null;
+//					String s = rs.getString("salario_mes");
+//					String salario = s.replace(',', c);
+//					empleado.setSalario(Double.parseDouble(salario));
 					empleados.put(dni, empleado);
 				}
 			}
@@ -752,9 +750,12 @@ public class ServicioPersistenciaBD {
 					manager.setPassword(rs.getString("password"));
 					manager.setEmail(rs.getString("email"));
 					manager.setPuesto(rs.getString("puesto"));
-					manager.setAntiguedad(rs.getInt("antiguedad"));
 					manager.setSalario(rs.getDouble("salario_mes"));
-
+//					manager.setAntiguedad(rs.getInt("antiguedad"));
+//					char c = (Character) null;
+//					String s = rs.getString("salario_mes");
+//					String salario = s.replace(',',c);
+//					manager.setSalario(Double.parseDouble(salario));
 					managers.put(dni, manager);
 				}
 			}

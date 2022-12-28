@@ -51,10 +51,11 @@ public class PanelEstadoParking extends JPanel {
 	private JScrollPane scrollOrdinarios;
 	private JScrollPane scrollSubscritos;
 	private JScrollPane scrollTrabajadores;
-	private JScrollPane scroll;
-	private JTable table;
-	private JTable table1;
-	private JTable table2;
+	private JScrollPane scrollPlazas;
+	private JTable tableOrdinarios;
+	private JTable tableSubscritos;
+	private JTable tableTrabajadores;
+	private JTable tablePlazas;
 
 	public PanelEstadoParking(JFrame frame, JPanel panel, Trabajador trabajador) {
 
@@ -117,7 +118,7 @@ public class PanelEstadoParking extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 //					tablaOrdinarios.setVisible(false);
 //					tablaSubscritos.setVisible(false);
-					Vector<String> cabeceras = new Vector<>(Arrays.asList("Usuario","DNI","Contraseña","Email", "Fecha inicio", "Salario"));
+					Vector<String> cabeceras = new Vector<>(Arrays.asList("Usuario","DNI","Contraseï¿½a","Email", "Fecha inicio", "Salario"));
 					DefaultTableModel modelo2 = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 					
 					Map<String,Trabajador> mapaTrabajador = ServicioPersistenciaBD.getInstance().trabajadoresSelect();
@@ -130,13 +131,14 @@ public class PanelEstadoParking extends JPanel {
 					}			
 		
 //					tablaTrabajadores = new JScrollPane(new JTable(modelo));
-					table2.setModel(modelo2);
+					tableTrabajadores.setModel(modelo2);
 //					scroll = new JScrollPane(table);
 					scrollTrabajadores.setBounds(25, 25, 500, 100);
 //					middlePanel.add(scrollTrabajadores);
 					scrollTrabajadores.setVisible(true);
 					scrollOrdinarios.setVisible(false);
 					scrollSubscritos.setVisible(false);
+					scrollPlazas.setVisible(false);
 				}
 			});
 			
@@ -185,18 +187,22 @@ public class PanelEstadoParking extends JPanel {
 		btnBajaAbonado.setVisible(false);
 		middlePanel.add(btnBajaAbonado);
 		
-		table = new JTable();
-		scrollOrdinarios = new JScrollPane(table);
+		tableOrdinarios = new JTable();
+		scrollOrdinarios = new JScrollPane(tableOrdinarios);
 		middlePanel.add(scrollOrdinarios);
-		table1 = new JTable();
-		scrollSubscritos = new JScrollPane(table1);
+		tableSubscritos = new JTable();
+		scrollSubscritos = new JScrollPane(tableSubscritos);
 		middlePanel.add(scrollSubscritos);
-		table2 = new JTable();
-		scrollTrabajadores = new JScrollPane(table2);
+		tableTrabajadores = new JTable();
+		scrollTrabajadores = new JScrollPane(tableTrabajadores);
 		middlePanel.add(scrollTrabajadores);
+		tablePlazas= new JTable();
+		scrollPlazas = new JScrollPane(tablePlazas);
+		
 		scrollOrdinarios.setVisible(true);
 		scrollSubscritos.setVisible(false);
 		scrollTrabajadores.setVisible(false);
+		scrollPlazas.setVisible(false);
 		
 		importItem.addActionListener(new ActionListener() {
 			
@@ -219,12 +225,13 @@ public class PanelEstadoParking extends JPanel {
 //				tablaOrdinarios.setBounds(25, 25, 500, 100);
 //				middlePanel.add(tablaOrdinarios);
 				
-				table.setModel(modelo);
+				tableOrdinarios.setModel(modelo);
 //				scroll = new JScrollPane(table);
 				scrollOrdinarios.setBounds(25, 25, 500, 100);
 				scrollOrdinarios.setVisible(true);
 				scrollSubscritos.setVisible(false);
 				scrollTrabajadores.setVisible(false);
+				scrollPlazas.setVisible(false);
 			}
 		});
 		
@@ -246,46 +253,40 @@ public class PanelEstadoParking extends JPanel {
 				}			
 	
 //				tablaSubscritos = new JScrollPane(new JTable(modelo));
-				table1.setModel(modelo1);
+				tableSubscritos.setModel(modelo1);
 //				scroll = new JScrollPane(table);
 				scrollSubscritos.setBounds(25, 25, 500, 100);
 				middlePanel.add(scrollSubscritos);
 				scrollSubscritos.setVisible(true);
 				scrollOrdinarios.setVisible(false);
 				scrollTrabajadores.setVisible(false);
+				scrollPlazas.setVisible(false);
 			}
 		});
 		
-//		importItem6.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//				Vector<String> cabeceras = new Vector<>(Arrays.asList("Usuario","DNI","Contraseña","Email", "Fecha inicio", "Salario"));
-//				DefaultTableModel modelo2 = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
-//				
-//				Map<String,Trabajador> mapaTrabajador = ServicioPersistenciaBD.getInstance().trabajadoresSelect();
-//				for (Map.Entry<String, Trabajador> entry : mapaTrabajador.entrySet()) {
-//				    Trabajador trabajador = entry.getValue();
-//				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//				    modelo2.addRow(new Object[] {trabajador.getNombreUsuario(), trabajador.getDni(),trabajador.getPassword(), trabajador.getEmail(), sdf.format(new Date(trabajador.getFechaComienzo())), 
-//				    		Double.toString(trabajador.getSalario())
-//				    });
-//				}			
-//	
-//
-//				table2.setModel(modelo2);
-//
-//				scrollTrabajadores.setBounds(25, 25, 500, 100);
-//				if (trabajador.getDni().equals("12345678A")) {
-//					middlePanel.add(scrollTrabajadores);
-//				}
-//				
-////				middlePanel.add(scrollTrabajadores);
-//				scrollTrabajadores.setVisible(true);
-//				scrollOrdinarios.setVisible(false);
-//				scrollSubscritos.setVisible(false);
-//			}
-//		});
+		importItem2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Vector<String> cabeceras = new Vector<>(Arrays.asList("Planta","Plaza","Tipo de plaza","Estado","Matricula"));
+				DefaultTableModel modelo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
+				
+				Map<Integer,Plaza> mapaPlazas = ServicioPersistenciaBD.getInstance().plazasSelect();
+				for (Map.Entry<Integer,Plaza> entry : mapaPlazas.entrySet()) {
+				    Plaza plaza = entry.getValue();
+				    modelo.addRow(new Object[] {plaza.getNumeroPlanta(),plaza.getNumeroPlaza(),plaza.getTipoPlaza(),plaza.isEstadoPlaza()?"DISPONIBLE":"OCUPADO",plaza.getMatricula()});
+				}			
+	
+				tablePlazas.setModel(modelo);
+				scrollPlazas.setBounds(25, 25, 500, 100);
+				middlePanel.add(scrollPlazas);
+				scrollPlazas.setVisible(true);
+				scrollSubscritos.setVisible(false);
+				scrollOrdinarios.setVisible(false);
+				scrollTrabajadores.setVisible(false);
+			}
+		});
 		
 		if (trabajador.getDni().equals("12345678A")) {
 			middlePanel.add(scrollTrabajadores);
