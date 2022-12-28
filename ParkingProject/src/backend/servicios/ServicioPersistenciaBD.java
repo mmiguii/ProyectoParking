@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -134,7 +135,7 @@ public class ServicioPersistenciaBD {
 			stmt.executeUpdate(
 					"CREATE TABLE clientes_subscritos (matricula TEXT, tipo_vehiculo TEXT, tipo_cuota TEXT, precio_cuota DOUBLE, plaza_ocupada INTEGER,  fecha_comienzo LONG, fecha_final LONG)");
 			stmt.executeUpdate(
-					"CREATE TABLE trabajadores (id_trabajador INTEGER, dni TEXT, nombre TEXT, apellido TEXT, email TEXT, puesto TEXT, fecha_comienzo LONG, antiguedad INTEGER, salario_mensual DOUBLE)");
+					"CREATE TABLE trabajadores (id_trabajador INTEGER, dni TEXT, nombre TEXT, apellido TEXT, email TEXT, puesto TEXT, fecha_comienzo LONG, antiguedad INTEGER, salario_mensual TEXT)");
 			stmt.executeUpdate(
 					"CREATE TABLE plantas (numero_planta INTEGER, cantidad_plazas_normales INTEGER, cantidad_plazas_electricos INTEGER, cantidad_plazas_minusvalidos INTEGER, cantidad_plazas_ocupadas INTEGER)");
 			stmt.executeUpdate(
@@ -698,7 +699,7 @@ public class ServicioPersistenciaBD {
 	 */
 	public Map<String, Empleado> empleadosSelect() {
 		Map<String, Empleado> empleados = new HashMap<>();
-		String sentSQL = "SELECT dni, nombre_usuario, password, email, puesto FROM trabajadores";
+		String sentSQL = "SELECT dni, nombre_usuario, password, email, puesto, antiguedad, salario_mes FROM trabajadores";
 		try (Statement stmt = conn.createStatement()) {
 			try (ResultSet rs = stmt.executeQuery(sentSQL)) {
 				log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
@@ -710,6 +711,14 @@ public class ServicioPersistenciaBD {
 					empleado.setPassword(rs.getString("password"));
 					empleado.setEmail(rs.getString("email"));
 					empleado.setPuesto(rs.getString("puesto"));
+					empleado.setAntiguedad(rs.getInt("antiguedad"));
+//					double salario = (double) rs.getObject("salario_mes");
+					String salario1 = rs.getString("salario_mes");
+					
+//					String salario = salario1.toString();
+//					String salarioFormateado = NumberFormat.getNumberInstance().format(salario);
+//					double salarioFormateado = Double.parseDouble(NumberFormat.getNumberInstance().format(salario));
+					empleado.setSalario(Double.parseDouble(salario1));
 					empleados.put(dni, empleado);
 				}
 			}
@@ -731,7 +740,7 @@ public class ServicioPersistenciaBD {
 	 */
 	public Map<String, Manager> managersSelect() {
 		Map<String, Manager> managers = new HashMap<>();
-		String sentSQL = "SELECT dni, nombre_usuario, password, email, puesto FROM trabajadores";
+		String sentSQL = "SELECT dni, nombre_usuario, password, email, puesto, antiguedad, salario_mes FROM trabajadores";
 		try (Statement stmt = conn.createStatement()) {
 			try (ResultSet rs = stmt.executeQuery(sentSQL)) {
 				log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
@@ -743,6 +752,8 @@ public class ServicioPersistenciaBD {
 					manager.setPassword(rs.getString("password"));
 					manager.setEmail(rs.getString("email"));
 					manager.setPuesto(rs.getString("puesto"));
+					manager.setAntiguedad(rs.getInt("antiguedad"));
+					manager.setSalario(rs.getDouble("salario_mes"));
 
 					managers.put(dni, manager);
 				}
