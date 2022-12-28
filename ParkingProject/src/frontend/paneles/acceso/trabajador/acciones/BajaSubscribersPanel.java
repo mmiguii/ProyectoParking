@@ -10,29 +10,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.servicios.ServicioPersistenciaBD;
 
@@ -41,7 +34,6 @@ public class BajaSubscribersPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton btnBaja;
 
-	@SuppressWarnings("unchecked")
 	public BajaSubscribersPanel(JFrame frame, JPanel panel) {
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Baja Subscriber Panel"));
@@ -80,6 +72,11 @@ public class BajaSubscribersPanel extends JPanel {
 		
 		tableSubscritos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 					int row, int column) {

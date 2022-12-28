@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -207,6 +206,7 @@ public class ServicioPersistenciaBD {
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
+					@SuppressWarnings("unused")
 					ClienteOrdinario ordinario = new ClienteOrdinario();
 					modelo.addRow(new Object[] {rs.getString("matricula"),rs.getString("tipo_vehiculo"),rs.getDouble("tarifa"),rs.getLong("fecha_entrada")} );
 //					ordinario.setMatricula(rs.getString("matricula"));

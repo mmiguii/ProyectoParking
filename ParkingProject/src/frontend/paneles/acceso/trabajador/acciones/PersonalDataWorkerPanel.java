@@ -1,8 +1,6 @@
 package frontend.paneles.acceso.trabajador.acciones;
 
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -12,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import backend.clases.personas.personal.Trabajador;
-import javax.swing.JTextField;
 
 public class PersonalDataWorkerPanel extends JPanel {
 
