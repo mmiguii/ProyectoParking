@@ -31,7 +31,6 @@ import javax.swing.SwingConstants;
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.Usuario;
-import backend.clases.personas.personal.Manager;
 import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.acceso.PanelAccesoParking;
