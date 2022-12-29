@@ -41,7 +41,7 @@ public class PanelTrabajador extends JPanel {
 		labelWellcoming.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		topPanel.add(labelWellcoming);
 
-		JTextField text = new JTextField(trabajador.getNombreUsuario() + " " + trabajador.getPassword());
+		JTextField text = new JTextField(trabajador.getNombreUsuario());
 		text.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		text.setEditable(false);
 		text.setBorder(null);
@@ -52,11 +52,11 @@ public class PanelTrabajador extends JPanel {
 
 		JPanel leftMiddlePanel = new JPanel();
 		leftMiddlePanel.setLayout(new GridBagLayout());
-		JButton btnConsultarDatos = new JButton("CONSULTAR DATOS PERSONALES");
+		JButton btnConsultarDatos = new JButton("DATOS PERSONALES");
 		btnConsultarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PersonalDataWorkerPanel panel = new PersonalDataWorkerPanel(frame, instance, trabajador);
-				logger.info("Accediendo a la consulta de los datos personales de los empleados");
+				logger.info("Accediendo a la consulta de los datos personales");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
@@ -70,6 +70,7 @@ public class PanelTrabajador extends JPanel {
 		btnEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelEstadoParking panel = new PanelEstadoParking(frame, instance, trabajador);
+				logger.info("Accediendo a los datos del aparcamiento");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
@@ -89,6 +90,7 @@ public class PanelTrabajador extends JPanel {
 		btnDarBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
+				logger.info("Accediendo a la seccion de bajas de clientes con subscripcion");
 				frame.add(panel);
 				setVisible(false);
 				panel.setVisible(true);
@@ -98,10 +100,10 @@ public class PanelTrabajador extends JPanel {
 
 		JPanel rightBottomPanel = new JPanel();
 		rightBottomPanel.setLayout(new GridBagLayout());
-		JButton btnVolver = new JButton("VOLVER");
+		JButton btnVolver = new JButton("CERRAR SESION");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				logger.info("Cerrando sesión de empleado");
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);

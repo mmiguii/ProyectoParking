@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ public class BajaSubscribersPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnBaja;
+	private static Logger logger = Logger.getLogger(BajaSubscribersPanel.class.getName());
 
 	public BajaSubscribersPanel(JFrame frame, JPanel panel) {
 
@@ -49,14 +51,9 @@ public class BajaSubscribersPanel extends JPanel {
 		add(topPanel);
 
 		JPanel middlePanel = new JPanel();
-		middlePanel.setLayout(null);
-		
-//		List<ClienteSubscrito> listaSubscritos = new ArrayList<>();
-//		JList<ClienteSubscrito> miLista = new JList<>();
-		
+				
 		JTable tableSubscritos = new JTable();
 		JScrollPane scrollSubscritos = new JScrollPane(tableSubscritos);
-		scrollSubscritos.setBounds(25, 25, 500, 100);
 		
 		Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Cuota","Fecha de Entrada"));
 		DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
@@ -83,7 +80,7 @@ public class BajaSubscribersPanel extends JPanel {
 				
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				if (isSelected) {
-					c.setBackground(Color.RED);
+					c.setBackground(new Color(205, 92, 92));
 				} else {
 					c.setBackground(Color.WHITE);
 				}
@@ -131,14 +128,9 @@ public class BajaSubscribersPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-//				int selectedRow = tableSubscritos.getSelectedRow();
-//				if (selectedRow >= 0) {
-//					String matricula = (String) tableSubscritos.getValueAt(selectedRow, 0);
-//					ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
-//					modeloSubscritos.removeRow(selectedRow);
-//				}
 			}
 		});
+		middlePanel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		
 		middlePanel.add(scrollSubscritos);
@@ -150,7 +142,7 @@ public class BajaSubscribersPanel extends JPanel {
 		btnVolver.setBounds(340, 67, 89, 23);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				logger.info("Volviendo a panel de bienvenida");
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
@@ -166,6 +158,7 @@ public class BajaSubscribersPanel extends JPanel {
 				// TODO Auto-generated method stub
 				int selectedRow = tableSubscritos.getSelectedRow();
 				if (selectedRow >= 0) {
+					logger.info("Dando de baja a cliente subscrito");
 					String matricula = (String) tableSubscritos.getValueAt(selectedRow, 0);
 					ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
 					modeloSubscritos.removeRow(selectedRow);

@@ -88,36 +88,43 @@ public class PersonalDataWorkerPanel extends JPanel {
 		});
 		
 		textFieldDNI = new JTextField();
+		textFieldDNI.setEditable(false);
 		textFieldDNI.setBounds(246, 83, 138, 20);
 		mainPanel.add(textFieldDNI);
 		textFieldDNI.setColumns(10);
 		
 		textFieldFechaComienzo = new JTextField();
+		textFieldFechaComienzo.setEditable(false);
 		textFieldFechaComienzo.setColumns(10);
 		textFieldFechaComienzo.setBounds(246, 282, 138, 20);
 		mainPanel.add(textFieldFechaComienzo);
 		
-		textFieldUsername = new JTextField();
+		textFieldUsername = new JTextField();	
+		textFieldUsername.setEditable(false);
 		textFieldUsername.setColumns(10);
 		textFieldUsername.setBounds(246, 118, 138, 20);
 		mainPanel.add(textFieldUsername);
 		
 		textFieldSalario = new JTextField();
+		textFieldSalario.setEditable(false);
 		textFieldSalario.setColumns(10);
 		textFieldSalario.setBounds(246, 199, 138, 20);
 		mainPanel.add(textFieldSalario);
 		
 		textFieldPuesto = new JTextField();
+		textFieldPuesto.setEditable(false);
 		textFieldPuesto.setColumns(10);
 		textFieldPuesto.setBounds(246, 240, 138, 20);
 		mainPanel.add(textFieldPuesto);
 		
 		textFieldEMail = new JTextField();
+		textFieldEMail.setEditable(false);
 		textFieldEMail.setColumns(10);
 		textFieldEMail.setBounds(246, 156, 138, 20);
 		mainPanel.add(textFieldEMail);
 		
 		textFieldAntiguedad = new JTextField();
+		textFieldAntiguedad.setEditable(false);
 		textFieldAntiguedad.setText("01/01/1970 01:00:00");
 		textFieldAntiguedad.setColumns(10);
 		textFieldAntiguedad.setBounds(246, 322, 138, 20);
