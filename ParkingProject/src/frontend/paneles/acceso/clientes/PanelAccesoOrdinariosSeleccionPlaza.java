@@ -14,10 +14,12 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -36,7 +38,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	private JScrollPane scrollPane;
 
-	private JButton btnCargarPlanta1; 
+	private JButton btnCargarPlanta1;
 	private JButton btnCargarPlanta2;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
@@ -190,6 +192,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	private void cargarPrimeraPlanta(ActionEvent event) {
 		listaAUsar = true;
+		mostrarProgresoPlanta("Cargando primera planta ...");
 		// Limpia el modelo de tabla
 		modelo.setNumRows(0);
 		// Carga los datos de la primera lista de plazas en el modelo de tabla
@@ -200,6 +203,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	private void cargarSegundaPlanta(ActionEvent event) {
 		listaAUsar = false;
+		mostrarProgresoPlanta("Cargando segunda planta ...");
 		// Limpia el modelo de tabla
 		modelo.setNumRows(0);
 		// Carga los datos de la segunda lista en el modelo de tabla
@@ -210,22 +214,28 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 	private void aceptar(ActionEvent event) {
 		int plazaSeleccionada = tPlazas.getSelectedRow();
-		// Cargamos "plazas" con la lista de la planta correspondiente
-		List<Plaza> plazas = listaAUsar ? plazas1 : plazas2;
-		Plaza plaza = plazas.get(plazaSeleccionada);
-		// Si la plaza se encuentra OCUPADA..
-		if (!plaza.isEstadoPlaza()) {
-			logger.info("Seleccione una plaza disponible");
-			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza DISPONIBLE");
+		if (plazaSeleccionada != -1) {
+			// Cargamos "plazas" con la lista de la planta correspondiente
+			List<Plaza> plazas = listaAUsar ? plazas1 : plazas2;
+			Plaza plaza = plazas.get(plazaSeleccionada);
+			// Si la plaza se encuentra OCUPADA..
+			if (!plaza.isEstadoPlaza()) {
+				logger.info("Seleccione una plaza disponible");
+				JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza DISPONIBLE");
+			} else {
+				ServicioPersistenciaBD.getInstance().ordinarioInsert(ordinario);
+				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
+				JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
+				logger.info("Cerrando aplicacion...");
+				frame.dispose();
+				ServicioPersistenciaBD.getInstance().disconnect();
+				System.exit(0);
+			}
 		} else {
-			ServicioPersistenciaBD.getInstance().ordinarioInsert(ordinario);
-			ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
-			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Gracias");
-			logger.info("Cerrando aplicacion...");
-			frame.dispose();
-			ServicioPersistenciaBD.getInstance().disconnect();
-			System.exit(0);
+			logger.info("Seleccione una plaza y no acepte antes de haberla seleccionado");
+			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza");
 		}
+		
 	}
 
 	private void cancelar(ActionEvent event) {
@@ -234,4 +244,27 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		setVisible(false);
 	}
 
+	public void mostrarProgresoPlanta(String message) {
+		JOptionPane pane = new JOptionPane();
+		pane.setMessage(message);
+		JProgressBar jProgressBar = new JProgressBar(1, 100);
+		jProgressBar.setStringPainted(true);
+		jProgressBar.setValue(1);
+		pane.add(jProgressBar, 1);
+		JDialog dialog = pane.createDialog(pane, "Information message");
+		new Thread(() -> {
+			for (int i = 0; i <= 100; i++) {
+				jProgressBar.setValue(i);
+				if (i == 100) {
+					dialog.dispose();
+				}
+				try {
+					Thread.sleep(5);
+				} catch (InterruptedException e1) {
+					logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+				}
+			}
+		}).start();
+		dialog.setVisible(true);
+	}
 }

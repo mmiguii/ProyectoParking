@@ -12,10 +12,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -48,50 +50,50 @@ public class PanelPago extends JPanel {
 		ServicioPersistenciaBD.getInstance().connect("Parking.db");
 
 		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-	
+
 		this.usuario = usuario;
 		this.plaza = plaza;
 
-
 		JLabel lblTitulo = new JLabel("PAGO DE PARKING");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTitulo.setBounds(214, 41, 138, 49);
+		lblTitulo.setBounds(35, 28, 492, 49);
 		add(lblTitulo);
 
 		JLabel lblHoraEntrada = new JLabel("Hora de entrada");
-		lblHoraEntrada.setBounds(90, 128, 132, 14);
+		lblHoraEntrada.setBounds(90, 125, 150, 25);
 		add(lblHoraEntrada);
 
 		JLabel lblHoraDeSalida = new JLabel("Hora de salida");
-		lblHoraDeSalida.setBounds(90, 169, 112, 14);
+		lblHoraDeSalida.setBounds(90, 160, 150, 25);
 		add(lblHoraDeSalida);
 
 		JLabel lblTiempoTranscurrido = new JLabel("Tiempo transcurrido");
-		lblTiempoTranscurrido.setBounds(90, 210, 144, 14);
+		lblTiempoTranscurrido.setBounds(90, 195, 150, 25);
 		add(lblTiempoTranscurrido);
 
 		JLabel lblTipoDeCliente = new JLabel("Tipo de vehiculo");
-		lblTipoDeCliente.setBounds(90, 254, 144, 14);
+		lblTipoDeCliente.setBounds(90, 230, 150, 14);
 		add(lblTipoDeCliente);
 
 		JLabel lblImporteTotal = new JLabel("Importe Total");
-		lblImporteTotal.setBounds(90, 300, 144, 14);
+		lblImporteTotal.setBounds(90, 265, 150, 25);
 		add(lblImporteTotal);
 
 		// Crea el campo de texto textFieldTipoUsuario y establece sus propiedades.
 		textFieldTipoUsuario = new JTextField();
 		textFieldTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldTipoUsuario.setBounds(238, 89, 175, 26);
+		textFieldTipoUsuario.setBounds(295, 90, 175, 25);
 		textFieldTipoUsuario.setColumns(10);
 		add(textFieldTipoUsuario);
 		textFieldTipoUsuario.setEditable(false);
-		String tipoUsuario = (usuario instanceof ClienteOrdinario) ? "Cliente ordinario" : "Cliente subscrito";
+		String tipoUsuario = (usuario instanceof ClienteOrdinario) ? "Ordinario" : "Subscrito";
 		textFieldTipoUsuario.setText(tipoUsuario);
 
 		// Crea el campo de texto textFieldFechaEntrada y establece sus propiedades.
 		textFieldFechaEntrada = new JTextField();
 		textFieldFechaEntrada.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldFechaEntrada.setBounds(238, 122, 175, 26);
+		textFieldFechaEntrada.setBounds(295, 125, 175, 25);
 		textFieldFechaEntrada.setColumns(10);
 		add(textFieldFechaEntrada);
 		textFieldFechaEntrada.setEditable(false);
@@ -101,7 +103,7 @@ public class PanelPago extends JPanel {
 		textFieldFechaSalida = new JTextField();
 		textFieldFechaSalida.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldFechaSalida.setColumns(10);
-		textFieldFechaSalida.setBounds(238, 169, 175, 26);
+		textFieldFechaSalida.setBounds(295, 160, 175, 25);
 		add(textFieldFechaSalida);
 		textFieldFechaSalida.setEditable(false);
 		if (usuario instanceof ClienteOrdinario) {
@@ -117,7 +119,7 @@ public class PanelPago extends JPanel {
 			textFieldTiempoTranscurrido = new JTextField();
 			textFieldTiempoTranscurrido.setHorizontalAlignment(SwingConstants.CENTER);
 			textFieldTiempoTranscurrido.setColumns(10);
-			textFieldTiempoTranscurrido.setBounds(238, 204, 175, 26);
+			textFieldTiempoTranscurrido.setBounds(295, 195, 175, 25);
 			add(textFieldTiempoTranscurrido);
 			textFieldTiempoTranscurrido.setEditable(false);
 
@@ -125,7 +127,7 @@ public class PanelPago extends JPanel {
 			textFieldImporteTotal = new JTextField();
 			textFieldImporteTotal.setHorizontalAlignment(SwingConstants.CENTER);
 			textFieldImporteTotal.setColumns(10);
-			textFieldImporteTotal.setBounds(238, 294, 175, 26);
+			textFieldImporteTotal.setBounds(295, 265, 175, 25);
 			add(textFieldImporteTotal);
 			textFieldImporteTotal.setEditable(false);
 
@@ -146,7 +148,7 @@ public class PanelPago extends JPanel {
 			double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
 			textFieldImporteTotal.setText(String.format("%.2f €", importe));
 
-		} catch (ParseException e1) {	
+		} catch (ParseException e1) {
 			logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
 		}
 
@@ -154,7 +156,7 @@ public class PanelPago extends JPanel {
 		textFieldTipoVehiculo = new JTextField();
 		textFieldTipoVehiculo.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldTipoVehiculo.setColumns(10);
-		textFieldTipoVehiculo.setBounds(238, 248, 175, 26);
+		textFieldTipoVehiculo.setBounds(295, 230, 175, 25);
 		add(textFieldTipoVehiculo);
 		textFieldTipoVehiculo.setEditable(false);
 		textFieldTipoVehiculo.setText(usuario.getTipoVehiculo());
@@ -170,12 +172,14 @@ public class PanelPago extends JPanel {
 						ServicioPersistenciaBD.getInstance().updatePlaza(plazaSel(), "DISPONIBLE", "");
 						ServicioPersistenciaBD.getInstance().ordinarioDelete(usuario.getMatricula());
 						logger.info("Cerrando aplicacion...");
+						mostrarProgresoPago("Transaccion en progreso ...");
 						frame.dispose();
 						ServicioPersistenciaBD.getInstance().disconnect();
 						System.exit(0);
 
 					} else {
 						logger.info("Cerrando aplicacion...");
+						mostrarProgresoPago("Transaccion en progreso ...");
 						frame.dispose();
 						ServicioPersistenciaBD.getInstance().disconnect();
 						System.exit(0);
@@ -185,15 +189,15 @@ public class PanelPago extends JPanel {
 				}
 			}
 		});
-		btnPagar.setBounds(186, 364, 89, 23);
+		btnPagar.setBounds(295, 350, 175, 55);
 		add(btnPagar);
 
 		JButton btnVolver = new JButton("VOLVER");
-		btnVolver.setBounds(415, 364, 89, 23);
+		btnVolver.setBounds(90, 350, 175, 55);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				ServicioPersistenciaBD.getInstance().subscritoDelete(usuario.getMatricula());
-//				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
+				ServicioPersistenciaBD.getInstance().subscritoDelete(usuario.getMatricula());
+				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
@@ -201,6 +205,10 @@ public class PanelPago extends JPanel {
 		});
 
 		add(btnVolver);
+		
+		JLabel lblCliente = new JLabel("Cliente");
+		lblCliente.setBounds(90, 90, 150, 25);
+		add(lblCliente);
 	}
 
 	public Plaza plazaSel() {
@@ -213,4 +221,28 @@ public class PanelPago extends JPanel {
 		return null;
 	}
 
+	public void mostrarProgresoPago(String message) {
+		JOptionPane pane = new JOptionPane();
+		pane.setMessage(message);
+		JProgressBar jProgressBar = new JProgressBar(1, 100);
+		jProgressBar.setStringPainted(true);
+		jProgressBar.setValue(1);
+		pane.add(jProgressBar, 1);
+		JDialog dialog = pane.createDialog(pane, "Information message");
+		new Thread(() -> {
+			for (int i = 0; i <= 100; i++) {
+				jProgressBar.setValue(i);
+				if (i == 100) {
+					pane.setMessage("Transaccion realizada. ¡Gracias!");
+				}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+				}
+			}
+		}).start();
+		dialog.setVisible(true);
+		dialog.dispose();
+	}
 }

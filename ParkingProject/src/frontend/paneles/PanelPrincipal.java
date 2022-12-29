@@ -20,11 +20,13 @@ import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -104,6 +106,7 @@ public class PanelPrincipal extends JPanel {
 
 								if (usuario instanceof ClienteOrdinario) {
 									logger.info("¡Es hora de pagar!");
+									mostrarProgresoAcceso("Accediendo a la maquina de pago...");
 									PanelPago panel = new PanelPago(frame, instance, usuario, null,
 											lblHoraActual.getText());
 									frame.getContentPane().add(panel);
@@ -119,6 +122,7 @@ public class PanelPrincipal extends JPanel {
 
 										if (fechaActualDate.before(fechaSalidaDate)) {
 											logger.info("Accediendo a la plaza...");
+											mostrarProgresoAcceso("Accediendo a la plaza ...");
 											PanelPlazaParking panel = new PanelPlazaParking(frame, usuario);
 											frame.getContentPane().add(panel);
 											setVisible(false);
@@ -141,6 +145,7 @@ public class PanelPrincipal extends JPanel {
 
 											if (opcion == 0) {
 												logger.info("Nuevo acceso al parking");
+												mostrarProgresoAcceso("Accediendo nuevamente al parking ...");
 												PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
 														lblHoraActual.getText(), matricula);
 												frame.getContentPane().add(panel);
@@ -162,6 +167,7 @@ public class PanelPrincipal extends JPanel {
 
 							} else {
 								logger.info("El vehiculo no se encuentra actualmente registrado en la BD del parking");
+								mostrarProgresoAcceso("Accediendo al parking ...");
 								PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
 										lblHoraActual.getText(), matricula);
 								frame.getContentPane().add(panel);
@@ -201,6 +207,7 @@ public class PanelPrincipal extends JPanel {
 
 					if (trabajador.getPassword().equals(String.valueOf(passwordFieldCredenciales.getPassword()))) {
 						logger.info("Accediendo a la seccion 'Trabajador'.");
+						mostrarProgresoAcceso("Accediendo a la plataforma del trabajador ...");
 						PanelTrabajador panel = new PanelTrabajador(frame, instance, trabajador);
 						frame.getContentPane().add(panel);
 						setVisible(false);
@@ -289,7 +296,7 @@ public class PanelPrincipal extends JPanel {
 			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/XRojo.png")));
 		} else {
 			logger.info("Parking con plazas disponibles");
-			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/VVerde.png")));
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/Verde.jpeg")));
 		}
 		leftPanel.add(lblImagen);
 
@@ -320,5 +327,28 @@ public class PanelPrincipal extends JPanel {
 		String estado = (plazas.size() == 90) ? "Completo" : "Disponible";
 		return estado;
 	}
-
+	
+	public void mostrarProgresoAcceso(String message) {
+		JOptionPane pane = new JOptionPane();
+		pane.setMessage(message);
+		JProgressBar jProgressBar = new JProgressBar(1, 100);
+		jProgressBar.setStringPainted(true);
+		jProgressBar.setValue(1);
+		pane.add(jProgressBar,1);
+		JDialog dialog = pane.createDialog(pane, "Information message");
+		new Thread(() -> {
+		  for (int i = 0; i <= 100; i++) {
+		    jProgressBar.setValue(i);
+		    if (i == 100) {
+		   		dialog.dispose();
+			}
+		    try {
+		      Thread.sleep(10);
+		    } catch (InterruptedException e1) {
+		    	logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+		    }
+		  }
+		}).start();
+		dialog.setVisible(true);
+	}
 }
