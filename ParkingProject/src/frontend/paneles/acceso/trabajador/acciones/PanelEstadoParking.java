@@ -1,6 +1,7 @@
 package frontend.paneles.acceso.trabajador.acciones;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -17,15 +18,20 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
@@ -165,6 +171,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					mostrarProgresoPago("Consultando listado de trabajadores...");
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Usuario","DNI","Password","Email", "Fecha inicio", "Salario"));
 					DefaultTableModel modeloTrabajadores = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 					logger.info("Cargando informacion de trabajadores");
@@ -217,6 +224,7 @@ public class PanelEstadoParking extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				mostrarProgresoPago("Consultando listado de clientes ordinarios...");
 				Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Tarifa","Fecha de Entrada"));
 				DefaultTableModel modeloOrdinarios = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 				logger.info("Cargando datos de clientes ordinarios");
@@ -244,6 +252,7 @@ public class PanelEstadoParking extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				mostrarProgresoPago("Consultando listado de clientes subscritos...");
 				Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Cuota","Fecha de Entrada"));
 				DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 				logger.info("Cargando datos de clientes subscritos");
@@ -271,7 +280,7 @@ public class PanelEstadoParking extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				mostrarProgresoPago("Comprobando estado de las plazas del parking");
 				Vector<String> cabeceras = new Vector<>(Arrays.asList("Planta","Plaza","Tipo de plaza","Estado","Matricula"));
 				DefaultTableModel modeloPlazas = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 				logger.info("Cargando datos del estado de las plazas de aparcamiento");
@@ -285,6 +294,21 @@ public class PanelEstadoParking extends JPanel {
 				lblConsulta.setText("Estado de las plazas");
 				
 				tablePlazas.setModel(modeloPlazas);
+				
+				tablePlazas.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+					
+					@Override
+					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+							int row, int column) {
+						Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+						if (tablePlazas.getValueAt(row, 3).equals("OCUPADO")) {
+							c.setBackground(Color.RED);
+						} else if (tablePlazas.getValueAt(row, 3).equals("DISPONIBLE")) {
+							c.setBackground(Color.GREEN);
+						}
+						return c;
+					}
+				});
 				scrollPlazas.setBounds(25, 25, 500, 100);
 				scrollPlazas.setVisible(true);
 				scrollSubscritos.setVisible(false);
@@ -306,6 +330,32 @@ public class PanelEstadoParking extends JPanel {
 		});
 		bottomPanel.add(btnVolver);
 		add(bottomPanel);
+	}
+	
+	public void mostrarProgresoPago(String message) {
+		JOptionPane pane = new JOptionPane();
+		pane.setMessage(message);
+		JProgressBar jProgressBar = new JProgressBar(1, 100);
+		jProgressBar.setStringPainted(true);
+		jProgressBar.setValue(1);
+		pane.add(jProgressBar, 1);
+		JDialog dialog = pane.createDialog(pane, "Information message");
+		new Thread(() -> {
+			for (int i = 0; i <= 100; i++) {
+				jProgressBar.setValue(i);
+				if (i == 100) {
+					dialog.dispose();
+//					pane.setMessage("Transaccion realizada. ¡Gracias!");
+				}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+				}
+			}
+		}).start();
+		dialog.setVisible(true);
+		dialog.dispose();
 	}
 }
 

@@ -8,9 +8,12 @@ import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -55,6 +58,7 @@ public class PanelTrabajador extends JPanel {
 		JButton btnConsultarDatos = new JButton("DATOS PERSONALES");
 		btnConsultarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mostrarProgresoPago("Consultando los datos a la base de datos...");
 				PersonalDataWorkerPanel panel = new PersonalDataWorkerPanel(frame, instance, trabajador);
 				logger.info("Accediendo a la consulta de los datos personales");
 				frame.add(panel);
@@ -104,6 +108,7 @@ public class PanelTrabajador extends JPanel {
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				logger.info("Cerrando sesión de empleado");
+				mostrarProgresoPago("Cerrando la sesion actual...");
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
@@ -114,5 +119,32 @@ public class PanelTrabajador extends JPanel {
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(rightBottomPanel);
 		add(bottomPanel);
+	}
+	
+	
+	public void mostrarProgresoPago(String message) {
+		JOptionPane pane = new JOptionPane();
+		pane.setMessage(message);
+		JProgressBar jProgressBar = new JProgressBar(1, 100);
+		jProgressBar.setStringPainted(true);
+		jProgressBar.setValue(1);
+		pane.add(jProgressBar, 1);
+		JDialog dialog = pane.createDialog(pane, "Information message");
+		new Thread(() -> {
+			for (int i = 0; i <= 100; i++) {
+				jProgressBar.setValue(i);
+				if (i == 100 && message.equals("Cerrando la sesion actual...")) {
+					dialog.dispose();
+//					pane.setMessage("Transaccion realizada. ¡Gracias!");
+				}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+				}
+			}
+		}).start();
+		dialog.setVisible(true);
+		dialog.dispose();
 	}
 }

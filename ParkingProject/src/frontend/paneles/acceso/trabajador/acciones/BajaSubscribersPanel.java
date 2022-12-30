@@ -17,9 +17,12 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -159,6 +162,7 @@ public class BajaSubscribersPanel extends JPanel {
 				int selectedRow = tableSubscritos.getSelectedRow();
 				if (selectedRow >= 0) {
 					logger.info("Dando de baja a cliente subscrito");
+					mostrarProgresoPago("Eliminando abonado de la base de datos...");
 					String matricula = (String) tableSubscritos.getValueAt(selectedRow, 0);
 					ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
 					modeloSubscritos.removeRow(selectedRow);
@@ -170,6 +174,31 @@ public class BajaSubscribersPanel extends JPanel {
 		bottomPanel.add(btnBaja);
 		add(bottomPanel);
 
+	}
+	
+	public void mostrarProgresoPago(String message) {
+		JOptionPane pane = new JOptionPane();
+		pane.setMessage(message);
+		JProgressBar jProgressBar = new JProgressBar(1, 100);
+		jProgressBar.setStringPainted(true);
+		jProgressBar.setValue(1);
+		pane.add(jProgressBar, 1);
+		JDialog dialog = pane.createDialog(pane, "Information message");
+		new Thread(() -> {
+			for (int i = 0; i <= 100; i++) {
+				jProgressBar.setValue(i);
+				if (i == 100) {
+					pane.setMessage("Transaccion realizada. ¡Gracias!");
+				}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+				}
+			}
+		}).start();
+		dialog.setVisible(true);
+		dialog.dispose();
 	}
 	
 }
