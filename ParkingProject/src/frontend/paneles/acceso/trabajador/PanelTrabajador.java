@@ -93,6 +93,7 @@ public class PanelTrabajador extends JPanel {
 		JButton btnDarBaja = new JButton("DAR DE BAJA A ABONADOS");
 		btnDarBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mostrarProgresoPago("Cargando listado de abonados...");
 				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
 				logger.info("Accediendo a la seccion de bajas de clientes con subscripcion");
 				frame.add(panel);
@@ -133,7 +134,7 @@ public class PanelTrabajador extends JPanel {
 		new Thread(() -> {
 			for (int i = 0; i <= 100; i++) {
 				jProgressBar.setValue(i);
-				if (i == 100 && message.equals("Cerrando la sesion actual...")) {
+				if (i == 100) {
 					dialog.dispose();
 //					pane.setMessage("Transaccion realizada. ¡Gracias!");
 				}

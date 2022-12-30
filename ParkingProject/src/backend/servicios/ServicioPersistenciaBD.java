@@ -566,6 +566,21 @@ public class ServicioPersistenciaBD {
 			e.printStackTrace();
 		}
 	}
+	
+//	public void updatePlaza(Plaza plaza, String estado, String matricula, double importe) {
+//		String sentSQL = "UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?, importe = ?";
+//		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+//			stmt.setString(1, estado);
+//			stmt.setString(2, matricula);
+//			stmt.setInt(3, plaza.getNumeroPlaza());
+//			stmt.setDouble(4, importe);
+//			stmt.executeUpdate();
+//		} catch (SQLException e) {
+//			log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
+//			lastError = e;
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Este metodo obtiene el numero de plazas disponibles en una tabla de la base
@@ -766,6 +781,28 @@ public class ServicioPersistenciaBD {
 			return null;
 		}
 
+	}
+	
+	public Double salarioSelect() {
+		List<Double> listaSalario = new ArrayList<>();
+		double salario = 0;
+		String sentSQL = "SELECT salario_mes FROM trabajadores";
+		try (Statement stmt = conn.createStatement()) {
+			try (ResultSet rs = stmt.executeQuery(sentSQL)) {
+				log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
+				while (rs.next()) {
+					listaSalario.add(rs.getDouble("salario_mes"));
+				}
+				for (Double a : listaSalario) {
+					salario = salario + a;
+				}
+			}
+			return salario;
+		}catch (NullPointerException | SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+			return null;
+		}
 	}
 
 	/**

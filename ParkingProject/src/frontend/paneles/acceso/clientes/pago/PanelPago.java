@@ -37,6 +37,7 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldTipoUsuario;
 	private DateFormat formatter;
 	private Usuario usuario;
+	private double importe;
 	@SuppressWarnings("unused")
 	private Plaza plaza;
 
@@ -145,7 +146,7 @@ public class PanelPago extends JPanel {
 			// Obtiene la tarifa a aplicar y calcula el importe total.
 			double tarifa = usuario.getTipoVehiculo().equals("Ordinario") ? 0.50
 					: (usuario.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30);
-			double importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
+			importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
 			textFieldImporteTotal.setText(String.format("%.2f €", importe));
 
 		} catch (ParseException e1) {

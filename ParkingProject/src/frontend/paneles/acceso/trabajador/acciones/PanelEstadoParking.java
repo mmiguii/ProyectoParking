@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -93,6 +94,7 @@ public class PanelEstadoParking extends JPanel {
 		gbc_scrollSubscritos.gridx = 0;
 		gbc_scrollSubscritos.gridy = 1;
 		middlePanel.add(scrollSubscritos, gbc_scrollSubscritos);
+		
 		
 		tableTrabajadores = new JTable();
 		scrollTrabajadores = new JScrollPane(tableTrabajadores);
@@ -166,6 +168,30 @@ public class PanelEstadoParking extends JPanel {
 			fileJMenu.add(importItem4);
 			fileJMenu.add(importItem5);
 			fileJMenu.add(importItem6);
+			
+			importItem3.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					mostrarProgresoPago("Consultando listado de ingresos y gastos...");
+					
+					double salario = ServicioPersistenciaBD.getInstance().salarioSelect();
+					JLabel label = new JLabel("Gastos totales en salarios: ");
+					label.setBounds(25,25,50,50);
+					JTextField textSalario = new JTextField();
+					textSalario.setText(Double.toString(salario));
+					textSalario.setBounds(80,20,30,30);
+
+					scrollTrabajadores.setVisible(false);
+					scrollOrdinarios.setVisible(false);
+					scrollSubscritos.setVisible(false);
+					scrollPlazas.setVisible(false);
+					
+					middlePanel.add(label);
+					middlePanel.add(textSalario);
+				}
+			});
+			
 			
 			importItem6.addActionListener(new ActionListener() {
 				
