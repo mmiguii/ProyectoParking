@@ -88,110 +88,119 @@ public class PanelPrincipal extends JPanel {
 
 				Map<String, Usuario> usuarios = ServicioPersistenciaBD.getInstance().getAllUsuarios();
 				List<String> matriculas = usuarios.keySet().stream().collect(Collectors.toList());
-				String matricula = textFieldMatricula.getText().toUpperCase();
+				String matricula = textFieldMatricula.getText();
 
-				if (matricula.length() == 7) {
-					String digitos = matricula.substring(0, 4);
+				if (matricula.substring(matricula.length() - 3).toUpperCase().equals(matricula.substring(matricula.length() - 3))) {
+					if (matricula.length() == 7) {
+						String digitos = matricula.substring(0, 4);
 
-					if (digitos.matches("[0-9]*")) {
-						String caracteres = matricula.substring(4, 7);
+						if (digitos.matches("[0-9]*")) {
+							String caracteres = matricula.substring(4, 7);
 
-						if (caracteres.matches("[A-Z]*") && caracteres.matches("[^AEIOU]*")) {
-							boolean existeMatricula = matriculas.contains(textFieldMatricula.getText());
+							if (caracteres.matches("[A-Z]*") && caracteres.matches("[^AEIOU]*")) {
+								boolean existeMatricula = matriculas.contains(textFieldMatricula.getText());
 
-							if (existeMatricula) {
-								logger.info("El vehiculo se encuentra actualmente registrado en la BD del parking");
-								Usuario usuario = ServicioPersistenciaBD.getInstance()
-										.getUsuario(textFieldMatricula.getText());
+								if (existeMatricula) {
+									logger.info("El vehiculo se encuentra actualmente registrado en la BD del parking");
+									Usuario usuario = ServicioPersistenciaBD.getInstance()
+											.getUsuario(textFieldMatricula.getText());
 
-								if (usuario instanceof ClienteOrdinario) {
-									logger.info("¡Es hora de pagar!");
-									mostrarProgresoAcceso("Accediendo a la maquina de pago...");
-									PanelPago panel = new PanelPago(frame, instance, usuario, null,
-											lblHoraActual.getText());
-									frame.getContentPane().add(panel);
-									panel.setVisible(true);
-									setVisible(false);
+									if (usuario instanceof ClienteOrdinario) {
+										logger.info("¡Es hora de pagar!");
+										mostrarProgresoAcceso("Accediendo a la maquina de pago...");
+										PanelPago panel = new PanelPago(frame, instance, usuario, null,
+												lblHoraActual.getText());
+										frame.getContentPane().add(panel);
+										panel.setVisible(true);
+										setVisible(false);
 
-								} else {
-									try {
-										logger.info("¡Bienvenido de nuevo!");
-										DateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-										Date fechaActualDate = f.parse(lblHoraActual.getText());
-										Date fechaSalidaDate = new Date(usuario.getFechaSalida());
+									} else {
+										try {
+											logger.info("¡Bienvenido de nuevo!");
+											DateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+											Date fechaActualDate = f.parse(lblHoraActual.getText());
+											Date fechaSalidaDate = new Date(usuario.getFechaSalida());
 
-										if (fechaActualDate.before(fechaSalidaDate)) {
-											logger.info("Accediendo a la plaza...");
-											mostrarProgresoAcceso("Accediendo a la plaza ...");
-											PanelPlazaParking panel = new PanelPlazaParking(frame, usuario);
-											frame.getContentPane().add(panel);
-											setVisible(false);
-											panel.setVisible(true);
-
-										} else {
-											logger.info("Lo sentimos. Su tiempo ha expirado.");
-											Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance()
-													.plazasSelect();
-											Plaza plaza = plazasMap.values().stream()
-													.filter(p -> p.getMatricula().equals(usuario.getMatricula()))
-													.findFirst().orElse(null);
-
-											ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
-											ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
-
-											int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
-													"Desea volver acceder al parking?", "Confirmación",
-													JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-											if (opcion == 0) {
-												logger.info("Nuevo acceso al parking");
-												mostrarProgresoAcceso("Accediendo nuevamente al parking ...");
-												PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
-														lblHoraActual.getText(), matricula);
+											if (fechaActualDate.before(fechaSalidaDate)) {
+												logger.info("Accediendo a la plaza...");
+												mostrarProgresoAcceso("Accediendo a la plaza ...");
+												PanelPlazaParking panel = new PanelPlazaParking(frame, usuario);
 												frame.getContentPane().add(panel);
 												setVisible(false);
 												panel.setVisible(true);
 
 											} else {
-												logger.info("Cerrando aplicacion...");
-												frame.dispose();
-												ServicioPersistenciaBD.getInstance().disconnect();
-												System.exit(0);
+												logger.info("Lo sentimos. Su tiempo ha expirado.");
+												Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance()
+														.plazasSelect();
+												Plaza plaza = plazasMap.values().stream()
+														.filter(p -> p.getMatricula().equals(usuario.getMatricula()))
+														.findFirst().orElse(null);
+
+												ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
+												ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
+
+												int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
+														"Desea volver acceder al parking?", "Confirmación",
+														JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+												if (opcion == 0) {
+													logger.info("Nuevo acceso al parking");
+													mostrarProgresoAcceso("Accediendo nuevamente al parking ...");
+													PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
+															lblHoraActual.getText(), matricula);
+													frame.getContentPane().add(panel);
+													setVisible(false);
+													panel.setVisible(true);
+
+												} else {
+													logger.info("Cerrando aplicacion...");
+													frame.dispose();
+													ServicioPersistenciaBD.getInstance().disconnect();
+													System.exit(0);
+												}
 											}
+										} catch (ParseException e1) {
+											logger.severe(
+													String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
 										}
-									} catch (ParseException e1) {
-										logger.severe(
-												String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
 									}
+
+								} else {
+									logger.info("El vehiculo no se encuentra actualmente registrado en la BD del parking");
+									mostrarProgresoAcceso("Accediendo al parking ...");
+									PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
+											lblHoraActual.getText(), matricula);
+									frame.getContentPane().add(panel);
+									setVisible(false);
+									panel.setVisible(true);
 								}
 
 							} else {
-								logger.info("El vehiculo no se encuentra actualmente registrado en la BD del parking");
-								mostrarProgresoAcceso("Accediendo al parking ...");
-								PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
-										lblHoraActual.getText(), matricula);
-								frame.getContentPane().add(panel);
-								setVisible(false);
-								panel.setVisible(true);
+								logger.info("Ingrese correctamente la matricula (Caracteres = 3 && Consonantes)");
+								JOptionPane.showMessageDialog(PanelPrincipal.this,
+										"Ingrese correctamente la matricula (Caracteres = 3 && Consonantes)");
+								textFieldMatricula.setText("");
 							}
 
 						} else {
-							logger.info("Ingrese correctamente la matricula (Caracteres = 3 && Consonantes)");
+							logger.info("Ingrese correctamente la matricula (Digitos = 4)");
 							JOptionPane.showMessageDialog(PanelPrincipal.this,
-									"Ingrese correctamente la matricula (Caracteres = 3 && Consonantes)");
+									"Ingrese correctamente la matricula (Digitos = 4)");
 							textFieldMatricula.setText("");
 						}
-
+						
 					} else {
-						logger.info("Ingrese correctamente la matricula (Digitos = 4)");
+						logger.info("Ingrese correctamente la matricula (Longitud = 7)");
 						JOptionPane.showMessageDialog(PanelPrincipal.this,
-								"Ingrese correctamente la matricula (Digitos = 4)");
+								"Ingrese correctamente la matricula (Longitud = 7)");
 						textFieldMatricula.setText("");
 					}
+					
 				} else {
-					logger.info("Ingrese correctamente la matricula (Longitud = 7)");
+					logger.info("Ingrese correctamente la matricula (Caracteres MAYUSCULAS)");
 					JOptionPane.showMessageDialog(PanelPrincipal.this,
-							"Ingrese correctamente la matricula (Longitud = 7)");
+							"Ingrese correctamente la matricula (Caracteres MAYUSCULAS)");
 					textFieldMatricula.setText("");
 				}
 			}

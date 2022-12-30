@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
@@ -27,6 +28,7 @@ public class PanelPlazaParking extends JPanel {
 		setLayout(null);
 
 		JButton btnSalir = new JButton("SALIR");
+		btnSalir.setVisible(false);
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				logger.info("Cerrando aplicacion...");
@@ -35,9 +37,17 @@ public class PanelPlazaParking extends JPanel {
 				System.exit(0);
 			} 
 		});
-		btnSalir.setBounds(112, 372, 327, 29);
+		btnSalir.setBounds(112, 380, 327, 29);
 		add(btnSalir);
+
+		JLabel lblAnimacionEntrada = new JLabel("");  
+		lblAnimacionEntrada.setVisible(true); // muestra el componente lblAnimacionEntrada
+		lblAnimacionEntrada.setBounds(5, 45, 574, 330); 
+		lblAnimacionEntrada.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/EntradaParking.gif")));  // asignamos una imagen al objeto JLabel
 		
+		add(lblAnimacionEntrada);
+		
+
 		JLabel lblImagen = new JLabel("");  
 		lblImagen.setBounds(122, 79, 292, 238);  
 
@@ -51,7 +61,18 @@ public class PanelPlazaParking extends JPanel {
 		  logger.info("Accediendo al aparcamiento electrico...");
 		  lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaElectrico.jpeg")));  // asignamos una imagen al objeto JLabel
 		}
-
+		
 		add(lblImagen);  
+		
+		// Crea un temporizador que ejecutará una tarea después de 10 segundos
+		Timer timer = new Timer(10000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSalir.setVisible(true);
+				lblImagen.setVisible(true); // muestra el resultado
+				lblAnimacionEntrada.setVisible(false); // oculta lblAnimacionEntrada
+			}
+		});
+		timer.setRepeats(false); // configura el temporizador para que sólo se ejecute una vez
+		timer.start(); // inicia el temporizador
 	}
 }
