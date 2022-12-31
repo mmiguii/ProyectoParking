@@ -198,32 +198,30 @@ public class ServicioPersistenciaBD {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Este metodo ejecuta una consulta SQL en la base de datos para obtener datos
+	 * de la tabla "clientes_ordinarios", y luego añade esos datos a un modelo de
+	 * tabla en la aplicación Java.
+	 */
 	public void ordinarioCargbr(DefaultTableModel modelo) {
 		String sentSQL = "SELECT matricula, tipo_vehiculo, tarifa, fecha_entrada FROM clientes_ordinarios ";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
-//			stmt.setString(1, matricula);
 			log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
 					@SuppressWarnings("unused")
 					ClienteOrdinario ordinario = new ClienteOrdinario();
-					modelo.addRow(new Object[] {rs.getString("matricula"),rs.getString("tipo_vehiculo"),rs.getDouble("tarifa"),rs.getLong("fecha_entrada")} );
-//					ordinario.setMatricula(rs.getString("matricula"));
-//					ordinario.setTipoVehiculo(rs.getString("tipo_vehiculo"));
-//					ordinario.setTarifa(rs.getDouble("tarifa"));
-//					ordinario.setFechaEntrada(rs.getLong("fecha_entrada"));
-				} else {
-//					return null;
+					modelo.addRow(new Object[] { rs.getString("matricula"), rs.getString("tipo_vehiculo"),
+							rs.getDouble("tarifa"), rs.getLong("fecha_entrada") });
 				}
 			}
 		} catch (SQLException e) {
 			lastError = e;
 			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
-//			return null;
 		}
 	}
- 
+
 	/**
 	 * Realiza una consulta a una base de datos para obtener una fila de la tabla
 	 * "clientes_ordinarios" cuyo valor de la columna "matricula" sea igual al
@@ -566,21 +564,6 @@ public class ServicioPersistenciaBD {
 			e.printStackTrace();
 		}
 	}
-	
-//	public void updatePlaza(Plaza plaza, String estado, String matricula, double importe) {
-//		String sentSQL = "UPDATE plazas SET estado_plaza = ?, matricula = ? WHERE numero_plaza = ?, importe = ?";
-//		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
-//			stmt.setString(1, estado);
-//			stmt.setString(2, matricula);
-//			stmt.setInt(3, plaza.getNumeroPlaza());
-//			stmt.setDouble(4, importe);
-//			stmt.executeUpdate();
-//		} catch (SQLException e) {
-//			log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
-//			lastError = e;
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Este metodo obtiene el numero de plazas disponibles en una tabla de la base
@@ -647,69 +630,10 @@ public class ServicioPersistenciaBD {
 	}
 
 	/**
-	 * // * Este método obtiene y devuelve un manager de la base de datos con el DNI
-	 * // * especificado mediante la ejecución de una consulta SQL. Si no se
-	 * encuentra // * ningún manager con el DNI especificado, devuelve null. //
-	 */
-//	public Manager managerSelect(String dni) {
-//		String sentSQL = "SELECT dni, nombre_usuario, password, puesto FROM trabajadores WHERE dni = ?";
-//		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
-//			stmt.setString(1, dni);
-//			try (ResultSet rs = stmt.executeQuery()) {
-//				log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
-//				if (rs.next()) {
-//					Manager manager = new Manager();
-//					manager.setDni(rs.getString("dni"));
-//					manager.setNombreUsuario(rs.getString("nombre_usuario"));
-//					manager.setPassword(rs.getString("password"));
-//					manager.setPuesto(rs.getString("puesto"));
-//					return manager;
-//				} else {
-//					return null;
-//				}
-//			}
-//		} catch (SQLException e) {
-//			lastError = e;
-//			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
-//			return null;
-//		}
-//
-//	}
-
-//	/**
-//	 * Este método obtiene y devuelve un empleado de la base de datos con el DNI
-//	 * especificado mediante la ejecución de una consulta SQL. Si no se encuentra
-//	 * ningún empleado con el DNI especificado, devuelve null.
-//	 */
-//	public Empleado empleadoSelect(String dni) {
-//		String sentSQL = "SELECT dni, nombre_usuario, password, puesto FROM trabajadores WHERE dni = ?";
-//		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
-//			stmt.setString(1, dni);
-//			try (ResultSet rs = stmt.executeQuery()) {
-//				log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
-//				if (rs.next()) {
-//					Empleado empleado = new Empleado();
-//					empleado.setDni(rs.getString("dni"));
-//					empleado.setNombreUsuario(rs.getString("nombre_usuario"));
-//					empleado.setPassword(rs.getString("password"));
-//					empleado.setPuesto(rs.getString("puesto"));
-//					return empleado;
-//				} else {
-//					return null;
-//				}
-//			}
-//		} catch (SQLException e) {
-//			lastError = e;
-//			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
-//			return null;
-//		}
-//	}
-
-	/**
-	 * Este método obtiene y devuelve un mapa de empleados de la base de datos
-	 * mediante la ejecución de una consulta SQL. Crea un mapa de empleados y luego
-	 * itera a través de los resultados de la consulta, creando una nueva instancia
-	 * de Empleado para cada fila y agregándola al mapa con su DNI como clave.
+	 * Este metodo obtiene y devuelve un mapa de empleados de la base de datos
+	 * mediante la ejecucion de una consulta SQL. Crea un mapa de empleados y luego
+	 * itera a traves de los resultados de la consulta, creando una nueva instancia
+	 * de Empleado para cada fila y agregandola al mapa con su DNI como clave.
 	 * Devuelve el mapa de empleados.
 	 */
 	public Map<String, Empleado> empleadosSelect() {
@@ -728,10 +652,6 @@ public class ServicioPersistenciaBD {
 					empleado.setPuesto(rs.getString("puesto"));
 					empleado.setAntiguedad(rs.getInt("antiguedad"));
 					empleado.setSalario(rs.getDouble("salario_mes"));
-//					char c = (Character) null;
-//					String s = rs.getString("salario_mes");
-//					String salario = s.replace(',', c);
-//					empleado.setSalario(Double.parseDouble(salario));
 					empleados.put(dni, empleado);
 				}
 			}
@@ -766,11 +686,6 @@ public class ServicioPersistenciaBD {
 					manager.setEmail(rs.getString("email"));
 					manager.setPuesto(rs.getString("puesto"));
 					manager.setSalario(rs.getDouble("salario_mes"));
-//					manager.setAntiguedad(rs.getInt("antiguedad"));
-//					char c = (Character) null;
-//					String s = rs.getString("salario_mes");
-//					String salario = s.replace(',',c);
-//					manager.setSalario(Double.parseDouble(salario));
 					managers.put(dni, manager);
 				}
 			}
@@ -782,7 +697,12 @@ public class ServicioPersistenciaBD {
 		}
 
 	}
-	
+
+	/**
+	 * Este metodo ejecuta una consulta SQL en la base de datos para obtener los
+	 * salarios de los trabajadores de la tabla "trabajadores", luego suma todos los
+	 * salarios y devuelve el total como un valor double.
+	 */
 	public Double salarioSelect() {
 		List<Double> listaSalario = new ArrayList<>();
 		double salario = 0;
@@ -798,7 +718,7 @@ public class ServicioPersistenciaBD {
 				}
 			}
 			return salario;
-		}catch (NullPointerException | SQLException e) {
+		} catch (NullPointerException | SQLException e) {
 			lastError = e;
 			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
 			return null;
@@ -822,10 +742,10 @@ public class ServicioPersistenciaBD {
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 		return sortedMap;
 	}
-	
-	
+
 	/**
-	 * Metodo que acutaliza la contraseña del trabajador segun su DNI.
+	 * Este metodo se conecta a una base de datos y tiene como objetivo cambiar la
+	 * contraseña de un trabajador en la tabla "trabajadores" de la base de datos.
 	 */
 	public String trabajadoresUpdate(String dni) {
 		String sentSQL = "UPDATE trabajadores SET password = ? WHERE dni = ?";
@@ -836,7 +756,7 @@ public class ServicioPersistenciaBD {
 			stmt.setString(2, dni);
 			stmt.executeUpdate();
 			return nuevoPass;
-			
+
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error en la busqueda de base de datos: ", e);
 			lastError = e;
@@ -844,8 +764,6 @@ public class ServicioPersistenciaBD {
 			return null;
 		}
 	}
-	
-	
 
 	/**
 	 * Metodo local para poder loggear. (si no se asigna un logger externo, se

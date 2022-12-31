@@ -2,6 +2,7 @@ package frontend.paneles.acceso.trabajador.acciones;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -32,16 +34,12 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
-
-import javax.swing.JLabel;
-import java.awt.Font;
 
 public class PanelEstadoParking extends JPanel {
 
@@ -323,6 +321,11 @@ public class PanelEstadoParking extends JPanel {
 				
 				tablePlazas.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 					
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 							int row, int column) {

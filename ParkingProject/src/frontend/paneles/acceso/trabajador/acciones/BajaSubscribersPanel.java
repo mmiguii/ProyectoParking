@@ -3,12 +3,12 @@ package frontend.paneles.acceso.trabajador.acciones;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -46,42 +46,46 @@ public class BajaSubscribersPanel extends JPanel {
 		this.setLayout(new GridLayout(3, 1));
 
 		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridBagLayout());
+		topPanel.setBackground(new Color(0, 128, 128));
+		GridBagLayout gbl_topPanel = new GridBagLayout();
+		gbl_topPanel.columnWeights = new double[] { 1.0 };
+		topPanel.setLayout(gbl_topPanel);
 
-		JLabel labelWellcoming = new JLabel("LISTA DE ABONADOS: ");
+		JLabel labelWellcoming = new JLabel("LISTA DE ABONADOS");
+		labelWellcoming.setForeground(new Color(255, 255, 255));
 		labelWellcoming.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		topPanel.add(labelWellcoming);
 		add(topPanel);
 
 		JPanel middlePanel = new JPanel();
-				
+		middlePanel.setBackground(new Color(0, 128, 128));
+
 		JTable tableSubscritos = new JTable();
 		JScrollPane scrollSubscritos = new JScrollPane(tableSubscritos);
-		
-		Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Cuota","Fecha de Entrada"));
-		DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
-		
-		Map<String,ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();
+
+		Vector<String> cabeceras = new Vector<>(
+				Arrays.asList("Matricula", "Tipo Vehiculo", "Cuota", "Fecha de Entrada"));
+		DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
+
+		Map<String, ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();
 		for (Map.Entry<String, ClienteSubscrito> entry : mapaSubscritos.entrySet()) {
-		    ClienteSubscrito subscrito = entry.getValue();
-		    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		    modeloSubscritos.addRow(new Object[] {subscrito.getMatricula(), subscrito.getTipoVehiculo(),subscrito.getPrecioCuota(), sdf.format(new Date(subscrito.getFechaEntrada()))
-		    });
-		}	
+			ClienteSubscrito subscrito = entry.getValue();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			modeloSubscritos.addRow(new Object[] { subscrito.getMatricula(), subscrito.getTipoVehiculo(),
+					subscrito.getPrecioCuota(), sdf.format(new Date(subscrito.getFechaEntrada())) });
+		}
 		tableSubscritos.setModel(modeloSubscritos);
-		
+
 		tableSubscritos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-					int row, int column) {
-				
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
 				if (isSelected) {
 					c.setBackground(new Color(205, 92, 92));
 				} else {
@@ -90,75 +94,45 @@ public class BajaSubscribersPanel extends JPanel {
 				return c;
 			}
 		});
-		
+
 		tableSubscritos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
-			if (tableSubscritos.getSelectedRow() >= 0) {
-			btnBaja.setEnabled(true);
+				if (tableSubscritos.getSelectedRow() >= 0) {
+					btnBaja.setEnabled(true);
 				} else {
 					btnBaja.setEnabled(false);
 				}
 			}
 		});
-		
-		
-		tableSubscritos.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-			}
-		});
-		middlePanel.setLayout(new GridLayout(0, 1, 0, 0));
 
-		
-		middlePanel.add(scrollSubscritos);
+		GridBagLayout gbl_middlePanel = new GridBagLayout();
+		gbl_middlePanel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_middlePanel.rowWeights = new double[] { 1.0 };
+		gbl_middlePanel.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+		middlePanel.setLayout(gbl_middlePanel);
+
+		GridBagConstraints gbc_scrollSubscritos = new GridBagConstraints();
+		gbc_scrollSubscritos.gridwidth = 5;
+		gbc_scrollSubscritos.gridx = 1;
+		gbc_scrollSubscritos.gridy = 0;
+		gbc_scrollSubscritos.fill = GridBagConstraints.BOTH;
+		middlePanel.add(scrollSubscritos, gbc_scrollSubscritos);
 
 		add(middlePanel);
 
 		JPanel bottomPanel = new JPanel();
-		JButton btnVolver = new JButton("VOLVER");
-		btnVolver.setBounds(340, 67, 89, 23);
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				logger.info("Volviendo a panel de bienvenida");
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
-		bottomPanel.setLayout(null);
-		bottomPanel.add(btnVolver);
+		bottomPanel.setBackground(new Color(0, 128, 128));
+		GridBagLayout gbl_bottomPanel = new GridBagLayout();
+		gbl_bottomPanel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
+		gbl_bottomPanel.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0 };
+		bottomPanel.setLayout(gbl_bottomPanel);
+		add(bottomPanel);
 		btnBaja = new JButton("DAR DE BAJA");
+		btnBaja.setForeground(new Color(0, 128, 128));
 		btnBaja.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				int selectedRow = tableSubscritos.getSelectedRow();
 				if (selectedRow >= 0) {
 					logger.info("Dando de baja a cliente subscrito");
@@ -171,11 +145,37 @@ public class BajaSubscribersPanel extends JPanel {
 		});
 		btnBaja.setBounds(121, 67, 130, 23);
 		btnBaja.setEnabled(false);
-		bottomPanel.add(btnBaja);
-		add(bottomPanel);
+
+		GridBagConstraints gbc_btnBaja = new GridBagConstraints();
+		gbc_btnBaja.insets = new Insets(0, 0, 5, 5);
+		gbc_btnBaja.gridwidth = 3;
+		gbc_btnBaja.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnBaja.gridx = 1;
+		gbc_btnBaja.gridy = 0;
+		bottomPanel.add(btnBaja, gbc_btnBaja);
+
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.setForeground(new Color(0, 128, 128));
+		btnVolver.setBounds(340, 67, 89, 23);
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logger.info("Volviendo a panel de bienvenida");
+				frame.getContentPane().add(panel);
+				panel.setVisible(true);
+				setVisible(false);
+			}
+		});
+
+		GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+		gbc_btnVolver.gridwidth = 3;
+		gbc_btnVolver.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnVolver.insets = new Insets(0, 0, 0, 5);
+		gbc_btnVolver.gridx = 1;
+		gbc_btnVolver.gridy = 1;
+		bottomPanel.add(btnVolver, gbc_btnVolver);
 
 	}
-	
+
 	public void mostrarProgresoPago(String message) {
 		JOptionPane pane = new JOptionPane();
 		pane.setMessage(message);
@@ -200,5 +200,5 @@ public class BajaSubscribersPanel extends JPanel {
 		dialog.setVisible(true);
 		dialog.dispose();
 	}
-	
+
 }
