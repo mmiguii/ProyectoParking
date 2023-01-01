@@ -56,16 +56,21 @@ public class PanelEstadoParking extends JPanel {
 	private JTable tablePlazas;
 
 	public PanelEstadoParking(JFrame frame, JPanel panel, Trabajador trabajador) {
+		setBackground(new Color(0, 128, 128));
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Parking State Panel"));
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Parking State Panel");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
 		JPanel topPanel = new JPanel();
+		topPanel.setBackground(new Color(0, 128, 128));
 	
 		add(topPanel);
 
 		JPanel middlePanel = new JPanel();
+		middlePanel.setBackground(new Color(0, 128, 128));
 		add(middlePanel);
 		
 		GridBagLayout gbl_middlePanel = new GridBagLayout();
@@ -347,8 +352,10 @@ public class PanelEstadoParking extends JPanel {
 		});
 		
 		JPanel bottomPanel = new JPanel();
+		bottomPanel.setBackground(new Color(0, 128, 128));
 		bottomPanel.setLayout(new GridBagLayout());
 		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.setForeground(new Color(0, 128, 128));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				logger.info("Volviendo a panel de bienvenida");

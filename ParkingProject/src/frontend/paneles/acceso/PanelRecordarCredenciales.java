@@ -33,9 +33,11 @@ public class PanelRecordarCredenciales extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelRecordarCredenciales.class.getName());
 
 	public PanelRecordarCredenciales(JFrame frame, JPanel panel, Map<String, Trabajador> trabajadores) {
-
+		setBackground(new Color(0, 128, 128));
 		setLayout(null);
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de recuperacion de credenciales"));
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel de recuperacion de credenciales");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 
 		textFieldNombreUsuario = new JTextField();
 		textFieldNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
@@ -55,8 +57,9 @@ public class PanelRecordarCredenciales extends JPanel {
 		add(passwordFieldPassword);
 
 		JLabel lblTexto = new JLabel("Introduzca su usuario y DNI");
+		lblTexto.setForeground(new Color(255, 255, 255));
 		lblTexto.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.BOLD, 17));
-		lblTexto.setBounds(124, 77, 312, 20);
+		lblTexto.setBounds(156, 77, 312, 20);
 		add(lblTexto);
 
 		JButton btnRecuperarContrasea = new JButton("Recuperar credenciales");

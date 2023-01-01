@@ -29,6 +29,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.servicios.ServicioPersistenciaBD;
@@ -40,8 +41,11 @@ public class BajaSubscribersPanel extends JPanel {
 	private static Logger logger = Logger.getLogger(BajaSubscribersPanel.class.getName());
 
 	public BajaSubscribersPanel(JFrame frame, JPanel panel) {
+		setBackground(new Color(0, 128, 128));
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Baja Subscriber Panel"));
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Baja Subscriber Panel");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
@@ -61,6 +65,10 @@ public class BajaSubscribersPanel extends JPanel {
 		middlePanel.setBackground(new Color(0, 128, 128));
 
 		JTable tableSubscritos = new JTable();
+		JTableHeader header = tableSubscritos.getTableHeader();
+		header.setOpaque(true);
+		header.setBackground(new Color(255, 222, 173));
+
 		JScrollPane scrollSubscritos = new JScrollPane(tableSubscritos);
 
 		Vector<String> cabeceras = new Vector<>(

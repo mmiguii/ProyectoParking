@@ -1,5 +1,6 @@
 package frontend.paneles.acceso;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -13,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,7 +35,7 @@ public class PanelAccesoParking extends JPanel {
 	private JButton btnComprarBono;
 	private JButton btnAcceder;
 	private JRadioButton radioButtonOrdinario;
-	private JRadioButton radioButtonElectrico; 
+	private JRadioButton radioButtonElectrico;
 	private JRadioButton radioButtonMinusvalido;
 	private JTextField textFieldHoraEntrada;
 	private JTextField textFieldMatricula;
@@ -48,6 +48,7 @@ public class PanelAccesoParking extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelAccesoParking.class.getName());
 
 	public PanelAccesoParking(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
+		setBackground(new Color(0, 128, 128));
 
 		instance = this;
 		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
@@ -55,18 +56,23 @@ public class PanelAccesoParking extends JPanel {
 		this.frame = frame;
 		this.horaEntrada = horaEntrada;
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de acceso al parking"));
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel de acceso al parking");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
+		topPanel.setForeground(new Color(255, 255, 255));
+		topPanel.setBackground(new Color(0, 128, 128));
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.columnWidths = new int[] { 0, 503, 503, 0 };
 		gbl_topPanel.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0 };
 		topPanel.setLayout(gbl_topPanel);
 
 		lblBienvenida = new JLabel("Bienvenido a Deusto Parking");
+		lblBienvenida.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblBienvenida = new GridBagConstraints();
 		gbc_lblBienvenida.gridwidth = 2;
 		gbc_lblBienvenida.insets = new Insets(0, 0, 5, 5);
@@ -75,6 +81,7 @@ public class PanelAccesoParking extends JPanel {
 		topPanel.add(lblBienvenida, gbc_lblBienvenida);
 
 		JLabel lblHoraEntrada = new JLabel("Hora de entrada");
+		lblHoraEntrada.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblHoraEntrada = new GridBagConstraints();
 		gbc_lblHoraEntrada.insets = new Insets(0, 0, 5, 5);
 		gbc_lblHoraEntrada.gridx = 1;
@@ -82,6 +89,8 @@ public class PanelAccesoParking extends JPanel {
 		topPanel.add(lblHoraEntrada, gbc_lblHoraEntrada);
 
 		textFieldHoraEntrada = new JTextField(horaEntrada);
+		textFieldHoraEntrada.setBackground(new Color(255, 255, 255));
+		textFieldHoraEntrada.setForeground(new Color(0, 128, 128));
 		textFieldHoraEntrada.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldHoraEntrada.setColumns(10);
 		textFieldHoraEntrada.setEditable(false);
@@ -93,6 +102,7 @@ public class PanelAccesoParking extends JPanel {
 		topPanel.add(textFieldHoraEntrada, gbc_textFieldHoraEntrada);
 
 		JLabel lblMatricula = new JLabel("Matricula");
+		lblMatricula.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblMatricula = new GridBagConstraints();
 		gbc_lblMatricula.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMatricula.gridx = 1;
@@ -100,6 +110,8 @@ public class PanelAccesoParking extends JPanel {
 		topPanel.add(lblMatricula, gbc_lblMatricula);
 
 		textFieldMatricula = new JTextField(matricula);
+		textFieldMatricula.setForeground(new Color(0, 128, 128));
+		textFieldMatricula.setBackground(new Color(255, 255, 255));
 		textFieldMatricula.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldMatricula.setColumns(10);
 		textFieldMatricula.setEditable(false);
@@ -112,15 +124,20 @@ public class PanelAccesoParking extends JPanel {
 
 		// PANEL CENTRAL
 		JPanel middlePanel = new JPanel();
+		middlePanel.setForeground(new Color(255, 255, 255));
+		middlePanel.setBackground(new Color(0, 128, 128));
 		GridBagLayout gbl_middlePanel = new GridBagLayout();
 		gbl_middlePanel.columnWeights = new double[] { 1.0, 1.0, 1.0 };
 		middlePanel.setLayout(gbl_middlePanel);
-		middlePanel.setBorder(BorderFactory.createTitledBorder("Seleccion de plaza"));
+		javax.swing.border.TitledBorder borderMid = javax.swing.BorderFactory.createTitledBorder("Seleccion de plaza");
+		borderMid.setTitleColor(Color.WHITE);
+		middlePanel.setBorder(borderMid);
 
 		// Se crea un grupo para que las opciones sean excluyentes
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 
 		lblSeleccionTipo = new JLabel("Seleccione el tipo de plaza que va ocupar");
+		lblSeleccionTipo.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblSeleccionTipo = new GridBagConstraints();
 		gbc_lblSeleccionTipo.gridwidth = 2;
 		gbc_lblSeleccionTipo.insets = new Insets(0, 0, 5, 5);
@@ -129,6 +146,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(lblSeleccionTipo, gbc_lblSeleccionTipo);
 
 		radioButtonOrdinario = new JRadioButton("Ordinario");
+		radioButtonOrdinario.setForeground(new Color(255, 255, 255));
 		radioButtonOrdinario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -143,6 +161,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(radioButtonOrdinario, gbc_radioButtonOrdinario);
 
 		radioButtonElectrico = new JRadioButton("Electrico");
+		radioButtonElectrico.setForeground(new Color(255, 255, 255));
 		radioButtonElectrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -157,6 +176,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(radioButtonElectrico, gbc_radioButtonElectrico);
 
 		radioButtonMinusvalido = new JRadioButton("Minusvalido");
+		radioButtonMinusvalido.setForeground(new Color(255, 255, 255));
 		radioButtonMinusvalido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -175,18 +195,24 @@ public class PanelAccesoParking extends JPanel {
 
 		// PANEL INFERIOR (IZQ)
 		JPanel leftBottomPanel = new JPanel();
+		leftBottomPanel.setBackground(new Color(0, 128, 128));
 		leftBottomPanel.setLayout(new GridBagLayout());
 
 		btnAcceder = new JButton("ACCEDER");
+		btnAcceder.setForeground(new Color(0, 128, 128));
+		btnAcceder.setBackground(new Color(0, 128, 128));
 		btnAcceder.setEnabled(false);
 		btnAcceder.addActionListener(this::acceder);
 		leftBottomPanel.add(btnAcceder, new GridBagConstraints());
 
 		// PANEL INFERIOR (DCH)
 		JPanel rightBottomPanel = new JPanel();
+		rightBottomPanel.setBackground(new Color(0, 128, 128));
 		rightBottomPanel.setLayout(new GridBagLayout());
 
 		btnComprarBono = new JButton("COMPRAR ABONO");
+		btnComprarBono.setForeground(new Color(0, 128, 128));
+		btnComprarBono.setBackground(new Color(0, 128, 128));
 		btnComprarBono.addActionListener(this::comprarAbono);
 		btnComprarBono.setEnabled(false);
 		rightBottomPanel.add(btnComprarBono, new GridBagConstraints());

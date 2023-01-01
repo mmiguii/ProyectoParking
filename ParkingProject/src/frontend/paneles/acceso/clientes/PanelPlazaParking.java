@@ -14,6 +14,7 @@ import javax.swing.Timer;
 import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.PanelPrincipal;
+import java.awt.Color;
 
 public class PanelPlazaParking extends JPanel {
 
@@ -22,8 +23,11 @@ public class PanelPlazaParking extends JPanel {
 
 
 	public PanelPlazaParking(JFrame frame, Usuario usuario) {
+		setBackground(new Color(0, 128, 128));
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Aparcamiento"));
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Aparcamiento");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 

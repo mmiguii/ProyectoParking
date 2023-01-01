@@ -1,5 +1,6 @@
 package frontend.paneles.acceso.clientes.pago;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,7 +45,11 @@ public class PanelPago extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelPago.class.getName());
 
 	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, Plaza plaza, String horaActual) {
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel Pago"));
+		setBackground(new Color(0, 128, 128));
+		
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel Pago");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 
@@ -56,33 +61,40 @@ public class PanelPago extends JPanel {
 		this.plaza = plaza;
 
 		JLabel lblTitulo = new JLabel("PAGO DE PARKING");
+		lblTitulo.setForeground(new Color(255, 255, 255));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTitulo.setBounds(35, 28, 492, 49);
 		add(lblTitulo);
 
 		JLabel lblHoraEntrada = new JLabel("Hora de entrada");
+		lblHoraEntrada.setForeground(new Color(255, 255, 255));
 		lblHoraEntrada.setBounds(90, 125, 150, 25);
 		add(lblHoraEntrada);
 
 		JLabel lblHoraDeSalida = new JLabel("Hora de salida");
+		lblHoraDeSalida.setForeground(new Color(255, 255, 255));
 		lblHoraDeSalida.setBounds(90, 160, 150, 25);
 		add(lblHoraDeSalida);
 
 		JLabel lblTiempoTranscurrido = new JLabel("Tiempo transcurrido");
+		lblTiempoTranscurrido.setForeground(new Color(255, 255, 255));
 		lblTiempoTranscurrido.setBounds(90, 195, 150, 25);
 		add(lblTiempoTranscurrido);
 
 		JLabel lblTipoDeCliente = new JLabel("Tipo de vehiculo");
+		lblTipoDeCliente.setForeground(new Color(255, 255, 255));
 		lblTipoDeCliente.setBounds(90, 230, 150, 14);
 		add(lblTipoDeCliente);
 
 		JLabel lblImporteTotal = new JLabel("Importe Total");
+		lblImporteTotal.setForeground(new Color(255, 255, 255));
 		lblImporteTotal.setBounds(90, 265, 150, 25);
 		add(lblImporteTotal);
 
 		// Crea el campo de texto textFieldTipoUsuario y establece sus propiedades.
 		textFieldTipoUsuario = new JTextField();
+		textFieldTipoUsuario.setForeground(new Color(0, 128, 128));
 		textFieldTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldTipoUsuario.setBounds(295, 90, 175, 25);
 		textFieldTipoUsuario.setColumns(10);
@@ -93,6 +105,7 @@ public class PanelPago extends JPanel {
 
 		// Crea el campo de texto textFieldFechaEntrada y establece sus propiedades.
 		textFieldFechaEntrada = new JTextField();
+		textFieldFechaEntrada.setForeground(new Color(0, 128, 128));
 		textFieldFechaEntrada.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldFechaEntrada.setBounds(295, 125, 175, 25);
 		textFieldFechaEntrada.setColumns(10);
@@ -102,6 +115,7 @@ public class PanelPago extends JPanel {
 
 		// Crea el campo de texto textFieldFechaSalida y establece sus propiedades.
 		textFieldFechaSalida = new JTextField();
+		textFieldFechaSalida.setForeground(new Color(0, 128, 128));
 		textFieldFechaSalida.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldFechaSalida.setColumns(10);
 		textFieldFechaSalida.setBounds(295, 160, 175, 25);
@@ -118,6 +132,7 @@ public class PanelPago extends JPanel {
 			// Crea el campo de texto textFieldTiempoTranscurrido y establece sus
 			// propiedades.
 			textFieldTiempoTranscurrido = new JTextField();
+			textFieldTiempoTranscurrido.setForeground(new Color(0, 128, 128));
 			textFieldTiempoTranscurrido.setHorizontalAlignment(SwingConstants.CENTER);
 			textFieldTiempoTranscurrido.setColumns(10);
 			textFieldTiempoTranscurrido.setBounds(295, 195, 175, 25);
@@ -126,6 +141,7 @@ public class PanelPago extends JPanel {
 
 			// Crea el campo de texto textFieldImporteTotal y establece sus propiedades.
 			textFieldImporteTotal = new JTextField();
+			textFieldImporteTotal.setForeground(new Color(0, 128, 128));
 			textFieldImporteTotal.setHorizontalAlignment(SwingConstants.CENTER);
 			textFieldImporteTotal.setColumns(10);
 			textFieldImporteTotal.setBounds(295, 265, 175, 25);
@@ -155,6 +171,7 @@ public class PanelPago extends JPanel {
 
 		// Crea el campo de texto textFieldTipoVehiculo y establece sus propiedades.
 		textFieldTipoVehiculo = new JTextField();
+		textFieldTipoVehiculo.setForeground(new Color(0, 128, 128));
 		textFieldTipoVehiculo.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldTipoVehiculo.setColumns(10);
 		textFieldTipoVehiculo.setBounds(295, 230, 175, 25);
@@ -163,6 +180,7 @@ public class PanelPago extends JPanel {
 		textFieldTipoVehiculo.setText(usuario.getTipoVehiculo());
 
 		JButton btnPagar = new JButton("PAGAR");
+		btnPagar.setForeground(new Color(0, 128, 128));
 		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -194,11 +212,10 @@ public class PanelPago extends JPanel {
 		add(btnPagar);
 
 		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.setForeground(new Color(0, 128, 128));
 		btnVolver.setBounds(90, 350, 175, 55);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ServicioPersistenciaBD.getInstance().subscritoDelete(usuario.getMatricula());
-				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
@@ -208,6 +225,7 @@ public class PanelPago extends JPanel {
 		add(btnVolver);
 		
 		JLabel lblCliente = new JLabel("Cliente");
+		lblCliente.setForeground(new Color(255, 255, 255));
 		lblCliente.setBounds(90, 90, 150, 25);
 		add(lblCliente);
 	}

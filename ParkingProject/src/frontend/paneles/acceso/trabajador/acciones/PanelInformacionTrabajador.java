@@ -32,8 +32,11 @@ public class PanelInformacionTrabajador extends JPanel {
 	private JTextField textFieldAntiguedad;
 
 	public PanelInformacionTrabajador(JFrame frame, JPanel panel, Trabajador trabajador) {
-
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Personal Data Panel"));
+		setBackground(new Color(0, 128, 128));
+		
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Personal Data Panel");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		setLayout(null);
 		
@@ -44,7 +47,7 @@ public class PanelInformacionTrabajador extends JPanel {
 		GridBagLayout gbl_mainPanel = new GridBagLayout();
 		gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		gbl_mainPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_mainPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_mainPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		gbl_mainPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -196, -151, 0, -52};
 		mainPanel.setLayout(gbl_mainPanel);
 		lblDatosTrabajador.setForeground(new Color(255, 255, 255));
@@ -87,17 +90,17 @@ public class PanelInformacionTrabajador extends JPanel {
 		
 		textFieldDNI.setText(trabajador.getDni());
 		
-		JLabel lblNombreUsuarip = new JLabel("Nombre de usuario");
-		lblNombreUsuarip.setForeground(new Color(255, 255, 255));
-		lblNombreUsuarip.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNombreUsuarip.setBounds(86, 119, 134, 14);
-		GridBagConstraints gbc_lblNombreUsuarip = new GridBagConstraints();
-		gbc_lblNombreUsuarip.anchor = GridBagConstraints.WEST;
-		gbc_lblNombreUsuarip.gridwidth = 2;
-		gbc_lblNombreUsuarip.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNombreUsuarip.gridx = 2;
-		gbc_lblNombreUsuarip.gridy = 5;
-		mainPanel.add(lblNombreUsuarip, gbc_lblNombreUsuarip);
+		JLabel lblNombreUsuario = new JLabel("Nombre de usuario");
+		lblNombreUsuario.setForeground(new Color(255, 255, 255));
+		lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNombreUsuario.setBounds(86, 119, 134, 14);
+		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
+		gbc_lblNombreUsuario.anchor = GridBagConstraints.WEST;
+		gbc_lblNombreUsuario.gridwidth = 2;
+		gbc_lblNombreUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNombreUsuario.gridx = 2;
+		gbc_lblNombreUsuario.gridy = 5;
+		mainPanel.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
 		textFieldNombreUsuario = new JTextField();	
 		textFieldNombreUsuario.setForeground(new Color(0, 128, 128));
@@ -255,13 +258,6 @@ public class PanelInformacionTrabajador extends JPanel {
 		btnVolver.setForeground(new Color(0, 128, 128));
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnVolver.setBounds(226, 381, 94, 29);
-		GridBagConstraints gbc_btnVolver = new GridBagConstraints();
-		gbc_btnVolver.insets = new Insets(0, 0, 5, 0);
-		gbc_btnVolver.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnVolver.gridwidth = 9;
-		gbc_btnVolver.gridx = 3;
-		gbc_btnVolver.gridy = 13;
-		mainPanel.add(btnVolver, gbc_btnVolver);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.getContentPane().add(panel);
@@ -269,5 +265,12 @@ public class PanelInformacionTrabajador extends JPanel {
 				setVisible(false);
 			}
 		});
+		GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+		gbc_btnVolver.insets = new Insets(0, 0, 5, 0);
+		gbc_btnVolver.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnVolver.gridwidth = 9;
+		gbc_btnVolver.gridx = 3;
+		gbc_btnVolver.gridy = 13;
+		mainPanel.add(btnVolver, gbc_btnVolver);
 	}
 }

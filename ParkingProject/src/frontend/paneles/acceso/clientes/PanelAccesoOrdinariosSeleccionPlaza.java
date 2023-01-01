@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
@@ -52,8 +53,11 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelAccesoOrdinariosSeleccionPlaza.class.getName());
 
 	public PanelAccesoOrdinariosSeleccionPlaza(JFrame frame, JPanel panel, ClienteOrdinario ordinario) {
+		setBackground(new Color(0, 128, 128));
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel seleccion plaza");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(2, 1));
 
@@ -69,6 +73,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
+		topPanel.setBackground(new Color(0, 128, 128));
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 		gbl_topPanel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0 };
@@ -77,6 +82,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		topPanel.setLayout(gbl_topPanel);
 
 		JLabel lblTextoSeleccion = new JLabel("Seleccione una plaza");
+		lblTextoSeleccion.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblTextoSeleccion = new GridBagConstraints();
 		gbc_lblTextoSeleccion.anchor = GridBagConstraints.WEST;
 		gbc_lblTextoSeleccion.gridwidth = 2;
@@ -98,6 +104,10 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		gbc_tPlazas.gridy = 1;
 		topPanel.add(tPlazas, gbc_tPlazas);
 
+		JTableHeader header = tPlazas.getTableHeader();
+		header.setOpaque(true);
+		header.setBackground(new Color(255, 222, 173));
+
 		scrollPane = new JScrollPane(tPlazas);
 		scrollPane.setVisible(true);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -111,6 +121,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 		// PANEL INFERIOR
 		JPanel bottomPanel = new JPanel();
+		bottomPanel.setBackground(new Color(0, 128, 128));
 		GridBagLayout gbl_bottomPanel = new GridBagLayout();
 		gbl_bottomPanel.columnWidths = new int[] { 0, 0, 0 };
 		gbl_bottomPanel.rowHeights = new int[] { 0, 0, 0 };
@@ -119,6 +130,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		bottomPanel.setLayout(gbl_bottomPanel);
 
 		btnCargarPlanta1 = new JButton("PLANTA 1");
+		btnCargarPlanta1.setForeground(new Color(0, 128, 128));
 		btnCargarPlanta1.addActionListener(this::cargarPrimeraPlanta);
 		GridBagConstraints gbc_btnCargarPlanta1 = new GridBagConstraints();
 		gbc_btnCargarPlanta1.fill = GridBagConstraints.VERTICAL;
@@ -128,6 +140,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		bottomPanel.add(btnCargarPlanta1, gbc_btnCargarPlanta1);
 
 		btnCargarPlanta2 = new JButton("PLANTA 2");
+		btnCargarPlanta2.setForeground(new Color(0, 128, 128));
 		btnCargarPlanta2.addActionListener(this::cargarSegundaPlanta);
 		GridBagConstraints gbc_btnCargarPlanta2 = new GridBagConstraints();
 		gbc_btnCargarPlanta2.fill = GridBagConstraints.VERTICAL;
@@ -137,6 +150,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		bottomPanel.add(btnCargarPlanta2, gbc_btnCargarPlanta2);
 
 		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setForeground(new Color(0, 128, 128));
 		btnAceptar.addActionListener(this::aceptar);
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 		gbc_btnAceptar.fill = GridBagConstraints.VERTICAL;
@@ -146,6 +160,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 		bottomPanel.add(btnAceptar, gbc_btnAceptar);
 
 		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setForeground(new Color(0, 128, 128));
 		btnCancelar.addActionListener(this::cancelar);
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.fill = GridBagConstraints.HORIZONTAL;
@@ -157,7 +172,6 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 
 		add(topPanel);
 		add(bottomPanel);
-
 	}
 
 	public void cargarTabla(List<Plaza> plazas, DefaultTableModel modelo, JTable tabla) {
@@ -179,6 +193,11 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 					((JComponent) elementoActual).setOpaque(true);
 					elementoActual.setBackground(new Color(144, 238, 144));
 				}
+		
+				if (isSelected) {
+					elementoActual.setBackground(Color.BLUE);
+				}
+				
 				return elementoActual;
 			}
 		});
@@ -221,7 +240,8 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 			// Si la plaza se encuentra OCUPADA..
 			if (!plaza.isEstadoPlaza()) {
 				logger.info("Seleccione una plaza disponible");
-				JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza DISPONIBLE");
+				JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this,
+						"Seleccione una plaza DISPONIBLE");
 			} else {
 				ServicioPersistenciaBD.getInstance().ordinarioInsert(ordinario);
 				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", ordinario.getMatricula());
@@ -235,7 +255,7 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 			logger.info("Seleccione una plaza y no acepte antes de haberla seleccionado");
 			JOptionPane.showMessageDialog(PanelAccesoOrdinariosSeleccionPlaza.this, "Seleccione una plaza");
 		}
-		
+
 	}
 
 	private void cancelar(ActionEvent event) {

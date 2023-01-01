@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteSubscrito;
@@ -50,8 +50,11 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelAccesoSubscritosSeleccionAbono.class.getName());
 
 	public PanelAccesoSubscritosSeleccionAbono(JFrame frame, JPanel panel, ClienteSubscrito subscrito) {
+		setBackground(new Color(0, 128, 128));
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono"));
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel seleccion abono");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(2, 1));
 
@@ -68,6 +71,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
+		topPanel.setBackground(new Color(0, 128, 128));
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 		gbl_topPanel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0 };
@@ -76,6 +80,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		topPanel.setLayout(gbl_topPanel);
 
 		JLabel lblTextoSeleccion = new JLabel("Seleccione una plaza");
+		lblTextoSeleccion.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblTextoSeleccion = new GridBagConstraints();
 		gbc_lblTextoSeleccion.anchor = GridBagConstraints.WEST;
 		gbc_lblTextoSeleccion.gridwidth = 2;
@@ -93,6 +98,10 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		gbc_tPlazas.gridy = 1;
 		topPanel.add(tPlazas, gbc_tPlazas);
 
+		JTableHeader header = tPlazas.getTableHeader();
+		header.setOpaque(true);
+		header.setBackground(new Color(255, 222, 173));
+
 		scrollPane = new JScrollPane(tPlazas);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 3;
@@ -105,11 +114,13 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 		// PANEL INFERIOR
 		JPanel bottomPanel = new JPanel();
+		bottomPanel.setBackground(new Color(0, 128, 128));
 		GridBagLayout gbl_bottomPanel = new GridBagLayout();
 		gbl_bottomPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 };
 		bottomPanel.setLayout(gbl_bottomPanel);
 
 		JLabel lblSemana = new JLabel("ABONO SEMANAL");
+		lblSemana.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblSemana = new GridBagConstraints();
 		gbc_lblSemana.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSemana.gridx = 1;
@@ -117,6 +128,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblSemana, gbc_lblSemana);
 
 		JLabel lblMes = new JLabel("ABONO MENSUAL");
+		lblMes.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblMes = new GridBagConstraints();
 		gbc_lblMes.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMes.gridx = 3;
@@ -124,6 +136,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblMes, gbc_lblMes);
 
 		JLabel lblAnyo = new JLabel("ABONO ANUAL");
+		lblAnyo.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblAnyo = new GridBagConstraints();
 		gbc_lblAnyo.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAnyo.gridx = 5;
@@ -131,6 +144,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblAnyo, gbc_lblAnyo);
 
 		JLabel lblDesdeSem = new JLabel("Desde");
+		lblDesdeSem.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblDesdeSem = new GridBagConstraints();
 		gbc_lblDesdeSem.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDesdeSem.gridx = 1;
@@ -138,6 +152,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblDesdeSem, gbc_lblDesdeSem);
 
 		JLabel lblDesdeMes = new JLabel("Desde");
+		lblDesdeMes.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblDesdeMes = new GridBagConstraints();
 		gbc_lblDesdeMes.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDesdeMes.gridx = 3;
@@ -145,6 +160,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblDesdeMes, gbc_lblDesdeMes);
 
 		JLabel lblDesdeAn = new JLabel("Desde");
+		lblDesdeAn.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblDesdeAn = new GridBagConstraints();
 		gbc_lblDesdeAn.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDesdeAn.gridx = 5;
@@ -152,7 +168,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblDesdeAn, gbc_lblDesdeAn);
 
 		JLabel lblDeAdorno = new JLabel("......");
-		lblDeAdorno.setForeground(SystemColor.window);
+		lblDeAdorno.setForeground(new Color(0, 128, 128));
 		GridBagConstraints gbc_lblDeAdorno = new GridBagConstraints();
 		gbc_lblDeAdorno.insets = new Insets(0, 0, 5, 0);
 		gbc_lblDeAdorno.gridx = 6;
@@ -160,6 +176,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblDeAdorno, gbc_lblDeAdorno);
 
 		JLabel lblEntradaSem = new JLabel(formatter.format(new Date(subscrito.getFechaEntrada()).getTime()));
+		lblEntradaSem.setForeground(new Color(255, 255, 255));
 		lblEntradaSem.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblEntradaSem = new GridBagConstraints();
 		gbc_lblEntradaSem.insets = new Insets(0, 0, 5, 5);
@@ -168,6 +185,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblEntradaSem, gbc_lblEntradaSem);
 
 		JLabel lblEntradaMes = new JLabel(formatter.format(new Date(subscrito.getFechaEntrada()).getTime()));
+		lblEntradaMes.setForeground(new Color(255, 255, 255));
 		lblEntradaMes.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblEntradaMes = new GridBagConstraints();
 		gbc_lblEntradaMes.insets = new Insets(0, 0, 5, 5);
@@ -176,6 +194,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblEntradaMes, gbc_lblEntradaMes);
 
 		JLabel lblEntradaAn = new JLabel(formatter.format(new Date(subscrito.getFechaEntrada()).getTime()));
+		lblEntradaAn.setForeground(new Color(255, 255, 255));
 		lblEntradaAn.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblEntradaAn = new GridBagConstraints();
 		gbc_lblEntradaAn.insets = new Insets(0, 0, 5, 5);
@@ -184,6 +203,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblEntradaAn, gbc_lblEntradaAn);
 
 		JLabel lblHastaSem = new JLabel("Hasta");
+		lblHastaSem.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblHastaSem = new GridBagConstraints();
 		gbc_lblHastaSem.insets = new Insets(0, 0, 5, 5);
 		gbc_lblHastaSem.gridx = 1;
@@ -191,6 +211,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblHastaSem, gbc_lblHastaSem);
 
 		JLabel lblHastaMes = new JLabel("Hasta");
+		lblHastaMes.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblHastaMes = new GridBagConstraints();
 		gbc_lblHastaMes.insets = new Insets(0, 0, 5, 5);
 		gbc_lblHastaMes.gridx = 3;
@@ -198,6 +219,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblHastaMes, gbc_lblHastaMes);
 
 		JLabel lblHastaAn = new JLabel("Hasta");
+		lblHastaAn.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblHastaAn = new GridBagConstraints();
 		gbc_lblHastaAn.insets = new Insets(0, 0, 5, 5);
 		gbc_lblHastaAn.gridx = 5;
@@ -205,6 +227,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblHastaAn, gbc_lblHastaAn);
 
 		JLabel lblSalidaSem = new JLabel(formatter.format(new Date(anadirDias(7).getTime().getTime()).getTime()));
+		lblSalidaSem.setForeground(new Color(255, 255, 255));
 		lblSalidaSem.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblSalidaSem = new GridBagConstraints();
 		gbc_lblSalidaSem.insets = new Insets(0, 0, 5, 5);
@@ -213,6 +236,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblSalidaSem, gbc_lblSalidaSem);
 
 		JLabel lblSalidaMes = new JLabel(formatter.format(new Date(anadirDias(31).getTime().getTime()).getTime()));
+		lblSalidaMes.setForeground(new Color(255, 255, 255));
 		lblSalidaMes.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblSalidaMes = new GridBagConstraints();
 		gbc_lblSalidaMes.insets = new Insets(0, 0, 5, 5);
@@ -221,6 +245,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblSalidaMes, gbc_lblSalidaMes);
 
 		JLabel lblSalidaAno = new JLabel(formatter.format(new Date(anadirDias(365).getTime().getTime()).getTime()));
+		lblSalidaAno.setForeground(new Color(255, 255, 255));
 		lblSalidaAno.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_lblSalidaAno = new GridBagConstraints();
 		gbc_lblSalidaAno.insets = new Insets(0, 0, 5, 5);
@@ -229,6 +254,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(lblSalidaAno, gbc_lblSalidaAno);
 
 		JButton btnSem = new JButton("COMPRAR");
+		btnSem.setForeground(new Color(0, 128, 128));
 		btnSem.addActionListener(e -> comprarPlaza(7, lblSemana.toString()));
 		GridBagConstraints gbc_btnSem = new GridBagConstraints();
 		gbc_btnSem.insets = new Insets(0, 0, 5, 5);
@@ -237,6 +263,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnSem, gbc_btnSem);
 
 		JButton btnMes = new JButton("COMPRAR");
+		btnMes.setForeground(new Color(0, 128, 128));
 		btnMes.addActionListener(e -> comprarPlaza(31, lblSalidaMes.toString()));
 		GridBagConstraints gbc_btnMes = new GridBagConstraints();
 		gbc_btnMes.insets = new Insets(0, 0, 5, 5);
@@ -245,6 +272,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnMes, gbc_btnMes);
 
 		JButton btnAn = new JButton("COMPRAR");
+		btnAn.setForeground(new Color(0, 128, 128));
 		btnAn.addActionListener(e -> comprarPlaza(365, lblSalidaAno.toString()));
 		GridBagConstraints gbc_btnAn = new GridBagConstraints();
 		gbc_btnAn.insets = new Insets(0, 0, 5, 5);
@@ -253,6 +281,7 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 		bottomPanel.add(btnAn, gbc_btnAn);
 
 		JButton btnCancelar = new JButton("CANCELAR");
+		btnCancelar.setForeground(new Color(0, 128, 128));
 		btnCancelar.addActionListener(this::cancelar);
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.fill = GridBagConstraints.HORIZONTAL;
@@ -299,6 +328,11 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 					((JComponent) elementoActual).setOpaque(true);
 					elementoActual.setBackground(new Color(144, 238, 144));
 				}
+				
+				if (isSelected) {
+					elementoActual.setBackground(Color.BLUE);
+				}
+				
 				return elementoActual;
 			}
 		});
@@ -341,14 +375,12 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 				frame.getContentPane().add(panel);
 				panel.setVisible(true);
 				setVisible(false);
-
 			}
 
 		} catch (IndexOutOfBoundsException e) {
 			logger.severe(String.format("%s %s", e.getMessage(), e.getCause().getMessage()));
 			JOptionPane.showMessageDialog(this, "Seleccione una plaza antes de realizar la compra");
 		}
-
 	}
 
 }
