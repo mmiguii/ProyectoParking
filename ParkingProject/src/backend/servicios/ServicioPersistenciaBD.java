@@ -496,7 +496,7 @@ public class ServicioPersistenciaBD {
 					plaza.setEstadoPlaza(disp);
 					plaza.setTipoPlaza(rs.getString("tipo_plaza"));
 					plaza.setMatricula(rs.getString("matricula"));
-
+					
 					plazas.put(plaza.getNumeroPlaza(), plaza);
 				}
 			}
@@ -586,7 +586,90 @@ public class ServicioPersistenciaBD {
 			return 0;
 		}
 	}
+	
+	/**
+	 * Este metodo añade en la tabla "plantas" los ingresos del parking. Estos ocurren 
+	 * cuando un cliente ordinario paga en la caja del parking o un cliente subscrito 
+	 * compra su abono. Para el calculo de este metodo se realizan dos consulta, y se 
+	 * han necesitado la matricula del coche del cliente y el valor de su tarifa para
+	 * ello:
+	 * 1- La obtencion del numero de planta para añadir el ingreso de dicha planta.
+	 * 2- La actualizacion de los ingresos del parking.
+	 */
 
+	public void ingresosPlanta(String matricula, double importe) {
+		int numeroPlanta = 0;
+		String sentSQL = "SELECT numero_planta FROM plazas WHERE matricula = ? ";
+		String sentSQL2 = "UPDATE plantas SET ingresos_planta = COALESCE(ingresos_planta, 0) + ? WHERE numero_planta = ?";
+		log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+			stmt.setString(1, matricula);
+			try (ResultSet rs = stmt.executeQuery()) {
+				rs.next();
+				numeroPlanta = rs.getInt("numero_planta");
+			}
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+		}
+		log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL2, null);
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL2)){
+			stmt.setDouble(1, importe);
+			stmt.setInt(2, numeroPlanta);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL2, e);
+		}
+	}
+	
+	/**
+	 * 1- Abonados/Ordinarios (Total usuarios + cifras + representacion %/pie chart)
+	 * 2- Dentro de cada seccion: Coche Ordinario, Electrico, Minusvalido (Total usuarios por seccion + cifras + representacion %/pie chart)
+	 * 3- Separacion de vehiculos en conjunto (Total usuarios + cifras + representacion %/pie chart)
+	 */
+	
+	public List<Integer> numeroUsuarios(){
+		List<Integer> tiposUsuarios = new ArrayList<>();
+		String sentSQL = "SELECT COUNT(*) AS usuarios, "
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza = 'OCUPADO') AS ordinarios, "
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza = 'OCUPADO') AS subscritos"
+							+ "FROM plazas"
+							+ "WHERE estado_plaza = 'OCUPADO'";
+		log(Level.INFO, "Lanzada la consulta a base de datos: "+ sentSQL, null);
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){
+			ResultSet rs = stmt.executeQuery();
+			tiposUsuarios.add(0, rs.getInt("usuarios"));
+			tiposUsuarios.add(1, rs.getInt("ordinarios"));
+			tiposUsuarios.add(2, rs.getInt("subscritos"));
+		} catch (Exception e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+		}
+		return tiposUsuarios;
+	}
+	
+	/**
+	 * Este metodo obtiene los ingresos por cada planta en una lista. Primero, se realiza
+	 * una consulta para ello, y posteriormente se almacenan en una lista. Estos ingresos 
+	 * de acuerdo a la contabilidad son los correspondientes a los del parking.
+	 */ 
+	public List<Double> ingresosTotales() {
+		List<Double> ingresosPlanta = new ArrayList<>();
+		String sentSQL = "SELECT ingresos_planta FROM plantas";
+		log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				ingresosPlanta.add(rs.getDouble("ingresos_planta"));
+			}
+		} catch (SQLException e) {
+			lastError = e;
+			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
+		}		
+		return ingresosPlanta;
+	}
+	
 	/**
 	 * Este metodo obtiene y devuelve un mapa de usuarios de la base de datos.
 	 * Primero, se obtienen los usuarios ordinarios y los usuarios suscritos de la
@@ -701,23 +784,25 @@ public class ServicioPersistenciaBD {
 	/**
 	 * Este metodo ejecuta una consulta SQL en la base de datos para obtener los
 	 * salarios de los trabajadores de la tabla "trabajadores", luego suma todos los
-	 * salarios y devuelve el total como un valor double.
+	 * salarios y devuelve el total como un valor double. Para la contabilidad del
+	 * parking, estos suponen los gastos principales.
 	 */
 	public Double salarioSelect() {
-		List<Double> listaSalario = new ArrayList<>();
-		double salario = 0;
-		String sentSQL = "SELECT salario_mes FROM trabajadores";
+//		List<Double> listaSalario = new ArrayList<>();
+		double d = 0;
+		String sentSQL = "SELECT sum(salario_mes) FROM trabajadores";
 		try (Statement stmt = conn.createStatement()) {
 			try (ResultSet rs = stmt.executeQuery(sentSQL)) {
 				log(Level.INFO, "Lanzada consulta a la base de datos: " + sentSQL, null);
-				while (rs.next()) {
-					listaSalario.add(rs.getDouble("salario_mes"));
-				}
-				for (Double a : listaSalario) {
-					salario = salario + a;
-				}
+				d = rs.getDouble("sum(salario_mes)");
+//				while (rs.next()) {
+//					listaSalario.add(rs.getDouble("salario_mes"));
+//				}
+//				for (Double a : listaSalario) {
+//					salario = salario + a;
+//				}
 			}
-			return salario;
+			return d;
 		} catch (NullPointerException | SQLException e) {
 			lastError = e;
 			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);

@@ -163,6 +163,7 @@ public class PanelPago extends JPanel {
 			double tarifa = usuario.getTipoVehiculo().equals("Ordinario") ? 0.50
 					: (usuario.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30);
 			importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
+			usuario.setImporte(importe);
 			textFieldImporteTotal.setText(String.format("%.2f €", importe));
 
 		} catch (ParseException e1) {
@@ -188,6 +189,7 @@ public class PanelPago extends JPanel {
 						JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if (opcion == 0) {
 					if (usuario instanceof ClienteOrdinario) {
+						ServicioPersistenciaBD.getInstance().ingresosPlanta(usuario.getMatricula(), usuario.getImporte());
 						ServicioPersistenciaBD.getInstance().updatePlaza(plazaSel(), "DISPONIBLE", "");
 						ServicioPersistenciaBD.getInstance().ordinarioDelete(usuario.getMatricula());
 						logger.info("Cerrando aplicacion...");

@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -117,7 +116,7 @@ public class PanelPrincipal extends JPanel {
 									} else {
 										try {
 											logger.info("¡Bienvenido de nuevo!");
-											DateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+											SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 											Date fechaActualDate = f.parse(lblHoraActual.getText());
 											Date fechaSalidaDate = new Date(usuario.getFechaSalida());
 

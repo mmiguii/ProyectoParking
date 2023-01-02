@@ -64,7 +64,7 @@ public class PanelRecordarCredenciales extends JPanel {
 
 		JButton btnRecuperarContrasea = new JButton("Recuperar credenciales");
 		btnRecuperarContrasea.setBounds(294, 322, 218, 29);
-		btnRecuperarContrasea.setBackground(new Color(255, 102, 102));
+		btnRecuperarContrasea.setForeground(new Color(0, 128, 128));
 		add(btnRecuperarContrasea);
 
 		JButton btnCancelar = new JButton("Cancelar");
@@ -76,7 +76,7 @@ public class PanelRecordarCredenciales extends JPanel {
 			}
 		});
 		btnCancelar.setBounds(61, 322, 201, 29);
-		btnCancelar.setBackground(new Color(152, 240, 153));
+		btnCancelar.setForeground(new Color(0, 128, 128));
 		add(btnCancelar);
 
 		btnRecuperarContrasea.addActionListener(new ActionListener() {

@@ -365,10 +365,11 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 				double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50
 						: (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
 				subscrito.setPrecioCuota(importe);
+				subscrito.setImporte(importe);
 
 				ServicioPersistenciaBD.getInstance().subscritoInsert(subscrito);
-
 				ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "OCUPADO", subscrito.getMatricula());
+				ServicioPersistenciaBD.getInstance().ingresosPlanta(subscrito.getMatricula(), subscrito.getImporte());
 
 				logger.info("Accediendo a la secccion de pago...");
 				PanelPago panel = new PanelPago(frame, instance, subscrito, plaza, fechaSalida);

@@ -9,7 +9,9 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
@@ -31,6 +33,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteSubscrito;
 import backend.servicios.ServicioPersistenciaBD;
 
@@ -81,6 +84,7 @@ public class BajaSubscribersPanel extends JPanel {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			modeloSubscritos.addRow(new Object[] { subscrito.getMatricula(), subscrito.getTipoVehiculo(),
 					subscrito.getPrecioCuota(), sdf.format(new Date(subscrito.getFechaEntrada())) });
+
 		}
 		tableSubscritos.setModel(modeloSubscritos);
 
@@ -91,15 +95,29 @@ public class BajaSubscribersPanel extends JPanel {
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
-
+				
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-				if (isSelected) {
-					c.setBackground(new Color(205, 92, 92));
-				} else {
-					c.setBackground(Color.WHITE);
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				String matricula = (String) table.getValueAt(row, 0);
+				ClienteSubscrito subscrito = ServicioPersistenciaBD.getInstance().subscritoSelect(matricula);
+				try {
+					Date fechaActual = sdf.parse(LocalDateTime.now().toString());
+					Date fechaFinal = new Date(subscrito.getFechaSalida());
+					if (fechaActual.after(fechaFinal)) {
+						c.setBackground(Color.BLUE);
+					} else {
+						if (isSelected) {
+							c.setBackground(new Color(205, 92, 92));
+						} else {
+							c.setBackground(Color.WHITE);
+						}
+						return c;
+					} 
+				} catch (ParseException e) {
+					logger.info("El parseo de la fecha actual no se ha hecho correctamente");
 				}
-				return c;
+				return c;			
 			}
 		});
 
@@ -146,7 +164,16 @@ public class BajaSubscribersPanel extends JPanel {
 					logger.info("Dando de baja a cliente subscrito");
 					mostrarProgresoPago("Eliminando abonado de la base de datos...");
 					String matricula = (String) tableSubscritos.getValueAt(selectedRow, 0);
+					ClienteSubscrito subscrito = ServicioPersistenciaBD.getInstance().subscritoSelect(matricula);
+					
+					Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance()
+							.plazasSelect();
+					Plaza plaza = plazasMap.values().stream()
+							.filter(p -> p.getMatricula().equals(subscrito.getMatricula()))
+							.findFirst().orElse(null);
+
 					ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
+					ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
 					modeloSubscritos.removeRow(selectedRow);
 				}
 			}

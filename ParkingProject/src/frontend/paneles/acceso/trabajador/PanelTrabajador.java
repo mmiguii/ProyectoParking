@@ -133,10 +133,10 @@ public class PanelTrabajador extends JPanel {
 		rightMiddlePanel.setForeground(new Color(255, 255, 255));
 		rightMiddlePanel.setLayout(new GridBagLayout());
 		JButton btnEstado = new JButton("ESTADO DEL PARKING");
-		btnEstado.setBackground(new Color(0, 128, 128));
 		btnEstado.setForeground(new Color(0, 128, 128));
 		btnEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mostrarProgresoPago("Comprobando los datos del parking...");
 				PanelEstadoParking panel = new PanelEstadoParking(frame, instance, trabajador);
 				logger.info("Accediendo a los datos del aparcamiento");
 				frame.getContentPane().add(panel);
@@ -162,7 +162,6 @@ public class PanelTrabajador extends JPanel {
 		leftBottomPanel.setBackground(new Color(0, 128, 128));
 		leftBottomPanel.setLayout(new GridBagLayout());
 		JButton btnAnularAbonados = new JButton("ANULAR ABONADOS");
-		btnAnularAbonados.setBackground(new Color(255, 255, 255));
 		btnAnularAbonados.setForeground(new Color(0, 128, 128));
 		btnAnularAbonados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,7 +184,7 @@ public class PanelTrabajador extends JPanel {
 		rightBottomPanel.setForeground(new Color(255, 255, 255));
 		rightBottomPanel.setBackground(new Color(0, 128, 128));
 		rightBottomPanel.setLayout(new GridBagLayout());
-		JButton btnCerrarSesion = new JButton("ABANDONAR SESION ");
+		JButton btnCerrarSesion = new JButton("     CERRAR SESION    ");
 		btnCerrarSesion.setForeground(new Color(0, 128, 128));
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

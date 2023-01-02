@@ -146,7 +146,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(lblSeleccionTipo, gbc_lblSeleccionTipo);
 
 		radioButtonOrdinario = new JRadioButton("Ordinario");
-		radioButtonOrdinario.setForeground(new Color(255, 255, 255));
+		radioButtonOrdinario.setForeground(new Color(0, 128, 128));
 		radioButtonOrdinario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -161,7 +161,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(radioButtonOrdinario, gbc_radioButtonOrdinario);
 
 		radioButtonElectrico = new JRadioButton("Electrico");
-		radioButtonElectrico.setForeground(new Color(255, 255, 255));
+		radioButtonElectrico.setForeground(new Color(0, 128, 128));
 		radioButtonElectrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -176,7 +176,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(radioButtonElectrico, gbc_radioButtonElectrico);
 
 		radioButtonMinusvalido = new JRadioButton("Minusvalido");
-		radioButtonMinusvalido.setForeground(new Color(255, 255, 255));
+		radioButtonMinusvalido.setForeground(new Color(0, 128, 128));
 		radioButtonMinusvalido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -200,7 +200,6 @@ public class PanelAccesoParking extends JPanel {
 
 		btnAcceder = new JButton("ACCEDER");
 		btnAcceder.setForeground(new Color(0, 128, 128));
-		btnAcceder.setBackground(new Color(0, 128, 128));
 		btnAcceder.setEnabled(false);
 		btnAcceder.addActionListener(this::acceder);
 		leftBottomPanel.add(btnAcceder, new GridBagConstraints());
@@ -212,7 +211,6 @@ public class PanelAccesoParking extends JPanel {
 
 		btnComprarBono = new JButton("COMPRAR ABONO");
 		btnComprarBono.setForeground(new Color(0, 128, 128));
-		btnComprarBono.setBackground(new Color(0, 128, 128));
 		btnComprarBono.addActionListener(this::comprarAbono);
 		btnComprarBono.setEnabled(false);
 		rightBottomPanel.add(btnComprarBono, new GridBagConstraints());

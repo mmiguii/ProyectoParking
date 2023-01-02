@@ -34,6 +34,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
@@ -91,6 +92,9 @@ public class PanelEstadoParking extends JPanel {
 		
 		tableSubscritos = new JTable();
 		scrollSubscritos = new JScrollPane(tableSubscritos);
+		JTableHeader headerSubscritos = tableSubscritos.getTableHeader();
+		headerSubscritos.setOpaque(true);
+		headerSubscritos.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollSubscritos = new GridBagConstraints();
 		gbc_scrollSubscritos.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollSubscritos.fill = GridBagConstraints.BOTH;
@@ -101,6 +105,9 @@ public class PanelEstadoParking extends JPanel {
 		
 		tableTrabajadores = new JTable();
 		scrollTrabajadores = new JScrollPane(tableTrabajadores);
+		JTableHeader headerTrabajadores = tableTrabajadores.getTableHeader();
+		headerTrabajadores.setOpaque(true);
+		headerTrabajadores.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollTrabajadores = new GridBagConstraints();
 		gbc_scrollTrabajadores.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollTrabajadores.fill = GridBagConstraints.BOTH;
@@ -110,6 +117,9 @@ public class PanelEstadoParking extends JPanel {
 		
 		tablePlazas= new JTable();
 		scrollPlazas = new JScrollPane(tablePlazas);
+		JTableHeader headerPlazas = tablePlazas.getTableHeader();
+		headerPlazas.setOpaque(true);
+		headerPlazas.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollPlazas = new GridBagConstraints();
 		gbc_scrollPlazas.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPlazas.fill = GridBagConstraints.BOTH;
@@ -119,6 +129,9 @@ public class PanelEstadoParking extends JPanel {
 		
 		tableOrdinarios = new JTable();
 		scrollOrdinarios = new JScrollPane(tableOrdinarios);
+		JTableHeader headerOrdinarios = tableOrdinarios.getTableHeader();
+		headerOrdinarios.setOpaque(true);
+		headerOrdinarios.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollOrdinarios = new GridBagConstraints();
 		gbc_scrollOrdinarios.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollOrdinarios.fill = GridBagConstraints.BOTH;
