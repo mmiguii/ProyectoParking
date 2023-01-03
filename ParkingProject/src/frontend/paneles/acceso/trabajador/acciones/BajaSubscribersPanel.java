@@ -56,7 +56,7 @@ public class BajaSubscribersPanel extends JPanel {
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.columnWeights = new double[] { 1.0 };
 		topPanel.setLayout(gbl_topPanel);
-
+ 
 		JLabel labelWellcoming = new JLabel("LISTA DE ABONADOS");
 		labelWellcoming.setForeground(new Color(255, 255, 255));
 		labelWellcoming.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -77,14 +77,12 @@ public class BajaSubscribersPanel extends JPanel {
 				Arrays.asList("Matricula", "Tipo Vehiculo", "Cuota", "Fecha de Entrada"));
 		DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 
-		Map<String, ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();
-		for (Map.Entry<String, ClienteSubscrito> entry : mapaSubscritos.entrySet()) {
-			ClienteSubscrito subscrito = entry.getValue();
+		Map<String, ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();		
+		mapaSubscritos.forEach((k,v) -> {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			modeloSubscritos.addRow(new Object[] { subscrito.getMatricula(), subscrito.getTipoVehiculo(),
-					subscrito.getPrecioCuota(), sdf.format(new Date(subscrito.getFechaEntrada())) });
-
-		}
+			modeloSubscritos.addRow(new Object[] {v.getMatricula(), v.getTipoVehiculo(), v.getPrecioCuota(), 
+					sdf.format(new Date(v.getFechaEntrada()))});
+		});
 		tableSubscritos.setModel(modeloSubscritos);
 
 		tableSubscritos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {

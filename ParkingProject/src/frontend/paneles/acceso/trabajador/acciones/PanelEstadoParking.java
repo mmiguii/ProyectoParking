@@ -45,7 +45,7 @@ import backend.servicios.ServicioPersistenciaBD;
 public class PanelEstadoParking extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(PanelEstadoParking.class.getName());
+	private static Logger logger = Logger.getLogger(PanelEstadoParking.class.getName()); 
 
 	private JScrollPane scrollOrdinarios;
 	private JScrollPane scrollSubscritos;
@@ -219,13 +219,11 @@ public class PanelEstadoParking extends JPanel {
 					logger.info("Cargando informacion de trabajadores");
 					
 					Map<String,Trabajador> mapaTrabajador = ServicioPersistenciaBD.getInstance().trabajadoresSelect();
-					for (Map.Entry<String, Trabajador> entry : mapaTrabajador.entrySet()) {
-					    Trabajador trabajador = entry.getValue();
+					mapaTrabajador.forEach((k,v) -> {
 					    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-					    modeloTrabajadores.addRow(new Object[] {trabajador.getNombreUsuario(), trabajador.getDni(),trabajador.getPassword(), trabajador.getEmail(), sdf.format(new Date(trabajador.getFechaComienzo())), 
-					    		Double.toString(trabajador.getSalario())
-					    });
-					}			
+					    modeloTrabajadores.addRow(new Object[] {v.getNombreUsuario(), v.getDni(), v.getPassword(), v.getEmail(),
+					    		sdf.format(new Date(v.getFechaComienzo())), Double.toString(v.getSalario())});
+					});
 		
 					lblConsulta.setText("Trabajadores");
 					
@@ -272,12 +270,11 @@ public class PanelEstadoParking extends JPanel {
 				logger.info("Cargando datos de clientes ordinarios");
 				
 				Map<String,ClienteOrdinario> mapaOrdinarios = ServicioPersistenciaBD.getInstance().ordinariosSelect();
-				for (Map.Entry<String, ClienteOrdinario> entry : mapaOrdinarios.entrySet()) {
-				    ClienteOrdinario ordinario = entry.getValue();
-				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-				    modeloOrdinarios.addRow(new Object[] {ordinario.getMatricula(), ordinario.getTipoVehiculo(),ordinario.getTarifa(), sdf.format(new Date(ordinario.getFechaEntrada()))
-				    });
-				}			
+				mapaOrdinarios.forEach((k,v) -> {
+				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				    modeloOrdinarios.addRow(new Object[] {v.getMatricula(), v.getTipoVehiculo(), v.getTarifa(),
+				    		sdf.format(new Date(v.getFechaEntrada()))});
+				});
 				
 				lblConsulta.setText("Clientes ordinarios");
 				
@@ -300,13 +297,12 @@ public class PanelEstadoParking extends JPanel {
 				logger.info("Cargando datos de clientes subscritos");
 				
 				Map<String,ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();
-				for (Map.Entry<String, ClienteSubscrito> entry : mapaSubscritos.entrySet()) {
-				    ClienteSubscrito subscrito = entry.getValue();
-				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-				    modeloSubscritos.addRow(new Object[] {subscrito.getMatricula(), subscrito.getTipoVehiculo(),subscrito.getPrecioCuota(), sdf.format(new Date(subscrito.getFechaEntrada()))
-				    });
-				}			
-
+				mapaSubscritos.forEach((k,v) -> {
+				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				    modeloSubscritos.addRow(new Object[] {v.getMatricula(), v.getTipoVehiculo(),v.getPrecioCuota(), 
+				    		sdf.format(new Date(v.getFechaEntrada()))});
+				});
+			
 				lblConsulta.setText("Clientes subscritos");
 				
 				tableSubscritos.setModel(modeloSubscritos);
@@ -328,11 +324,10 @@ public class PanelEstadoParking extends JPanel {
 				logger.info("Cargando datos del estado de las plazas de aparcamiento");
 				
 				Map<Integer,Plaza> mapaPlazas = ServicioPersistenciaBD.getInstance().plazasSelect();
-				for (Map.Entry<Integer,Plaza> entry : mapaPlazas.entrySet()) {
-				    Plaza plaza = entry.getValue();
-				    modeloPlazas.addRow(new Object[] {plaza.getNumeroPlanta(),plaza.getNumeroPlaza(),plaza.getTipoPlaza(),plaza.isEstadoPlaza()?"DISPONIBLE":"OCUPADO",plaza.getMatricula()});
-				}			
-	
+				mapaPlazas.forEach((k,v) -> {
+					modeloPlazas.addRow(new Object[] {v.getNumeroPlanta(),v.getNumeroPlaza(),v.getTipoPlaza(),v.isEstadoPlaza()?"DISPONIBLE":"OCUPADO",v.getMatricula()});
+				});
+			
 				lblConsulta.setText("Estado de las plazas");
 				
 				tablePlazas.setModel(modeloPlazas);
