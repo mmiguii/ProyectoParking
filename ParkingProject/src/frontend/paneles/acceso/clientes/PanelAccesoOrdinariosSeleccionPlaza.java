@@ -193,11 +193,12 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 					((JComponent) elementoActual).setOpaque(true);
 					elementoActual.setBackground(new Color(144, 238, 144));
 				}
-		
+
 				if (isSelected) {
+					((JComponent) elementoActual).setOpaque(true);
 					elementoActual.setBackground(Color.BLUE);
 				}
-				
+
 				return elementoActual;
 			}
 		});

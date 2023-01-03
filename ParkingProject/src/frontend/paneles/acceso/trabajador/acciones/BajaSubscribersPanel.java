@@ -18,6 +18,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -100,11 +101,14 @@ public class BajaSubscribersPanel extends JPanel {
 				Date fechaActual = Calendar.getInstance().getTime();
 				Date fechaFinal = new Date(subscrito.getFechaSalida());
 				if (fechaActual.after(fechaFinal)) {
-					c.setBackground(Color.BLUE);
+					((JComponent) c).setOpaque(true);
+					c.setBackground(new Color(205, 92, 92));
 				} else {
 					if (isSelected) {
-						c.setBackground(new Color(205, 92, 92));
+						((JComponent) c).setOpaque(true);
+						c.setBackground(Color.BLUE);
 					} else {
+						((JComponent) c).setOpaque(true);
 						c.setBackground(Color.WHITE);
 					}
 				} 

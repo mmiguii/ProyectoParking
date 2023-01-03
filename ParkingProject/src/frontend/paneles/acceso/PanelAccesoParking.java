@@ -146,7 +146,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(lblSeleccionTipo, gbc_lblSeleccionTipo);
 
 		radioButtonOrdinario = new JRadioButton("Ordinario");
-		radioButtonOrdinario.setForeground(new Color(0, 128, 128));
+		radioButtonOrdinario.setForeground(new Color(255, 255, 255));
 		radioButtonOrdinario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -161,7 +161,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(radioButtonOrdinario, gbc_radioButtonOrdinario);
 
 		radioButtonElectrico = new JRadioButton("Electrico");
-		radioButtonElectrico.setForeground(new Color(0, 128, 128));
+		radioButtonElectrico.setForeground(new Color(255, 255, 255));
 		radioButtonElectrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);
@@ -176,7 +176,7 @@ public class PanelAccesoParking extends JPanel {
 		middlePanel.add(radioButtonElectrico, gbc_radioButtonElectrico);
 
 		radioButtonMinusvalido = new JRadioButton("Minusvalido");
-		radioButtonMinusvalido.setForeground(new Color(0, 128, 128));
+		radioButtonMinusvalido.setForeground(new Color(255, 255, 255));
 		radioButtonMinusvalido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAcceder.setEnabled(true);

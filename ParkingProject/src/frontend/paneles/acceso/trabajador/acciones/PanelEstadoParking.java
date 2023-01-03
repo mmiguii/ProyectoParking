@@ -31,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -557,7 +556,7 @@ public class PanelEstadoParking extends JPanel {
 	
 	
 	/**
-	 * He intentado hacer un metodo para crear tablas ya que hemos creado 7 tablas casi idénticas pero me ha dado
+	 * He intentado hacer un metodo para crear tablas ya que hemos creado 7 tablas casi idï¿½nticas pero me ha dado
 	 * fallo al ejecutar por lo que lo dejo comentado porsiacaso.
 	 */
 	

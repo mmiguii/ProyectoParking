@@ -328,11 +328,11 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 					((JComponent) elementoActual).setOpaque(true);
 					elementoActual.setBackground(new Color(144, 238, 144));
 				}
-				
+
 				if (isSelected) {
 					elementoActual.setBackground(Color.BLUE);
 				}
-				
+
 				return elementoActual;
 			}
 		});
@@ -346,8 +346,8 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 
 	public void comprarPlaza(int numeroDias, String fechaSalida) {
 
-		try {
-			int plazaSeleccionada = tPlazas.getSelectedRow();
+		int plazaSeleccionada = tPlazas.getSelectedRow();
+		if (plazaSeleccionada != -1) {
 			Plaza plaza = plazas.get(plazaSeleccionada);
 			if (!plaza.isEstadoPlaza()) {
 				JOptionPane.showMessageDialog(PanelAccesoSubscritosSeleccionAbono.this,
@@ -377,11 +377,11 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 				panel.setVisible(true);
 				setVisible(false);
 			}
-
-		} catch (IndexOutOfBoundsException e) {
-			logger.severe(String.format("%s %s", e.getMessage(), e.getCause().getMessage()));
-			JOptionPane.showMessageDialog(this, "Seleccione una plaza antes de realizar la compra");
+		} else {
+			logger.info("Seleccione una plaza y no acepte antes de haberla seleccionado");
+			JOptionPane.showMessageDialog(PanelAccesoSubscritosSeleccionAbono.this, "Seleccione una plaza");
 		}
+
 	}
 
 }
