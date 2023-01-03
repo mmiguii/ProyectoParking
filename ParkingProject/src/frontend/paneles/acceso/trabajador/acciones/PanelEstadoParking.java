@@ -45,7 +45,7 @@ import backend.servicios.ServicioPersistenciaBD;
 public class PanelEstadoParking extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(PanelEstadoParking.class.getName()); 
+	private static Logger logger = Logger.getLogger(PanelEstadoParking.class.getName());  
 
 	private JScrollPane scrollOrdinarios;
 	private JScrollPane scrollSubscritos;
@@ -238,49 +238,13 @@ public class PanelEstadoParking extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					mostrarProgresoPago("Consultando listado de ingresos y gastos...");
-					
-					/**
-					 * Codigo para borrar, esta reemplazdo utilizando funciones lambda. Sinmas, no he borrado, pero
-					 * es para borrar.
-					 */
-//					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ingresos", "Gastos", "Margen de beneficio"));
-//					DefaultTableModel modeloMargen = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
-//					logger.info("Cargando informacion del resultado");
-//					
-//					double ingresoTotal = 0;
-//					List<Double> ingresos = ServicioPersistenciaBD.getInstance().ingresosTotales();
-//					for (Double d : ingresos) {
-//						ingresoTotal = ingresoTotal + d;
-//					}
-//					double gastos = ServicioPersistenciaBD.getInstance().salarioSelect();
-//					double margen = ingresoTotal - gastos;
-//					
-//					modeloMargen.addRow(new Object[] {ingresoTotal,gastos,margen});
-//					lblConsulta.setText("Resultado");
-//					
-//					tableMargen.setModel(modeloMargen);
-//					tableMargen.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
-//						@Override
-//						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-//								int row, int column) {
-//							Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//							double valor = (double) value;
-//							if (valor<0) {
-//								c.setForeground(Color.RED);
-//							}else {
-//								c.setForeground(Color.GREEN);
-//							}
-//							return c;
-//						}
-//					});
-					
+									
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ingresos", "Gastos", "Margen de beneficio"));
 					DefaultTableModel modeloMargen = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 					logger.info("Cargando informacion del resultado");
 
-//					double ingresoTotal = 0;
 					List<Double> ingresos = ServicioPersistenciaBD.getInstance().ingresosTotales();
-					ingresos.forEach(ingreso -> ingresoTotal += ingreso);
+					ingresos.forEach(ingreso -> ingresoTotal =+ ingreso);
 					double gastos = ServicioPersistenciaBD.getInstance().salarioSelect();
 					double margen = ingresoTotal - gastos;
 
@@ -301,6 +265,8 @@ public class PanelEstadoParking extends JPanel {
 					
 					scrollMargen.setBounds(25, 25, 500, 100);
 					scrollMargen.setVisible(true);
+					scrollTipo.setVisible(false);
+					scrollNumPlazas.setVisible(false);
 					scrollTrabajadores.setVisible(false);
 					scrollOrdinarios.setVisible(false);
 					scrollSubscritos.setVisible(false);
@@ -351,6 +317,7 @@ public class PanelEstadoParking extends JPanel {
 					tableNumPlazas.setModel(modeloNumPlazas);
 					scrollNumPlazas.setBounds(25, 25, 500, 100);
 					scrollNumPlazas.setVisible(true);
+					scrollTipo.setVisible(false);
 					scrollMargen.setVisible(false);
 					scrollTrabajadores.setVisible(false);
 					scrollOrdinarios.setVisible(false);
@@ -382,6 +349,9 @@ public class PanelEstadoParking extends JPanel {
 					tableTrabajadores.setModel(modeloTrabajadores);
 					scrollTrabajadores.setBounds(25, 25, 500, 100);
 					scrollTrabajadores.setVisible(true);
+					scrollNumPlazas.setVisible(false);
+					scrollTipo.setVisible(false);
+					scrollMargen.setVisible(false);
 					scrollOrdinarios.setVisible(false);
 					scrollSubscritos.setVisible(false);
 					scrollPlazas.setVisible(false);
@@ -433,9 +403,12 @@ public class PanelEstadoParking extends JPanel {
 				tableOrdinarios.setModel(modeloOrdinarios);
 				scrollOrdinarios.setBounds(25, 25, 500, 100);
 				scrollOrdinarios.setVisible(true);
-//				scrollSubscritos.setVisible(false);
-//				scrollTrabajadores.setVisible(false);
-//				scrollPlazas.setVisible(false);
+				scrollSubscritos.setVisible(false);
+				scrollTrabajadores.setVisible(false);
+				scrollNumPlazas.setVisible(false);
+				scrollTipo.setVisible(false);
+				scrollMargen.setVisible(false);
+				scrollPlazas.setVisible(false);
 			}
 		});
 		
@@ -462,6 +435,9 @@ public class PanelEstadoParking extends JPanel {
 				scrollSubscritos.setVisible(true);
 				scrollOrdinarios.setVisible(false);
 				scrollTrabajadores.setVisible(false);
+				scrollNumPlazas.setVisible(false);
+				scrollTipo.setVisible(false);
+				scrollMargen.setVisible(false);
 				scrollPlazas.setVisible(false);
 			}
 		});
@@ -486,9 +462,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				tablePlazas.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 					
-					/**
-					 * 
-					 */
+					
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -507,6 +481,9 @@ public class PanelEstadoParking extends JPanel {
 				scrollPlazas.setVisible(true);
 				scrollSubscritos.setVisible(false);
 				scrollOrdinarios.setVisible(false);
+				scrollNumPlazas.setVisible(false);
+				scrollTipo.setVisible(false);
+				scrollMargen.setVisible(false);
 				scrollTrabajadores.setVisible(false);
 			}
 		});
