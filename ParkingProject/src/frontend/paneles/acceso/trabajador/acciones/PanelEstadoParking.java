@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -51,10 +52,19 @@ public class PanelEstadoParking extends JPanel {
 	private JScrollPane scrollSubscritos;
 	private JScrollPane scrollTrabajadores;
 	private JScrollPane scrollPlazas;
+	private JScrollPane scrollMargen;
+	private JScrollPane scrollNumPlazas;
+	private JScrollPane scrollTipo;
 	private JTable tableOrdinarios;
 	private JTable tableSubscritos;
 	private JTable tableTrabajadores;
 	private JTable tablePlazas;
+	private JTable tableMargen;
+	private JTable tableNumPlazas;
+	private JTable tableTipo;
+	
+	private JPanel middlePanel;
+	private double ingresoTotal;
 
 	public PanelEstadoParking(JFrame frame, JPanel panel, Trabajador trabajador) {
 		setBackground(new Color(0, 128, 128));
@@ -70,7 +80,8 @@ public class PanelEstadoParking extends JPanel {
 	
 		add(topPanel);
 
-		JPanel middlePanel = new JPanel();
+//		JPanel middlePanel = new JPanel();
+		middlePanel = new JPanel();
 		middlePanel.setBackground(new Color(0, 128, 128));
 		add(middlePanel);
 		
@@ -83,6 +94,7 @@ public class PanelEstadoParking extends JPanel {
 		
 		JLabel lblConsulta = new JLabel("");
 		lblConsulta.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblConsulta.setForeground(Color.BLACK);
 		GridBagConstraints gbc_lblConsulta = new GridBagConstraints();
 		gbc_lblConsulta.insets = new Insets(0, 0, 5, 5);
 		gbc_lblConsulta.fill = GridBagConstraints.BOTH;
@@ -138,6 +150,43 @@ public class PanelEstadoParking extends JPanel {
 		gbc_scrollOrdinarios.gridx = 0;
 		gbc_scrollOrdinarios.gridy = 1;
 		middlePanel.add(scrollOrdinarios, gbc_scrollOrdinarios);
+		
+		tableMargen = new JTable();
+		scrollMargen = new JScrollPane(tableMargen);
+		JTableHeader headerMargen = tableMargen.getTableHeader();
+		headerMargen.setOpaque(true);
+		headerMargen.setBackground(new Color(255, 222, 173));
+		GridBagConstraints gbc_scrollMargen = new GridBagConstraints();
+		gbc_scrollMargen.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollMargen.fill = GridBagConstraints.BOTH;
+		gbc_scrollMargen.gridx = 0;
+		gbc_scrollMargen.gridy = 1;
+		middlePanel.add(scrollMargen, gbc_scrollMargen);
+		
+		tableNumPlazas = new JTable();
+		scrollNumPlazas = new JScrollPane(tableNumPlazas);
+		JTableHeader headerNumPlazas = tableNumPlazas.getTableHeader();
+		headerNumPlazas.setOpaque(true);
+		headerNumPlazas.setBackground(new Color(255, 222, 173));
+		GridBagConstraints gbc_scrollNumPlazas = new GridBagConstraints();
+		gbc_scrollNumPlazas.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollNumPlazas.fill = GridBagConstraints.BOTH;
+		gbc_scrollNumPlazas.gridx = 0;
+		gbc_scrollNumPlazas.gridy = 1;
+		middlePanel.add(scrollNumPlazas, gbc_scrollNumPlazas);
+		
+//		crearTablas(tableTipo, scrollTipo);
+		tableTipo = new JTable();
+		scrollTipo = new JScrollPane(tableTipo);
+		JTableHeader headerTipo = tableTipo.getTableHeader();
+		headerTipo.setOpaque(true);
+		headerTipo.setBackground(new Color(255, 222, 173));
+		GridBagConstraints gbc_scrollTipo = new GridBagConstraints();
+		gbc_scrollTipo.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollTipo.fill = GridBagConstraints.BOTH;
+		gbc_scrollTipo.gridx = 0;
+		gbc_scrollTipo.gridy = 1;
+		middlePanel.add(scrollTipo, gbc_scrollTipo);
 				
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.columnWidths = new int[]{69, 63, 0};
@@ -191,20 +240,124 @@ public class PanelEstadoParking extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					mostrarProgresoPago("Consultando listado de ingresos y gastos...");
 					
-					double salario = ServicioPersistenciaBD.getInstance().salarioSelect();
-					JLabel label = new JLabel("Gastos totales en salarios: ");
-					label.setBounds(25,25,50,50);
-					JTextField textSalario = new JTextField();
-					textSalario.setText(Double.toString(salario));
-					textSalario.setBounds(80,20,30,30);
+					/**
+					 * Codigo para borrar, esta reemplazdo utilizando funciones lambda. Sinmas, no he borrado, pero
+					 * es para borrar.
+					 */
+//					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ingresos", "Gastos", "Margen de beneficio"));
+//					DefaultTableModel modeloMargen = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
+//					logger.info("Cargando informacion del resultado");
+//					
+//					double ingresoTotal = 0;
+//					List<Double> ingresos = ServicioPersistenciaBD.getInstance().ingresosTotales();
+//					for (Double d : ingresos) {
+//						ingresoTotal = ingresoTotal + d;
+//					}
+//					double gastos = ServicioPersistenciaBD.getInstance().salarioSelect();
+//					double margen = ingresoTotal - gastos;
+//					
+//					modeloMargen.addRow(new Object[] {ingresoTotal,gastos,margen});
+//					lblConsulta.setText("Resultado");
+//					
+//					tableMargen.setModel(modeloMargen);
+//					tableMargen.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
+//						@Override
+//						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+//								int row, int column) {
+//							Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//							double valor = (double) value;
+//							if (valor<0) {
+//								c.setForeground(Color.RED);
+//							}else {
+//								c.setForeground(Color.GREEN);
+//							}
+//							return c;
+//						}
+//					});
+					
+					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ingresos", "Gastos", "Margen de beneficio"));
+					DefaultTableModel modeloMargen = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
+					logger.info("Cargando informacion del resultado");
 
+//					double ingresoTotal = 0;
+					List<Double> ingresos = ServicioPersistenciaBD.getInstance().ingresosTotales();
+					ingresos.forEach(ingreso -> ingresoTotal += ingreso);
+					double gastos = ServicioPersistenciaBD.getInstance().salarioSelect();
+					double margen = ingresoTotal - gastos;
+
+					modeloMargen.addRow(new Object[] {ingresoTotal,gastos,margen});
+					lblConsulta.setText("Resultado");
+
+					tableMargen.setModel(modeloMargen);
+					tableMargen.getColumnModel().getColumn(2).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+					    Component c = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+					    double valor = (double) value;
+					    if (valor<0) {
+					        c.setForeground(Color.RED);
+					    }else {
+					        c.setForeground(Color.GREEN);
+					    }
+					    return c;
+					});
+					
+					scrollMargen.setBounds(25, 25, 500, 100);
+					scrollMargen.setVisible(true);
+					scrollTrabajadores.setVisible(false);
+					scrollOrdinarios.setVisible(false);
+					scrollSubscritos.setVisible(false);
+					scrollPlazas.setVisible(false);
+				}
+			});
+			
+			importItem4.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mostrarProgresoPago("Consultando estadisticas de tipos de clientes...");
+					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ocupadas", "Ordinarios", "Electricos", "Minusvalidos"));
+					DefaultTableModel modeloTipo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
+					logger.info("Cargando informacion del numero de plazas");
+					
+					List<Integer> listaPlazasTipo = ServicioPersistenciaBD.getInstance().numeroUsuarios();
+					List<Integer> listaTipo = ServicioPersistenciaBD.getInstance().numeroUsuariosPorVehiculo();
+					modeloTipo.addRow(new Object[] {listaPlazasTipo.get(0),listaTipo.get(0), listaTipo.get(1), listaTipo.get(2)});
+					lblConsulta.setText("Numero de plazas");
+					
+					tableTipo.setModel(modeloTipo);
+					scrollTipo.setBounds(25, 25, 500, 100);
+					scrollTipo.setVisible(true);
+					scrollNumPlazas.setVisible(false);
+					scrollMargen.setVisible(false);
+					scrollTrabajadores.setVisible(false);
+					scrollOrdinarios.setVisible(false);
+					scrollSubscritos.setVisible(false);
+					scrollPlazas.setVisible(false);
+				}
+			});
+			
+			importItem5.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mostrarProgresoPago("Consultando estadisticas de tipos de vehiculo...");
+					Vector<String> cabeceras = new Vector<>(Arrays.asList("Disponibles", "Ocupadas", "Ordinarios", "Subscritos"));
+					DefaultTableModel modeloNumPlazas = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
+					logger.info("Cargando informacion del numero de plazas");
+					
+					List<Integer> listaPlazas = ServicioPersistenciaBD.getInstance().ocupacionPlazas();
+					List<Integer> listaPlazasTipo = ServicioPersistenciaBD.getInstance().numeroUsuarios();
+					modeloNumPlazas.addRow(new Object[] {listaPlazas.get(0),listaPlazas.get(1), listaPlazasTipo.get(1), listaPlazasTipo.get(2)});
+					lblConsulta.setText("Numero de plazas");
+					
+					tableNumPlazas.setModel(modeloNumPlazas);
+					scrollNumPlazas.setBounds(25, 25, 500, 100);
+					scrollNumPlazas.setVisible(true);
+					scrollMargen.setVisible(false);
 					scrollTrabajadores.setVisible(false);
 					scrollOrdinarios.setVisible(false);
 					scrollSubscritos.setVisible(false);
 					scrollPlazas.setVisible(false);
 					
-					middlePanel.add(label);
-					middlePanel.add(textSalario);
 				}
 			});
 			
@@ -281,9 +434,9 @@ public class PanelEstadoParking extends JPanel {
 				tableOrdinarios.setModel(modeloOrdinarios);
 				scrollOrdinarios.setBounds(25, 25, 500, 100);
 				scrollOrdinarios.setVisible(true);
-				scrollSubscritos.setVisible(false);
-				scrollTrabajadores.setVisible(false);
-				scrollPlazas.setVisible(false);
+//				scrollSubscritos.setVisible(false);
+//				scrollTrabajadores.setVisible(false);
+//				scrollPlazas.setVisible(false);
 			}
 		});
 		
@@ -401,5 +554,25 @@ public class PanelEstadoParking extends JPanel {
 		dialog.setVisible(true);
 		dialog.dispose();
 	}
+	
+	
+	/**
+	 * He intentado hacer un metodo para crear tablas ya que hemos creado 7 tablas casi idénticas pero me ha dado
+	 * fallo al ejecutar por lo que lo dejo comentado porsiacaso.
+	 */
+	
+//	public void crearTablas(JTable table, JScrollPane scroll) {
+//		table = new JTable();
+//		scroll = new JScrollPane(table);
+//		JTableHeader headerNumPlazas = table.getTableHeader();
+//		headerNumPlazas.setOpaque(true);
+//		headerNumPlazas.setBackground(new Color(255, 222, 173));
+//		GridBagConstraints gbc = new GridBagConstraints();
+//		gbc.insets = new Insets(0, 0, 5, 5);
+//		gbc.fill = GridBagConstraints.BOTH;
+//		gbc.gridx = 0;
+//		gbc.gridy = 1;
+//		middlePanel.add(scroll, gbc);
+//	}
 }
 
