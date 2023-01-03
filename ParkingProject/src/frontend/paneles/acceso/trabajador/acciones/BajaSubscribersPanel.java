@@ -9,10 +9,9 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -74,7 +73,7 @@ public class BajaSubscribersPanel extends JPanel {
 
 		JScrollPane scrollSubscritos = new JScrollPane(tableSubscritos);
 
-		Vector<String> cabeceras = new Vector<>(
+		Vector<String> cabeceras = new Vector<>( 
 				Arrays.asList("Matricula", "Tipo Vehiculo", "Cuota", "Fecha de Entrada"));
 		DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 
@@ -98,26 +97,20 @@ public class BajaSubscribersPanel extends JPanel {
 				
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				String matricula = (String) table.getValueAt(row, 0);
 				ClienteSubscrito subscrito = ServicioPersistenciaBD.getInstance().subscritoSelect(matricula);
-				try {
-					Date fechaActual = sdf.parse(LocalDateTime.now().toString());
-					Date fechaFinal = new Date(subscrito.getFechaSalida());
-					if (fechaActual.after(fechaFinal)) {
-						c.setBackground(Color.BLUE);
+				Date fechaActual = Calendar.getInstance().getTime();
+				Date fechaFinal = new Date(subscrito.getFechaSalida());
+				if (fechaActual.after(fechaFinal)) {
+					c.setBackground(Color.BLUE);
+				} else {
+					if (isSelected) {
+						c.setBackground(new Color(205, 92, 92));
 					} else {
-						if (isSelected) {
-							c.setBackground(new Color(205, 92, 92));
-						} else {
-							c.setBackground(Color.WHITE);
-						}
-						return c;
-					} 
-				} catch (ParseException e) {
-					logger.info("El parseo de la fecha actual no se ha hecho correctamente");
-				}
-				return c;			
+						c.setBackground(Color.WHITE);
+					}
+				} 
+				return c;
 			}
 		});
 
@@ -132,13 +125,12 @@ public class BajaSubscribersPanel extends JPanel {
 		});
 
 		GridBagLayout gbl_middlePanel = new GridBagLayout();
-		gbl_middlePanel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_middlePanel.columnWidths = new int[] { 0, 429, 0 };
 		gbl_middlePanel.rowWeights = new double[] { 1.0 };
-		gbl_middlePanel.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+		gbl_middlePanel.columnWeights = new double[] { 1.0, 1.0, 1.0 };
 		middlePanel.setLayout(gbl_middlePanel);
 
 		GridBagConstraints gbc_scrollSubscritos = new GridBagConstraints();
-		gbc_scrollSubscritos.gridwidth = 5;
 		gbc_scrollSubscritos.gridx = 1;
 		gbc_scrollSubscritos.gridy = 0;
 		gbc_scrollSubscritos.fill = GridBagConstraints.BOTH;

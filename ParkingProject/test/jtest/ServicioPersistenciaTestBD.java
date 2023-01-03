@@ -13,9 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 import org.junit.After;
 import org.junit.Before;
@@ -59,6 +63,19 @@ public class ServicioPersistenciaTestBD {
 		assertEquals("Ordinario", ordinario1.getTipoVehiculo());
 		assertEquals(0.5, ordinario1.getTarifa(), 0.001);
 		assertEquals(1671897760000L, ordinario1.getFechaEntrada());
+	}
+	
+	@Test
+	public void testOrdinarioCargar(){
+		Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula", "Tipo Vehiculo", "Tarifa", "Fecha de Entrada"));
+		DefaultTableModel model = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
+		ServicioPersistenciaBD.getInstance().ordinarioCargar(model);
+		assertEquals(4, model.getColumnCount());
+		assertEquals(1, model.getRowCount());	
+		assertEquals("1111BBB", model.getValueAt(0, 0));
+		assertEquals("Ordinario", model.getValueAt(0, 1));
+		assertEquals(0.5, model.getValueAt(0, 2));
+		assertEquals(1671897760000L, model.getValueAt(0, 3));
 	}
 
 	@Test
@@ -324,7 +341,7 @@ public class ServicioPersistenciaTestBD {
 	}
 
 	@Test
-	public void testGetPlazasDisponibles() {
+	public void testGetPlazasDisponibles() { 
 		// Llamar al método getPlazasDisponibles
 		int plazasDisponibles = ServicioPersistenciaBD.getInstance().getPlazasDisponibles();
 
@@ -339,5 +356,90 @@ public class ServicioPersistenciaTestBD {
 			fail("Error al acceder a la base de datos: " + e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testPlazasSelect() {
+		int numeroPlanta = 1;
+		String tipoPlaza = "Electrico";
+		List<Plaza> plazas = ServicioPersistenciaBD.getInstance().plazasSelect(numeroPlanta, tipoPlaza);
+		assertTrue(plazas.size() > 0);
+		for (Plaza p : plazas) {
+			assertEquals(numeroPlanta, p.getNumeroPlanta());
+			assertEquals(tipoPlaza, p.getTipoPlaza());
+		}
+	}
+	
+	@Test
+	public void testIngresosPlanta() {
+		//Escogemos de la base de datos una matricula existente con un importe aleatorio con el fin de hacer la prueba
+		String matricula = "ABC123";
+		double importe = 130;
+		double ingresosPasados = 0;
+		
+		//Para obtener la asercion de ingresos correcta, se debe obtener el importe de ingreso anterior
+		//y posterior al Update. Por ello se realiza el proceso dos veces, una antes y otra tras el Update
+		// 1- en la primera hayamos el numero de planta por matricula en la tabla de plazas
+		// 2- en la segunda comprobamos los ingresos con el numero de planta anterior
+		String sentSQL = "SELECT ingresos_planta FROM plantas WHERE numero_planta = "
+							+ "(SELECT numero_planta FROM plazas WHERE matricula = ?)";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+			stmt.setString(1, matricula);
+			try (ResultSet rs = stmt.executeQuery()) {
+				ingresosPasados = rs.getDouble("ingresos_planta");
+			}
+		} catch (SQLException e) {
+			fail("Error al acceder a la base de datos: " + e.getMessage());
+		}
+		
+		ServicioPersistenciaBD.getInstance().ingresosPlanta(matricula, importe);
 
+		// Comprobamos que se ha actualizado la tabla "plantas" correctamente con una doble consulta,
+		// 1- en la primera hayamos el numero de planta por matricula en la tabla de plazas
+		// 2- en la segunda comprobamos los ingresos con el numero de planta anterior
+		String sentSQL2 = "SELECT ingresos_planta FROM plantas WHERE numero_planta = "
+							+ "(SELECT numero_planta FROM plazas WHERE matricula = ?)";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL2)) {
+			stmt.setString(1, matricula);
+			try (ResultSet rs = stmt.executeQuery()) {
+				double ingresosPlanta = rs.getDouble("ingresos_planta");
+				assertEquals(ingresosPasados + importe, ingresosPlanta, 0.0);
+			}
+		} catch (SQLException e) {
+			fail("Error al acceder a la base de datos: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testIngresosTotales() {
+		//Usando el metodo anterior comprobaremos su utilidad
+		String matricula = "ABC123";
+		double importe = 130;
+		double importeAnterior = 0;
+		//A continuacion se comprueban los ingresos. Recordemos que el aserto refleja el ingreso final
+		//Es decir, el importe mas el valor anterior. Para ello, realizamos una consulta sabiendo
+		//el numero de planta hayando el valor anterior, y sumando el siguiente.
+		String sentSQL = "SELECT ingresos_planta FROM plantas WHERE numero_planta = 1";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+			ResultSet rs = stmt.executeQuery();
+			importeAnterior = rs.getDouble("ingresos_planta");
+		} catch (SQLException e) {
+			fail("Error al acceder a la base de datos: " + e.getMessage());
+		}
+		ServicioPersistenciaBD.getInstance().ingresosPlanta(matricula, importe);
+		
+		List<Double> ingresos = ServicioPersistenciaBD.getInstance().ingresosTotales();
+		//Al haber 3 plantas, el rango es 3
+		assertEquals(3, ingresos.size());
+		assertEquals(importeAnterior + importe, ingresos.get(0), 0.0);				
+	}
+	
+	@Test
+	public void testOcupacionPlazas() {
+		List<Integer> estadoPlazas = ServicioPersistenciaBD.getInstance().ocupacionPlazas();
+		assertEquals(2, estadoPlazas.size());
+		//Plazas disponibles
+		assertEquals(90, estadoPlazas.get(0), 0.0);
+		//Plazas ocupadas
+		assertEquals(1, estadoPlazas.get(1), 0.0);
+	}
 }
