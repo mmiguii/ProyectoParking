@@ -31,7 +31,7 @@ import backend.clases.personas.personal.Manager;
 import backend.clases.personas.personal.Trabajador;
 
 /**
- * La función de esta clase ServicioPersistenciaBD es la de declarar metodos
+ * La función de esta clase ServicioPersistenciaBD es la de declarar metodos 
  * relacionados a la DB para su futuro uso.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
@@ -689,10 +689,10 @@ public class ServicioPersistenciaBD {
 	public List<Integer> numeroUsuarios(){
 		List<Integer> tiposUsuarios = new ArrayList<>();
 		String sentSQL = "SELECT COUNT(*) AS usuarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza = 'OCUPADO') AS ordinarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza = 'OCUPADO') AS subscritos"
-							+ "FROM plazas"
-							+ "WHERE estado_plaza = 'OCUPADO'";
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE') AS ordinarios, "
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE') AS subscritos "
+							+ "FROM plazas "
+							+ "WHERE estado_plaza != 'DISPONIBLE'";
 		log(Level.INFO, "Lanzada la consulta a base de datos: "+ sentSQL, null);
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){
 			ResultSet rs = stmt.executeQuery();
@@ -718,19 +718,21 @@ public class ServicioPersistenciaBD {
 	public Map<String, List<Integer>> numeroUsuariosPorTipoYVehiculo(){
 		Map<String, List<Integer>> mapaUsuariosTipoVehiculo = new HashMap<>();
 		String sentSQL = "SELECT COUNT(*) AS ordinariosOrdinarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza = 'OCUPADO' AND tipo_plaza = 'Electrico') AS ordinariosElectricos, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza = 'OCUPADO' AND tipo_plaza = 'Minusvalido') AS ordinariosMinusvalidos,"
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza = 'OCUPADO' AND tipo_plaza = 'Ordinario') AS subscritosOrdinarios,"
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza = 'OCUPADO' AND tipo_plaza = 'Electrico') AS subscritosElectricos,"
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza = 'OCUPADO' AND tipo_plaza = 'Minusvalido') AS subscritosMinusvalidos"
-							+ "FROM plazas"
-							+ "WHERE numero_planta != 3 AND estado_plaza = 'OCUPADO' AND tipo_plaza = 'Ordinario'";
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS ordinariosElectricos, "
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS ordinariosMinusvalidos,"
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario') AS subscritosOrdinarios,"
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS subscritosElectricos,"
+							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS subscritosMinusvalidos "
+							+ "FROM plazas "
+							+ "WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario'";
 		log(Level.INFO, "Lanzada la consulta a base de datos: "+ sentSQL, null);
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){			
 			ResultSet rs = stmt.executeQuery();
 			mapaUsuariosTipoVehiculo.put("Ordinarios", Arrays.asList(rs.getInt("ordinariosOrdinarios"), rs.getInt("ordinariosElectricos"), rs.getInt("ordinariosMinusvalidos")));
 			mapaUsuariosTipoVehiculo.put("Subscritos", Arrays.asList(rs.getInt("subscritosOrdinarios"), rs.getInt("subscritosElectricos"), rs.getInt("subscritosMinusvalidos")));
 		} catch (SQLException e) {
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
 			lastError = e;
 			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
 			e.printStackTrace();
@@ -748,10 +750,10 @@ public class ServicioPersistenciaBD {
 	public List<Integer> numeroUsuariosPorVehiculo(){
 		List<Integer> usuariosVehiculo = new ArrayList<>();
 		String sentSQL = "SELECT COUNT(*) AS ordinarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza = 'OCUPADO' AND tipo_plaza = 'Electrico') AS electricos, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza = 'OCUPADO' AND tipo_plaza = 'Minusvalido') AS minusvalidos"
-							+ "FROM plazas"
-							+ "WHERE estado_plaza = 'OCUPADO' AND tipo_plaza = 'Ordinario'";
+							+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS electricos, "
+							+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS minusvalidos "
+							+ "FROM plazas "
+							+ "WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario'";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){			
 			ResultSet rs = stmt.executeQuery();
 			usuariosVehiculo.add(0, rs.getInt("ordinarios"));

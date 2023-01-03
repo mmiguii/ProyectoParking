@@ -442,4 +442,83 @@ public class ServicioPersistenciaTestBD {
 		//Plazas ocupadas
 		assertEquals(1, estadoPlazas.get(1), 0.0);
 	}
+	
+	@Test
+	public void testNumeroUsuarios() {
+		List<Integer> usuarios = ServicioPersistenciaBD.getInstance().numeroUsuarios();
+		assertEquals(3, usuarios.size());
+		//Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test sale asi
+		assertEquals(1, usuarios.get(0), 0);
+		assertEquals(1, usuarios.get(1), 0);
+		assertEquals(0, usuarios.get(2), 0);
+	}
+	
+	@Test
+	public void testNumeroUsuariosPorTipoYVehiculo() {
+		Map<String, List<Integer>> mapaUsuariosTipoVehiculo = ServicioPersistenciaBD.getInstance().numeroUsuariosPorTipoYVehiculo();
+		//Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test sale asi
+		assertEquals(0, mapaUsuariosTipoVehiculo.get("Ordinarios").get(0), 0);
+		assertEquals(1, mapaUsuariosTipoVehiculo.get("Ordinarios").get(1), 0);
+		assertEquals(0, mapaUsuariosTipoVehiculo.get("Ordinarios").get(2), 0);
+		assertEquals(0, mapaUsuariosTipoVehiculo.get("Subscritos").get(0), 0);
+		assertEquals(0, mapaUsuariosTipoVehiculo.get("Subscritos").get(1), 0);
+		assertEquals(0, mapaUsuariosTipoVehiculo.get("Subscritos").get(2), 0);
+	}
+	
+	@Test 
+	public void testNumeroUsuariosPorVehiculo(){
+		List<Integer> usuariosVehiculo = ServicioPersistenciaBD.getInstance().numeroUsuariosPorVehiculo();
+		assertEquals(3, usuariosVehiculo.size());
+		//Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test sale asi
+		assertEquals(0, usuariosVehiculo.get(0), 0);
+		assertEquals(1, usuariosVehiculo.get(1), 0);
+		assertEquals(0, usuariosVehiculo.get(2), 0);
+	}
+	
+	@Test
+	public void testGetUsuarioPorMatricula() {
+		//Obtenemos matricula por una matricula dada en la tabla clientes ordinarios 
+		ClienteOrdinario u = (ClienteOrdinario) ServicioPersistenciaBD.getInstance().getUsuario("1111BBB");
+		String sentSQL = "SELECT matricula, tarifa FROM clientes_ordinarios WHERE matricula = '1111BBB'";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+			ResultSet rs = stmt.executeQuery();
+			assertEquals(rs.getString("matricula"), u.getMatricula());
+			assertEquals(rs.getDouble("tarifa"), u.getTarifa(), 0.0);
+		} catch (SQLException e) {
+			fail("Error al acceder a la base de datos: " + e.getMessage());
+		}
+		
+		//Obtenemos matricula por una matricula dada en la tabla clientes subscritos 
+		ClienteSubscrito u2 = (ClienteSubscrito)ServicioPersistenciaBD.getInstance().getUsuario("1111XXX");
+		String sentSQL2 = "SELECT matricula, tipo_vehiculo FROM clientes_subscritos WHERE matricula = '1111XXX'";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL2)) {
+			ResultSet rs = stmt.executeQuery();
+			assertEquals(rs.getString("matricula"), u2.getMatricula());
+			assertEquals(rs.getString("tipo_vehiculo"), u2.getTipoVehiculo());
+		} catch (SQLException e) {
+			fail("Error al acceder a la base de datos: " + e.getMessage()); 
+		}		
+	}
+	
+	@Test
+	public void testSalarioSelect() {
+		double d = ServicioPersistenciaBD.getInstance().salarioSelect();
+		//Se realiza la suma de los salarios de trabajadores manualmente para comprobar si es correcto
+		assertEquals(5000, d, 0);
+	}
+	
+	@Test 
+	public void testTrabajadoresUpdate() {
+		//Introducimos el DNI de un trabajador ya existente y cambiamos la clave.
+		String nuevoPassword = ServicioPersistenciaBD.getInstance().trabajadoresUpdate("12345678C");
+		assertEquals(10, nuevoPassword.length());
+		//Hallaremos la nueva clave con una consulta SQL
+		String sentSQL = "SELECT password FROM trabajadores WHERE dni = '12345678C'";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
+			ResultSet rs = stmt.executeQuery();
+			assertEquals(rs.getString("password"), nuevoPassword);
+		} catch (SQLException e) {
+			fail("Error al acceder a la base de datos: " + e.getMessage());
+		}
+	}
 }
