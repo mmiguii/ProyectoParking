@@ -64,6 +64,9 @@ public class PanelEstadoParking extends JPanel {
 	
 	private JPanel middlePanel;
 	private double ingresoTotal;
+	private JLabel lblConsulta;
+	private JLabel lblVacio;
+	private JLabel lblVacioBis;
 
 	public PanelEstadoParking(JFrame frame, JPanel panel, Trabajador trabajador) {
 		setBackground(new Color(0, 128, 128));
@@ -76,30 +79,18 @@ public class PanelEstadoParking extends JPanel {
 
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(0, 128, 128));
-	
 		add(topPanel);
 
-//		JPanel middlePanel = new JPanel();
 		middlePanel = new JPanel();
 		middlePanel.setBackground(new Color(0, 128, 128));
 		add(middlePanel);
 		
 		GridBagLayout gbl_middlePanel = new GridBagLayout();
 		gbl_middlePanel.columnWidths = new int[]{557, 0};
-		gbl_middlePanel.rowHeights = new int[]{27, 108, 0};
+		gbl_middlePanel.rowHeights = new int[]{108, 0};
 		gbl_middlePanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_middlePanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_middlePanel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		middlePanel.setLayout(gbl_middlePanel);
-		
-		JLabel lblConsulta = new JLabel("");
-		lblConsulta.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblConsulta.setForeground(Color.BLACK);
-		GridBagConstraints gbc_lblConsulta = new GridBagConstraints();
-		gbc_lblConsulta.insets = new Insets(0, 0, 5, 5);
-		gbc_lblConsulta.fill = GridBagConstraints.BOTH;
-		gbc_lblConsulta.gridx = 0;
-		gbc_lblConsulta.gridy = 0;
-		middlePanel.add(lblConsulta, gbc_lblConsulta);
 		
 		tableSubscritos = new JTable();
 		scrollSubscritos = new JScrollPane(tableSubscritos);
@@ -107,10 +98,9 @@ public class PanelEstadoParking extends JPanel {
 		headerSubscritos.setOpaque(true);
 		headerSubscritos.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollSubscritos = new GridBagConstraints();
-		gbc_scrollSubscritos.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollSubscritos.fill = GridBagConstraints.BOTH;
 		gbc_scrollSubscritos.gridx = 0;
-		gbc_scrollSubscritos.gridy = 1;
+		gbc_scrollSubscritos.gridy = 0;
 		middlePanel.add(scrollSubscritos, gbc_scrollSubscritos);
 		
 		
@@ -120,10 +110,9 @@ public class PanelEstadoParking extends JPanel {
 		headerTrabajadores.setOpaque(true);
 		headerTrabajadores.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollTrabajadores = new GridBagConstraints();
-		gbc_scrollTrabajadores.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollTrabajadores.fill = GridBagConstraints.BOTH;
 		gbc_scrollTrabajadores.gridx = 0;
-		gbc_scrollTrabajadores.gridy = 1;
+		gbc_scrollTrabajadores.gridy = 0;
 		middlePanel.add(scrollTrabajadores, gbc_scrollTrabajadores);
 		
 		tablePlazas= new JTable();
@@ -132,10 +121,9 @@ public class PanelEstadoParking extends JPanel {
 		headerPlazas.setOpaque(true);
 		headerPlazas.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollPlazas = new GridBagConstraints();
-		gbc_scrollPlazas.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPlazas.fill = GridBagConstraints.BOTH;
 		gbc_scrollPlazas.gridx = 0;
-		gbc_scrollPlazas.gridy = 1;
+		gbc_scrollPlazas.gridy = 0;
 		middlePanel.add(scrollPlazas, gbc_scrollPlazas);
 		
 		tableOrdinarios = new JTable();
@@ -144,10 +132,9 @@ public class PanelEstadoParking extends JPanel {
 		headerOrdinarios.setOpaque(true);
 		headerOrdinarios.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollOrdinarios = new GridBagConstraints();
-		gbc_scrollOrdinarios.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollOrdinarios.fill = GridBagConstraints.BOTH;
 		gbc_scrollOrdinarios.gridx = 0;
-		gbc_scrollOrdinarios.gridy = 1;
+		gbc_scrollOrdinarios.gridy = 0;
 		middlePanel.add(scrollOrdinarios, gbc_scrollOrdinarios);
 		
 		tableMargen = new JTable();
@@ -156,10 +143,9 @@ public class PanelEstadoParking extends JPanel {
 		headerMargen.setOpaque(true);
 		headerMargen.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollMargen = new GridBagConstraints();
-		gbc_scrollMargen.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollMargen.fill = GridBagConstraints.BOTH;
 		gbc_scrollMargen.gridx = 0;
-		gbc_scrollMargen.gridy = 1;
+		gbc_scrollMargen.gridy = 0;
 		middlePanel.add(scrollMargen, gbc_scrollMargen);
 		
 		tableNumPlazas = new JTable();
@@ -168,43 +154,42 @@ public class PanelEstadoParking extends JPanel {
 		headerNumPlazas.setOpaque(true);
 		headerNumPlazas.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollNumPlazas = new GridBagConstraints();
-		gbc_scrollNumPlazas.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollNumPlazas.fill = GridBagConstraints.BOTH;
 		gbc_scrollNumPlazas.gridx = 0;
-		gbc_scrollNumPlazas.gridy = 1;
+		gbc_scrollNumPlazas.gridy = 0;
 		middlePanel.add(scrollNumPlazas, gbc_scrollNumPlazas);
 		
-//		crearTablas(tableTipo, scrollTipo);
 		tableTipo = new JTable();
 		scrollTipo = new JScrollPane(tableTipo);
 		JTableHeader headerTipo = tableTipo.getTableHeader();
 		headerTipo.setOpaque(true);
 		headerTipo.setBackground(new Color(255, 222, 173));
 		GridBagConstraints gbc_scrollTipo = new GridBagConstraints();
-		gbc_scrollTipo.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollTipo.fill = GridBagConstraints.BOTH;
 		gbc_scrollTipo.gridx = 0;
-		gbc_scrollTipo.gridy = 1;
+		gbc_scrollTipo.gridy = 0;
 		middlePanel.add(scrollTipo, gbc_scrollTipo);
 				
 		GridBagLayout gbl_topPanel = new GridBagLayout();
-		gbl_topPanel.columnWidths = new int[]{69, 63, 0};
-		gbl_topPanel.rowHeights = new int[]{22, 0};
-		gbl_topPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_topPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_topPanel.columnWidths = new int[]{284, 0};
+		gbl_topPanel.rowHeights = new int[]{22, 0, 0, 0, 0};
+		gbl_topPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_topPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		topPanel.setLayout(gbl_topPanel);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(255, 255, 255));
 		menuBar.setBounds(0, 0, 62, 22);
 		GridBagConstraints gbc_menuBar = new GridBagConstraints();
-		gbc_menuBar.anchor = GridBagConstraints.NORTHWEST;
-		gbc_menuBar.fill = GridBagConstraints.BOTH;
+		gbc_menuBar.anchor = GridBagConstraints.WEST;
+		gbc_menuBar.insets = new Insets(0, 0, 5, 0);
+		gbc_menuBar.fill = GridBagConstraints.VERTICAL;
 		gbc_menuBar.gridx = 0;
 		gbc_menuBar.gridy = 0;
 		topPanel.add(menuBar, gbc_menuBar);
 		
 		JMenu fileJMenu = new JMenu("Consultas");
+		fileJMenu.setBackground(new Color(255, 255, 255));
 		menuBar.add(fileJMenu);		
 		
 		JMenuItem importItem = null;
@@ -237,7 +222,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					mostrarProgresoPago("Consultando listado de ingresos y gastos...");
+					mostrarProgresoConsultas("Consultando listado de ingresos y gastos...");
 									
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ingresos", "Gastos", "Margen de beneficio"));
 					DefaultTableModel modeloMargen = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
@@ -278,7 +263,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mostrarProgresoPago("Consultando estadisticas de tipos de clientes...");
+					mostrarProgresoConsultas("Consultando estadisticas de tipos de clientes...");
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ocupadas", "Ordinarios", "Electricos", "Minusvalidos"));
 					DefaultTableModel modeloTipo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 					logger.info("Cargando informacion del numero de plazas");
@@ -304,7 +289,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mostrarProgresoPago("Consultando estadisticas de tipos de vehiculo...");
+					mostrarProgresoConsultas("Consultando estadisticas de tipos de vehiculo...");
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Disponibles", "Ocupadas", "Ordinarios", "Subscritos"));
 					DefaultTableModel modeloNumPlazas = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 					logger.info("Cargando informacion del numero de plazas");
@@ -332,7 +317,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					mostrarProgresoPago("Consultando listado de trabajadores...");
+					mostrarProgresoConsultas("Consultando listado de trabajadores...");
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Usuario","DNI","Password","Email", "Fecha inicio", "Salario"));
 					DefaultTableModel modeloTrabajadores = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 					logger.info("Cargando informacion de trabajadores");
@@ -371,6 +356,28 @@ public class PanelEstadoParking extends JPanel {
 		JMenuItem exitItem = new JMenuItem("Salir");
 		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, InputEvent.CTRL_DOWN_MASK));
 		fileJMenu.add(exitItem);
+		
+		lblVacio = new JLabel(" ");
+		GridBagConstraints gbc_lblVacio = new GridBagConstraints();
+		gbc_lblVacio.insets = new Insets(0, 0, 5, 0);
+		gbc_lblVacio.gridx = 0;
+		gbc_lblVacio.gridy = 1;
+		topPanel.add(lblVacio, gbc_lblVacio);
+		
+		lblVacioBis = new JLabel(" ");
+		GridBagConstraints gbc_lblVacioBis = new GridBagConstraints();
+		gbc_lblVacioBis.insets = new Insets(0, 0, 5, 0);
+		gbc_lblVacioBis.gridx = 0;
+		gbc_lblVacioBis.gridy = 2;
+		topPanel.add(lblVacioBis, gbc_lblVacioBis);
+		
+		lblConsulta = new JLabel("REALICE ALGUNA CONSULTA");
+		lblConsulta.setForeground(new Color(255, 255, 255));
+		lblConsulta.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_lblConsulta = new GridBagConstraints();
+		gbc_lblConsulta.gridx = 0;
+		gbc_lblConsulta.gridy = 3;
+		topPanel.add(lblConsulta, gbc_lblConsulta);
 		exitItem.addActionListener(new ActionListener() {
 			
 			@Override
@@ -386,7 +393,7 @@ public class PanelEstadoParking extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				mostrarProgresoPago("Consultando listado de clientes ordinarios...");
+				mostrarProgresoConsultas("Consultando listado de clientes ordinarios...");
 				Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Tarifa","Fecha de Entrada"));
 				DefaultTableModel modeloOrdinarios = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 				logger.info("Cargando datos de clientes ordinarios");
@@ -416,7 +423,7 @@ public class PanelEstadoParking extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				mostrarProgresoPago("Consultando listado de clientes subscritos...");
+				mostrarProgresoConsultas("Consultando listado de clientes subscritos...");
 				Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula","Tipo Vehiculo","Cuota","Fecha de Entrada"));
 				DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 				logger.info("Cargando datos de clientes subscritos");
@@ -446,7 +453,7 @@ public class PanelEstadoParking extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mostrarProgresoPago("Comprobando estado de las plazas del parking");
+				mostrarProgresoConsultas("Comprobando estado de las plazas del parking");
 				Vector<String> cabeceras = new Vector<>(Arrays.asList("Planta","Plaza","Tipo de plaza","Estado","Matricula"));
 				DefaultTableModel modeloPlazas = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);	
 				logger.info("Cargando datos del estado de las plazas de aparcamiento");
@@ -490,7 +497,9 @@ public class PanelEstadoParking extends JPanel {
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setBackground(new Color(0, 128, 128));
-		bottomPanel.setLayout(new GridBagLayout());
+		GridBagLayout gbl_bottomPanel = new GridBagLayout();
+		gbl_bottomPanel.columnWeights = new double[]{1.0};
+		bottomPanel.setLayout(gbl_bottomPanel);
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.setForeground(new Color(0, 128, 128));
 		btnVolver.addActionListener(new ActionListener() {
@@ -501,11 +510,13 @@ public class PanelEstadoParking extends JPanel {
 				setVisible(false);
 			}
 		});
-		bottomPanel.add(btnVolver);
+		GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+		gbc_btnVolver.fill = GridBagConstraints.HORIZONTAL;
+		bottomPanel.add(btnVolver, gbc_btnVolver);
 		add(bottomPanel);
 	}
 	
-	public void mostrarProgresoPago(String message) {
+	public void mostrarProgresoConsultas(String message) {
 		JOptionPane pane = new JOptionPane();
 		pane.setMessage(message);
 		JProgressBar jProgressBar = new JProgressBar(1, 100);
@@ -518,7 +529,6 @@ public class PanelEstadoParking extends JPanel {
 				jProgressBar.setValue(i);
 				if (i == 100) {
 					dialog.dispose();
-//					pane.setMessage("Transaccion realizada. ¡Gracias!");
 				}
 				try {
 					Thread.sleep(10);
@@ -530,25 +540,5 @@ public class PanelEstadoParking extends JPanel {
 		dialog.setVisible(true);
 		dialog.dispose();
 	}
-	
-	
-	/**
-	 * He intentado hacer un metodo para crear tablas ya que hemos creado 7 tablas casi id�nticas pero me ha dado
-	 * fallo al ejecutar por lo que lo dejo comentado porsiacaso.
-	 */
-	
-//	public void crearTablas(JTable table, JScrollPane scroll) {
-//		table = new JTable();
-//		scroll = new JScrollPane(table);
-//		JTableHeader headerNumPlazas = table.getTableHeader();
-//		headerNumPlazas.setOpaque(true);
-//		headerNumPlazas.setBackground(new Color(255, 222, 173));
-//		GridBagConstraints gbc = new GridBagConstraints();
-//		gbc.insets = new Insets(0, 0, 5, 5);
-//		gbc.fill = GridBagConstraints.BOTH;
-//		gbc.gridx = 0;
-//		gbc.gridy = 1;
-//		middlePanel.add(scroll, gbc);
-//	}
 }
 
