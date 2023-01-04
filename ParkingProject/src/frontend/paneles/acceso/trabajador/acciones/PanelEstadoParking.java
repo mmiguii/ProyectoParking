@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -35,6 +36,12 @@ import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.ui.RefineryUtilities;
 
 import backend.clases.infraestructura.Plaza;
 import backend.clases.personas.clientes.ClienteOrdinario;
@@ -67,6 +74,12 @@ public class PanelEstadoParking extends JPanel {
 	private JLabel lblConsulta;
 	private JLabel lblVacio;
 	private JLabel lblVacioBis;
+	private JButton btnObservarGraficaResultados;
+	private JButton btnObservarGraficaVehiculos;
+	private JButton btnObservarGraficaOcupacionYClientes;
+	private JFrame graficaIngresosYGastos = new JFrame("Ingresos y Gastos del Parking");
+	private JFrame graficaVehiculos = new JFrame("Tipos de vehiculo actualmente en el parking");
+	private JFrame graficaOcupacionYClientes = new JFrame("Ocupacion y clientes del parking");;
 
 	public PanelEstadoParking(JFrame frame, JPanel panel, Trabajador trabajador) {
 		setBackground(new Color(0, 128, 128));
@@ -76,6 +89,10 @@ public class PanelEstadoParking extends JPanel {
 		setBorder(border);
 		setBounds(10, 10, 567, 448);
 		this.setLayout(new GridLayout(3, 1));
+		
+		graficaIngresosYGastos.setVisible(false);
+		graficaVehiculos.setVisible(false);
+		graficaOcupacionYClientes.setVisible(false);
 
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(0, 128, 128));
@@ -83,7 +100,52 @@ public class PanelEstadoParking extends JPanel {
 
 		middlePanel = new JPanel();
 		middlePanel.setBackground(new Color(0, 128, 128));
-		add(middlePanel);
+		add(middlePanel);	
+		
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setBackground(new Color(0, 128, 128));
+		GridBagLayout gbl_bottomPanel = new GridBagLayout();
+		gbl_bottomPanel.columnWidths = new int[]{165, 206, 0};
+		gbl_bottomPanel.rowHeights = new int[]{44, 23, 23, 0};
+		gbl_bottomPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_bottomPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		bottomPanel.setLayout(gbl_bottomPanel);
+		
+		btnObservarGraficaResultados = new JButton("OBSERVAR GRAFICA");
+		btnObservarGraficaResultados.setForeground(new Color(0, 128, 128));
+		btnObservarGraficaResultados.setVisible(false);
+		GridBagConstraints gbc_btnObservarGraficaResultados = new GridBagConstraints();
+		gbc_btnObservarGraficaResultados.anchor = GridBagConstraints.NORTH;
+		gbc_btnObservarGraficaResultados.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnObservarGraficaResultados.insets = new Insets(0, 0, 5, 0);
+		gbc_btnObservarGraficaResultados.gridx = 1;
+		gbc_btnObservarGraficaResultados.gridy = 1;
+		bottomPanel.add(btnObservarGraficaResultados, gbc_btnObservarGraficaResultados);
+		add(bottomPanel);
+		
+		btnObservarGraficaVehiculos = new JButton("OBSERVAR GRAFICA");
+		btnObservarGraficaVehiculos.setForeground(new Color(0, 128, 128));
+		btnObservarGraficaVehiculos.setVisible(false);
+		GridBagConstraints gbc_btnObservarGraficaVehiculos = new GridBagConstraints();
+		gbc_btnObservarGraficaVehiculos.anchor = GridBagConstraints.NORTH;
+		gbc_btnObservarGraficaVehiculos.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnObservarGraficaVehiculos.insets = new Insets(0, 0, 5, 0);
+		gbc_btnObservarGraficaVehiculos.gridx = 1;
+		gbc_btnObservarGraficaVehiculos.gridy = 1;
+		bottomPanel.add(btnObservarGraficaVehiculos, gbc_btnObservarGraficaVehiculos);
+		add(bottomPanel);
+		
+		btnObservarGraficaOcupacionYClientes = new JButton("OBSERVAR GRAFICA");
+		btnObservarGraficaOcupacionYClientes.setForeground(new Color(0, 128, 128));
+		btnObservarGraficaOcupacionYClientes.setVisible(false);
+		GridBagConstraints gbc_btnObservarGraficaOcupacionYClientes = new GridBagConstraints();
+		gbc_btnObservarGraficaOcupacionYClientes.anchor = GridBagConstraints.NORTH;
+		gbc_btnObservarGraficaOcupacionYClientes.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnObservarGraficaOcupacionYClientes.insets = new Insets(0, 0, 5, 0);
+		gbc_btnObservarGraficaOcupacionYClientes.gridx = 1;
+		gbc_btnObservarGraficaOcupacionYClientes.gridy = 1;
+		bottomPanel.add(btnObservarGraficaOcupacionYClientes, gbc_btnObservarGraficaOcupacionYClientes);
+		add(bottomPanel);
 		
 		GridBagLayout gbl_middlePanel = new GridBagLayout();
 		gbl_middlePanel.columnWidths = new int[]{557, 0};
@@ -256,6 +318,33 @@ public class PanelEstadoParking extends JPanel {
 					scrollOrdinarios.setVisible(false);
 					scrollSubscritos.setVisible(false);
 					scrollPlazas.setVisible(false);
+					
+					btnObservarGraficaResultados.setVisible(true);
+					btnObservarGraficaVehiculos.setVisible(false);
+					btnObservarGraficaOcupacionYClientes.setVisible(false);
+
+					btnObservarGraficaResultados.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							 logger.info("Cargando informacion de ingresos y gastos en la grafica...");
+					    	 DefaultPieDataset datasetResultado = new DefaultPieDataset();
+					         datasetResultado.setValue("Ingresos", ingresoTotal);
+					         datasetResultado.setValue("Gastos", gastos);
+					       
+					         JFreeChart ingresosYGastos = ChartFactory.createPieChart("Ingresos y Gastos del Parking",datasetResultado,true,true,false);
+					         ChartPanel panelIngresosGastos = new ChartPanel(ingresosYGastos);
+					         
+					         if(!graficaIngresosYGastos.isVisible()) {
+						         graficaIngresosYGastos.setContentPane(panelIngresosGastos);
+						         graficaIngresosYGastos.pack();
+						         RefineryUtilities.centerFrameOnScreen(graficaIngresosYGastos);
+						         graficaIngresosYGastos.setVisible(true);	 	
+					         } else if(graficaIngresosYGastos.isVisible()){
+					        	 JOptionPane.showMessageDialog(panel, "Ya tiene abierto el grafico de resultados");
+					         }
+						}
+					});
 				}
 			});
 			
@@ -263,7 +352,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mostrarProgresoConsultas("Consultando estadisticas de tipos de clientes...");
+					mostrarProgresoConsultas("Consultando estadisticas de tipos de vehiculos...");
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Ocupadas", "Ordinarios", "Electricos", "Minusvalidos"));
 					DefaultTableModel modeloTipo = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 					logger.info("Cargando informacion del numero de plazas");
@@ -271,7 +360,7 @@ public class PanelEstadoParking extends JPanel {
 					List<Integer> listaPlazasTipo = ServicioPersistenciaBD.getInstance().numeroUsuarios();
 					List<Integer> listaTipo = ServicioPersistenciaBD.getInstance().numeroUsuariosPorVehiculo();
 					modeloTipo.addRow(new Object[] {listaPlazasTipo.get(0),listaTipo.get(0), listaTipo.get(1), listaTipo.get(2)});
-					lblConsulta.setText("Numero de plazas");
+					lblConsulta.setText("Numero de plazas por tipo de vehiculo");
 					
 					tableTipo.setModel(modeloTipo);
 					scrollTipo.setBounds(25, 25, 500, 100);
@@ -281,7 +370,36 @@ public class PanelEstadoParking extends JPanel {
 					scrollTrabajadores.setVisible(false);
 					scrollOrdinarios.setVisible(false);
 					scrollSubscritos.setVisible(false);
-					scrollPlazas.setVisible(false);
+					scrollPlazas.setVisible(false);	
+					
+					btnObservarGraficaResultados.setVisible(false);
+					btnObservarGraficaVehiculos.setVisible(true);
+					btnObservarGraficaOcupacionYClientes.setVisible(false);
+
+					btnObservarGraficaVehiculos.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {						    
+							logger.info("Cargando informacion de los tipos de vehiculos en la grafica...");
+							DefaultPieDataset datasetVehiculos = new DefaultPieDataset();
+					         datasetVehiculos.setValue("Ordinarios", listaTipo.get(0));
+					         datasetVehiculos.setValue("Electricos", listaTipo.get(1));
+					         datasetVehiculos.setValue("Minusvalidos", listaTipo.get(2));
+					       
+					         JFreeChart vehiculos = ChartFactory.createPieChart("Tipos de vehiculo actualmente en el parking",datasetVehiculos,true,true,false);
+					         ChartPanel panelTipoVehiculo = new ChartPanel(vehiculos);
+					         
+					         if(!graficaVehiculos.isVisible()) { 					         
+						         graficaVehiculos.setContentPane(panelTipoVehiculo);
+						         graficaVehiculos.pack();
+						         RefineryUtilities.centerFrameOnScreen(graficaVehiculos);
+						         graficaVehiculos.setVisible(true);
+					         } else if(graficaVehiculos.isVisible()){
+					        	 JOptionPane.showMessageDialog(panel, "Ya tiene abierto el grafico de vehiculos");
+					         }  
+					    }
+					});
+
 				}
 			});
 			
@@ -289,7 +407,7 @@ public class PanelEstadoParking extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mostrarProgresoConsultas("Consultando estadisticas de tipos de vehiculo...");
+					mostrarProgresoConsultas("Consultando estadisticas de tipos de clientes...");
 					Vector<String> cabeceras = new Vector<>(Arrays.asList("Disponibles", "Ocupadas", "Ordinarios", "Subscritos"));
 					DefaultTableModel modeloNumPlazas = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 					logger.info("Cargando informacion del numero de plazas");
@@ -297,7 +415,7 @@ public class PanelEstadoParking extends JPanel {
 					List<Integer> listaPlazas = ServicioPersistenciaBD.getInstance().ocupacionPlazas();
 					List<Integer> listaPlazasTipo = ServicioPersistenciaBD.getInstance().numeroUsuarios();
 					modeloNumPlazas.addRow(new Object[] {listaPlazas.get(0),listaPlazas.get(1), listaPlazasTipo.get(1), listaPlazasTipo.get(2)});
-					lblConsulta.setText("Numero de plazas");
+					lblConsulta.setText("Numero de plazas por tipo de cliente");
 					
 					tableNumPlazas.setModel(modeloNumPlazas);
 					scrollNumPlazas.setBounds(25, 25, 500, 100);
@@ -309,6 +427,45 @@ public class PanelEstadoParking extends JPanel {
 					scrollSubscritos.setVisible(false);
 					scrollPlazas.setVisible(false);
 					
+					btnObservarGraficaResultados.setVisible(false);
+					btnObservarGraficaVehiculos.setVisible(false);
+					btnObservarGraficaOcupacionYClientes.setVisible(true);
+
+					btnObservarGraficaOcupacionYClientes.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {						    
+							logger.info("Cargando informacion de ocupacion y tipos de clientes en graficas...");
+							DefaultPieDataset datasetOcupacion = new DefaultPieDataset();
+					         datasetOcupacion.setValue("Disponible", listaPlazas.get(0));
+					         datasetOcupacion.setValue("Ocupadas", listaPlazas.get(1));
+					         
+					         DefaultPieDataset datasetClientes = new DefaultPieDataset();
+					         datasetClientes.setValue("Ordinarios", listaPlazasTipo.get(1));
+					         datasetClientes.setValue("Subscritos", listaPlazasTipo.get(2));
+					         
+					         JPanel panelOcupacionYCLientes = new JPanel();
+					         panelOcupacionYCLientes.setLayout(new BoxLayout(panelOcupacionYCLientes, BoxLayout.X_AXIS));
+					  		
+					         JFreeChart ocupacion = ChartFactory.createPieChart("Ocupacion actual del parking",datasetOcupacion,true,true,false);
+					         ChartPanel panelOcupacion = new ChartPanel(ocupacion);
+					         panelOcupacionYCLientes.add(panelOcupacion);
+					         
+					         JFreeChart clientes = ChartFactory.createPieChart("Clientes que hay en el parking",datasetClientes, true, true, false);
+					         ChartPanel panelClientes = new ChartPanel(clientes);
+					         panelOcupacionYCLientes.add(panelClientes);
+					         
+					         if(!graficaOcupacionYClientes.isVisible()) {
+					        	    graficaOcupacionYClientes.setContentPane(panelOcupacionYCLientes);
+					        	    graficaOcupacionYClientes.pack();
+					        	    RefineryUtilities.centerFrameOnScreen(graficaOcupacionYClientes);
+					        	    graficaOcupacionYClientes.setVisible(true);
+					        	} else if(graficaOcupacionYClientes.isVisible()){
+						        	 JOptionPane.showMessageDialog(panel, "Ya tiene abierto el grafico de ocupacion y clientes");
+					        	}
+
+					    }
+					});
 				}
 			});
 			
@@ -340,6 +497,10 @@ public class PanelEstadoParking extends JPanel {
 					scrollOrdinarios.setVisible(false);
 					scrollSubscritos.setVisible(false);
 					scrollPlazas.setVisible(false);
+					
+					btnObservarGraficaResultados.setVisible(false);
+					btnObservarGraficaVehiculos.setVisible(false);
+					btnObservarGraficaOcupacionYClientes.setVisible(false);
 				}
 			});
 			
@@ -416,6 +577,10 @@ public class PanelEstadoParking extends JPanel {
 				scrollTipo.setVisible(false);
 				scrollMargen.setVisible(false);
 				scrollPlazas.setVisible(false);
+				
+				btnObservarGraficaResultados.setVisible(false);
+				btnObservarGraficaVehiculos.setVisible(false);
+				btnObservarGraficaOcupacionYClientes.setVisible(false);
 			}
 		});
 		
@@ -445,7 +610,12 @@ public class PanelEstadoParking extends JPanel {
 				scrollNumPlazas.setVisible(false);
 				scrollTipo.setVisible(false);
 				scrollMargen.setVisible(false);
-				scrollPlazas.setVisible(false);
+				scrollPlazas.setVisible(false);	
+				
+				btnObservarGraficaResultados.setVisible(false);
+				btnObservarGraficaVehiculos.setVisible(false);
+				btnObservarGraficaOcupacionYClientes.setVisible(false);
+
 			}
 		});
 		
@@ -477,9 +647,9 @@ public class PanelEstadoParking extends JPanel {
 							int row, int column) {
 						Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 						if (tablePlazas.getValueAt(row, 3).equals("OCUPADO")) {
-							c.setBackground(Color.RED);
+							c.setBackground(new Color(205, 92, 92));
 						} else if (tablePlazas.getValueAt(row, 3).equals("DISPONIBLE")) {
-							c.setBackground(Color.GREEN);
+							c.setBackground(new Color(144, 238, 144));
 						}
 						return c;
 					}
@@ -492,14 +662,14 @@ public class PanelEstadoParking extends JPanel {
 				scrollTipo.setVisible(false);
 				scrollMargen.setVisible(false);
 				scrollTrabajadores.setVisible(false);
+				
+				btnObservarGraficaResultados.setVisible(false);
+				btnObservarGraficaVehiculos.setVisible(false);
+				btnObservarGraficaOcupacionYClientes.setVisible(false);
+
 			}
 		});
-		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setBackground(new Color(0, 128, 128));
-		GridBagLayout gbl_bottomPanel = new GridBagLayout();
-		gbl_bottomPanel.columnWeights = new double[]{1.0};
-		bottomPanel.setLayout(gbl_bottomPanel);
+	
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.setForeground(new Color(0, 128, 128));
 		btnVolver.addActionListener(new ActionListener() {
@@ -511,9 +681,11 @@ public class PanelEstadoParking extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+		gbc_btnVolver.anchor = GridBagConstraints.NORTH;
 		gbc_btnVolver.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnVolver.gridx = 1;
+		gbc_btnVolver.gridy = 2;
 		bottomPanel.add(btnVolver, gbc_btnVolver);
-		add(bottomPanel);
 	}
 	
 	public void mostrarProgresoConsultas(String message) {
