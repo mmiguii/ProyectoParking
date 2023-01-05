@@ -16,8 +16,7 @@ public class ClienteSubscritoTest {
 
 	private ClienteSubscrito sC;
 
-	private Plaza p = new Plaza(1,400, false, "Normal", "1111ZZZ");
-
+	private Plaza p = new Plaza(1, 400, false, "Normal", "1111ZZZ");
 
 	@Before
 	public void setUp() {

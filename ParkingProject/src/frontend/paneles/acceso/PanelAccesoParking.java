@@ -56,7 +56,8 @@ public class PanelAccesoParking extends JPanel {
 		this.frame = frame;
 		this.horaEntrada = horaEntrada;
 
-		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel de acceso al parking");
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory
+				.createTitledBorder("Panel de acceso al parking");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
 		setBounds(10, 10, 567, 448);

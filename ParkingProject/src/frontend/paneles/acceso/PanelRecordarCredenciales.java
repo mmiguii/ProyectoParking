@@ -28,14 +28,15 @@ public class PanelRecordarCredenciales extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldNombreUsuario;
-	private JPasswordField passwordFieldPassword; 
+	private JPasswordField passwordFieldPassword;
 
 	private static Logger logger = Logger.getLogger(PanelRecordarCredenciales.class.getName());
 
 	public PanelRecordarCredenciales(JFrame frame, JPanel panel, Map<String, Trabajador> trabajadores) {
 		setBackground(new Color(0, 128, 128));
 		setLayout(null);
-		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel de recuperacion de credenciales");
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory
+				.createTitledBorder("Panel de recuperacion de credenciales");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
 
@@ -103,10 +104,8 @@ public class PanelRecordarCredenciales extends JPanel {
 									EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
 											"Su usuario es: " + nombreTrabajador + " y su contraseña es: " + nuevoPass);
 								} catch (FileNotFoundException e) {
-									// TODO Auto-generated catch block
 									logger.info("El fichero de propiedades no existe");
 								} catch (IOException e) {
-									// TODO Auto-generated catch block
 									logger.info("No se ha leido correctamente del fichero de propiedades");
 								}
 								logger.info("Mensaje enviado.");

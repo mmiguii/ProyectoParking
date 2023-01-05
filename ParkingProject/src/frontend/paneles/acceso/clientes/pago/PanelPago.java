@@ -46,7 +46,7 @@ public class PanelPago extends JPanel {
 
 	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, Plaza plaza, String horaActual) {
 		setBackground(new Color(0, 128, 128));
-		
+
 		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel Pago");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
@@ -189,7 +189,8 @@ public class PanelPago extends JPanel {
 						JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if (opcion == 0) {
 					if (usuario instanceof ClienteOrdinario) {
-						ServicioPersistenciaBD.getInstance().ingresosPlanta(usuario.getMatricula(), usuario.getImporte());
+						ServicioPersistenciaBD.getInstance().ingresosPlanta(usuario.getMatricula(),
+								usuario.getImporte());
 						ServicioPersistenciaBD.getInstance().updatePlaza(plazaSel(), "DISPONIBLE", "");
 						ServicioPersistenciaBD.getInstance().ordinarioDelete(usuario.getMatricula());
 						logger.info("Cerrando aplicacion...");
@@ -225,7 +226,7 @@ public class PanelPago extends JPanel {
 		});
 
 		add(btnVolver);
-		
+
 		JLabel lblCliente = new JLabel("Cliente");
 		lblCliente.setForeground(new Color(255, 255, 255));
 		lblCliente.setBounds(90, 90, 150, 25);

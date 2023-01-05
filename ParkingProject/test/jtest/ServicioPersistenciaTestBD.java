@@ -64,14 +64,15 @@ public class ServicioPersistenciaTestBD {
 		assertEquals(0.5, ordinario1.getTarifa(), 0.001);
 		assertEquals(1671897760000L, ordinario1.getFechaEntrada());
 	}
-	
+
 	@Test
-	public void testOrdinarioCargar(){
-		Vector<String> cabeceras = new Vector<>(Arrays.asList("Matricula", "Tipo Vehiculo", "Tarifa", "Fecha de Entrada"));
+	public void testOrdinarioCargar() {
+		Vector<String> cabeceras = new Vector<>(
+				Arrays.asList("Matricula", "Tipo Vehiculo", "Tarifa", "Fecha de Entrada"));
 		DefaultTableModel model = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 		ServicioPersistenciaBD.getInstance().ordinarioCargar(model);
 		assertEquals(4, model.getColumnCount());
-		assertEquals(1, model.getRowCount());	
+		assertEquals(1, model.getRowCount());
 		assertEquals("1111BBB", model.getValueAt(0, 0));
 		assertEquals("Ordinario", model.getValueAt(0, 1));
 		assertEquals(0.5, model.getValueAt(0, 2));
@@ -341,7 +342,7 @@ public class ServicioPersistenciaTestBD {
 	}
 
 	@Test
-	public void testGetPlazasDisponibles() { 
+	public void testGetPlazasDisponibles() {
 		// Llamar al método getPlazasDisponibles
 		int plazasDisponibles = ServicioPersistenciaBD.getInstance().getPlazasDisponibles();
 
@@ -356,7 +357,7 @@ public class ServicioPersistenciaTestBD {
 			fail("Error al acceder a la base de datos: " + e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testPlazasSelect() {
 		int numeroPlanta = 1;
@@ -368,20 +369,24 @@ public class ServicioPersistenciaTestBD {
 			assertEquals(tipoPlaza, p.getTipoPlaza());
 		}
 	}
-	
+
 	@Test
 	public void testIngresosPlanta() {
-		//Escogemos de la base de datos una matricula existente con un importe aleatorio con el fin de hacer la prueba
+		// Escogemos de la base de datos una matricula existente con un importe
+		// aleatorio con el fin de hacer la prueba
 		String matricula = "ABC123";
 		double importe = 130;
 		double ingresosPasados = 0;
-		
-		//Para obtener la asercion de ingresos correcta, se debe obtener el importe de ingreso anterior
-		//y posterior al Update. Por ello se realiza el proceso dos veces, una antes y otra tras el Update
-		// 1- en la primera hayamos el numero de planta por matricula en la tabla de plazas
+
+		// Para obtener la asercion de ingresos correcta, se debe obtener el importe de
+		// ingreso anterior
+		// y posterior al Update. Por ello se realiza el proceso dos veces, una antes y
+		// otra tras el Update
+		// 1- en la primera hayamos el numero de planta por matricula en la tabla de
+		// plazas
 		// 2- en la segunda comprobamos los ingresos con el numero de planta anterior
 		String sentSQL = "SELECT ingresos_planta FROM plantas WHERE numero_planta = "
-							+ "(SELECT numero_planta FROM plazas WHERE matricula = ?)";
+				+ "(SELECT numero_planta FROM plazas WHERE matricula = ?)";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			stmt.setString(1, matricula);
 			try (ResultSet rs = stmt.executeQuery()) {
@@ -390,14 +395,16 @@ public class ServicioPersistenciaTestBD {
 		} catch (SQLException e) {
 			fail("Error al acceder a la base de datos: " + e.getMessage());
 		}
-		
+
 		ServicioPersistenciaBD.getInstance().ingresosPlanta(matricula, importe);
 
-		// Comprobamos que se ha actualizado la tabla "plantas" correctamente con una doble consulta,
-		// 1- en la primera hayamos el numero de planta por matricula en la tabla de plazas
+		// Comprobamos que se ha actualizado la tabla "plantas" correctamente con una
+		// doble consulta,
+		// 1- en la primera hayamos el numero de planta por matricula en la tabla de
+		// plazas
 		// 2- en la segunda comprobamos los ingresos con el numero de planta anterior
 		String sentSQL2 = "SELECT ingresos_planta FROM plantas WHERE numero_planta = "
-							+ "(SELECT numero_planta FROM plazas WHERE matricula = ?)";
+				+ "(SELECT numero_planta FROM plazas WHERE matricula = ?)";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL2)) {
 			stmt.setString(1, matricula);
 			try (ResultSet rs = stmt.executeQuery()) {
@@ -408,16 +415,18 @@ public class ServicioPersistenciaTestBD {
 			fail("Error al acceder a la base de datos: " + e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testIngresosTotales() {
-		//Usando el metodo anterior comprobaremos su utilidad
+		// Usando el metodo anterior comprobaremos su utilidad
 		String matricula = "ABC123";
 		double importe = 130;
 		double importeAnterior = 0;
-		//A continuacion se comprueban los ingresos. Recordemos que el aserto refleja el ingreso final
-		//Es decir, el importe mas el valor anterior. Para ello, realizamos una consulta sabiendo
-		//el numero de planta hayando el valor anterior, y sumando el siguiente.
+		// A continuacion se comprueban los ingresos. Recordemos que el aserto refleja
+		// el ingreso final
+		// Es decir, el importe mas el valor anterior. Para ello, realizamos una
+		// consulta sabiendo
+		// el numero de planta hayando el valor anterior, y sumando el siguiente.
 		String sentSQL = "SELECT ingresos_planta FROM plantas WHERE numero_planta = 1";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			ResultSet rs = stmt.executeQuery();
@@ -426,37 +435,40 @@ public class ServicioPersistenciaTestBD {
 			fail("Error al acceder a la base de datos: " + e.getMessage());
 		}
 		ServicioPersistenciaBD.getInstance().ingresosPlanta(matricula, importe);
-		
+
 		List<Double> ingresos = ServicioPersistenciaBD.getInstance().ingresosTotales();
-		//Al haber 3 plantas, el rango es 3
+		// Al haber 3 plantas, el rango es 3
 		assertEquals(3, ingresos.size());
-		assertEquals(importeAnterior + importe, ingresos.get(0), 0.0);				
+		assertEquals(importeAnterior + importe, ingresos.get(0), 0.0);
 	}
-	
+
 	@Test
 	public void testOcupacionPlazas() {
 		List<Integer> estadoPlazas = ServicioPersistenciaBD.getInstance().ocupacionPlazas();
 		assertEquals(2, estadoPlazas.size());
-		//Plazas disponibles
+		// Plazas disponibles
 		assertEquals(90, estadoPlazas.get(0), 0.0);
-		//Plazas ocupadas
+		// Plazas ocupadas
 		assertEquals(1, estadoPlazas.get(1), 0.0);
 	}
-	
+
 	@Test
 	public void testNumeroUsuarios() {
 		List<Integer> usuarios = ServicioPersistenciaBD.getInstance().numeroUsuarios();
 		assertEquals(3, usuarios.size());
-		//Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test sale asi
+		// Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test
+		// sale asi
 		assertEquals(1, usuarios.get(0), 0);
 		assertEquals(1, usuarios.get(1), 0);
 		assertEquals(0, usuarios.get(2), 0);
 	}
-	
+
 	@Test
 	public void testNumeroUsuariosPorTipoYVehiculo() {
-		Map<String, List<Integer>> mapaUsuariosTipoVehiculo = ServicioPersistenciaBD.getInstance().numeroUsuariosPorTipoYVehiculo();
-		//Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test sale asi
+		Map<String, List<Integer>> mapaUsuariosTipoVehiculo = ServicioPersistenciaBD.getInstance()
+				.numeroUsuariosPorTipoYVehiculo();
+		// Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test
+		// sale asi
 		assertEquals(0, mapaUsuariosTipoVehiculo.get("Ordinarios").get(0), 0);
 		assertEquals(1, mapaUsuariosTipoVehiculo.get("Ordinarios").get(1), 0);
 		assertEquals(0, mapaUsuariosTipoVehiculo.get("Ordinarios").get(2), 0);
@@ -464,20 +476,21 @@ public class ServicioPersistenciaTestBD {
 		assertEquals(0, mapaUsuariosTipoVehiculo.get("Subscritos").get(1), 0);
 		assertEquals(0, mapaUsuariosTipoVehiculo.get("Subscritos").get(2), 0);
 	}
-	
-	@Test 
-	public void testNumeroUsuariosPorVehiculo(){
+
+	@Test
+	public void testNumeroUsuariosPorVehiculo() {
 		List<Integer> usuariosVehiculo = ServicioPersistenciaBD.getInstance().numeroUsuariosPorVehiculo();
 		assertEquals(3, usuariosVehiculo.size());
-		//Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test sale asi
+		// Al solo haber una plaza ocupada en tabla plazas de la BD de Test, el test
+		// sale asi
 		assertEquals(0, usuariosVehiculo.get(0), 0);
 		assertEquals(1, usuariosVehiculo.get(1), 0);
 		assertEquals(0, usuariosVehiculo.get(2), 0);
 	}
-	
+
 	@Test
 	public void testGetUsuarioPorMatricula() {
-		//Obtenemos matricula por una matricula dada en la tabla clientes ordinarios 
+		// Obtenemos matricula por una matricula dada en la tabla clientes ordinarios
 		ClienteOrdinario u = (ClienteOrdinario) ServicioPersistenciaBD.getInstance().getUsuario("1111BBB");
 		String sentSQL = "SELECT matricula, tarifa FROM clientes_ordinarios WHERE matricula = '1111BBB'";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
@@ -487,32 +500,33 @@ public class ServicioPersistenciaTestBD {
 		} catch (SQLException e) {
 			fail("Error al acceder a la base de datos: " + e.getMessage());
 		}
-		
-		//Obtenemos matricula por una matricula dada en la tabla clientes subscritos 
-		ClienteSubscrito u2 = (ClienteSubscrito)ServicioPersistenciaBD.getInstance().getUsuario("1111XXX");
+
+		// Obtenemos matricula por una matricula dada en la tabla clientes subscritos
+		ClienteSubscrito u2 = (ClienteSubscrito) ServicioPersistenciaBD.getInstance().getUsuario("1111XXX");
 		String sentSQL2 = "SELECT matricula, tipo_vehiculo FROM clientes_subscritos WHERE matricula = '1111XXX'";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL2)) {
 			ResultSet rs = stmt.executeQuery();
 			assertEquals(rs.getString("matricula"), u2.getMatricula());
 			assertEquals(rs.getString("tipo_vehiculo"), u2.getTipoVehiculo());
 		} catch (SQLException e) {
-			fail("Error al acceder a la base de datos: " + e.getMessage()); 
-		}		
+			fail("Error al acceder a la base de datos: " + e.getMessage());
+		}
 	}
-	
+
 	@Test
 	public void testSalarioSelect() {
 		double d = ServicioPersistenciaBD.getInstance().salarioSelect();
-		//Se realiza la suma de los salarios de trabajadores manualmente para comprobar si es correcto
+		// Se realiza la suma de los salarios de trabajadores manualmente para comprobar
+		// si es correcto
 		assertEquals(5000, d, 0);
 	}
-	
-	@Test 
+
+	@Test
 	public void testTrabajadoresUpdate() {
-		//Introducimos el DNI de un trabajador ya existente y cambiamos la clave.
+		// Introducimos el DNI de un trabajador ya existente y cambiamos la clave.
 		String nuevoPassword = ServicioPersistenciaBD.getInstance().trabajadoresUpdate("12345678C");
 		assertEquals(10, nuevoPassword.length());
-		//Hallaremos la nueva clave con una consulta SQL
+		// Hallaremos la nueva clave con una consulta SQL
 		String sentSQL = "SELECT password FROM trabajadores WHERE dni = '12345678C'";
 		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			ResultSet rs = stmt.executeQuery();

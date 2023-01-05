@@ -45,63 +45,62 @@ public class PanelTrabajador extends JPanel {
 		topPanel.setBackground(new Color(0, 128, 128));
 		topPanel.setForeground(new Color(255, 255, 255));
 		GridBagLayout gbl_topPanel = new GridBagLayout();
-		gbl_topPanel.columnWeights = new double[]{1.0};
+		gbl_topPanel.columnWeights = new double[] { 1.0 };
 		topPanel.setLayout(gbl_topPanel);
-				
-				JLabel lblHoraActual = new JLabel("");
-				lblHoraActual.setForeground(new Color(255, 255, 255));
-				GridBagConstraints gbc_lblHoraActual = new GridBagConstraints();
-				gbc_lblHoraActual.anchor = GridBagConstraints.EAST;
-				gbc_lblHoraActual.insets = new Insets(0, 0, 5, 0);
-				gbc_lblHoraActual.gridx = 0;
-				gbc_lblHoraActual.gridy = 0;
-				topPanel.add(lblHoraActual, gbc_lblHoraActual);
-				
-				
-				/** Hilo que me mostrando la hora en tiempo real */
-				Runnable runnable = new Runnable() {
-					@Override
-					public void run() {
-						while (true) {
-							try {
-								DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
-								Thread.sleep(500);
-								lblHoraActual.setText(formatter.format(LocalDateTime.now()));
-							} catch (InterruptedException e) {
-								logger.severe(String.format("%s %s", e.getMessage(), e.getCause().getMessage()));
-							}
-						}
+
+		JLabel lblHoraActual = new JLabel("");
+		lblHoraActual.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblHoraActual = new GridBagConstraints();
+		gbc_lblHoraActual.anchor = GridBagConstraints.EAST;
+		gbc_lblHoraActual.insets = new Insets(0, 0, 5, 0);
+		gbc_lblHoraActual.gridx = 0;
+		gbc_lblHoraActual.gridy = 0;
+		topPanel.add(lblHoraActual, gbc_lblHoraActual);
+
+		/** Hilo que me mostrando la hora en tiempo real */
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
+						Thread.sleep(500);
+						lblHoraActual.setText(formatter.format(LocalDateTime.now()));
+					} catch (InterruptedException e) {
+						logger.severe(String.format("%s %s", e.getMessage(), e.getCause().getMessage()));
 					}
-				};
-				Thread hilo = new Thread(runnable);
-				hilo.start();
-				
-						JLabel lblBienvenido = new JLabel("BIENVENIDO", SwingConstants.CENTER);
-						lblBienvenido.setForeground(new Color(255, 255, 255));
-						lblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 20));
-						GridBagConstraints gbc_lblBienvenido = new GridBagConstraints();
-						gbc_lblBienvenido.fill = GridBagConstraints.HORIZONTAL;
-						gbc_lblBienvenido.insets = new Insets(0, 0, 5, 0);
-						gbc_lblBienvenido.gridx = 0;
-						gbc_lblBienvenido.gridy = 1;
-						topPanel.add(lblBienvenido, gbc_lblBienvenido);
-				
-				JLabel lblVacio = new JLabel(" ");
-				GridBagConstraints gbc_lblVacio = new GridBagConstraints();
-				gbc_lblVacio.insets = new Insets(0, 0, 5, 0);
-				gbc_lblVacio.gridx = 0;
-				gbc_lblVacio.gridy = 2;
-				topPanel.add(lblVacio, gbc_lblVacio);
+				}
+			}
+		};
+		Thread hilo = new Thread(runnable);
+		hilo.start();
+
+		JLabel lblBienvenido = new JLabel("BIENVENIDO", SwingConstants.CENTER);
+		lblBienvenido.setForeground(new Color(255, 255, 255));
+		lblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblBienvenido = new GridBagConstraints();
+		gbc_lblBienvenido.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblBienvenido.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBienvenido.gridx = 0;
+		gbc_lblBienvenido.gridy = 1;
+		topPanel.add(lblBienvenido, gbc_lblBienvenido);
+
+		JLabel lblVacio = new JLabel(" ");
+		GridBagConstraints gbc_lblVacio = new GridBagConstraints();
+		gbc_lblVacio.insets = new Insets(0, 0, 5, 0);
+		gbc_lblVacio.gridx = 0;
+		gbc_lblVacio.gridy = 2;
+		topPanel.add(lblVacio, gbc_lblVacio);
 		add(topPanel);
-		
-				JLabel nombreUsuario = new JLabel(trabajador.getNombreUsuario());
-				nombreUsuario.setForeground(new Color(255, 255, 255));
-				nombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				nombreUsuario.setBorder(null);
-				GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
-				gbc_nombreUsuario.gridx = 0;
-				gbc_nombreUsuario.gridy = 3;
-				topPanel.add(nombreUsuario, gbc_nombreUsuario);
+
+		JLabel nombreUsuario = new JLabel(trabajador.getNombreUsuario());
+		nombreUsuario.setForeground(new Color(255, 255, 255));
+		nombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		nombreUsuario.setBorder(null);
+		GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
+		gbc_nombreUsuario.gridx = 0;
+		gbc_nombreUsuario.gridy = 3;
+		topPanel.add(nombreUsuario, gbc_nombreUsuario);
 
 		JPanel middlePanel = new JPanel(new GridLayout(1, 2));
 
@@ -206,8 +205,7 @@ public class PanelTrabajador extends JPanel {
 		bottomPanel.add(rightBottomPanel);
 		add(bottomPanel);
 	}
-	
-	
+
 	public void mostrarProgresoPago(String message) {
 		JOptionPane pane = new JOptionPane();
 		pane.setMessage(message);
@@ -221,7 +219,6 @@ public class PanelTrabajador extends JPanel {
 				jProgressBar.setValue(i);
 				if (i == 100) {
 					dialog.dispose();
-//					pane.setMessage("Transaccion realizada. ¡Gracias!");
 				}
 				try {
 					Thread.sleep(10);

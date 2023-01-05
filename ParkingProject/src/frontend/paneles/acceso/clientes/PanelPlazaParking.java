@@ -1,5 +1,6 @@
 package frontend.paneles.acceso.clientes;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
@@ -14,13 +15,11 @@ import javax.swing.Timer;
 import backend.clases.personas.clientes.Usuario;
 import backend.servicios.ServicioPersistenciaBD;
 import frontend.paneles.PanelPrincipal;
-import java.awt.Color;
 
 public class PanelPlazaParking extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(PanelPlazaParking.class.getName());
-
 
 	public PanelPlazaParking(JFrame frame, Usuario usuario) {
 		setBackground(new Color(0, 128, 128));
@@ -39,35 +38,34 @@ public class PanelPlazaParking extends JPanel {
 				frame.dispose();
 				ServicioPersistenciaBD.getInstance().disconnect();
 				System.exit(0);
-			} 
+			}
 		});
 		btnSalir.setBounds(112, 380, 327, 29);
 		add(btnSalir);
 
-		JLabel lblAnimacionEntrada = new JLabel("");  
+		JLabel lblAnimacionEntrada = new JLabel("");
 		lblAnimacionEntrada.setVisible(true); // muestra el componente lblAnimacionEntrada
-		lblAnimacionEntrada.setBounds(5, 45, 574, 330); 
-		lblAnimacionEntrada.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/EntradaParking.gif")));  // asignamos una imagen al objeto JLabel
-		
-		add(lblAnimacionEntrada);
-		
+		lblAnimacionEntrada.setBounds(5, 45, 574, 330);
+		lblAnimacionEntrada.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/EntradaParking.gif")));
 
-		JLabel lblImagen = new JLabel("");  
-		lblImagen.setBounds(122, 79, 292, 238);  
+		add(lblAnimacionEntrada);
+
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setBounds(122, 79, 292, 238);
 
 		if (usuario.getTipoVehiculo().equals("Ordinario")) {
-		  logger.info("Accediendo al aparcamiento ordinario...");
-		  lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaOrdinaria.jpeg")));  // asignamos una imagen al objeto JLabel
+			logger.info("Accediendo al aparcamiento ordinario...");
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaOrdinaria.jpeg")));
 		} else if (usuario.getTipoVehiculo().equals("Minusvalido")) {
-		  logger.info("Accediendo al aparcamiento minusvalido...");
-		  lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaMinusvalido.jpeg")));  // asignamos una imagen al objeto JLabel
+			logger.info("Accediendo al aparcamiento minusvalido...");
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaMinusvalido.jpeg")));
 		} else {
-		  logger.info("Accediendo al aparcamiento electrico...");
-		  lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaElectrico.jpeg")));  // asignamos una imagen al objeto JLabel
+			logger.info("Accediendo al aparcamiento electrico...");
+			lblImagen.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/plazaElectrico.jpeg")));
 		}
-		
-		add(lblImagen);  
-		
+
+		add(lblImagen);
+
 		// Crea un temporizador que ejecutará una tarea después de 10 segundos
 		Timer timer = new Timer(10000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

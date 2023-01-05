@@ -31,7 +31,7 @@ import backend.clases.personas.personal.Manager;
 import backend.clases.personas.personal.Trabajador;
 
 /**
- * La función de esta clase ServicioPersistenciaBD es la de declarar metodos 
+ * La función de esta clase ServicioPersistenciaBD es la de declarar metodos
  * relacionados a la DB para su futuro uso.
  * 
  * @author Miguel Aroztegi, Eduardo Jorge Sanjurjo e Iker Lekuona
@@ -500,7 +500,7 @@ public class ServicioPersistenciaBD {
 					plaza.setEstadoPlaza(disp);
 					plaza.setTipoPlaza(rs.getString("tipo_plaza"));
 					plaza.setMatricula(rs.getString("matricula"));
-					
+
 					plazas.put(plaza.getNumeroPlaza(), plaza);
 				}
 			}
@@ -520,7 +520,7 @@ public class ServicioPersistenciaBD {
 	 * una lista, que luego devuelve. Si hay algún error al realizar la consulta a
 	 * la base de datos, devuelve null.
 	 */
-	
+
 	public List<Plaza> plazasSelect(int numeroPlanta, String tipoPlaza) {
 		String sentSQL = "SELECT numero_planta, numero_plaza, tipo_plaza, estado_plaza FROM plazas WHERE numero_planta = ?  AND tipo_plaza = ? ";
 		List<Plaza> ret = new ArrayList<>();
@@ -592,15 +592,14 @@ public class ServicioPersistenciaBD {
 			return 0;
 		}
 	}
-	
+
 	/**
-	 * Este metodo añade en la tabla "plantas" los ingresos del parking. Estos ocurren 
-	 * cuando un cliente ordinario paga en la caja del parking o un cliente subscrito 
-	 * compra su abono. Para el calculo de este metodo se realizan dos consulta, y se 
-	 * han necesitado la matricula del coche del cliente y el valor de su tarifa para
-	 * ello:
-	 * 1- La obtencion del numero de planta para añadir el ingreso de dicha planta.
-	 * 2- La actualizacion de los ingresos del parking.
+	 * Este metodo añade en la tabla "plantas" los ingresos del parking. Estos
+	 * ocurren cuando un cliente ordinario paga en la caja del parking o un cliente
+	 * subscrito compra su abono. Para el calculo de este metodo se realizan dos
+	 * consulta, y se han necesitado la matricula del coche del cliente y el valor
+	 * de su tarifa para ello: 1- La obtencion del numero de planta para añadir el
+	 * ingreso de dicha planta. 2- La actualizacion de los ingresos del parking.
 	 */
 
 	public void ingresosPlanta(String matricula, double importe) {
@@ -620,7 +619,7 @@ public class ServicioPersistenciaBD {
 			e.printStackTrace();
 		}
 		log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL2, null);
-		try (PreparedStatement stmt = conn.prepareStatement(sentSQL2)){
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL2)) {
 			stmt.setDouble(1, importe);
 			stmt.setInt(2, numeroPlanta);
 			stmt.executeUpdate();
@@ -630,17 +629,18 @@ public class ServicioPersistenciaBD {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Este metodo obtiene los ingresos por cada planta en una lista. Primero, se realiza
-	 * una consulta para ello, y posteriormente se almacenan en una lista. Estos ingresos 
-	 * de acuerdo a la contabilidad son los correspondientes a los del parking.
-	 */ 
+	 * Este metodo obtiene los ingresos por cada planta en una lista. Primero, se
+	 * realiza una consulta para ello, y posteriormente se almacenan en una lista.
+	 * Estos ingresos de acuerdo a la contabilidad son los correspondientes a los
+	 * del parking.
+	 */
 	public List<Double> ingresosTotales() {
 		List<Double> ingresosPlanta = new ArrayList<>();
 		String sentSQL = "SELECT ingresos_planta FROM plantas";
 		log(Level.INFO, "Lanzada consulta a base de datos: " + sentSQL, null);
-		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				ingresosPlanta.add(rs.getDouble("ingresos_planta"));
@@ -649,25 +649,24 @@ public class ServicioPersistenciaBD {
 			lastError = e;
 			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
 			e.printStackTrace();
-		}		
+		}
 		return ingresosPlanta;
 	}
-	
+
 	/**
-	 * Este metodo calculara la ocupación total del parking. El resultado se reflejara en una lista
-	 * de enteros que, segun la ocupacion de las plazas, determinaremos la cantidad de espacios 
-	 * ocupados y libres. Para ello, se hara una doble consulta a la tabla plazas para determinar esa 
-	 * disponibilidad.
+	 * Este metodo calculara la ocupación total del parking. El resultado se
+	 * reflejara en una lista de enteros que, segun la ocupacion de las plazas,
+	 * determinaremos la cantidad de espacios ocupados y libres. Para ello, se hara
+	 * una doble consulta a la tabla plazas para determinar esa disponibilidad.
 	 */
-	
-	public List<Integer> ocupacionPlazas(){
+
+	public List<Integer> ocupacionPlazas() {
 		List<Integer> plazas = new ArrayList<>();
 		String sentSQL = "SELECT COUNT(*) AS disponibles, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE') AS ocupadas "
-							+ "FROM plazas"
-							+ " WHERE estado_plaza = 'DISPONIBLE'";
-		log(Level.INFO, "Lanzada la consulta a base de datos: "+ sentSQL, null);
-		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){
+				+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE') AS ocupadas " + "FROM plazas"
+				+ " WHERE estado_plaza = 'DISPONIBLE'";
+		log(Level.INFO, "Lanzada la consulta a base de datos: " + sentSQL, null);
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			ResultSet rs = stmt.executeQuery();
 			plazas.add(0, rs.getInt("disponibles"));
 			plazas.add(1, rs.getInt("ocupadas"));
@@ -675,26 +674,28 @@ public class ServicioPersistenciaBD {
 			lastError = e;
 			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
 			e.printStackTrace();
-		}return plazas;
+		}
+		return plazas;
 	}
-	
+
 	/**
-	 * Este metodo obtiene una lista en la que se recoge la cantidad de clientes total que hay en el parking,
-	 * la cantidad de clientes ordinarios y la cantidad de clientes subscritos. Para ello, se recurre a esta 
-	 * consulta triple que por la tabla de plazas se relacionan todos los clientes, y mediante las distintas
-	 * condiciones y denominaciones, se pueden hallar los calculos. Sabiendo que los clientes ocupan plazas, 
-	 * y que los subscritos estan todos en la tercera planta, ya se pueden realizar los calculos.
+	 * Este metodo obtiene una lista en la que se recoge la cantidad de clientes
+	 * total que hay en el parking, la cantidad de clientes ordinarios y la cantidad
+	 * de clientes subscritos. Para ello, se recurre a esta consulta triple que por
+	 * la tabla de plazas se relacionan todos los clientes, y mediante las distintas
+	 * condiciones y denominaciones, se pueden hallar los calculos. Sabiendo que los
+	 * clientes ocupan plazas, y que los subscritos estan todos en la tercera
+	 * planta, ya se pueden realizar los calculos.
 	 */
-	
-	public List<Integer> numeroUsuarios(){
+
+	public List<Integer> numeroUsuarios() {
 		List<Integer> tiposUsuarios = new ArrayList<>();
 		String sentSQL = "SELECT COUNT(*) AS usuarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE') AS ordinarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE') AS subscritos "
-							+ "FROM plazas "
-							+ "WHERE estado_plaza != 'DISPONIBLE'";
-		log(Level.INFO, "Lanzada la consulta a base de datos: "+ sentSQL, null);
-		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){
+				+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE') AS ordinarios, "
+				+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE') AS subscritos "
+				+ "FROM plazas " + "WHERE estado_plaza != 'DISPONIBLE'";
+		log(Level.INFO, "Lanzada la consulta a base de datos: " + sentSQL, null);
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			ResultSet rs = stmt.executeQuery();
 			tiposUsuarios.add(0, rs.getInt("usuarios"));
 			tiposUsuarios.add(1, rs.getInt("ordinarios"));
@@ -706,30 +707,35 @@ public class ServicioPersistenciaBD {
 		}
 		return tiposUsuarios;
 	}
-	
+
 	/**
-	 * Este metodo obtiene mediante un mapa, la cantidad de usuarios del parking segun el tipo de usuario que es, 
-	 * y el tipo de vehiculo del usuario. Para ello, se utiliza los datos proporcionados de la tabla plaza, tanto como
-	 * numero_planta, estado_planta y tipo_plaza que nos permiten hacer la clasificacion. Sabiendo que los clientes ocupan plazas, 
-	 * que los subscritos estan todos en la tercera planta y que ademas se recogen los tipos de vehiculo, ya se pueden realizar 
-	 * los calculos. Se recogen los datos en un mapa cuyas claves son el tipo de usuario, y valor una lista que contiene
-	 *  la cantidad de usuarios por vehiculo.
+	 * Este metodo obtiene mediante un mapa, la cantidad de usuarios del parking
+	 * segun el tipo de usuario que es, y el tipo de vehiculo del usuario. Para
+	 * ello, se utiliza los datos proporcionados de la tabla plaza, tanto como
+	 * numero_planta, estado_planta y tipo_plaza que nos permiten hacer la
+	 * clasificacion. Sabiendo que los clientes ocupan plazas, que los subscritos
+	 * estan todos en la tercera planta y que ademas se recogen los tipos de
+	 * vehiculo, ya se pueden realizar los calculos. Se recogen los datos en un mapa
+	 * cuyas claves son el tipo de usuario, y valor una lista que contiene la
+	 * cantidad de usuarios por vehiculo.
 	 */
-	public Map<String, List<Integer>> numeroUsuariosPorTipoYVehiculo(){
+	public Map<String, List<Integer>> numeroUsuariosPorTipoYVehiculo() {
 		Map<String, List<Integer>> mapaUsuariosTipoVehiculo = new HashMap<>();
 		String sentSQL = "SELECT COUNT(*) AS ordinariosOrdinarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS ordinariosElectricos, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS ordinariosMinusvalidos,"
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario') AS subscritosOrdinarios,"
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS subscritosElectricos,"
-							+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS subscritosMinusvalidos "
-							+ "FROM plazas "
-							+ "WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario'";
-		log(Level.INFO, "Lanzada la consulta a base de datos: "+ sentSQL, null);
-		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){			
+				+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS ordinariosElectricos, "
+				+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS ordinariosMinusvalidos,"
+				+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario') AS subscritosOrdinarios,"
+				+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS subscritosElectricos,"
+				+ "(SELECT COUNT(*) FROM plazas WHERE numero_planta = 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS subscritosMinusvalidos "
+				+ "FROM plazas "
+				+ "WHERE numero_planta != 3 AND estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario'";
+		log(Level.INFO, "Lanzada la consulta a base de datos: " + sentSQL, null);
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			ResultSet rs = stmt.executeQuery();
-			mapaUsuariosTipoVehiculo.put("Ordinarios", Arrays.asList(rs.getInt("ordinariosOrdinarios"), rs.getInt("ordinariosElectricos"), rs.getInt("ordinariosMinusvalidos")));
-			mapaUsuariosTipoVehiculo.put("Subscritos", Arrays.asList(rs.getInt("subscritosOrdinarios"), rs.getInt("subscritosElectricos"), rs.getInt("subscritosMinusvalidos")));
+			mapaUsuariosTipoVehiculo.put("Ordinarios", Arrays.asList(rs.getInt("ordinariosOrdinarios"),
+					rs.getInt("ordinariosElectricos"), rs.getInt("ordinariosMinusvalidos")));
+			mapaUsuariosTipoVehiculo.put("Subscritos", Arrays.asList(rs.getInt("subscritosOrdinarios"),
+					rs.getInt("subscritosElectricos"), rs.getInt("subscritosMinusvalidos")));
 		} catch (SQLException e) {
 			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
@@ -737,24 +743,24 @@ public class ServicioPersistenciaBD {
 			log(Level.SEVERE, "Error en la busqueda de base de datos: " + sentSQL, e);
 			e.printStackTrace();
 		}
-		return mapaUsuariosTipoVehiculo;		
+		return mapaUsuariosTipoVehiculo;
 	}
-	
+
 	/**
-	 * Este metodo obtenemos los usuarios por tipo de vehiculo en su conjunto. Hayamos los datos segun
-	 * tipo_plaza y estado_plaza dentro de la tabla de plazas.  Sabiendo que los clientes ocupan plazas, 
-	 * y que se recogen los tipos de vehiculo, ya se pueden realizar los calculos. Estas cantidades se 
-	 * añaden a una lista de enteros
+	 * Este metodo obtenemos los usuarios por tipo de vehiculo en su conjunto.
+	 * Hayamos los datos segun tipo_plaza y estado_plaza dentro de la tabla de
+	 * plazas. Sabiendo que los clientes ocupan plazas, y que se recogen los tipos
+	 * de vehiculo, ya se pueden realizar los calculos. Estas cantidades se añaden a
+	 * una lista de enteros
 	 */
-	
-	public List<Integer> numeroUsuariosPorVehiculo(){
+
+	public List<Integer> numeroUsuariosPorVehiculo() {
 		List<Integer> usuariosVehiculo = new ArrayList<>();
 		String sentSQL = "SELECT COUNT(*) AS ordinarios, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS electricos, "
-							+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS minusvalidos "
-							+ "FROM plazas "
-							+ "WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario'";
-		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)){			
+				+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Electrico') AS electricos, "
+				+ "(SELECT COUNT(*) FROM plazas WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Minusvalido') AS minusvalidos "
+				+ "FROM plazas " + "WHERE estado_plaza != 'DISPONIBLE' AND tipo_plaza = 'Ordinario'";
+		try (PreparedStatement stmt = conn.prepareStatement(sentSQL)) {
 			ResultSet rs = stmt.executeQuery();
 			usuariosVehiculo.add(0, rs.getInt("ordinarios"));
 			usuariosVehiculo.add(1, rs.getInt("electricos"));
@@ -766,7 +772,7 @@ public class ServicioPersistenciaBD {
 		}
 		return usuariosVehiculo;
 	}
-	
+
 	/**
 	 * Este metodo obtiene y devuelve un mapa de usuarios de la base de datos.
 	 * Primero, se obtienen los usuarios ordinarios y los usuarios suscritos de la
@@ -816,7 +822,7 @@ public class ServicioPersistenciaBD {
 	 * de Empleado para cada fila y agregandola al mapa con su DNI como clave.
 	 * Devuelve el mapa de empleados.
 	 */
-	public Map<String, Empleado> empleadosSelect() { 
+	public Map<String, Empleado> empleadosSelect() {
 		Map<String, Empleado> empleados = new HashMap<>();
 		String sentSQL = "SELECT dni, nombre_usuario, password, email, puesto, antiguedad, salario_mes FROM trabajadores";
 		try (Statement stmt = conn.createStatement()) {

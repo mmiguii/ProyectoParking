@@ -29,7 +29,7 @@ public class EmpleadoTest {
 	@Test
 	public void testToString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-		
+
 		employee.setDni("999");
 		employee.setNombreUsuario("Pedro");
 		employee.setSalario(1500.00);

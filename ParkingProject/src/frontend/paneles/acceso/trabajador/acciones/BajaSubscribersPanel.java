@@ -57,7 +57,7 @@ public class BajaSubscribersPanel extends JPanel {
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.columnWeights = new double[] { 1.0 };
 		topPanel.setLayout(gbl_topPanel);
- 
+
 		JLabel labelWellcoming = new JLabel("LISTA DE ABONADOS");
 		labelWellcoming.setForeground(new Color(255, 255, 255));
 		labelWellcoming.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -74,15 +74,15 @@ public class BajaSubscribersPanel extends JPanel {
 
 		JScrollPane scrollSubscritos = new JScrollPane(tableSubscritos);
 
-		Vector<String> cabeceras = new Vector<>( 
+		Vector<String> cabeceras = new Vector<>(
 				Arrays.asList("Matricula", "Tipo Vehiculo", "Cuota", "Fecha de Entrada"));
 		DefaultTableModel modeloSubscritos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceras);
 
-		Map<String, ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();		
-		mapaSubscritos.forEach((k,v) -> {
+		Map<String, ClienteSubscrito> mapaSubscritos = ServicioPersistenciaBD.getInstance().subscritosSelect();
+		mapaSubscritos.forEach((k, v) -> {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			modeloSubscritos.addRow(new Object[] {v.getMatricula(), v.getTipoVehiculo(), v.getPrecioCuota(), 
-					sdf.format(new Date(v.getFechaEntrada()))});
+			modeloSubscritos.addRow(new Object[] { v.getMatricula(), v.getTipoVehiculo(), v.getPrecioCuota(),
+					sdf.format(new Date(v.getFechaEntrada())) });
 		});
 		tableSubscritos.setModel(modeloSubscritos);
 
@@ -93,9 +93,9 @@ public class BajaSubscribersPanel extends JPanel {
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
-				
+
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				
+
 				String matricula = (String) table.getValueAt(row, 0);
 				ClienteSubscrito subscrito = ServicioPersistenciaBD.getInstance().subscritoSelect(matricula);
 				Date fechaActual = Calendar.getInstance().getTime();
@@ -111,7 +111,7 @@ public class BajaSubscribersPanel extends JPanel {
 						((JComponent) c).setOpaque(true);
 						c.setBackground(Color.WHITE);
 					}
-				} 
+				}
 				return c;
 			}
 		});
@@ -156,15 +156,13 @@ public class BajaSubscribersPanel extends JPanel {
 				int selectedRow = tableSubscritos.getSelectedRow();
 				if (selectedRow >= 0) {
 					logger.info("Dando de baja a cliente subscrito");
-					mostrarProgresoPago("Eliminando abonado de la base de datos...");
+					mostrarProgreso("Eliminando abonado de la base de datos...");
 					String matricula = (String) tableSubscritos.getValueAt(selectedRow, 0);
 					ClienteSubscrito subscrito = ServicioPersistenciaBD.getInstance().subscritoSelect(matricula);
-					
-					Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance()
-							.plazasSelect();
+
+					Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance().plazasSelect();
 					Plaza plaza = plazasMap.values().stream()
-							.filter(p -> p.getMatricula().equals(subscrito.getMatricula()))
-							.findFirst().orElse(null);
+							.filter(p -> p.getMatricula().equals(subscrito.getMatricula())).findFirst().orElse(null);
 
 					ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
 					ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
@@ -205,7 +203,7 @@ public class BajaSubscribersPanel extends JPanel {
 
 	}
 
-	public void mostrarProgresoPago(String message) {
+	public void mostrarProgreso(String message) {
 		JOptionPane pane = new JOptionPane();
 		pane.setMessage(message);
 		JProgressBar jProgressBar = new JProgressBar(1, 100);

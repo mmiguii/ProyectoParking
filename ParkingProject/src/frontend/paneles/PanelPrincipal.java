@@ -89,7 +89,8 @@ public class PanelPrincipal extends JPanel {
 				List<String> matriculas = usuarios.keySet().stream().collect(Collectors.toList());
 				String matricula = textFieldMatricula.getText();
 
-				if (matricula.substring(matricula.length() - 3).toUpperCase().equals(matricula.substring(matricula.length() - 3))) {
+				if (matricula.substring(matricula.length() - 3).toUpperCase()
+						.equals(matricula.substring(matricula.length() - 3))) {
 					if (matricula.length() == 7) {
 						String digitos = matricula.substring(0, 4);
 
@@ -137,7 +138,8 @@ public class PanelPrincipal extends JPanel {
 														.findFirst().orElse(null);
 
 												ServicioPersistenciaBD.getInstance().subscritoDelete(matricula);
-												ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE", "");
+												ServicioPersistenciaBD.getInstance().updatePlaza(plaza, "DISPONIBLE",
+														"");
 
 												int opcion = JOptionPane.showConfirmDialog(PanelPrincipal.this,
 														"Desea volver acceder al parking?", "Confirmación",
@@ -160,13 +162,14 @@ public class PanelPrincipal extends JPanel {
 												}
 											}
 										} catch (ParseException e1) {
-											logger.severe(
-													String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+											logger.severe(String.format("%s %s", e1.getMessage(),
+													e1.getCause().getMessage()));
 										}
 									}
 
 								} else {
-									logger.info("El vehiculo no se encuentra actualmente registrado en la BD del parking");
+									logger.info(
+											"El vehiculo no se encuentra actualmente registrado en la BD del parking");
 									mostrarProgresoAcceso("Accediendo al parking ...");
 									PanelAccesoParking panel = new PanelAccesoParking(frame, instance,
 											lblHoraActual.getText(), matricula);
@@ -188,14 +191,14 @@ public class PanelPrincipal extends JPanel {
 									"Ingrese correctamente la matricula (Digitos = 4)");
 							textFieldMatricula.setText("");
 						}
-						
+
 					} else {
 						logger.info("Ingrese correctamente la matricula (Longitud = 7)");
 						JOptionPane.showMessageDialog(PanelPrincipal.this,
 								"Ingrese correctamente la matricula (Longitud = 7)");
 						textFieldMatricula.setText("");
 					}
-					
+
 				} else {
 					logger.info("Ingrese correctamente la matricula (Caracteres MAYUSCULAS)");
 					JOptionPane.showMessageDialog(PanelPrincipal.this,
@@ -221,7 +224,7 @@ public class PanelPrincipal extends JPanel {
 						setVisible(false);
 						panel.setVisible(true);
 						encontrado = true;
-						break;		
+						break;
 					}
 				}
 				if (!encontrado) {
@@ -335,27 +338,27 @@ public class PanelPrincipal extends JPanel {
 		String estado = (plazas.size() == 90) ? "Completo" : "Disponible";
 		return estado;
 	}
-	
+
 	public void mostrarProgresoAcceso(String message) {
 		JOptionPane pane = new JOptionPane();
 		pane.setMessage(message);
 		JProgressBar jProgressBar = new JProgressBar(1, 100);
 		jProgressBar.setStringPainted(true);
 		jProgressBar.setValue(1);
-		pane.add(jProgressBar,1);
+		pane.add(jProgressBar, 1);
 		JDialog dialog = pane.createDialog(pane, "Information message");
 		new Thread(() -> {
-		  for (int i = 0; i <= 100; i++) {
-		    jProgressBar.setValue(i);
-		    if (i == 100) {
-		   		dialog.dispose();
+			for (int i = 0; i <= 100; i++) {
+				jProgressBar.setValue(i);
+				if (i == 100) {
+					dialog.dispose();
+				}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
+				}
 			}
-		    try {
-		      Thread.sleep(10);
-		    } catch (InterruptedException e1) {
-		    	logger.severe(String.format("%s %s", e1.getMessage(), e1.getCause().getMessage()));
-		    }
-		  }
 		}).start();
 		dialog.setVisible(true);
 	}
