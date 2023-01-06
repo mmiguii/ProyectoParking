@@ -53,13 +53,13 @@ public class PanelAccesoOrdinariosSeleccionPlaza extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelAccesoOrdinariosSeleccionPlaza.class.getName());
 
 	public PanelAccesoOrdinariosSeleccionPlaza(JFrame frame, JPanel panel, ClienteOrdinario ordinario) {
-		setBackground(new Color(0, 128, 128));
 
 		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel seleccion plaza");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
 		setBounds(10, 10, 567, 448);
-		this.setLayout(new GridLayout(2, 1));
+		setBackground(new Color(0, 128, 128));
+		setLayout(new GridLayout(2, 1));
 
 		ServicioPersistenciaBD.getInstance().connect("Parking.db");
 		// Cargamos las plazas de la primera planta

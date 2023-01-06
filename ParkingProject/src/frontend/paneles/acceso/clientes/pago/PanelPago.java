@@ -3,7 +3,6 @@ package frontend.paneles.acceso.clientes.pago;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +35,8 @@ public class PanelPago extends JPanel {
 	private JTextField textFieldTipoVehiculo;
 	private JTextField textFieldImporteTotal;
 	private JTextField textFieldTipoUsuario;
+	private JFrame frame;
+	private JPanel panel;
 	private DateFormat formatter;
 	private Usuario usuario;
 	private double importe;
@@ -45,8 +46,8 @@ public class PanelPago extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelPago.class.getName());
 
 	public PanelPago(JFrame frame, JPanel panel, Usuario usuario, Plaza plaza, String horaActual) {
-		setBackground(new Color(0, 128, 128));
 
+		setBackground(new Color(0, 128, 128));
 		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Panel Pago");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
@@ -57,6 +58,8 @@ public class PanelPago extends JPanel {
 
 		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
+		this.frame = frame;
+		this.panel = panel;
 		this.usuario = usuario;
 		this.plaza = plaza;
 
@@ -91,6 +94,11 @@ public class PanelPago extends JPanel {
 		lblImporteTotal.setForeground(new Color(255, 255, 255));
 		lblImporteTotal.setBounds(90, 265, 150, 25);
 		add(lblImporteTotal);
+
+		JLabel lblCliente = new JLabel("Cliente");
+		lblCliente.setForeground(new Color(255, 255, 255));
+		lblCliente.setBounds(90, 90, 150, 25);
+		add(lblCliente);
 
 		// Crea el campo de texto textFieldTipoUsuario y establece sus propiedades.
 		textFieldTipoUsuario = new JTextField();
@@ -128,7 +136,6 @@ public class PanelPago extends JPanel {
 		}
 
 		try {
-
 			// Crea el campo de texto textFieldTiempoTranscurrido y establece sus
 			// propiedades.
 			textFieldTiempoTranscurrido = new JTextField();
@@ -160,8 +167,8 @@ public class PanelPago extends JPanel {
 			textFieldTiempoTranscurrido.setText(String.format("%02dh %02dm %02ds", hours, min, sec));
 
 			// Obtiene la tarifa a aplicar y calcula el importe total.
-			double tarifa = usuario.getTipoVehiculo().equals("Ordinario") ? 0.50
-					: (usuario.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30);
+			double tarifa = usuario.getTipoVehiculo().equals("Ordinario") ? 0.05
+					: (usuario.getTipoVehiculo().equals("Electrico") ? 0.04 : 0.03);
 			importe = tarifa * TimeUnit.MILLISECONDS.toMinutes(time);
 			usuario.setImporte(importe);
 			textFieldImporteTotal.setText(String.format("%.2f €", importe));
@@ -182,68 +189,19 @@ public class PanelPago extends JPanel {
 
 		JButton btnPagar = new JButton("PAGAR");
 		btnPagar.setForeground(new Color(0, 128, 128));
-		btnPagar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				int opcion = JOptionPane.showConfirmDialog(null, "Confirmar transaccion.", "Confirmacion",
-						JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-				if (opcion == 0) {
-					if (usuario instanceof ClienteOrdinario) {
-						ServicioPersistenciaBD.getInstance().ingresosPlanta(usuario.getMatricula(),
-								usuario.getImporte());
-						ServicioPersistenciaBD.getInstance().updatePlaza(plazaSel(), "DISPONIBLE", "");
-						ServicioPersistenciaBD.getInstance().ordinarioDelete(usuario.getMatricula());
-						logger.info("Cerrando aplicacion...");
-						mostrarProgresoPago("Transaccion en progreso ...");
-						frame.dispose();
-						ServicioPersistenciaBD.getInstance().disconnect();
-						System.exit(0);
-
-					} else {
-						logger.info("Cerrando aplicacion...");
-						mostrarProgresoPago("Transaccion en progreso ...");
-						frame.dispose();
-						ServicioPersistenciaBD.getInstance().disconnect();
-						System.exit(0);
-					}
-				} else {
-					logger.info("Transaccion cancelada");
-				}
-			}
-		});
+		btnPagar.addActionListener(this::pagar);
 		btnPagar.setBounds(295, 350, 175, 55);
 		add(btnPagar);
 
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.setForeground(new Color(0, 128, 128));
 		btnVolver.setBounds(90, 350, 175, 55);
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
-
+		btnVolver.addActionListener(this::volver);
 		add(btnVolver);
 
-		JLabel lblCliente = new JLabel("Cliente");
-		lblCliente.setForeground(new Color(255, 255, 255));
-		lblCliente.setBounds(90, 90, 150, 25);
-		add(lblCliente);
 	}
 
-	public Plaza plazaSel() {
-		Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance().plazasSelect();
-		for (Plaza p : plazasMap.values()) {
-			if (p.getMatricula().equals(usuario.getMatricula())) {
-				return p;
-			}
-		}
-		return null;
-	}
-
-	public void mostrarProgresoPago(String message) {
+	public void mostrarProgreso(String message) {
 		JOptionPane pane = new JOptionPane();
 		pane.setMessage(message);
 		JProgressBar jProgressBar = new JProgressBar(1, 100);
@@ -267,4 +225,49 @@ public class PanelPago extends JPanel {
 		dialog.setVisible(true);
 		dialog.dispose();
 	}
+
+	public Plaza plazaSeleccion() {
+		Map<Integer, Plaza> plazasMap = ServicioPersistenciaBD.getInstance().plazasSelect();
+		for (Plaza p : plazasMap.values()) {
+			if (p.getMatricula().equals(usuario.getMatricula())) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+	private void pagar(ActionEvent event) {
+		int opcion = JOptionPane.showConfirmDialog(null, "Confirmar transaccion.", "Confirmacion",
+				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		if (opcion == 0) {
+			if (usuario instanceof ClienteOrdinario) {
+				ServicioPersistenciaBD.getInstance().ingresosPlanta(usuario.getMatricula(), usuario.getImporte());
+				ServicioPersistenciaBD.getInstance().updatePlaza(plazaSeleccion(), "DISPONIBLE", "");
+				ServicioPersistenciaBD.getInstance().ordinarioDelete(usuario.getMatricula());
+				logger.info("Cerrando aplicacion...");
+				mostrarProgreso("Transaccion en progreso ...");
+				frame.dispose();
+				ServicioPersistenciaBD.getInstance().disconnect();
+				System.exit(0);
+
+			} else {
+				logger.info("Cerrando aplicacion...");
+				mostrarProgreso("Transaccion en progreso ...");
+				frame.dispose();
+				ServicioPersistenciaBD.getInstance().disconnect();
+				System.exit(0);
+			}
+
+		} else {
+			logger.info("Transaccion cancelada");
+		}
+	}
+
+	private void volver(ActionEvent event) {
+		logger.info("Volviendo a la seccion previa");
+		frame.getContentPane().add(panel);
+		panel.setVisible(true);
+		setVisible(false);
+	}
+
 }

@@ -362,8 +362,8 @@ public class PanelAccesoSubscritosSeleccionAbono extends JPanel {
 				long tiempoTrans = new Date(c.getTime().getTime()).getTime()
 						- new Date(subscrito.getFechaEntrada()).getTime();
 				long min = TimeUnit.MILLISECONDS.toMinutes(tiempoTrans);
-				double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.50
-						: (subscrito.getTipoVehiculo().equals("Electrico") ? 0.40 : 0.30)) * min;
+				double importe = (subscrito.getTipoVehiculo().equals("Ordinario") ? 0.05
+						: (subscrito.getTipoVehiculo().equals("Electrico") ? 0.04 : 0.03)) * min;
 				subscrito.setPrecioCuota(importe);
 				subscrito.setImporte(importe);
 

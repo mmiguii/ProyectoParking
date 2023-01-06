@@ -3,7 +3,6 @@ package frontend.paneles.acceso;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
@@ -27,18 +26,26 @@ import backend.servicios.ServicioPersistenciaBD;
 public class PanelRecordarCredenciales extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private JFrame frame;
+	private JPanel panel;
+	private Map<String, Trabajador> trabajadores;
 	private JTextField textFieldNombreUsuario;
 	private JPasswordField passwordFieldPassword;
 
 	private static Logger logger = Logger.getLogger(PanelRecordarCredenciales.class.getName());
 
 	public PanelRecordarCredenciales(JFrame frame, JPanel panel, Map<String, Trabajador> trabajadores) {
-		setBackground(new Color(0, 128, 128));
-		setLayout(null);
+
 		javax.swing.border.TitledBorder border = javax.swing.BorderFactory
 				.createTitledBorder("Panel de recuperacion de credenciales");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
+		setBackground(new Color(0, 128, 128));
+		setLayout(null);
+
+		this.frame = frame;
+		this.panel = panel;
+		this.trabajadores = trabajadores;
 
 		textFieldNombreUsuario = new JTextField();
 		textFieldNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
@@ -63,73 +70,71 @@ public class PanelRecordarCredenciales extends JPanel {
 		lblTexto.setBounds(156, 77, 312, 20);
 		add(lblTexto);
 
-		JButton btnRecuperarContrasea = new JButton("Recuperar credenciales");
-		btnRecuperarContrasea.setBounds(294, 322, 218, 29);
-		btnRecuperarContrasea.setForeground(new Color(0, 128, 128));
-		add(btnRecuperarContrasea);
+		JButton btnRecuperarPassword = new JButton("Recuperar credenciales");
+		btnRecuperarPassword.addActionListener(this::recuperarPassword);
+		btnRecuperarPassword.setBounds(294, 322, 218, 29);
+		btnRecuperarPassword.setForeground(new Color(0, 128, 128));
+		add(btnRecuperarPassword);
 
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
+		btnCancelar.addActionListener(this::cancelar);
 		btnCancelar.setBounds(61, 322, 201, 29);
 		btnCancelar.setForeground(new Color(0, 128, 128));
 		add(btnCancelar);
 
-		btnRecuperarContrasea.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Crea una instancia de la clase Thread y le pasa una instancia de una clase
-				// anonima que implemente la interface Runnable
-				Thread thread = new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// Aquí va el código que quieres que se ejecute en el thread
-						String nombreTrabajador = textFieldNombreUsuario.getText();
-						String dniTrabajador = String.valueOf(passwordFieldPassword.getPassword());
-						boolean encontrado = false;
+	}
 
-						for (Map.Entry<String, Trabajador> entry : trabajadores.entrySet()) {
-							Trabajador trabajador = entry.getValue();
-							if (trabajador.getNombreUsuario().equals(nombreTrabajador)
-									&& trabajador.getDni().equals(dniTrabajador)) {
-								encontrado = true;
-//								ServicioPersistenciaBD.getInstance().connect("Parking.db");
-								String nuevoPass = ServicioPersistenciaBD.getInstance()
-										.trabajadoresUpdate(trabajador.getDni());
-								try {
-									EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
-											"Su usuario es: " + nombreTrabajador + " y su contraseña es: " + nuevoPass);
-								} catch (FileNotFoundException e) {
-									logger.info("El fichero de propiedades no existe");
-								} catch (IOException e) {
-									logger.info("No se ha leido correctamente del fichero de propiedades");
-								}
-								logger.info("Mensaje enviado.");
-								JOptionPane.showMessageDialog(null,
-										"Se ha enviado un email con sus credenciales al correo: "
-												+ trabajador.getEmail());
-								setVisible(false);
-								panel.setVisible(true);
-								break;
-							}
-						}
+	private void recuperarPassword(ActionEvent event) {
+		// Crea una instancia de la clase Thread y le pasa una instancia de una clase
+		// anonima que implemente la interface Runnable
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// Aquí va el código que quieres que se ejecute en el thread
+				String nombreTrabajador = textFieldNombreUsuario.getText();
+				String dniTrabajador = String.valueOf(passwordFieldPassword.getPassword());
+				boolean encontrado = false;
 
-						if (!encontrado) {
-							logger.info("No se ha encontrado ningun trabajador con los datos introducidos");
-							JOptionPane.showMessageDialog(null,
-									"No se ha encontrado ningun trabajador con ese nombre de usuario y DNI introducidos");
+				for (Map.Entry<String, Trabajador> entry : trabajadores.entrySet()) {
+					Trabajador trabajador = entry.getValue();
+					if (trabajador.getNombreUsuario().equals(nombreTrabajador)
+							&& trabajador.getDni().equals(dniTrabajador)) {
+						encontrado = true;
+						String nuevoPass = ServicioPersistenciaBD.getInstance().trabajadoresUpdate(trabajador.getDni());
+						try {
+							EnvioEmail.bienvenida(trabajador.getEmail(), "Recuperación de credenciales",
+									"Su usuario es: " + nombreTrabajador + " y su contraseña es: " + nuevoPass);
+						} catch (FileNotFoundException e) {
+							logger.info("El fichero de propiedades no existe");
+						} catch (IOException e) {
+							logger.info("No se ha leido correctamente del fichero de propiedades");
 						}
+						logger.info("Mensaje enviado.");
+						JOptionPane.showMessageDialog(null,
+								"Se ha enviado un email con sus credenciales al correo: " + trabajador.getEmail());
+						setVisible(false);
+						panel.setVisible(true);
+						break;
 					}
-				});
+				}
 
-				// Inicia el thread
-				thread.start();
+				if (!encontrado) {
+					logger.info("No se ha encontrado ningun trabajador con los datos introducidos");
+					JOptionPane.showMessageDialog(null,
+							"No se ha encontrado ningun trabajador con ese nombre de usuario y DNI introducidos");
+				}
 			}
 		});
+
+		// Inicia el thread
+		thread.start();
+	}
+
+	private void cancelar(ActionEvent event) {
+		logger.info("Cancelando ...");
+		frame.getContentPane().add(panel);
+		panel.setVisible(true);
+		setVisible(false);
 	}
 
 }

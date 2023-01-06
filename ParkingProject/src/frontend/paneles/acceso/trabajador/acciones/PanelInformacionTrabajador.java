@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,15 +29,21 @@ public class PanelInformacionTrabajador extends JPanel {
 	private JTextField textFieldPuesto;
 	private JTextField textFieldCorreo;
 	private JTextField textFieldAntiguedad;
+	private JFrame frame;
+	private JPanel panel;
 
 	public PanelInformacionTrabajador(JFrame frame, JPanel panel, Trabajador trabajador) {
-		setBackground(new Color(0, 128, 128));
+		
 
 		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Personal Data Panel");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
 		setBounds(10, 10, 567, 448);
+		setBackground(new Color(0, 128, 128));
 		setLayout(null);
+		
+		this.frame = frame;
+		this.panel = panel;
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(0, 128, 128));
@@ -257,22 +262,21 @@ public class PanelInformacionTrabajador extends JPanel {
 		textFieldSalario.setText(Double.toString(trabajador.getSalario()) + " €");
 
 		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(this::volver);
 		btnVolver.setForeground(new Color(0, 128, 128));
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnVolver.setBounds(226, 381, 94, 29);
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
 		GridBagConstraints gbc_btnVolver = new GridBagConstraints();
 		gbc_btnVolver.insets = new Insets(0, 0, 5, 0);
-		gbc_btnVolver.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnVolver.gridwidth = 9;
 		gbc_btnVolver.gridx = 3;
 		gbc_btnVolver.gridy = 13;
 		mainPanel.add(btnVolver, gbc_btnVolver);
+	}
+	
+	private void volver(ActionEvent event) {
+		frame.getContentPane().add(panel);
+		panel.setVisible(true);
+		setVisible(false);
 	}
 }

@@ -44,13 +44,13 @@ public class BajaSubscribersPanel extends JPanel {
 	private static Logger logger = Logger.getLogger(BajaSubscribersPanel.class.getName());
 
 	public BajaSubscribersPanel(JFrame frame, JPanel panel) {
-		setBackground(new Color(0, 128, 128));
 
 		javax.swing.border.TitledBorder border = javax.swing.BorderFactory.createTitledBorder("Baja Subscriber Panel");
 		border.setTitleColor(Color.WHITE);
 		setBorder(border);
 		setBounds(10, 10, 567, 448);
-		this.setLayout(new GridLayout(3, 1));
+		setBackground(new Color(0, 128, 128));
+		setLayout(new GridLayout(3, 1));
 
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(0, 128, 128));
@@ -200,7 +200,6 @@ public class BajaSubscribersPanel extends JPanel {
 		gbc_btnVolver.gridx = 1;
 		gbc_btnVolver.gridy = 1;
 		bottomPanel.add(btnVolver, gbc_btnVolver);
-
 	}
 
 	public void mostrarProgreso(String message) {
@@ -215,7 +214,7 @@ public class BajaSubscribersPanel extends JPanel {
 			for (int i = 0; i <= 100; i++) {
 				jProgressBar.setValue(i);
 				if (i == 100) {
-					pane.setMessage("Transaccion realizada. ¡Gracias!");
+					pane.setMessage("Usuario eliminado.");
 				}
 				try {
 					Thread.sleep(10);

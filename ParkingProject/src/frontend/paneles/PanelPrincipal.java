@@ -89,9 +89,10 @@ public class PanelPrincipal extends JPanel {
 				List<String> matriculas = usuarios.keySet().stream().collect(Collectors.toList());
 				String matricula = textFieldMatricula.getText();
 
-				if (matricula.substring(matricula.length() - 3).toUpperCase()
-						.equals(matricula.substring(matricula.length() - 3))) {
-					if (matricula.length() == 7) {
+				if (matricula.length() == 7) {
+					if (matricula.substring(matricula.length() - 3).toUpperCase()
+							.equals(matricula.substring(matricula.length() - 3))) {
+
 						String digitos = matricula.substring(0, 4);
 
 						if (digitos.matches("[0-9]*")) {
@@ -193,16 +194,16 @@ public class PanelPrincipal extends JPanel {
 						}
 
 					} else {
-						logger.info("Ingrese correctamente la matricula (Longitud = 7)");
+						logger.info("Ingrese correctamente la matricula (Caracteres MAYUSCULAS)");
 						JOptionPane.showMessageDialog(PanelPrincipal.this,
-								"Ingrese correctamente la matricula (Longitud = 7)");
+								"Ingrese correctamente la matricula (Caracteres MAYUSCULAS)");
 						textFieldMatricula.setText("");
 					}
 
 				} else {
-					logger.info("Ingrese correctamente la matricula (Caracteres MAYUSCULAS)");
+					logger.info("Ingrese correctamente la matricula (Longitud = 7)");
 					JOptionPane.showMessageDialog(PanelPrincipal.this,
-							"Ingrese correctamente la matricula (Caracteres MAYUSCULAS)");
+							"Ingrese correctamente la matricula (Longitud = 7)");
 					textFieldMatricula.setText("");
 				}
 			}

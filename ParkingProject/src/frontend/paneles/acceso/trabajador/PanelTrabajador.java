@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
@@ -30,16 +29,22 @@ public class PanelTrabajador extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private JFrame frame;
+	private JPanel panel;
+	private Trabajador trabajador;
 	private JPanel instance;
 	private static Logger logger = Logger.getLogger(PanelTrabajador.class.getName());
 
 	public PanelTrabajador(JFrame frame, JPanel panel, Trabajador trabajador) {
 
-		instance = this;
-
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Worker Wellcoming Panel"));
 		setBounds(10, 10, 567, 448);
-		this.setLayout(new GridLayout(3, 1));
+		setLayout(new GridLayout(3, 1));
+
+		instance = this;
+		this.frame = frame;
+		this.panel = panel;
+		this.trabajador = trabajador;
 
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(0, 128, 128));
@@ -47,6 +52,32 @@ public class PanelTrabajador extends JPanel {
 		GridBagLayout gbl_topPanel = new GridBagLayout();
 		gbl_topPanel.columnWeights = new double[] { 1.0 };
 		topPanel.setLayout(gbl_topPanel);
+
+		JLabel lblBienvenido = new JLabel("BIENVENIDO", SwingConstants.CENTER);
+		lblBienvenido.setForeground(new Color(255, 255, 255));
+		lblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblBienvenido = new GridBagConstraints();
+		gbc_lblBienvenido.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblBienvenido.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBienvenido.gridx = 0;
+		gbc_lblBienvenido.gridy = 1;
+		topPanel.add(lblBienvenido, gbc_lblBienvenido);
+
+		JLabel lblVacio = new JLabel(" ");
+		GridBagConstraints gbc_lblVacio = new GridBagConstraints();
+		gbc_lblVacio.insets = new Insets(0, 0, 5, 0);
+		gbc_lblVacio.gridx = 0;
+		gbc_lblVacio.gridy = 2;
+		topPanel.add(lblVacio, gbc_lblVacio);
+
+		JLabel nombreUsuario = new JLabel(trabajador.getNombreUsuario());
+		nombreUsuario.setForeground(new Color(255, 255, 255));
+		nombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		nombreUsuario.setBorder(null);
+		GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
+		gbc_nombreUsuario.gridx = 0;
+		gbc_nombreUsuario.gridy = 3;
+		topPanel.add(nombreUsuario, gbc_nombreUsuario);
 
 		JLabel lblHoraActual = new JLabel("");
 		lblHoraActual.setForeground(new Color(255, 255, 255));
@@ -75,51 +106,21 @@ public class PanelTrabajador extends JPanel {
 		Thread hilo = new Thread(runnable);
 		hilo.start();
 
-		JLabel lblBienvenido = new JLabel("BIENVENIDO", SwingConstants.CENTER);
-		lblBienvenido.setForeground(new Color(255, 255, 255));
-		lblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblBienvenido = new GridBagConstraints();
-		gbc_lblBienvenido.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblBienvenido.insets = new Insets(0, 0, 5, 0);
-		gbc_lblBienvenido.gridx = 0;
-		gbc_lblBienvenido.gridy = 1;
-		topPanel.add(lblBienvenido, gbc_lblBienvenido);
-
-		JLabel lblVacio = new JLabel(" ");
-		GridBagConstraints gbc_lblVacio = new GridBagConstraints();
-		gbc_lblVacio.insets = new Insets(0, 0, 5, 0);
-		gbc_lblVacio.gridx = 0;
-		gbc_lblVacio.gridy = 2;
-		topPanel.add(lblVacio, gbc_lblVacio);
-		add(topPanel);
-
-		JLabel nombreUsuario = new JLabel(trabajador.getNombreUsuario());
-		nombreUsuario.setForeground(new Color(255, 255, 255));
-		nombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		nombreUsuario.setBorder(null);
-		GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
-		gbc_nombreUsuario.gridx = 0;
-		gbc_nombreUsuario.gridy = 3;
-		topPanel.add(nombreUsuario, gbc_nombreUsuario);
-
 		JPanel middlePanel = new JPanel(new GridLayout(1, 2));
 
 		JPanel leftMiddlePanel = new JPanel();
 		leftMiddlePanel.setBackground(new Color(0, 128, 128));
 		leftMiddlePanel.setForeground(new Color(255, 255, 255));
 		leftMiddlePanel.setLayout(new GridBagLayout());
+
+		JPanel rightMiddlePanel = new JPanel();
+		rightMiddlePanel.setBackground(new Color(0, 128, 128));
+		rightMiddlePanel.setForeground(new Color(255, 255, 255));
+		rightMiddlePanel.setLayout(new GridBagLayout());
+
 		JButton btnConsultarDatos = new JButton("DATOS PERSONALES");
 		btnConsultarDatos.setForeground(new Color(0, 128, 128));
-		btnConsultarDatos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mostrarProgresoPago("Consultando los datos a la base de datos...");
-				PanelInformacionTrabajador panel = new PanelInformacionTrabajador(frame, instance, trabajador);
-				logger.info("Accediendo a la consulta de los datos personales");
-				frame.getContentPane().add(panel);
-				setVisible(false);
-				panel.setVisible(true);
-			}
-		});
+		btnConsultarDatos.addActionListener(this::consultarDatos);
 		GridBagConstraints gbc_btnConsultarDatos = new GridBagConstraints();
 		gbc_btnConsultarDatos.fill = GridBagConstraints.BOTH;
 		gbc_btnConsultarDatos.gridheight = 3;
@@ -127,22 +128,9 @@ public class PanelTrabajador extends JPanel {
 		gbc_btnConsultarDatos.gridy = 0;
 		leftMiddlePanel.add(btnConsultarDatos, gbc_btnConsultarDatos);
 
-		JPanel rightMiddlePanel = new JPanel();
-		rightMiddlePanel.setBackground(new Color(0, 128, 128));
-		rightMiddlePanel.setForeground(new Color(255, 255, 255));
-		rightMiddlePanel.setLayout(new GridBagLayout());
 		JButton btnEstado = new JButton("ESTADO DEL PARKING");
 		btnEstado.setForeground(new Color(0, 128, 128));
-		btnEstado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mostrarProgresoPago("Comprobando los datos del parking...");
-				PanelEstadoParking panel = new PanelEstadoParking(frame, instance, trabajador);
-				logger.info("Accediendo a los datos del aparcamiento");
-				frame.getContentPane().add(panel);
-				setVisible(false);
-				panel.setVisible(true);
-			}
-		});
+		btnEstado.addActionListener(this::estadoParking);
 		GridBagConstraints gbc_btnEstado = new GridBagConstraints();
 		gbc_btnEstado.fill = GridBagConstraints.VERTICAL;
 		gbc_btnEstado.gridheight = 3;
@@ -150,28 +138,21 @@ public class PanelTrabajador extends JPanel {
 		gbc_btnEstado.gridy = 0;
 		rightMiddlePanel.add(btnEstado, gbc_btnEstado);
 
-		middlePanel.add(leftMiddlePanel);
-		middlePanel.add(rightMiddlePanel);
-		add(middlePanel);
-
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
 
 		JPanel leftBottomPanel = new JPanel();
 		leftBottomPanel.setForeground(new Color(255, 255, 255));
 		leftBottomPanel.setBackground(new Color(0, 128, 128));
 		leftBottomPanel.setLayout(new GridBagLayout());
+
+		JPanel rightBottomPanel = new JPanel();
+		rightBottomPanel.setForeground(new Color(255, 255, 255));
+		rightBottomPanel.setBackground(new Color(0, 128, 128));
+		rightBottomPanel.setLayout(new GridBagLayout());
+
 		JButton btnAnularAbonados = new JButton("ANULAR ABONADOS");
 		btnAnularAbonados.setForeground(new Color(0, 128, 128));
-		btnAnularAbonados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mostrarProgresoPago("Cargando listado de abonados...");
-				BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
-				logger.info("Accediendo a la seccion de bajas de clientes con subscripcion");
-				frame.getContentPane().add(panel);
-				setVisible(false);
-				panel.setVisible(true);
-			}
-		});
+		btnAnularAbonados.addActionListener(this::anularAbonados);
 		GridBagConstraints gbc_btnAnularAbonados = new GridBagConstraints();
 		gbc_btnAnularAbonados.fill = GridBagConstraints.VERTICAL;
 		gbc_btnAnularAbonados.gridheight = 3;
@@ -179,21 +160,9 @@ public class PanelTrabajador extends JPanel {
 		gbc_btnAnularAbonados.gridy = 0;
 		leftBottomPanel.add(btnAnularAbonados, gbc_btnAnularAbonados);
 
-		JPanel rightBottomPanel = new JPanel();
-		rightBottomPanel.setForeground(new Color(255, 255, 255));
-		rightBottomPanel.setBackground(new Color(0, 128, 128));
-		rightBottomPanel.setLayout(new GridBagLayout());
 		JButton btnCerrarSesion = new JButton("     CERRAR SESION    ");
 		btnCerrarSesion.setForeground(new Color(0, 128, 128));
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				logger.info("Cerrando sesión de empleado");
-				mostrarProgresoPago("Cerrando la sesion actual...");
-				frame.getContentPane().add(panel);
-				panel.setVisible(true);
-				setVisible(false);
-			}
-		});
+		btnCerrarSesion.addActionListener(this::cerrarSesion);
 		GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
 		gbc_btnCerrarSesion.fill = GridBagConstraints.VERTICAL;
 		gbc_btnCerrarSesion.gridheight = 3;
@@ -201,12 +170,18 @@ public class PanelTrabajador extends JPanel {
 		gbc_btnCerrarSesion.gridy = 0;
 		rightBottomPanel.add(btnCerrarSesion, gbc_btnCerrarSesion);
 
+		add(topPanel);
+
+		middlePanel.add(leftMiddlePanel);
+		middlePanel.add(rightMiddlePanel);
+		add(middlePanel);
+
 		bottomPanel.add(leftBottomPanel);
 		bottomPanel.add(rightBottomPanel);
 		add(bottomPanel);
 	}
 
-	public void mostrarProgresoPago(String message) {
+	public void mostrarProgreso(String message) {
 		JOptionPane pane = new JOptionPane();
 		pane.setMessage(message);
 		JProgressBar jProgressBar = new JProgressBar(1, 100);
@@ -230,4 +205,40 @@ public class PanelTrabajador extends JPanel {
 		dialog.setVisible(true);
 		dialog.dispose();
 	}
+
+	private void consultarDatos(ActionEvent event) {
+		mostrarProgreso("Consultando los datos a la base de datos...");
+		PanelInformacionTrabajador panel = new PanelInformacionTrabajador(frame, instance, trabajador);
+		logger.info("Accediendo a la consulta de los datos personales");
+		frame.getContentPane().add(panel);
+		setVisible(false);
+		panel.setVisible(true);
+	}
+
+	private void estadoParking(ActionEvent event) {
+		mostrarProgreso("Comprobando los datos del parking...");
+		PanelEstadoParking panel = new PanelEstadoParking(frame, instance, trabajador);
+		logger.info("Accediendo a los datos del aparcamiento");
+		frame.getContentPane().add(panel);
+		setVisible(false);
+		panel.setVisible(true);
+	}
+
+	private void anularAbonados(ActionEvent event) {
+		mostrarProgreso("Cargando listado de abonados...");
+		BajaSubscribersPanel panel = new BajaSubscribersPanel(frame, instance);
+		logger.info("Accediendo a la seccion de bajas de clientes con subscripcion");
+		frame.getContentPane().add(panel);
+		setVisible(false);
+		panel.setVisible(true);
+	}
+
+	private void cerrarSesion(ActionEvent event) {
+		logger.info("Cerrando sesión de empleado");
+		mostrarProgreso("Cerrando la sesion actual...");
+		frame.getContentPane().add(panel);
+		panel.setVisible(true);
+		setVisible(false);
+	}
+
 }

@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,20 +47,20 @@ public class PanelAccesoParking extends JPanel {
 	private static Logger logger = Logger.getLogger(PanelAccesoParking.class.getName());
 
 	public PanelAccesoParking(JFrame frame, JPanel panel, String horaEntrada, String matricula) {
+
+		javax.swing.border.TitledBorder border = javax.swing.BorderFactory
+				.createTitledBorder("Panel de acceso al parking");
+		border.setTitleColor(Color.WHITE);
+		setBorder(border);
 		setBackground(new Color(0, 128, 128));
+		setBounds(10, 10, 567, 448);
+		setLayout(new GridLayout(3, 1));
 
 		instance = this;
 		formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		this.frame = frame;
 		this.horaEntrada = horaEntrada;
-
-		javax.swing.border.TitledBorder border = javax.swing.BorderFactory
-				.createTitledBorder("Panel de acceso al parking");
-		border.setTitleColor(Color.WHITE);
-		setBorder(border);
-		setBounds(10, 10, 567, 448);
-		this.setLayout(new GridLayout(3, 1));
 
 		// PANEL SUPERIOR
 		JPanel topPanel = new JPanel();
@@ -149,12 +148,7 @@ public class PanelAccesoParking extends JPanel {
 		radioButtonOrdinario = new JRadioButton("Ordinario");
 		radioButtonOrdinario.setForeground(new Color(255, 255, 255));
 		radioButtonOrdinario.setBackground(new Color(0, 128, 128));
-		radioButtonOrdinario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnAcceder.setEnabled(true);
-				btnComprarBono.setEnabled(true);
-			}
-		});
+		radioButtonOrdinario.addActionListener(this::habilitarBotones);
 		radioButtonGroup.add(radioButtonOrdinario); // Anadimos el boton al grupo
 		GridBagConstraints gbc_radioButtonOrdinario = new GridBagConstraints();
 		gbc_radioButtonOrdinario.insets = new Insets(0, 0, 5, 5);
@@ -165,12 +159,7 @@ public class PanelAccesoParking extends JPanel {
 		radioButtonElectrico = new JRadioButton("Electrico");
 		radioButtonElectrico.setForeground(new Color(255, 255, 255));
 		radioButtonElectrico.setBackground(new Color(0, 128, 128));
-		radioButtonElectrico.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnAcceder.setEnabled(true);
-				btnComprarBono.setEnabled(true);
-			}
-		});
+		radioButtonElectrico.addActionListener(this::habilitarBotones);
 		radioButtonGroup.add(radioButtonElectrico);
 		GridBagConstraints gbc_radioButtonElectrico = new GridBagConstraints();
 		gbc_radioButtonElectrico.insets = new Insets(0, 0, 5, 5);
@@ -181,12 +170,7 @@ public class PanelAccesoParking extends JPanel {
 		radioButtonMinusvalido = new JRadioButton("Minusvalido");
 		radioButtonMinusvalido.setForeground(new Color(255, 255, 255));
 		radioButtonMinusvalido.setBackground(new Color(0, 128, 128));
-		radioButtonMinusvalido.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnAcceder.setEnabled(true);
-				btnComprarBono.setEnabled(true);
-			}
-		});
+		radioButtonMinusvalido.addActionListener(this::habilitarBotones);
 		radioButtonGroup.add(radioButtonMinusvalido);
 		GridBagConstraints gbc_radioButtonMinusvalido = new GridBagConstraints();
 		gbc_radioButtonMinusvalido.insets = new Insets(0, 0, 5, 5);
@@ -227,7 +211,7 @@ public class PanelAccesoParking extends JPanel {
 		add(bottomPanel);
 	}
 
-	public void comprarAbono(ActionEvent event) {
+	private void comprarAbono(ActionEvent event) {
 		try {
 
 			ClienteSubscrito subscrito = new ClienteSubscrito();
@@ -235,9 +219,9 @@ public class PanelAccesoParking extends JPanel {
 
 			// Crea un Map que almacena las cuotas de cada tipo de vehículo
 			Map<String, String> cuotas = new HashMap<>();
-			cuotas.put(radioButtonOrdinario.getText(), "0.50");
-			cuotas.put(radioButtonElectrico.getText(), "0.40");
-			cuotas.put(radioButtonMinusvalido.getText(), "0.30");
+			cuotas.put(radioButtonOrdinario.getText(), "0.05");
+			cuotas.put(radioButtonElectrico.getText(), "0.04");
+			cuotas.put(radioButtonMinusvalido.getText(), "0.03");
 
 			// Obtiene el tipo de vehículo seleccionado y su tarifa correspondiente
 			String tipoVehiculo = radioButtonOrdinario.isSelected() ? radioButtonOrdinario.getText()
@@ -262,16 +246,21 @@ public class PanelAccesoParking extends JPanel {
 		}
 	}
 
-	public void acceder(ActionEvent event) {
+	private void habilitarBotones(ActionEvent event) {
+		btnAcceder.setEnabled(true);
+		btnComprarBono.setEnabled(true);
+	}
+
+	private void acceder(ActionEvent event) {
 		try {
 			ClienteOrdinario ordinario = new ClienteOrdinario();
 			ordinario.setMatricula(textFieldMatricula.getText());
 
 			// Crea un Map que almacena las tarifas de cada tipo de vehículo
 			Map<String, Double> tarifas = new HashMap<>();
-			tarifas.put(radioButtonOrdinario.getText(), 0.50);
-			tarifas.put(radioButtonElectrico.getText(), 0.40);
-			tarifas.put(radioButtonMinusvalido.getText(), 0.30);
+			tarifas.put(radioButtonOrdinario.getText(), 0.05);
+			tarifas.put(radioButtonElectrico.getText(), 0.04);
+			tarifas.put(radioButtonMinusvalido.getText(), 0.03);
 
 			// Obtiene el tipo de vehículo seleccionado y su tarifa correspondiente
 			String tipoVehiculo = radioButtonOrdinario.isSelected() ? radioButtonOrdinario.getText()
