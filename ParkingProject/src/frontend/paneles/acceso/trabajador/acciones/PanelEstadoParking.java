@@ -303,9 +303,9 @@ public class PanelEstadoParking extends JPanel {
 										isSelected, hasFocus, row, column);
 								double valor = (double) value;
 								if (valor < 0) {
-									c.setForeground(Color.RED);
+									c.setForeground(new Color(205, 92, 92));
 								} else {
-									c.setForeground(Color.GREEN);
+									c.setForeground(new Color(144, 238, 144));
 								}
 								return c;
 							});

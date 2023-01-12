@@ -96,12 +96,12 @@ public class EnvioEmail {
 	 * @throws FileNotFoundException 
 	 */
 
-	public static void bienvenida(String destinatario, String nombre, String password) throws FileNotFoundException, IOException {
+	public static void bienvenida(String destinatario, String nombre, String password)
+			throws FileNotFoundException, IOException {
 		String asunto = "Recuperación credenciales (Password) acceso plataforma - Parking";
 		String cuerpo = "Hola " + nombre
 				+ ": Nos dirigimos a usted para que pueda recuperar su password y acceda a la plataforma del Parking. Este es su nuevo password: '"
 				+ password + "'. Un saludo";
 		enviarConGMail(destinatario, asunto, cuerpo);
-	}
-
+	}	
 }

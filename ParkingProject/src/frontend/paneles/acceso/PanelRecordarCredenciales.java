@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import backend.clases.email.EnvioEmail;
 import backend.clases.personas.personal.Trabajador;
 import backend.servicios.ServicioPersistenciaBD;
+import frontend.VentanaPrincipal;
 
 public class PanelRecordarCredenciales extends JPanel {
 
@@ -113,7 +114,8 @@ public class PanelRecordarCredenciales extends JPanel {
 						JOptionPane.showMessageDialog(null,
 								"Se ha enviado un email con sus credenciales al correo: " + trabajador.getEmail());
 						setVisible(false);
-						panel.setVisible(true);
+						frame.dispose();
+						frame = new VentanaPrincipal();
 						break;
 					}
 				}
