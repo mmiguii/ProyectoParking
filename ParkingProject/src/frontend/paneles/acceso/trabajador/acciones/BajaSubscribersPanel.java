@@ -101,14 +101,11 @@ public class BajaSubscribersPanel extends JPanel {
 				Date fechaActual = Calendar.getInstance().getTime();
 				Date fechaFinal = new Date(subscrito.getFechaSalida());
 				if (fechaActual.after(fechaFinal)) {
-					((JComponent) c).setOpaque(true);
 					c.setBackground(new Color(205, 92, 92));
 				} else {
 					if (isSelected) {
-						((JComponent) c).setOpaque(true);
 						c.setBackground(Color.BLUE);
 					} else {
-						((JComponent) c).setOpaque(true);
 						c.setBackground(Color.WHITE);
 					}
 				}
